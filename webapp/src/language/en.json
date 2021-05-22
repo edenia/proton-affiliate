@@ -1,0 +1,43 @@
+{
+  "common": {
+    "login": "Login",
+    "signOut": "Logout",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode"
+  },
+  "routes": {
+    "/>title": "EOSIO Boilerplate",
+    "/>sidebar": "Home",
+    "/>heading": "Welcome",
+    "/about>title": "About | EOSIO Boilerplate",
+    "/about>sidebar": "About",
+    "/about>heading": "About",
+    "/help>title": "Help | EOSIO Boilerplate",
+    "/help>sidebar": "Help",
+    "/help>heading": "Help",
+    "docs": "Docs",
+    "community": "Community",
+    "changelog": "Changelog",
+    "github": "Github Repository",
+    "telegram": "Telegram Channel"
+  },
+  "homeRoute": {
+    "welcomeMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac viverra nunc, vitae rhoncus metus. Donec placerat ipsum nec ligula lacinia ornare. Cras et felis sit amet libero fermentum faucibus ut id justo. Maecenas vel nibh sed nibh faucibus rutrum. Pellentesque vel nibh molestie, eleifend magna in, eleifend nibh. Praesent elementum libero non ligula viverra feugiat. Morbi blandit massa nec posuere pellentesque. Quisque ac imperdiet tellus. Donec sed lorem sit amet nisl posuere dignissim at a sapien. In tristique et sapien et hendrerit. Nam aliquet quis turpis eu porttitor. Aenean odio augue, lacinia id ipsum at, dignissim sagittis libero. Pellentesque ex justo, tempus et rhoncus vitae, mattis vel justo. Suspendisse pellentesque nisi porttitor est posuere consectetur. Proin ornare orci eleifend, vestibulum massa et, bibendum nulla. Integer rutrum id quam et rhoncus. Nullam pretium pharetra magna in mattis. Nulla et sapien sit amet nibh dictum consectetur a quis dui. Morbi ac vestibulum eros. Ut commodo, dolor in sollicitudin euismod, libero lacus bibendum justo, non lobortis magna tellus vehicula turpis. Maecenas dignissim eget tellus eu molestie. Morbi pellentesque viverra ornare. Vivamus id feugiat nisi. Proin lobortis rhoncus finibus. Proin eu tellus dolor. Suspendisse ac tincidunt neque. In tincidunt ullamcorper lorem. Nulla facilisi."
+  },
+  "aboutRoute": {
+    "title": "This project",
+    "subtitle1": "What is it?",
+    "paragraph1": "<!-- >",
+    "subtitle2": "Why is it important?",
+    "paragraph2": "<!-- >",
+    "subtitle3": "Where does the data come from?",
+    "paragraph3": "<!-- >"
+  },
+  "helpRoute": {
+    "title": "Thank you for using our product!",
+    "paragraph": "This project is still work in progress. Please feel free to leave upgrade suggestions, log bugs, or use the code yourself. You can also find us on Telegram or visit our website.",
+    "githubEOSCR": "GitHub EOS Costa Rica",
+    "telegramChannel": "Telegram Channel",
+    "websiteEOSCR": "Website EOS Costa Rica"
+  }
+}

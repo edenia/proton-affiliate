@@ -1,0 +1,30 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "babelOptions": {
+      "configFile": "./.babelrc"
+    }
+  },
+  "extends": [
+    "standard",
+    "standard-react",
+    "plugin:react/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "promise/always-return": "off",
+    "complexity": [
+      "error",
+      {
+        "max": 21
+      }
+    ]
+  },
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "localStorage": true
+  }
+}

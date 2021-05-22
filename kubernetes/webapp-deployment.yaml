@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: boilerplate-webapp
+  name: boilerplate-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: boilerplate-webapp
+  template:
+    metadata:
+      labels:
+        app: boilerplate-webapp
+    spec:
+      imagePullSecrets:
+          - name: regcred
+      containers:
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
+        imagePullPolicy: "Always"
+        name: boilerplate-webapp
+        envFrom:
+        - configMapRef:
+            name: boilerplate-webapp-config
+        ports:
+        - containerPort: 80
+      restartPolicy: Always

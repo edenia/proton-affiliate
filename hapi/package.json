@@ -1,0 +1,47 @@
+{
+  "name": "eosioboilerplate",
+  "version": "1.0.0",
+  "description": "EOSIO Boilerplate WebApp",
+  "repository": "https://github.com/eoscostarica/eosioboilerplate.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "watch": "nodemon --enable-source-maps src/index.js",
+    "lint": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^9.0.0",
+    "@hapi/hapi": "^19.1.1",
+    "axios": "^0.19.2",
+    "eosjs": "^20.0.3",
+    "eosjs-api": "^7.0.4",
+    "graphql-request": "^1.8.2",
+    "http-status-codes": "^1.4.0",
+    "joi": "^17.4.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "husky": "4.3.8",
+    "lint-staged": "^10.5.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.2.1",
+    "standard": "^16.0.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "2.1.3"
+  }
+}

@@ -1,0 +1,73 @@
+name: Build images from latest master branch
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  create-master-image:
+    name:
+    runs-on: ubuntu-latest
+    environment: master
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@0.0.1
+
+      - name: Log in to docker registry
+        run: |
+          echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login \
+            --username ${{ secrets.DOCKER_HUB_USER }} \
+            --password-stdin
+
+      - name: Build new images and push
+        run: |
+          make \
+            build-docker-images \
+            push-docker-images
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          # webapp
+          PORT: 80
+          REACT_APP_VERSION: $npm_package_version
+          REACT_APP_NAME: $npm_package_name
+          REACT_APP_TITLE: Fullstack Boilerplate
+
+      - name: Build kubernetes files
+        id: build_kubernetes_files
+        run: |
+          make \
+            build-kubernetes
+        env:
+          # general
+          NAMESPACE: boilerplate
+          INGRESS_HOST: eoscr-boilerplate.io
+          # webapp
+          PORT: 80
+          REACT_APP_VERSION: $npm_package_version
+          REACT_APP_NAME: $npm_package_name
+          # Postgres
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_DATA: ${{ secrets.POSTGRES_DATA }}
+          # hapi
+          HAPI_EOS_API_ENDPOINT: "https://api.eosio.cr"
+          HAPI_EOS_API_CHAIN_ID: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
+          # hasura
+          HASURA_GRAPHQL_ENABLE_CONSOLE: true
+          HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
+          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+
+      - name: Deploy kubernetes files
+        uses: Consensys/kubernetes-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: apply -f build_k8s -n boilerplate

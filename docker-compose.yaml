@@ -1,0 +1,79 @@
+version: '3.6'
+services:
+  wallet:
+    container_name: '${STAGE}-${APP_NAME}-wallet'
+    build: ./wallet
+    ports:
+      - '8888:8888'
+    volumes:
+      - ./tmp/wallet/:/opt/application/data/
+  postgres:
+    container_name: '${STAGE}-${APP_NAME}-postgres'
+    image: postgres:11.5-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./tmp/postgres/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: '${POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: '${POSTGRES_DB}'
+  hapi:
+    container_name: '${STAGE}-${APP_NAME}-hapi'
+    image: node:14.2.0
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./tmp/hapi/node_modules/:/app/node_modules/
+      - type: bind
+        source: ./hapi
+        target: /app
+    working_dir: /app
+    command: bash -c "yarn && yarn watch"
+    environment:
+      HAPI_SERVER_PORT: '${HAPI_SERVER_PORT}'
+      HAPI_SERVER_ADDRESS: '${HAPI_SERVER_ADDRESS}'
+      HAPI_EOS_API_ENDPOINT: '${HAPI_EOS_API_ENDPOINT}'
+      HAPI_EOS_API_CHAIN_ID: '${HAPI_EOS_API_CHAIN_ID}'
+      HAPI_EOS_BASE_ACCOUNT: '${HAPI_EOS_BASE_ACCOUNT}'
+      HAPI_EOS_BASE_ACCOUNT_PASSWORD: '${HAPI_EOS_BASE_ACCOUNT_PASSWORD}'
+      HAPI_EOS_WALLET_URL: '${HAPI_EOS_WALLET_URL}'
+      HAPI_HASURA_URL: '${HAPI_HASURA_URL}'
+      HAPI_HASURA_ADMIN_SECRET: '${HAPI_HASURA_ADMIN_SECRET}'
+  hasura:
+    container_name: '${STAGE}-${APP_NAME}-hasura'
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: '${HASURA_GRAPHQL_DATABASE_URL}'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: '${HASURA_GRAPHQL_ENABLE_CONSOLE}'
+      HASURA_GRAPHQL_ADMIN_SECRET: '${HASURA_GRAPHQL_ADMIN_SECRET}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: '${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}'
+      HASURA_GRAPHQL_ACTION_BASE_URL: '${HASURA_GRAPHQL_ACTION_BASE_URL}'
+  webapp:
+    container_name: '${STAGE}-${APP_NAME}-webapp'
+    image: node:14.2.0
+    stdin_open: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./tmp/webapp/node_modules/:/app/node_modules/
+      - type: bind
+        source: ./webapp
+        target: /app
+    working_dir: /app
+    command: bash -c "yarn && yarn start"
+    environment:
+      REACT_APP_TITLE: '${REACT_APP_TITLE}'
+      REACT_APP_LOGO: '${REACT_APP_LOGO}'
+      REACT_APP_FOOTER_LINKS: '${REACT_APP_FOOTER_LINKS}'
+      REACT_APP_UAL_APP_NAME: '${REACT_APP_UAL_APP_NAME}'
+      REACT_APP_UAL_API_PROTOCOL: '${REACT_APP_UAL_API_PROTOCOL}'
+      REACT_APP_UAL_API_HOST: '${REACT_APP_UAL_API_HOST}'
+      REACT_APP_UAL_API_PORT: '${REACT_APP_UAL_API_PORT}'
+      REACT_APP_UAL_CHAIN_ID: '${REACT_APP_UAL_CHAIN_ID}'
+      REACT_APP_HASURA_URL: '${REACT_APP_HASURA_URL}'

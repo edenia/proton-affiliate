@@ -1,0 +1,13 @@
+.env*
+!.env.example
+node_modules
+tmp/
+
+# yarn
+.yarn/*
+*/.yarn/*
+!.yarn/releases
+!*/.yarn/releases
+!.yarn/plugins
+!*/.yarn/plugins
+.pnp.*

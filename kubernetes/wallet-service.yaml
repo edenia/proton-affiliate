@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: boilerplate-wallet
+  name: boilerplate-wallet
+spec:
+  ports:
+  - name: boilerplate-wallet
+    port: 8888
+    targetPort: 8888
+  selector:
+    app: boilerplate-wallet

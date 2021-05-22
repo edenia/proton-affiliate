@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: boilerplate-hasura
+  name: boilerplate-hasura
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: boilerplate-hasura
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: boilerplate-hasura
+    spec:
+      imagePullSecrets:
+          - name: regcred
+      containers:
+        - args:
+            - graphql-engine
+            - serve
+            - --enable-console
+          envFrom:
+            - configMapRef:
+                name: boilerplate-hasura-config
+          image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HASURA}:${VERSION}
+          imagePullPolicy: "IfNotPresent"
+          name: "boilerplate-hasura"
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
