@@ -12,6 +12,7 @@ CONTRACT affiliatepoc : public contract {
     ACTION expire_referral(name ivitee);
     ACTION verify_referral(name invitee);
     ACTION pay_referral(name invitee);
+    ACTION reject_payment(name invitee);
     ACTION set_params(symbol token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review);
     ACTION clear();
 
@@ -21,11 +22,12 @@ CONTRACT affiliatepoc : public contract {
     };
 
     enum referral_status : uint64_t {
-      PENDING_REGISTRATION = 1,
-      PENDING_PAYMENT = 2,
-      PAYMENT_REJECTED = 3,
-      EXPIRED = 4,
-      PAID = 5,
+      PENDING_USER_REGISTRATION = 1,
+      PENDING_KYC_VERIFICATION = 2,
+      PENDING_PAYMENT = 3,
+      PAYMENT_REJECTED = 4,
+      EXPIRED = 5,
+      PAID = 6,
     };
 
   private:
