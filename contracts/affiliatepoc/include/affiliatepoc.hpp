@@ -7,7 +7,7 @@ CONTRACT affiliatepoc : public contract {
   public:
     using contract::contract;
 
-    ACTION add_user(name account, uint8_t user_role);
+    ACTION add_user(name account, uint64_t user_role);
     ACTION create_referral(name invitee, name referrer);
     ACTION expire_referral(name ivitee);
     ACTION verify_referral(name invitee);
@@ -15,10 +15,23 @@ CONTRACT affiliatepoc : public contract {
     ACTION set_params(symbol token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review);
     ACTION clear();
 
+    enum user_role : uint64_t {
+      ADMIN = 1,
+      REFERRER = 2,
+    };
+
+    enum referral_status : uint64_t {
+      PENDING_REGISTRATION = 1,
+      PENDING_PAYMENT = 2,
+      PAYMENT_REJECTED = 3,
+      EXPIRED = 4,
+      PAID = 5,
+    };
+
   private:
     TABLE referral_users {
       name      account;
-      uint8_t   user_role;
+      uint64_t  user_role;
       auto primary_key() const { return account.value; }
     };
     typedef multi_index<name("referral_users"), referral_users> referral_users_table;
@@ -26,7 +39,7 @@ CONTRACT affiliatepoc : public contract {
     TABLE referrals {
       name      invitee;
       name      referrer;
-      uint8_t   status;
+      uint64_t  status;
       uint64_t  expires_on;
       auto primary_key() const { return invitee.value; }
     };
