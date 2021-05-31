@@ -34,7 +34,7 @@ ACTION create_referral(name invitee, name referrer) {
   bool is_referer = ( find(referral_users.begin(), referral_users.end(), referrer) != referral_users.end() );
 
   // check invitee is not a registered account
-  if (!is_account(invitee))
+  eosio::check( !is_account( invitee ), "Invitee account is already registered");
 
   // calculate expires_on date
 
@@ -125,33 +125,3 @@ ACTION affiliatepoc::clear() {
 }
 
 EOSIO_DISPATCH(affiliatepoc, (add_user)(create_referral)(expire_referral)(verify_referral)(pay_referral)(reject_payment)(set_params)(clear))
-
-
-void lacchain::add_new_node( const name& node_name,
-                             const node_type node_type,
-                             const name& entity,
-                             const std::optional<eosio::block_signing_authority> bsa ) {
-
-   entity_table entities(get_self(), get_self().value);
-   auto itr = entities.find( entity.value );
-   eosio::check( itr != entities.end(), "Entity not found" ); 
-   
-   require_auth( entity );
-
-
-
-   node_table nodes(get_self(), get_self().value);
-   auto itr_node = nodes.find( node_name.value );
-   eosio::check(itr_node == nodes.end(), "A node with the same name already exists");
-
-   nodes.emplace( get_self(), [&]( auto& e ) {
-      e.name     = node_name;
-      e.entity   = entity;
-      e.type     = node_type;
-      e.bsa      = bsa;
-      e.info     = "";
-      e.reserved = 0;
-   });
-}
-
-
