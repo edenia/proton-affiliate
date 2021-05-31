@@ -1,23 +1,29 @@
 #include <affiliatepoc.hpp>
 
-ACTION add_user(name account, uint8_t user_role) {
-  // user must be admin or smart contract account to register users
-  require_auth(get_self());
-
+ACTION add_user(name admin, name account, uint8_t user_role) {
   // Init the users table
-  referral_users_table _referral_users(get_self(), get_self().value);
+  users_table _referral_users(get_self(), get_self().value);
+
+  // Validate only admin and smart contract can register referrers
+  eosio::check( is_account( admin ), "Admin account does not exist");
+  eosio::check( is_account( account ), "User account does not exist");
+  eosio::check( admin != account, "Cannot add self as user" );
+  auto admin_itr = users_table.find( admin.value );
+  eosio::check( admin_itr != users_table.end(), "Admin Account is not registered" );
+  eosio::check( admin_itr->user_role != user_role::ADMIN, "You must be an admin to register users");
+  require_auth(admin || get_self());
 
   // Find the record from _referrals table
-  auto referral_user_itr = _referral_users.find(account.value);
-  if (referral_user_itr == _referral_users.end()) {
+  auto account_itr = users_table.find( account.value );
+  if (account_itr == _referral_users.end()) {
     // Create a referral user record if it does not exist
-    _referral_users.emplace(from, [&](auto& referral_user) {
+    _referral_users.emplace(account, [&](auto& account) {
       referral_user.account = account;
       referral_user.user_role = user_role;
     });
   } else {
     // Modify a referral user record if it exists
-    _referral_users.modify(referral_user_itr, account, [&](auto& referral_user) {
+    _referral_users.modify(account_itr, account, [&](auto& account) {
       referral_user.user_role = user_role;
     });
   }
@@ -70,16 +76,16 @@ ACTION verify_referral(name invitee) {
 
 ACTION pay_referral(name invitee) {
   // user must be admin or smart contract account called from backend service
-  require_auth(is_admin());
+  require_auth(get_self());
 
   // transfer REFERRAL_AMOUNT to invitee and referrer
-    eosio::transaction txn{};
-    txn.actions.emplace_back(
-        eosio::permission_level(from, N(active)),
-        N(eosio.token),
-        N(transfer),
-        std::make_tuple(from, to, quantity, memo));
-    txn.send(eosio::string_to_name(memo.c_str()), from);
+  eosio::transaction txn{};
+  txn.actions.emplace_back(
+      eosio::permission_level(from, N(active)),
+      N(eosio.token),
+      N(transfer),
+      std::make_tuple(from, to, quantity, memo));
+  txn.send(eosio::string_to_name(memo.c_str()), from);
 
   // set referal status to  PAID
 
@@ -87,11 +93,11 @@ ACTION pay_referral(name invitee) {
   referral.erase(referral_itr);
 }
 
-ACTION reject_payment(name invitee, string memo) {
+ACTION reject_payment(name admin, name invitee, string memo) {
   // user must be admin or smart contract account called from backend service
-  require_auth(is_admin());
+  require_auth(admin);
 
-  // Check user is admin 
+  // memo string is optional and not persisted to tables
 
   // set referal status to PAYMENT_REJECTED
 
@@ -100,8 +106,8 @@ ACTION reject_payment(name invitee, string memo) {
 }
 
 ACTION set_params(symbol token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review) { 
-// check user is admin 
-require_auth(is_admin());
+// only smart contract account can set params 
+require_auth(get_self());
 
 // update params table
 }
@@ -119,3 +125,33 @@ ACTION affiliatepoc::clear() {
 }
 
 EOSIO_DISPATCH(affiliatepoc, (add_user)(create_referral)(expire_referral)(verify_referral)(pay_referral)(reject_payment)(set_params)(clear))
+
+
+void lacchain::add_new_node( const name& node_name,
+                             const node_type node_type,
+                             const name& entity,
+                             const std::optional<eosio::block_signing_authority> bsa ) {
+
+   entity_table entities(get_self(), get_self().value);
+   auto itr = entities.find( entity.value );
+   eosio::check( itr != entities.end(), "Entity not found" ); 
+   
+   require_auth( entity );
+
+
+
+   node_table nodes(get_self(), get_self().value);
+   auto itr_node = nodes.find( node_name.value );
+   eosio::check(itr_node == nodes.end(), "A node with the same name already exists");
+
+   nodes.emplace( get_self(), [&]( auto& e ) {
+      e.name     = node_name;
+      e.entity   = entity;
+      e.type     = node_type;
+      e.bsa      = bsa;
+      e.info     = "";
+      e.reserved = 0;
+   });
+}
+
+

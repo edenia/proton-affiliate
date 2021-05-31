@@ -15,7 +15,7 @@ The **afiliatepoc** smart contract will store referral info, validation info, an
 Data persisted in the smart contract multi index tables
 
 <p align="center">
-		<img src="/docs/img/data-model.png" width="300">
+		<img src="../docs/img/data-model.png" width="300">
 </p>
 
 ### Referal Status
@@ -47,11 +47,11 @@ Data persisted in the smart contract multi index tables
 | Backend Service | `expire_referral` | Delete Expired Referrals |          Referral hasn’t been paid          |        Referral deleted        |
 |      Admin      |  `pay_referral`   |     Manual Approval      |                                             |         Token Transfer         |
 |      Admin      | `reject_payment`  |      System Config       |                                             |        Referral deleted        |
-|      Admin      |   `set_params`    |      System Config       |                                             |                                |
+| Smart Contract  |   `set_params`    |      System Config       |                                             |                                |
 
 #### Params
 
-Referral system configuration parameters set by admin user.
+Referral system configuration parameters set by smart contract account.
 
 - **token_symbol** : Token used to pay rewards _(symbol)_
 - **reward_account** : Account that holds token balance _(name)_
@@ -64,10 +64,10 @@ Referral system configuration parameters set by admin user.
 In order to send emails and to store the email addresses "off chain" we would need some backend services , meaning someone would have to host the email server and database
 
 <p align="center">
-		<img src="/docs/img/services.png" width="300">
+		<img src="../docs/img/services.png" width="300">
 </p>
 
 ### Admin Roles Appointed by Committee
 
-- Smart Contract Admin can update config params
+- Smart Contract Account can update config params
 - SysAdmin hosts backend service and email server
