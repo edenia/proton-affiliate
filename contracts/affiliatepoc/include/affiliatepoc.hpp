@@ -12,7 +12,7 @@ CONTRACT affiliatepoc : public contract {
     ACTION expire_referral(name ivitee);
     ACTION verify_referral(name invitee);
     ACTION pay_referral(name invitee);
-    ACTION reject_payment(name invitee);
+    ACTION reject_payment(name invitee, string memo);
     ACTION set_params(symbol token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review);
     ACTION clear();
 
@@ -43,6 +43,7 @@ CONTRACT affiliatepoc : public contract {
       name      referrer;
       uint64_t  status;
       uint64_t  expires_on;
+      string    memo;
       auto primary_key() const { return invitee.value; }
     };
     typedef multi_index<name("referrals"), referrals> referrals_table;

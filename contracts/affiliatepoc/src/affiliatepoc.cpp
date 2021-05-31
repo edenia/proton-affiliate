@@ -25,8 +25,10 @@ ACTION add_user(name account, uint8_t user_role) {
 
 ACTION create_referral(name invitee, name referrer) {
   // check user is authorized as referrer
+  bool is_referer = ( find(referral_users.begin(), referral_users.end(), referrer) != referral_users.end() );
 
   // check invitee is not a registered account
+  if (!is_account(invitee))
 
   // calculate expires_on date
 
@@ -36,14 +38,27 @@ ACTION create_referral(name invitee, name referrer) {
 }
 
 ACTION expire_referral(name ivitee) {
+  // user must be smart contract account called from backend service
+  require_auth(get_self());
+
+  // Init the referals table
+  referals _referral_table(get_self(), get_self().value);
+
+  auto itr = referals.find(ivitee.value);
+  eosio::check(itr != referals.end(), "Referal does not exist");
+
   // check if expires_on is >= .now()  
 
-  // set referal status to EXPIRED 
+  // if outside of time perdiod set referal status to EXPIRED 
 
   // delete record to save RAM
+  referral.erase(referral_itr);
 }
 
 ACTION verify_referral(name invitee) {
+  // user must be smart contract account called from backend service
+  require_auth(get_self()); 
+
   // check if invitee is in acc column in eosio.proton:usersinfo table
 
   // if no record is found status remains PENDING_USER_REGISTRATION
@@ -54,23 +69,39 @@ ACTION verify_referral(name invitee) {
 }
 
 ACTION pay_referral(name invitee) {
+  // user must be admin or smart contract account called from backend service
+  require_auth(is_admin());
+
   // transfer REFERRAL_AMOUNT to invitee and referrer
+    eosio::transaction txn{};
+    txn.actions.emplace_back(
+        eosio::permission_level(from, N(active)),
+        N(eosio.token),
+        N(transfer),
+        std::make_tuple(from, to, quantity, memo));
+    txn.send(eosio::string_to_name(memo.c_str()), from);
 
   // set referal status to  PAID
 
   // delete record to save RAM
+  referral.erase(referral_itr);
 }
 
-ACTION reject_payment(name invitee) {
+ACTION reject_payment(name invitee, string memo) {
+  // user must be admin or smart contract account called from backend service
+  require_auth(is_admin());
+
   // Check user is admin 
 
   // set referal status to PAYMENT_REJECTED
 
   // delete record to save RAM
+  referral.erase(referral_itr);
 }
 
 ACTION set_params(symbol token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review) { 
 // check user is admin 
+require_auth(is_admin());
 
 // update params table
 }
