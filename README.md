@@ -1,13 +1,12 @@
-# EOSCR Boilerplate
+# Proton Affiliate Platform
 
 [![N|Solid](https://github.com/eoscostarica/eos-rate/raw/master/docs/eoscostarica-logo-black.png)](https://eoscostarica.io/)
 
 ![](https://img.shields.io/github/license/eoscostarica/full-stack-boilerplate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/full-stack-boilerplate?style=social)
 
-A highly scalable skeleton with best practices, fullstack monorepo containing our front end and backend boilerplates.
+A fully on-chain affiliate marketing platform, rewarding users in XPR coin for referring another user to the Proton platform.
 
-- [EOSCR Boilerplate](#eoscr-boilerplate)
-- [Version](#version)
+- [Smart Contract POC](#smart-contract-poc)
 - [Features!](#features)
 - [Installation](#installation)
   - [Before to Start](#before-to-start)
@@ -28,19 +27,23 @@ A highly scalable skeleton with best practices, fullstack monorepo containing ou
   - [Contributors](#contributors)
   - [About EOS Costa Rica](#about-eos-costa-rica)
 
-# Version
+## Smart Contract POC
 
-- 0.1.0
+The **afiliatepoc** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
-# Features!
+### Smart Contract Readme
 
-This boilerplate features all the latest technologies and practices in the industry.
+For more information on the smart contract design for thi POC please see the [smart contract readme](contracts/affiliatepoc/README.md)
 
+# Tech Stack
+
+This application features the following tech stack :
+
+- EOSIO
 - Hapi
 - Hasura
 - React
 - Kubernetes
-- EOSIO
 
 # Installation
 
@@ -74,6 +77,8 @@ At this point you can navigate to `http://localhost:3000`.
 Within the download you'll find the following directories and files:
 
 ```
+├── contracts
+│   └── affiliatepoc
 ├── docs
 │   └── img
 ├── hapi

@@ -1,0 +1,21 @@
+{
+  "main": "src/affiliatepoc.cpp",
+  "contract": "affiliatepoc",
+  "include": "",
+  "resource": "",
+  "cdt": "cmd",
+  "output": "",
+  "scripts": {
+    "build": ""
+  },
+  "deploy": {
+    "target": "both",
+    "mainnet": "",
+    "kylin": "",
+    "jungle": "",
+    "local": ""
+  },
+  "test": {
+    "npmClient": ""
+  }
+}
