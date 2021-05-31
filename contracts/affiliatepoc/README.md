@@ -15,7 +15,7 @@ The **afiliatepoc** smart contract will store referral info, validation info, an
 Data persisted in the smart contract multi index tables
 
 <p align="center">
-		<img src="../docs/img/data-model.png" width="300">
+		<img src="../../docs/img/data-model.png" width="300">
 </p>
 
 ### Referal Status
@@ -64,7 +64,7 @@ Referral system configuration parameters set by smart contract account.
 In order to send emails and to store the email addresses "off chain" we would need some backend services , meaning someone would have to host the email server and database
 
 <p align="center">
-		<img src="../docs/img/services.png" width="300">
+		<img src="../../docs/img/services.png" width="300">
 </p>
 
 ### Admin Roles Appointed by Committee
