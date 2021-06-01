@@ -1,6 +1,6 @@
 {
-  "main": "src/affiliatepoc.cpp",
-  "contract": "affiliatepoc",
+  "main": "src/affiliate.cpp",
+  "contract": "affiliate",
   "include": "",
   "resource": "",
   "cdt": "cmd",

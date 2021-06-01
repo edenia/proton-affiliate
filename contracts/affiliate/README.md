@@ -4,7 +4,7 @@ A fully on-chain affiliate marketing platform, rewarding users in XPR coin for r
 
 ## Smart Contract POC
 
-The **afiliatepoc** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
+The **affiliate** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
 ## User Story
 
@@ -15,7 +15,7 @@ The **afiliatepoc** smart contract will store referral info, validation info, an
 Data persisted in the smart contract multi index tables
 
 <p align="center">
-		<img src="../../docs/img/data-model.png" width="300">
+    <img src="../../docs/img/data-model.png" width="300">
 </p>
 
 ### Referal Status
@@ -40,14 +40,14 @@ Data persisted in the smart contract multi index tables
 
 |    User Role    |      Action       |       Description        |               Pre Conditions                |        Post Conditions         |
 | :-------------: | :---------------: | :----------------------: | :-----------------------------------------: | :----------------------------: |
-|      Admin      |    `add_user`     | Grant Referal Permission |       Account must exist and be KYCd        | Referal link enabled for user  |
+|      Admin      |    `adduser`     | Grant Referal Permission |       Account must exist and be KYCd        | Referal link enabled for user  |
 |    Referrer     |        N/A        |    Share Referal Link    |         Referral permission granted         | Email sent with register link  |
-|     Invitee     | `create_referral` |     Accept Referral      | Account doesnt exist & not already referred |   Referreral added to table    |
-| Backend Service | `verify_referral` |  Verify new account KYC  |    KYC completed & Referal hasnt expired    | Referral set for manual review |
-| Backend Service | `expire_referral` | Delete Expired Referrals |          Referral hasn’t been paid          |        Referral deleted        |
-|      Admin      |  `pay_referral`   |     Manual Approval      |                                             |         Token Transfer         |
-|      Admin      | `reject_payment`  |      System Config       |                                             |        Referral deleted        |
-| Smart Contract  |   `set_params`    |      System Config       |                                             |                                |
+|     Invitee     | `addref` |     Accept Referral      | Account doesnt exist & not already referred |   Referreral added to table    |
+| Backend Service | `verifyref` |  Verify new account KYC  |    KYC completed & Referal hasnt expired    | Referral set for manual review |
+| Backend Service | `expireref` | Delete Expired Referrals |          Referral hasn’t been paid          |        Referral deleted        |
+|      Admin      |  `payref`   |     Manual Approval      |                                             |         Token Transfer         |
+|      Admin      | `rejectref`  |      System Config       |                                             |        Referral deleted        |
+| Smart Contract  |   `setparams`    |      System Config       |                                             |                                |
 
 #### Params
 
@@ -64,7 +64,7 @@ Referral system configuration parameters set by smart contract account.
 In order to send emails and to store the email addresses "off chain" we would need some backend services , meaning someone would have to host the email server and database
 
 <p align="center">
-		<img src="../../docs/img/services.png" width="300">
+    <img src="../../docs/img/services.png" width="300">
 </p>
 
 ### Admin Roles Appointed by Committee
