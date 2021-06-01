@@ -2,7 +2,7 @@
 
 ACTION add_user(name admin, name account, uint8_t user_role) {
   // Init the users table
-  users_table _referral_users(get_self(), get_self().value);
+  referalusers_table _referalusers(get_self(), get_self().value);
 
   // Validate only admin and smart contract can register referrers
   eosio::check( is_account( admin ), "Admin account does not exist");
@@ -11,20 +11,20 @@ ACTION add_user(name admin, name account, uint8_t user_role) {
   auto admin_itr = users_table.find( admin.value );
   eosio::check( admin_itr != users_table.end(), "Admin Account is not registered" );
   eosio::check( admin_itr->user_role != user_role::ADMIN, "You must be an admin to register users");
-  require_auth(admin || get_self());
+  require_auth(admin);
 
   // Find the record from _referrals table
   auto account_itr = users_table.find( account.value );
-  if (account_itr == _referral_users.end()) {
+  if (account_itr == _referalusers.end()) {
     // Create a referral user record if it does not exist
-    _referral_users.emplace(account, [&](auto& account) {
-      referral_user.account = account;
-      referral_user.user_role = user_role;
+    _referralusers.emplace(account, [&](auto& account) {
+      referraluser.account = account;
+      referraluser.user_role = user_role;
     });
   } else {
     // Modify a referral user record if it exists
-    _referral_users.modify(account_itr, account, [&](auto& account) {
-      referral_user.user_role = user_role;
+    _referralusers.modify(account_itr, account, [&](auto& account) {
+      referraluser.user_role = user_role;
     });
   }
 }
@@ -32,11 +32,16 @@ ACTION add_user(name admin, name account, uint8_t user_role) {
 ACTION create_referral(name invitee, name referrer) {
   // check user is authorized as referrer
   bool is_referer = ( find(referral_users.begin(), referral_users.end(), referrer) != referral_users.end() );
+  require_auth(referrer);
 
   // check invitee is not a registered account
   eosio::check( !is_account( invitee ), "Invitee account is already registered");
 
-  // calculate expires_on date
+  // get current time
+  time_point eosio::current_time_point()
+  
+  // add 72 hours to calculate expiry date
+  expires_on = time_point + 259200000
 
   // set status to PENDING_USER_REGISTRATION
 
@@ -54,6 +59,8 @@ ACTION expire_referral(name ivitee) {
   eosio::check(itr != referals.end(), "Referal does not exist");
 
   // check if expires_on is >= .now()  
+
+    time_point eosio::current_time_point()
 
   // if outside of time perdiod set referal status to EXPIRED 
 

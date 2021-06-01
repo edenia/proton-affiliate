@@ -1,4 +1,6 @@
 #include <eosio/eosio.hpp>
+#include <eosio/system.hpp>
+#include <eosio/symbol.hpp>
 
 using namespace std;
 using namespace eosio;
@@ -31,12 +33,12 @@ CONTRACT affiliatepoc : public contract {
     };
 
   private:
-    TABLE referral_users {
+    TABLE referalusers {
       name      account;
       uint64_t  user_role;
       auto primary_key() const { return account.value; }
     };
-    typedef multi_index<name("referral_users"), referral_users> referral_users_table;
+    typedef multi_index<name("referalusers"), referalusers> referalusers_table;
 
     TABLE referrals {
       name      invitee;
@@ -47,12 +49,12 @@ CONTRACT affiliatepoc : public contract {
     };
     typedef multi_index<name("referrals"), referrals> referrals_table;
 
-    TABLE referral_params {
+    TABLE referparams {
       name      setting;
       string    value;
       auto primary_key() const { return setting.value; }
     };
-    typedef multi_index<name("referral_params"), referral_params> referral_params_table;
+    typedef multi_index<name("referparams"), referparams> referparams_table;
 };
 
 
