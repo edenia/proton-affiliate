@@ -1,0 +1,286 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "addadmin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "addref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "referrer",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "adduser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "role",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "clear",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "expireref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "ivitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "params",
+            "base": "",
+            "fields": [
+                {
+                    "name": "setting",
+                    "type": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "payref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "referrals",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint64"
+                },
+                {
+                    "name": "expires_on",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "rejectref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "rmadmin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "rmuser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "setparams",
+            "base": "",
+            "fields": [
+                {
+                    "name": "token",
+                    "type": "string"
+                },
+                {
+                    "name": "reward_account",
+                    "type": "name"
+                },
+                {
+                    "name": "reward_amount",
+                    "type": "uint8"
+                },
+                {
+                    "name": "expiry_period",
+                    "type": "uint64"
+                },
+                {
+                    "name": "manual_review",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "users",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "role",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "verifyref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "addadmin",
+            "type": "addadmin",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addref",
+            "type": "addref",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "adduser",
+            "type": "adduser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "clear",
+            "type": "clear",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "expireref",
+            "type": "expireref",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "payref",
+            "type": "payref",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rejectref",
+            "type": "rejectref",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rmadmin",
+            "type": "rmadmin",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rmuser",
+            "type": "rmuser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setparams",
+            "type": "setparams",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "verifyref",
+            "type": "verifyref",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "params",
+            "type": "params",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "referrals",
+            "type": "referrals",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "users",
+            "type": "users",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "kv_tables": {},
+    "ricardian_clauses": [],
+    "variants": [],
+    "action_results": []
+}
