@@ -18,11 +18,11 @@
             "base": "",
             "fields": [
                 {
-                    "name": "invitee",
+                    "name": "referrer",
                     "type": "name"
                 },
                 {
-                    "name": "referrer",
+                    "name": "invitee",
                     "type": "name"
                 }
             ]
@@ -98,11 +98,11 @@
                 },
                 {
                     "name": "status",
-                    "type": "uint64"
+                    "type": "uint8"
                 },
                 {
                     "name": "expires_on",
-                    "type": "uint64"
+                    "type": "time_point_sec"
                 }
             ]
         },
@@ -153,12 +153,12 @@
             "base": "",
             "fields": [
                 {
-                    "name": "token",
-                    "type": "string"
-                },
-                {
                     "name": "reward_account",
                     "type": "name"
+                },
+                {
+                    "name": "token",
+                    "type": "string"
                 },
                 {
                     "name": "reward_amount",
@@ -166,7 +166,7 @@
                 },
                 {
                     "name": "expiry_period",
-                    "type": "uint64"
+                    "type": "uint32"
                 },
                 {
                     "name": "manual_review",

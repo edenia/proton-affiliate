@@ -12,12 +12,12 @@ CONTRACT affiliate : public contract {
     ACTION rmadmin(name admin);
     ACTION adduser(name admin, name user, uint8_t role);
     ACTION rmuser(name admin, name user);
-    ACTION addref(name invitee, name referrer);
+    ACTION addref(name referrer,name invitee);
     ACTION expireref(name ivitee);
     ACTION verifyref(name invitee);
     ACTION payref(name invitee);
     ACTION rejectref(name admin, name invitee, string memo);
-    ACTION setparams(string token, name reward_account, uint8_t reward_amount, uint64_t expiry_period, bool manual_review);
+    ACTION setparams(name reward_account, string token, uint8_t reward_amount, uint32_t expiry_period, bool manual_review);
     ACTION clear();
     
     enum user_roles : uint8_t {
@@ -45,8 +45,8 @@ CONTRACT affiliate : public contract {
     TABLE referrals {
       name      invitee;
       name      referrer;
-      uint64_t  status;
-      uint64_t  expires_on;
+      uint8_t   status;
+      eosio::time_point_sec  expires_on;
       auto primary_key() const { return invitee.value; }
     };
     typedef multi_index<name("referrals"), referrals> referrals_table;
