@@ -11,6 +11,8 @@ ACTION affiliate::addadmin(name admin) {
   eosio::check( admin_itr == _users.end(), "Admin Account is already an affiliate" );
   require_auth(get_self());
 
+  //TODO: check account is has KYC
+
   if (admin_itr == _users.end()) {
     //Create an admin user record if it does not exist
     _users.emplace(get_self(), [&](auto& usr) {
@@ -48,8 +50,9 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
   eosio::check( admin_itr != _users.end(), "Admin Account is not registered" );
   eosio::check( admin_itr->role == user_roles::ADMIN, "You must be an admin to register users");
   require_auth(admin);
+  //TODO: check account is has KYC
 
-  //Find the record from _referrals table
+  //Find the record from _users table
   auto usr_itr = _users.find( user.value );
   if (usr_itr == _users.end()) {
     //Create a referral user record if it does not exist
@@ -58,7 +61,7 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
       usr.role = role;
     });
   } else {
-    //Modify a referral user record if it exists
+    //Modify user record if it exists
     _users.modify(usr_itr, get_self(), [&](auto& usr) {
       usr.role = role;
     });
