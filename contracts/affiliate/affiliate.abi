@@ -79,6 +79,10 @@
             "base": "",
             "fields": [
                 {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
                     "name": "invitee",
                     "type": "name"
                 }
@@ -153,24 +157,12 @@
             "base": "",
             "fields": [
                 {
-                    "name": "reward_account",
+                    "name": "setting",
                     "type": "name"
                 },
                 {
-                    "name": "token",
+                    "name": "value",
                     "type": "string"
-                },
-                {
-                    "name": "reward_amount",
-                    "type": "uint8"
-                },
-                {
-                    "name": "expiry_period",
-                    "type": "uint32"
-                },
-                {
-                    "name": "manual_review",
-                    "type": "bool"
                 }
             ]
         },
