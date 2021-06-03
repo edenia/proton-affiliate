@@ -19,12 +19,16 @@
     "@hapi/boom": "^9.0.0",
     "@hapi/hapi": "^19.1.1",
     "axios": "^0.19.2",
+    "demux": "^4.0.0",
+    "demux-eos": "^4.0.1",
     "eosjs": "^20.0.3",
     "eosjs-api": "^7.0.4",
     "graphql-request": "^1.8.2",
     "http-status-codes": "^1.4.0",
     "joi": "^17.4.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "pg": "^8.6.0",
+    "pg-cursor": "^2.6.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
