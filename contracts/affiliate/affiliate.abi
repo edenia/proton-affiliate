@@ -61,6 +61,24 @@
             ]
         },
         {
+            "name": "kyc_prov",
+            "base": "",
+            "fields": [
+                {
+                    "name": "kyc_provider",
+                    "type": "name"
+                },
+                {
+                    "name": "kyc_level",
+                    "type": "string"
+                },
+                {
+                    "name": "kyc_date",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "params",
             "base": "",
             "fields": [
@@ -167,6 +185,48 @@
             ]
         },
         {
+            "name": "userinfo",
+            "base": "",
+            "fields": [
+                {
+                    "name": "acc",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "avatar",
+                    "type": "string"
+                },
+                {
+                    "name": "verified",
+                    "type": "bool"
+                },
+                {
+                    "name": "date",
+                    "type": "uint64"
+                },
+                {
+                    "name": "verifiedon",
+                    "type": "uint64"
+                },
+                {
+                    "name": "verifier",
+                    "type": "name"
+                },
+                {
+                    "name": "raccs",
+                    "type": "name[]"
+                },
+                {
+                    "name": "kyc",
+                    "type": "kyc_prov[]"
+                }
+            ]
+        },
+        {
             "name": "users",
             "base": "",
             "fields": [
@@ -266,6 +326,13 @@
         {
             "name": "users",
             "type": "users",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "usersinfo",
+            "type": "userinfo",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

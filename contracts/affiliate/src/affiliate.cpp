@@ -1,6 +1,17 @@
 #include <affiliate.hpp>
 #include <eosio/system.hpp>
 
+bool has_kyc(name account) {
+  usersinfo  _userinfo("eosio.proton"_n, "eosio.proton"_n.value );
+  auto user = _userinfo.find( account );
+  return user->verified == 1;
+}
+
+void affiliate::check_kyc(name account) {
+  bool kyc = has_kyc(account);
+  eosio::check(kyc, "Account has not completed KYC");
+}
+
 ACTION affiliate::addadmin(name admin) {
   users_table _users(get_self(), get_self().value);
 
@@ -9,7 +20,7 @@ ACTION affiliate::addadmin(name admin) {
   eosio::check( admin_itr == _users.end(), "Admin Account is already an affiliate" );
   require_auth(get_self());
 
-  //TODO: check account has KYC
+  affiliate::check_kyc(admin);
 
   if (admin_itr == _users.end()) {
     _users.emplace(get_self(), [&](auto& usr) {

@@ -1,8 +1,13 @@
 #include <eosio/eosio.hpp>
-#include <eosio/symbol.hpp>
 
 using namespace std;
 using namespace eosio;
+
+struct kyc_prov {
+	name kyc_provider;
+	string kyc_level;
+	uint64_t kyc_date;
+};
 
 CONTRACT affiliate : public contract {
   public:
@@ -36,17 +41,17 @@ CONTRACT affiliate : public contract {
 
   private:
     TABLE users {
-      name     user;
-      uint8_t  role;
-      auto     primary_key() const { return user.value; }
+      name      user;
+      uint8_t   role;
+      auto      primary_key() const { return user.value; }
     };
     typedef multi_index<name("users"), users> users_table;
 
     TABLE referrals {
-      name      invitee;
-      name      referrer;
-      uint8_t   status;
-      eosio::time_point_sec  expires_on;
+      name                    invitee;
+      name                    referrer;
+      uint8_t                 status;
+      eosio::time_point_sec   expires_on;
       auto primary_key() const { return invitee.value; }
     };
     typedef multi_index<name("referrals"), referrals> referrals_table;
@@ -57,6 +62,25 @@ CONTRACT affiliate : public contract {
       auto primary_key() const { return setting.value; }
     };
     typedef multi_index<name("params"), params> params_table;
+
+    // System Contract Table for KYC verification
+		TABLE userinfo {
+			name                                     acc;
+			std::string                              name;
+			std::string                              avatar;
+			bool                                     verified;
+			uint64_t                                 date;
+			uint64_t                                 verifiedon;
+			eosio::name                              verifier;
+
+			vector<eosio::name>                      raccs;
+			vector<tuple_1>                          aacts;
+			vector<tuple<eosio::name, string>>       ac;
+
+			vector<kyc_prov>                         kyc;
+			
+			uint64_t primary_key()const { return acc.value; }
+		};
+
+		typedef eosio::multi_index< "usersinfo"_n, userinfo > usersinfo;
 };
-
-
