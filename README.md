@@ -70,12 +70,12 @@ We use the demux pattern's ability for blockchain events to trigger new transact
 </p>
 This application features the following tech stack :
 
-- React JS ................ Front End Web Application Framework
-- Hasura GraphQL Engine ... GraphQL Generator
-- Hapi .................... HTTP API
-- Demux ................... Deterministic event-sourced state and side effect handling
-- EOSIO ................... Blockchain protocol with industry-leading transaction speed
-- Kubernetes .............. Container Orchestration
+- React JS ......................... Front End Web Application Framework
+- Hasura GraphQL Engine ............ GraphQL Generator
+- Hapi ............................. HTTP API
+- Demux ............................ Deterministic event-sourced state and side effect handling
+- EOSIO ............................ Blockchain protocol with industry-leading transaction speed
+- Kubernetes ....................... Container Orchestration
 
 # Installation
 
