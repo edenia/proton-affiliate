@@ -7,7 +7,8 @@
 A fully on-chain affiliate marketing platform, rewarding users in XPR coin for referring another user to the Proton platform.
 
 - [Smart Contract POC](#smart-contract-poc)
-- [Features!](#features)
+- [Demux Pattern](#demux-pattern)
+- [Tech Stack](#tech-stack)
 - [Installation](#installation)
   - [Before to Start](#before-to-start)
   - [First Time](#first-time)
@@ -35,15 +36,46 @@ The **afiliatepoc** smart contract will store referral info, validation info, an
 
 For more information on the smart contract design for thi POC please see the [smart contract readme](contracts/affiliatepoc/README.md)
 
-# Tech Stack
+## Demux Pattern
 
+[Demux](https://github.com/EOSIO/demux-js) is a backend infrastructure pattern for sourcing blockchain events to deterministically update queryable datastores and trigger side effects.
+
+We use the demux pattern's ability for blockchain events to trigger new transactions, as well as other side effects outside of the blockchain. The blockchain as the single source of truth for all application state
+
+### Demux Data Flow
+
+<p align="center">
+   <img src="./docs/img/demux-data-pattern.png">
+</p>
+
+1. Client sends transaction to blockchain
+1. Action Watcher invokes Action Reader to check for new blocks
+1. Action Reader sees transaction in new block, parses actions
+1. Action Watcher sends actions to Action Handler
+1. Action Handler processes actions through Updaters and Effects
+1. Actions run their corresponding Updaters, updating the state of the Datastore
+1. Actions run their corresponding Effects, triggering external events
+1. Client queries API for updated data
+
+### Services Using Demux
+
+- **Account Registration** Triggers `verifyacc` action that updates referral when invitee registers an new account.
+
+- **Account KYC** Triggers `verifykyc` action that updates referral when invitee registers an new account.
+
+## Tech Stack
+
+<p align="center">
+   <img src="./docs/img/services.png">
+</p>
 This application features the following tech stack :
 
-- EOSIO
-- Hapi
-- Hasura
-- React
-- Kubernetes
+- React JS ......................... Front End Web Application Framework
+- Hasura GraphQL Engine ............ GraphQL Generator
+- Hapi ............................. HTTP API
+- Demux ............................ Deterministic event-sourced state and side effect handling
+- EOSIO ............................ Blockchain protocol with industry-leading transaction speed
+- Kubernetes ....................... Container Orchestration
 
 # Installation
 
