@@ -71,6 +71,15 @@ clean:
 	@rm -rf tmp/webapp
 	@docker system prune
 
+build-affiliate-contract:
+	@cd contracts/affiliate && eosio-cpp -w -I include -o affiliate.wasm src/affiliate.cpp
+
+deploy-affiliate-contract:
+	$(eval -include .env)
+	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
+	@cleos -u $(CONTRACTS_NETWORK) set contract $(CONTRACTS_AFFILIATE_ACCOUNT) ./contracts/affiliate
+	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
+	
 build-kubernetes: ##@devops Generate proper k8s files based on the templates
 build-kubernetes: ./kubernetes
 	@echo "Build kubernetes files..."
