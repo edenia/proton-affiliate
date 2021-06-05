@@ -1,5 +1,5 @@
 module.exports = {
-  eosConfig: require('./eos.config'),
+  networkConfig: require('./network.config'),
   hasuraConfig: require('./hasura.config'),
   serverConfig: require('./server.config')
 }

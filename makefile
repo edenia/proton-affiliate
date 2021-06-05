@@ -94,12 +94,12 @@ deploy-kubernetes: $(K8S_BUILD_DIR)
 	@echo "Creating SSL certificates..."
 	@kubectl create secret tls \
 		tls-secret \
-		--key ./ssl/boilerplate.cr.priv.key \
-		--cert ./ssl/boilerplate.cr.crt \
+		--key ./ssl/affiliateproton.io.priv.key \
+		--cert ./ssl/affiliateproton.io.crt \
 		-n $(NAMESPACE)  || echo "SSL cert already configured.";
 	@echo "Creating configmaps..."
 	@kubectl create configmap -n $(NAMESPACE) \
-	boilerplate-wallet-config \
+	protonaffiliate-wallet-config \
 	--from-file wallet/config/ || echo "Wallet configuration already created.";
 	@echo "Applying kubernetes files..."
 	@for file in $(shell find $(K8S_BUILD_DIR) -name '*.yaml' | sed 's:$(K8S_BUILD_DIR)/::g'); do \
