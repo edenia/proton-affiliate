@@ -1,6 +1,8 @@
 const { BaseActionWatcher } = require('demux')
 const { NodeosActionReader } = require('demux-eos')
 
+const { networkConfig } = require('../../config')
+
 const ActionHandler = require('./action-handler')
 const handlerVersion = require('./handler-version')
 
@@ -9,11 +11,10 @@ const init = () => {
   const actionReader = new NodeosActionReader({
     onlyIrreversible: true,
     // @todo: get start from env variable
-    startAtBlock: 73407893,
-    // @todo: get node endpoint from environment variable
-    nodeosEndpoint: 'https://test.proton.eosusa.news'
+    startAtBlock: 73705907,
+    nodeosEndpoint: networkConfig.api
   })
-  const watcher = new BaseActionWatcher(actionReader, actionHandler, 500)
+  const watcher = new BaseActionWatcher(actionReader, actionHandler, 250)
 
   watcher.watch()
 }

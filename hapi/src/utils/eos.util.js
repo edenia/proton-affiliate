@@ -169,7 +169,49 @@ const getCurrencyBalance = (code, account, symbol) =>
 
 const getTableRows = options => eosApi.getTableRows({ json: true, ...options })
 
-const transact = async (actions, auths) => {
+const transact = async (actions, account, password) => {
+  try {
+    const keys = []
+
+    try {
+      await walletUtil.unlock(account, password)
+    } catch (error) {}
+
+    try {
+      keys.push(...(await walletUtil.listKeys(account, password)))
+    } catch (error) {}
+
+    const api = new Api({
+      rpc,
+      textDecoder,
+      textEncoder,
+      chainId: networkConfig.chainId,
+      signatureProvider: new JsSignatureProvider(keys)
+    })
+
+    const transaction = await api.transact(
+      {
+        actions
+      },
+      {
+        blocksBehind: 3,
+        expireSeconds: 30
+      }
+    )
+
+    try {
+      await walletUtil.lock(account)
+    } catch (error) {}
+
+    return transaction
+  } catch (error) {
+    throw new Error(
+      error.message.replace(/assertion failure with message: /gi, '')
+    )
+  }
+}
+
+const transactWithAuths = async (actions, auths) => {
   try {
     const keys = []
 
@@ -226,5 +268,6 @@ module.exports = {
   getCodeHash,
   getCurrencyBalance,
   getTableRows,
-  transact
+  transact,
+  transactWithAuths
 }
