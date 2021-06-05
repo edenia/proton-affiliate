@@ -39,6 +39,8 @@ services:
       HAPI_NETWORK_WALLET: '${HAPI_NETWORK_WALLET}'
       HAPI_HASURA_URL: '${HAPI_HASURA_URL}'
       HAPI_HASURA_ADMIN_SECRET: '${HAPI_HASURA_ADMIN_SECRET}'
+      HAPI_AFFILIATE_ACCOUNT: '${HAPI_AFFILIATE_ACCOUNT}'
+      HAPI_AFFILIATE_PASSWORD: '${HAPI_AFFILIATE_PASSWORD}'
   hasura:
     container_name: hasura
     image: hasura/graphql-engine:v2.0.0-beta.1.cli-migrations-v2
