@@ -106,7 +106,7 @@ deploy-kubernetes: $(K8S_BUILD_DIR)
 		-n $(NAMESPACE)  || echo "SSL cert already configured.";
 	@echo "Creating configmaps..."
 	@kubectl create configmap -n $(NAMESPACE) \
-	protonaffiliate-wallet-config \
+	proton-affiliate-wallet-config \
 	--from-file wallet/config/ || echo "Wallet configuration already created.";
 	@echo "Applying kubernetes files..."
 	@for file in $(shell find $(K8S_BUILD_DIR) -name '*.yaml' | sed 's:$(K8S_BUILD_DIR)/::g'); do \

@@ -13143,9 +13143,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"protonaffiliate@workspace:.":
+"proton-affiliate@workspace:.":
   version: 0.0.0-use.local
-  resolution: "protonaffiliate@workspace:."
+  resolution: "proton-affiliate@workspace:."
   dependencies:
     "@apollo/client": ^3.3.11
     "@babel/eslint-parser": ^7.13.10

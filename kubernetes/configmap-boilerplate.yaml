@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: protonaffiliate-webapp-config
+  name: proton-affiliate-webapp-config
 data:
   # webapp
   PORT: '${PORT}'
@@ -10,7 +10,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: protonaffiliate-postgres-config
+  name: proton-affiliate-postgres-config
 data:
   # postgres
   POSTGRES_USER: '${POSTGRES_USER}'
@@ -20,7 +20,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: protonaffiliate-hapi-config
+  name: proton-affiliate-hapi-config
 data:
   # hapi
   HAPI_SERVER_PORT: '${HAPI_SERVER_PORT}'
@@ -36,7 +36,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: protonaffiliate-hasura-config
+  name: proton-affiliate-hasura-config
 data:
   # hasura
   HASURA_GRAPHQL_ENABLE_CONSOLE: '${HASURA_GRAPHQL_ENABLE_CONSOLE}'

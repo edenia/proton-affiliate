@@ -2,28 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: protonaffiliate-hapi
-  name: protonaffiliate-hapi
+    app: proton-affiliate-hapi
+  name: proton-affiliate-hapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: protonaffiliate-hapi
+      app: proton-affiliate-hapi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: protonaffiliate-hapi
+        app: proton-affiliate-hapi
     spec:
       imagePullSecrets:
         - name: regcred
       containers:
         - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
           imagePullPolicy: 'Always'
-          name: 'protonaffiliate-hapi'
+          name: 'proton-affiliate-hapi'
           envFrom:
             - configMapRef:
-                name: protonaffiliate-hapi-config
+                name: proton-affiliate-hapi-config
           ports:
             - containerPort: 9090

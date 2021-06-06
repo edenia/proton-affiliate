@@ -2,27 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: protonaffiliate-webapp
-  name: protonaffiliate-webapp
+    app: proton-affiliate-webapp
+  name: proton-affiliate-webapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: protonaffiliate-webapp
+      app: proton-affiliate-webapp
   template:
     metadata:
       labels:
-        app: protonaffiliate-webapp
+        app: proton-affiliate-webapp
     spec:
       imagePullSecrets:
         - name: regcred
       containers:
         - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
           imagePullPolicy: 'Always'
-          name: protonaffiliate-webapp
+          name: proton-affiliate-webapp
           envFrom:
             - configMapRef:
-                name: protonaffiliate-webapp-config
+                name: proton-affiliate-webapp-config
           ports:
             - containerPort: 80
       restartPolicy: Always

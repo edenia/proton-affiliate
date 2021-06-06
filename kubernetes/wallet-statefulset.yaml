@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: protonaffiliate-wallet
+    app: proton-affiliate-wallet
     version: ${VERSION}
-  name: protonaffiliate-wallet
+  name: proton-affiliate-wallet
 spec:
-  serviceName: protonaffiliate-wallet
+  serviceName: proton-affiliate-wallet
   replicas: 1
   selector:
     matchLabels:
-      app: protonaffiliate-wallet
+      app: proton-affiliate-wallet
       version: ${VERSION}
   template:
     metadata:
       labels:
-        app: protonaffiliate-wallet
+        app: proton-affiliate-wallet
         version: ${VERSION}
     spec:
       imagePullSecrets:
@@ -23,7 +23,7 @@ spec:
       containers:
         - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WALLET}:${VERSION}
           imagePullPolicy: 'Always'
-          name: 'protonaffiliate-wallet'
+          name: 'proton-affiliate-wallet'
           env:
             - name: DATA_DIR
               value: /opt/application/data
@@ -41,13 +41,13 @@ spec:
       volumes:
         - name: config-directory
           configMap:
-            name: protonaffiliate-wallet-config
+            name: proton-affiliate-wallet-config
   volumeClaimTemplates:
     - metadata:
         name: data-directory
       spec:
         accessModes: ['ReadWriteOnce']
-        storageClassName: protonaffiliate-storage
+        storageClassName: proton-affiliate-storage
         resources:
           requests:
             storage: 50Gi

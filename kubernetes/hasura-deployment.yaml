@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: protonaffiliate-hasura
-  name: protonaffiliate-hasura
+    app: proton-affiliate-hasura
+  name: proton-affiliate-hasura
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: protonaffiliate-hasura
+      app: proton-affiliate-hasura
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: protonaffiliate-hasura
+        app: proton-affiliate-hasura
     spec:
       imagePullSecrets:
         - name: regcred
@@ -25,10 +25,10 @@ spec:
             - --enable-console
           envFrom:
             - configMapRef:
-                name: protonaffiliate-hasura-config
+                name: proton-affiliate-hasura-config
           image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HASURA}:${VERSION}
           imagePullPolicy: 'IfNotPresent'
-          name: 'protonaffiliate-hasura'
+          name: 'proton-affiliate-hasura'
           ports:
             - containerPort: 8080
       restartPolicy: Always
