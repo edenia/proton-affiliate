@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-  create-dev-image:
-    name:
+  create-main-image:
     runs-on: ubuntu-latest
     environment: production
     steps:
