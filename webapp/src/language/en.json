@@ -6,13 +6,13 @@
     "darkMode": "Dark Mode"
   },
   "routes": {
-    "/>title": "EOSIO Boilerplate",
+    "/>title": "Proton Affiliate",
     "/>sidebar": "Home",
     "/>heading": "Welcome",
-    "/about>title": "About | EOSIO Boilerplate",
+    "/about>title": "About | Proton Affiliate",
     "/about>sidebar": "About",
     "/about>heading": "About",
-    "/help>title": "Help | EOSIO Boilerplate",
+    "/help>title": "Help | EOSIO Proton Affiliate",
     "/help>sidebar": "Help",
     "/help>heading": "Help",
     "docs": "Docs",

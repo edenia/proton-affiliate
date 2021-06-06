@@ -241,6 +241,16 @@
             ]
         },
         {
+            "name": "verifyacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "verifyref",
             "base": "",
             "fields": [
@@ -300,6 +310,11 @@
         {
             "name": "setparams",
             "type": "setparams",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "verifyacc",
+            "type": "verifyacc",
             "ricardian_contract": ""
         },
         {

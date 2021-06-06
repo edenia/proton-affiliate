@@ -2,25 +2,12 @@ include ../utils/meta.mk ../utils/help.mk
 
 LATEST_TAG ?= latest
 
-install: ##@local Install all dependencies
-install:
-	@npm install
-
-clean-install: ##@local Reinstalls all dependencies
-clean-install:
-	@rm -Rf node_modules
-	@npm install
-
-run: ##@local Run the project locally (without docker)
-run: node_modules
-	@$(SHELL_EXPORT) npm run dev
-
 build-docker: ##@devops Build the docker image
 build-docker: ./Dockerfile
 	@docker pull $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) || true
 	@docker build \
-                --build-arg hasura_graphql_migrations_dir=hasura-migrations \
-                --build-arg hasura_graphql_metadata_dir=/hasura-metadata \
+		--build-arg hasura_graphql_migrations_dir=hasura-migrations \
+		--build-arg hasura_graphql_metadata_dir=/hasura-metadata \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(LATEST_TAG) \
 		.

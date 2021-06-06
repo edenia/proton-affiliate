@@ -86,8 +86,8 @@ users_table _users(get_self(), get_self().value);
 }
 
 ACTION affiliate::addref(name referrer, name invitee) {
-  eosio::check( !is_account( invitee ), "Account invited is already registered");
   require_auth(get_self());
+  eosio::check( !is_account( invitee ), "Account invited " + invitee.to_string() + " is already registered");
   users_table _users(get_self(), get_self().value);
   referrals_table _referrals(get_self(), get_self().value);
   auto referrer_itr = _users.find( referrer.value );
@@ -125,6 +125,7 @@ ACTION affiliate::expireref(name invitee) {
   //_referrals.erase(referral_itr);
 }
 
+// @todo rename to verifykyc
 ACTION affiliate::verifyref(name invitee) {
   require_auth(get_self());
   referrals_table _referrals(get_self(), get_self().value);
@@ -140,6 +141,21 @@ ACTION affiliate::verifyref(name invitee) {
   // if verified == 0  set status PENDING_KYC_VERIFICATION 
 
   // if verified == 1  set status PENDING_PAYMENT
+}
+
+ACTION affiliate::verifyacc(name invitee) {
+  require_auth(get_self());
+  check(is_account(invitee), invitee.to_string() + " invitee is not a registered account yet");
+  
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
+  check(_referral->status == referral_status::PENDING_USER_REGISTRATION, "invalid status for invitee " + invitee.to_string() + " referral");
+  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
+
+  _referrals.modify(_referral, get_self(), [&]( auto& row ) {
+    row.status = referral_status::PENDING_KYC_VERIFICATION;
+  });
 }
 
 ACTION affiliate::payref(name admin, name invitee) {
@@ -226,5 +242,3 @@ ACTION affiliate::clear() {
     user_itr = _users.erase(user_itr);
   }
 }
-
-EOSIO_DISPATCH(affiliate, (addadmin)(rmadmin)(adduser)(rmuser)(addref)(expireref)(verifyref)(payref)(rejectref)(setparams)(clear))

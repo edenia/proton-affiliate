@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: boilerplate-hasura
-  name: boilerplate-hasura
+    app: protonaffiliate-hasura
+  name: protonaffiliate-hasura
 spec:
   ports:
-  - port: 8080
-    targetPort: 8080
-    name: hasura
-    protocol: TCP
+    - port: 8080
+      targetPort: 8080
+      name: hasura
+      protocol: TCP
   selector:
-    app: boilerplate-hasura
+    app: protonaffiliate-hasura

@@ -2,28 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: boilerplate-hapi
-  name: boilerplate-hapi
+    app: protonaffiliate-hapi
+  name: protonaffiliate-hapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: boilerplate-hapi
+      app: protonaffiliate-hapi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: boilerplate-hapi
+        app: protonaffiliate-hapi
     spec:
       imagePullSecrets:
-          - name: regcred
+        - name: regcred
       containers:
-      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
-        imagePullPolicy: "Always"
-        name: "boilerplate-hapi"
-        envFrom:
-        - configMapRef:
-            name: boilerplate-hapi-config
-        ports:
-        - containerPort: 9090
+        - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
+          imagePullPolicy: 'Always'
+          name: 'protonaffiliate-hapi'
+          envFrom:
+            - configMapRef:
+                name: protonaffiliate-hapi-config
+          ports:
+            - containerPort: 9090
