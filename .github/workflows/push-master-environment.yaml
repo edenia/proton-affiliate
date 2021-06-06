@@ -1,15 +1,15 @@
-name: Build images from latest dev branch
+name: Build images from latest main branch
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   create-dev-image:
     name:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: production
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v1
