@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: protonaffiliate-postgres
+    app: proton-affiliate-postgres
     version: ${VERSION}
-  name: protonaffiliate-postgres
+  name: proton-affiliate-postgres
 spec:
-  serviceName: protonaffiliate-postgres
+  serviceName: proton-affiliate-postgres
   replicas: 1
   selector:
     matchLabels:
-      app: protonaffiliate-postgres
+      app: proton-affiliate-postgres
       version: ${VERSION}
   template:
     metadata:
       labels:
-        app: protonaffiliate-postgres
+        app: proton-affiliate-postgres
         version: ${VERSION}
     spec:
       imagePullSecrets:
@@ -23,10 +23,10 @@ spec:
       containers:
         - image: postgres:11.5-alpine
           imagePullPolicy: 'Always'
-          name: protonaffiliate-postgres
+          name: proton-affiliate-postgres
           envFrom:
             - configMapRef:
-                name: protonaffiliate-postgres-config
+                name: proton-affiliate-postgres-config
           ports:
             - containerPort: 5432
           volumeMounts:
@@ -38,7 +38,7 @@ spec:
         name: postgres
       spec:
         accessModes: ['ReadWriteOnce']
-        storageClassName: dashboard-storage
+        storageClassName: proton-affiliate-storage
         resources:
           requests:
             storage: 100Gi

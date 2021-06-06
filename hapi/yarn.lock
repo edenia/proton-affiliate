@@ -5120,9 +5120,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"protonaffiliate@workspace:.":
+"proton-affiliate@workspace:.":
   version: 0.0.0-use.local
-  resolution: "protonaffiliate@workspace:."
+  resolution: "proton-affiliate@workspace:."
   dependencies:
     "@hapi/boom": ^9.0.0
     "@hapi/hapi": ^19.1.1
