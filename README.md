@@ -1,10 +1,12 @@
-# Proton Affiliate Platform
-
-[![N|Solid](https://github.com/eoscostarica/eos-rate/raw/master/docs/eoscostarica-logo-black.png)](https://eoscostarica.io/)
+<p align="center">
+   <img src="./docs/img/proton-xpr-logo.png" width="300">
+</p>
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
 
-A fully on-chain affiliate marketing platform, rewarding users in XPR coin for referring another user to the Proton platform.
+# Proton Affiliate Platform|
+
+**A fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
 
 - [Smart Contract POC](#smart-contract-poc)
 - [Demux Pattern](#demux-pattern)
@@ -32,7 +34,7 @@ A fully on-chain affiliate marketing platform, rewarding users in XPR coin for r
 
 The **afiliatepoc** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
-### Smart Contract Readme
+### Smart Contract Docs
 
 For more information on the smart contract design for thi POC please see the [smart contract readme](contracts/affiliatepoc/README.md)
 
@@ -45,7 +47,7 @@ We use the demux pattern's ability for blockchain events to trigger new transact
 ### Demux Data Flow
 
 <p align="center">
-   <img src="./docs/img/demux-data-pattern.png">
+   <img src="./docs/img/demux-data-pattern.png" width="300">
 </p>
 
 1. Client sends transaction to blockchain
