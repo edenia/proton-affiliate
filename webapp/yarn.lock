@@ -6402,66 +6402,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eosioboilerplate@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "eosioboilerplate@workspace:."
-  dependencies:
-    "@apollo/client": ^3.3.11
-    "@babel/eslint-parser": ^7.13.10
-    "@babel/plugin-proposal-optional-chaining": ^7.13.8
-    "@babel/preset-env": ^7.13.10
-    "@babel/preset-react": ^7.12.13
-    "@date-io/core": ^1.3.6
-    "@date-io/date-fns": ^2.10.8
-    "@eoscostarica/ual-reactjs-renderer": ^0.3.1
-    "@material-ui/core": ^4.11.3
-    "@material-ui/icons": ^4.11.2
-    "@material-ui/lab": ^4.0.0-alpha.57
-    "@material-ui/pickers": ^3.2.10
-    "@material-ui/styles": ^4.11.3
-    "@material-ui/system": ^4.11.3
-    core-js: ^3.9.1
-    customize-cra: ^1.0.0
-    date-fns: ^2.19.0
-    env-cmd: ^10.1.0
-    eosjs-api: ^7.0.4
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-config-standard-react: ^11.0.1
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-react: ^7.22.0
-    graphql: ^15.5.0
-    graphql-tag: ^2.11.0
-    history: ^5.0.0
-    husky: 4.3.8
-    i18next: ^19.9.1
-    i18next-browser-languagedetector: ^6.0.1
-    lint-staged: ^10.5.4
-    polished: ^4.1.1
-    prettier: ^2.2.1
-    prop-types: ^15.7.2
-    react: ~17.0.1
-    react-app-rewired: ^2.1.8
-    react-dom: ~17.0.1
-    react-feather: ^2.0.9
-    react-helmet: ^6.1.0
-    react-i18next: ^11.8.8
-    react-is: ^17.0.1
-    react-perfect-scrollbar: ^1.5.8
-    react-router: ^5.2.0
-    react-router-dom: ^5.2.0
-    react-scripts: ^4.0.3
-    standard: ^16.0.3
-    subscriptions-transport-ws: ^0.9.18
-    ual-anchor: ^1.0.2
-    ual-token-pocket: ^0.3.0
-  languageName: unknown
-  linkType: soft
-
 "eosjs-api@npm:^7.0.4":
   version: 7.0.4
   resolution: "eosjs-api@npm:7.0.4"
@@ -13202,6 +13142,66 @@ fsevents@^1.2.7:
   checksum: a440dd406c5cf53bf39f3e898d2c65178511d34ca3c8c789b30c177992408b9e4273969726b274719aa69ccce5ab34b2fd8caa60b90f23cd2e910cdcf682de52
   languageName: node
   linkType: hard
+
+"protonaffiliate@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "protonaffiliate@workspace:."
+  dependencies:
+    "@apollo/client": ^3.3.11
+    "@babel/eslint-parser": ^7.13.10
+    "@babel/plugin-proposal-optional-chaining": ^7.13.8
+    "@babel/preset-env": ^7.13.10
+    "@babel/preset-react": ^7.12.13
+    "@date-io/core": ^1.3.6
+    "@date-io/date-fns": ^2.10.8
+    "@eoscostarica/ual-reactjs-renderer": ^0.3.1
+    "@material-ui/core": ^4.11.3
+    "@material-ui/icons": ^4.11.2
+    "@material-ui/lab": ^4.0.0-alpha.57
+    "@material-ui/pickers": ^3.2.10
+    "@material-ui/styles": ^4.11.3
+    "@material-ui/system": ^4.11.3
+    core-js: ^3.9.1
+    customize-cra: ^1.0.0
+    date-fns: ^2.19.0
+    env-cmd: ^10.1.0
+    eosjs-api: ^7.0.4
+    eslint: ^7.22.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-standard: ^16.0.2
+    eslint-config-standard-react: ^11.0.1
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-promise: ^4.3.1
+    eslint-plugin-react: ^7.22.0
+    graphql: ^15.5.0
+    graphql-tag: ^2.11.0
+    history: ^5.0.0
+    husky: 4.3.8
+    i18next: ^19.9.1
+    i18next-browser-languagedetector: ^6.0.1
+    lint-staged: ^10.5.4
+    polished: ^4.1.1
+    prettier: ^2.2.1
+    prop-types: ^15.7.2
+    react: ~17.0.1
+    react-app-rewired: ^2.1.8
+    react-dom: ~17.0.1
+    react-feather: ^2.0.9
+    react-helmet: ^6.1.0
+    react-i18next: ^11.8.8
+    react-is: ^17.0.1
+    react-perfect-scrollbar: ^1.5.8
+    react-router: ^5.2.0
+    react-router-dom: ^5.2.0
+    react-scripts: ^4.0.3
+    standard: ^16.0.3
+    subscriptions-transport-ws: ^0.9.18
+    ual-anchor: ^1.0.2
+    ual-token-pocket: ^0.3.0
+  languageName: unknown
+  linkType: soft
 
 "proxy-addr@npm:~2.0.5":
   version: 2.0.6

@@ -33,11 +33,11 @@ hasura:
 	$(eval -include .env)
 	@until \
 		docker-compose exec -T postgres pg_isready; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for postgres service"; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for postgres service"; \
 		sleep 5; done;
 	@until \
 		curl -s -o /dev/null -w 'hapi status %{http_code}\n' http://localhost:9090/healthz; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for hapi service"; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for hapi service"; \
 		sleep 5; done;
 	@docker-compose stop hasura
 	@docker-compose up -d --build hasura
@@ -47,7 +47,7 @@ hasura-cli:
 	$(eval -include .env)
 	@until \
 		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for hasura service"; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
 	@cd hasura && hasura seeds apply --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET) && echo "success!" || echo "failure!";
 	@cd hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET);
@@ -56,7 +56,7 @@ webapp:
 	$(eval -include .env)
 	@until \
 		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-webapp |$(RESET) waiting for hasura service"; \
+		do echo "$(BLUE)webapp |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
 	@cd webapp && yarn && yarn start:local | cat
 	@echo "done webapp"
@@ -71,6 +71,19 @@ clean:
 	@rm -rf tmp/webapp
 	@docker system prune
 
+build-affiliate-contract:
+	@cd contracts/affiliate && eosio-cpp -w -I include -o affiliate.wasm src/affiliate.cpp
+
+deploy-affiliate-contract:
+	$(eval -include .env)
+	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
+	@cleos -u $(CONTRACTS_NETWORK) set contract $(CONTRACTS_AFFILIATE_ACCOUNT) ./contracts/affiliate
+	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
+
+affiliate-contract:
+	make -B build-affiliate-contract
+	make -B deploy-affiliate-contract
+	
 build-kubernetes: ##@devops Generate proper k8s files based on the templates
 build-kubernetes: ./kubernetes
 	@echo "Build kubernetes files..."
@@ -85,12 +98,12 @@ deploy-kubernetes: $(K8S_BUILD_DIR)
 	@echo "Creating SSL certificates..."
 	@kubectl create secret tls \
 		tls-secret \
-		--key ./ssl/boilerplate.cr.priv.key \
-		--cert ./ssl/boilerplate.cr.crt \
+		--key ./ssl/affiliateproton.io.priv.key \
+		--cert ./ssl/affiliateproton.io.crt \
 		-n $(NAMESPACE)  || echo "SSL cert already configured.";
 	@echo "Creating configmaps..."
 	@kubectl create configmap -n $(NAMESPACE) \
-	boilerplate-wallet-config \
+	protonaffiliate-wallet-config \
 	--from-file wallet/config/ || echo "Wallet configuration already created.";
 	@echo "Applying kubernetes files..."
 	@for file in $(shell find $(K8S_BUILD_DIR) -name '*.yaml' | sed 's:$(K8S_BUILD_DIR)/::g'); do \

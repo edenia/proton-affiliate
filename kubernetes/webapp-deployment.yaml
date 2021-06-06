@@ -2,27 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: boilerplate-webapp
-  name: boilerplate-webapp
+    app: protonaffiliate-webapp
+  name: protonaffiliate-webapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: boilerplate-webapp
+      app: protonaffiliate-webapp
   template:
     metadata:
       labels:
-        app: boilerplate-webapp
+        app: protonaffiliate-webapp
     spec:
       imagePullSecrets:
-          - name: regcred
+        - name: regcred
       containers:
-      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
-        imagePullPolicy: "Always"
-        name: boilerplate-webapp
-        envFrom:
-        - configMapRef:
-            name: boilerplate-webapp-config
-        ports:
-        - containerPort: 80
+        - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
+          imagePullPolicy: 'Always'
+          name: protonaffiliate-webapp
+          envFrom:
+            - configMapRef:
+                name: protonaffiliate-webapp-config
+          ports:
+            - containerPort: 80
       restartPolicy: Always

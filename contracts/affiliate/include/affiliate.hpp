@@ -15,6 +15,7 @@ CONTRACT affiliate : public contract {
     ACTION addref(name referrer,name invitee);
     ACTION expireref(name ivitee);
     ACTION verifyref(name invitee);
+    ACTION verifyacc(name invitee);
     ACTION payref(name admin, name invitee);
     ACTION rejectref(name admin, name invitee, string memo);
     ACTION setparams(name setting, string value);

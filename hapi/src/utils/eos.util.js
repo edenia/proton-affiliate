@@ -4,15 +4,15 @@ const fetch = require('node-fetch')
 const { TextEncoder, TextDecoder } = require('util')
 const EosApi = require('eosjs-api')
 
-const { eosConfig } = require('../config')
+const { networkConfig } = require('../config')
 
 const walletUtil = require('./wallet.util')
 
 const textEncoder = new TextEncoder()
 const textDecoder = new TextDecoder()
-const rpc = new JsonRpc(eosConfig.endpoint, { fetch })
+const rpc = new JsonRpc(networkConfig.api, { fetch })
 const eosApi = EosApi({
-  httpEndpoint: eosConfig.endpoint,
+  httpEndpoint: networkConfig.api,
   verbose: false,
   fetchConfiguration: {}
 })
@@ -23,25 +23,25 @@ const newAccount = async accountName => {
 
   try {
     await walletUtil.unlock(
-      eosConfig.baseAccount,
-      eosConfig.baseAccountPassword
+      networkConfig.creatorAccount,
+      networkConfig.creatorPassword
     )
   } catch (error) {}
 
   const keys = await walletUtil.listKeys(
-    eosConfig.baseAccount,
-    eosConfig.baseAccountPassword
+    networkConfig.creatorAccount,
+    networkConfig.creatorPassword
   )
   const api = new Api({
     rpc,
     textDecoder,
     textEncoder,
-    chainId: eosConfig.chainId,
+    chainId: networkConfig.chainId,
     signatureProvider: new JsSignatureProvider(keys)
   })
   const authorization = [
     {
-      actor: eosConfig.baseAccount,
+      actor: networkConfig.creatorAccount,
       permission: 'active'
     }
   ]
@@ -54,7 +54,7 @@ const newAccount = async accountName => {
           account: 'eosio',
           name: 'newaccount',
           data: {
-            creator: eosConfig.baseAccount,
+            creator: networkConfig.creatorAccount,
             name: accountName,
             owner: {
               threshold: 1,
@@ -85,7 +85,7 @@ const newAccount = async accountName => {
           account: 'eosio',
           name: 'buyrambytes',
           data: {
-            payer: eosConfig.baseAccount,
+            payer: networkConfig.creatorAccount,
             receiver: accountName,
             bytes: 4096
           }
@@ -95,7 +95,7 @@ const newAccount = async accountName => {
           account: 'eosio',
           name: 'delegatebw',
           data: {
-            from: eosConfig.baseAccount,
+            from: networkConfig.creatorAccount,
             receiver: accountName,
             stake_net_quantity: '1.0000 EOS',
             stake_cpu_quantity: '1.0000 EOS',
@@ -109,7 +109,7 @@ const newAccount = async accountName => {
       expireSeconds: 30
     }
   )
-  await walletUtil.lock(eosConfig.baseAccount)
+  await walletUtil.lock(networkConfig.creatorAccount)
 
   return {
     password,
@@ -169,7 +169,49 @@ const getCurrencyBalance = (code, account, symbol) =>
 
 const getTableRows = options => eosApi.getTableRows({ json: true, ...options })
 
-const transact = async (actions, auths) => {
+const transact = async (actions, account, password) => {
+  try {
+    const keys = []
+
+    try {
+      await walletUtil.unlock(account, password)
+    } catch (error) {}
+
+    try {
+      keys.push(...(await walletUtil.listKeys(account, password)))
+    } catch (error) {}
+
+    const api = new Api({
+      rpc,
+      textDecoder,
+      textEncoder,
+      chainId: networkConfig.chainId,
+      signatureProvider: new JsSignatureProvider(keys)
+    })
+
+    const transaction = await api.transact(
+      {
+        actions
+      },
+      {
+        blocksBehind: 3,
+        expireSeconds: 30
+      }
+    )
+
+    try {
+      await walletUtil.lock(account)
+    } catch (error) {}
+
+    return transaction
+  } catch (error) {
+    throw new Error(
+      error.message.replace(/assertion failure with message: /gi, '')
+    )
+  }
+}
+
+const transactWithAuths = async (actions, auths) => {
   try {
     const keys = []
 
@@ -188,7 +230,7 @@ const transact = async (actions, auths) => {
       rpc,
       textDecoder,
       textEncoder,
-      chainId: eosConfig.chainId,
+      chainId: networkConfig.chainId,
       signatureProvider: new JsSignatureProvider(keys)
     })
 
@@ -226,5 +268,6 @@ module.exports = {
   getCodeHash,
   getCurrencyBalance,
   getTableRows,
-  transact
+  transact,
+  transactWithAuths
 }

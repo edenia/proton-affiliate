@@ -1,9 +1,9 @@
 const fetch = require('node-fetch')
 
-const { eosConfig } = require('../config')
+const { networkConfig } = require('../config')
 
 const post = async (endpoint, body) => {
-  const res = await fetch(`${eosConfig.walletUrl}/v1/wallet${endpoint}`, {
+  const res = await fetch(`${networkConfig.wallet}/v1/wallet${endpoint}`, {
     body,
     method: 'POST'
   })

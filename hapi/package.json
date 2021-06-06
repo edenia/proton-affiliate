@@ -1,8 +1,8 @@
 {
-  "name": "eosioboilerplate",
+  "name": "protonaffiliate",
   "version": "1.0.0",
-  "description": "EOSIO Boilerplate WebApp",
-  "repository": "https://github.com/eoscostarica/eosioboilerplate.git",
+  "description": "Proton Affiliate",
+  "repository": "http://github.com/eoscostarica/proton-affiliate.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",

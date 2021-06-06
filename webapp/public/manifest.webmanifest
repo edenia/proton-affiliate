@@ -1,8 +1,8 @@
 {
-  "name": "EOSIO Boilerplate",
-  "short_name": "Boilerplate",
+  "name": "Proton Affiliate",
+  "short_name": "ProtonAffiliate",
   "lang": "en",
-  "description": "Basic skeleton for EOS Costa Rica projects",
+  "description": "Proton Affiliate",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
