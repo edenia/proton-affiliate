@@ -7,7 +7,6 @@ on:
 
 jobs:
   create-dev-image:
-    name:
     runs-on: ubuntu-latest
     environment: dev
     steps:
