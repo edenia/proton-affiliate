@@ -12,5 +12,9 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
-  "prettier.prettierPath": "./webapp/.yarn/sdks/prettier/index.js"
+  "prettier.prettierPath": "./webapp/.yarn/sdks/prettier/index.js",
+  "cSpell.enabled": true,
+  "cSpell.enableFiletypes": [
+    "markdown"
+  ]
 }
