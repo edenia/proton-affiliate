@@ -31,7 +31,6 @@ This application features the following tech stack :
 - **React JS** : A Front End Web Application Framework.
 - **Hapi** : Node JS HTTP API.
 - **Demux** : Deterministic event-sourced state and side effect handling.
-<!--- **Hasura GraphQL Engine** : GraphQL Generator-->
 - **KEOSD** : Wallet service daemon for storing private keys and signing digital messages.
 - **EOSIO** : Blockchain protocol with industry-leading transaction speed.
 - **Kubernetes** : Docker Container Orchestration.
@@ -132,7 +131,7 @@ This project is being developed on the [Proton Testnet](https://proton-testnet.e
 
 We use the [EOS JS](https://github.com/EOSIO/eosjs) javascript API for integration with EOSIO-based blockchain networks using EOSIO RPC API.
 
-EOSJS documentation can be found [here](https://developers.eos.io/manuals/eosjs/latest/index)
+EOS JS documentation can be found [here](https://developers.eos.io/manuals/eosjs/latest/index)
 
 ### Web Application
 
@@ -147,14 +146,13 @@ Hasura also enables custom REST handling capabilities with the possibility to in
 
 We need to handle REST custom requests coming from the Hasura GraphQL server. For this, we use [hapi.dev](https://hapi.dev/), which is a simple and easy-to-use backend framework.
 
-
 # License
 
 MIT © [EOS Costa Rica](https://eoscostarica.io).
 
 # Contributing
 
-Please Read EOS Costa Rica's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
+Please read EOS Costa Rica's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
 
 Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/proton-affiliate/issues)
 
