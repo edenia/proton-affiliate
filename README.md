@@ -10,7 +10,7 @@
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
-- [Smart Contract](#smart-contract-poc)
+- [Smart Contract](#smart-contract)
 - [Demux Pattern](#demux-pattern)
 - [Installation](#installation)
 - [File Structure](#file-structure)
@@ -18,7 +18,7 @@
   - [Infrastructure Diagram](#infrastructure-diagram)
   - [Web Application](#web-application)
   - [Hapi REST Server](#hapi-rest-server)
-  - [EOSIO Blockchain Technology Integration](#eosio-blockchain-technology-integration)
+  - [EOSIO Blockchain Integration](#eosio-blockchain-integration)
 - [License](#license)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
@@ -114,7 +114,7 @@ Within this repository you will find the following directories and files:
 │   └── affiliate ................. Affiliate Platform Contract
 ├── docs .......................... Documentation
 │   └── img ....................... Images and Diagrams
-├── hapi .......................... HTTP API 
+├── hapi .......................... Node JS backend & HTTP API 
 │   └── src
 │       └── services
 |           └── demux ............. Demux Implementation
