@@ -1,5 +1,4 @@
 #include <eosio/eosio.hpp>
-#include <eosio/symbol.hpp>
 
 using namespace std;
 using namespace eosio;
@@ -14,8 +13,8 @@ CONTRACT affiliate : public contract {
     ACTION rmuser(name admin, name user);
     ACTION addref(name referrer,name invitee);
     ACTION expireref(name ivitee);
-    ACTION verifyref(name invitee);
     ACTION verifyacc(name invitee);
+    ACTION verifykyc(name invitee);
     ACTION payref(name admin, name invitee);
     ACTION rejectref(name admin, name invitee, string memo);
     ACTION setparams(name setting, string value);
@@ -58,6 +57,31 @@ CONTRACT affiliate : public contract {
       auto primary_key() const { return setting.value; }
     };
     typedef multi_index<name("params"), params> params_table;
+
+    struct kyc_prov {
+      name kyc_provider;
+      string kyc_level;
+      uint64_t kyc_date;
+    };
+
+    TABLE userinfo {
+			name                                          acc;
+			std::string                                   name;
+			std::string                                   avatar;
+			bool                                          verified;
+			uint64_t                                      date;
+			uint64_t                                      verifiedon;
+			eosio::name                                   verifier;
+
+			vector<eosio::name>                           raccs;
+			vector<std::tuple<eosio::name, eosio::name>>  aacts;
+			vector<std::tuple<eosio::name, string>>       ac;
+
+			vector<kyc_prov>                              kyc;
+			
+			uint64_t primary_key()const { return acc.value; }
+		};
+		typedef multi_index<name("usersinfo"), userinfo > usersinfo_table;
 };
 
 
