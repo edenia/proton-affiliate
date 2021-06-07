@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="./docs/img/proton-xpr-logo.png" width="200">
+   <img src="../../docs/img/proton-xpr-logo.png" width="200">
 </p>
 
 # Affiliate Platform Smart Contract
