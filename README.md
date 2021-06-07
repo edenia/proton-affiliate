@@ -46,7 +46,7 @@ The **afiliatepoc** smart contract will store referral info, validation info, an
 
 ### Smart Contract Docs
 
-For more information on the smart contract design for thi POC please see the [smart contract readme](contracts/affiliatepoc/README.md)
+For more information on the smart contract design for thi POC please see the [smart contract readme](contracts/affiliate/README.md).
 
 ## Demux Pattern
 
