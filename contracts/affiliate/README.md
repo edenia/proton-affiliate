@@ -1,8 +1,11 @@
-# Proton Affiliate Platform
+<p align="center">
+   <img src="../../docs/img/proton-xpr-logo.png" width="200">
+</p>
 
-A fully on-chain affiliate marketing platform, rewarding users in XPR coin for referring another user to the Proton platform.
+# Affiliate Platform Smart Contract
+**An on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
 
-## Smart Contract POC
+View [project readme](../../README.md) document.
 
 The **affiliate** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 

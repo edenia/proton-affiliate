@@ -2,29 +2,23 @@
    <img src="./docs/img/proton-xpr-logo.png" width="200">
 </p>
 
-
 # Proton Affiliate Platform
-**A fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
-
-
+**An on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
-
-
 
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
-- [Smart Contract](#smart-contract-poc)
+- [Smart Contract](#smart-contract)
 - [Demux Pattern](#demux-pattern)
 - [Installation](#installation)
 - [File Structure](#file-structure)
 - [Technical Documentation](#technical-documentation)
   - [Infrastructure Diagram](#infrastructure-diagram)
   - [Web Application](#web-application)
-  - [Hasura GraphQL Engine](#hasura-graphql-engine)
   - [Hapi REST Server](#hapi-rest-server)
-  - [EOSIO Blockchain Technology Integration](#eosio-blockchain-technology-integration)
+  - [EOSIO Blockchain Integration](#eosio-blockchain-integration)
 - [License](#license)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
@@ -62,7 +56,7 @@ We use the demux pattern's ability for blockchain events to trigger new transact
 
 ### Services Using Demux
 
-Backend services execute the following smart contract actions triggered by demux updaters. A custom permision is created for the smart contract account so that keys stored in wallet sevice can can only call these actions.
+Backend services execute the following smart contract actions triggered by demux updaters. A custom permission is created for the smart contract account so that keys stored in wallet service can can only call these actions.
 
 - **Account Registration** Triggers `verifyacc` action that updates referral when invitee registers a new account.
 
@@ -120,7 +114,7 @@ Within this repository you will find the following directories and files:
 │   └── affiliate ................. Affiliate Platform Contract
 ├── docs .......................... Documentation
 │   └── img ....................... Images and Diagrams
-├── hapi .......................... HTTP API 
+├── hapi .......................... Node JS backend & HTTP API 
 │   └── src
 │       └── services
 |           └── demux ............. Demux Implementation
@@ -136,7 +130,7 @@ Within this repository you will find the following directories and files:
 
 This project is being developed on the [Proton Testnet](https://proton-testnet.eosio.online/) using the [`affiliate`](https://proton-test.bloks.io/account/affiliate) smart contract account. The backend service is currently using [EOS Costa Rica's testnet API Node](https://proton-testnet.eosio.cr/v1/chain/get_info)
 
-We use the [EOS JS](https://github.com/EOSIO/eosjs) javascript API for integration with EOSIO-based blockchains using EOSIO RPC API.
+We use the [EOS JS](https://github.com/EOSIO/eosjs) javascript API for integration with EOSIO-based blockchain networks using EOSIO RPC API.
 
 EOSJS documentation can be found [here](https://developers.eos.io/manuals/eosjs/latest/index)
 
