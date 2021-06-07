@@ -114,24 +114,6 @@ ACTION affiliate::expireref(name invitee) {
   //_referrals.erase(referral_itr);
 }
 
-// @todo rename to verifykyc
-ACTION affiliate::verifyref(name invitee) {
-  require_auth(get_self());
-  referrals_table _referrals(get_self(), get_self().value);
-
-  //check((eosio::time_point_sec)(current_time_point() >= expires_on, "This referral has expired");
-  // user must be smart contract account called from backend service
-  //require_auth(get_self()); 
-
-  // check if invitee is in acc column in eosio.proton:usersinfo table
-
-  // if no record is found status remains PENDING_USER_REGISTRATION
-
-  // if verified == 0  set status PENDING_KYC_VERIFICATION 
-
-  // if verified == 1  set status PENDING_PAYMENT
-}
-
 ACTION affiliate::verifyacc(name invitee) {
   require_auth(get_self());
   check(is_account(invitee), invitee.to_string() + " invitee is not a registered account yet");
@@ -144,6 +126,25 @@ ACTION affiliate::verifyacc(name invitee) {
 
   _referrals.modify(_referral, get_self(), [&]( auto& row ) {
     row.status = referral_status::PENDING_KYC_VERIFICATION;
+  });
+}
+
+ACTION affiliate::verifykyc(name invitee) {
+  require_auth(get_self());
+
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
+  check(_referral->status == referral_status::PENDING_KYC_VERIFICATION, "invalid status for invitee " + invitee.to_string() + " referral");
+  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
+
+  usersinfo_table _usersinfo(name("eosio.proton"), name("eosio.proton").value);
+  auto _userinfo = _usersinfo.find(invitee.value);
+  check(_userinfo != _usersinfo.end(), "userinfo for " + invitee.to_string() + " does not exist");
+  check(_userinfo->verified, "userinfo for " + invitee.to_string() + " it's not verified");
+
+  _referrals.modify(_referral, get_self(), [&]( auto& row ) {
+    row.status = referral_status::PENDING_PAYMENT;
   });
 }
 

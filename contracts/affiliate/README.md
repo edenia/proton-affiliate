@@ -46,8 +46,8 @@ Data persisted in the smart contract multi index tables
 |      Admin      |  `rmuser`   | Revoke Referal Permission |     Account must be registered referrer     |  Referal link disabled for user   |
 |    Referrer     |     N/A     |    Share Referal Link     |         Referral permission granted         |   Email sent with register link   |
 |     Invitee     |  `addref`   |      Accept Referral      | Account doesnt exist & not already referred |     Referreral added to table     |
-| Backend Service | `verifyacc` |  Verify when account used as invitee in a referral it's created   |    Referral created && Referral hasnt expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
-| Backend Service | `verifyref` |  Verify new account KYC   |    KYC completed & Referal hasnt expired    |  Referral set for manual review   |
+| Backend Service | `verifyacc` |  Verify when account used as invitee in a referral it's created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasnt expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
+| Backend Service | `verifykyc` |  Verify when account used as invitee in a referral it's marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasnt expired | Referral status set to "PENDING_PAYMENT" |
 | Backend Service | `expireref` | Delete Expired Referrals  |          Referral hasn’t been paid          |         Referral deleted          |
 |      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referal hasnt expired    |          Token Transfer           |
 |      Admin      | `rejectref` |      Reject Referral      |          Referral hasn’t been paid          |         Referral deleted          |
