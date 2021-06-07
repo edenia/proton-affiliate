@@ -1,36 +1,52 @@
 <p align="center">
-   <img src="./docs/img/proton-xpr-logo.png" width="300">
+   <img src="./docs/img/proton-xpr-logo.png" width="200">
 </p>
+
+
+# Proton Affiliate Platform
+**A fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
+
+
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
 
-# Proton Affiliate Platform|
 
-**A fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
 
-- [Smart Contract POC](#smart-contract-poc)
-- [Demux Pattern](#demux-pattern)
+## Table of Contents
+
 - [Tech Stack](#tech-stack)
+- [Smart Contract](#smart-contract-poc)
+- [Demux Pattern](#demux-pattern)
 - [Installation](#installation)
-  - [Before to Start](#before-to-start)
-  - [First Time](#first-time)
-  - [Quick Start](#quick-start)
 - [File Structure](#file-structure)
 - [Technical Documentation](#technical-documentation)
   - [Infrastructure Diagram](#infrastructure-diagram)
-  - [Technologies Specification](#technologies-specification)
-    - [Kubernetes Cluster](#kubernetes-cluster)
-    - [Web Application](#web-application)
-    - [Backend](#backend)
-      - [Hasura GraphQL Server](#hasura-graphql-server)
-      - [Hapi REST Server](#hapi-rest-server)
-    - [EOSIO Blockchain Technology Integration](#eosio-blockchain-technology-integration)
+  - [Web Application](#web-application)
+  - [Hasura GraphQL Engine](#hasura-graphql-engine)
+  - [Hapi REST Server](#hapi-rest-server)
+  - [EOSIO Blockchain Technology Integration](#eosio-blockchain-technology-integration)
 - [License](#license)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
   - [About EOS Costa Rica](#about-eos-costa-rica)
 
-## Smart Contract POC
+## Tech Stack
+
+This application features the following tech stack :
+
+- **React JS** : A Front End Web Application Framework.
+- **Hapi** : Node JS HTTP API.
+- **Demux** : Deterministic event-sourced state and side effect handling.
+<!--- **Hasura GraphQL Engine** : GraphQL Generator-->
+- **KEOSD** : Wallet service daemon for storing private keys and signing digital messages.
+- **EOSIO** : Blockchain protocol with industry-leading transaction speed.
+- **Kubernetes** : Docker Container Orchestration.
+
+<p align="center">
+   <img src="./docs/img/services.png">
+</p>
+
+## Smart Contract
 
 The **afiliatepoc** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
@@ -44,10 +60,18 @@ For more information on the smart contract design for thi POC please see the [sm
 
 We use the demux pattern's ability for blockchain events to trigger new transactions, as well as other side effects outside of the blockchain. The blockchain as the single source of truth for all application state
 
+### Services Using Demux
+
+Backend services execute the following smart contract actions triggered by demux updaters. A custom permision is created for the smart contract account so that keys stored in wallet sevice can can only call these actions.
+
+- **Account Registration** Triggers `verifyacc` action that updates referral when invitee registers a new account.
+
+- **Account KYC** Triggers `verifykyc` action that updates referral when invitee completes KYC for a new account.
+
 ### Demux Data Flow
 
 <p align="center">
-   <img src="./docs/img/demux-data-pattern.png" width="300">
+   <img src="./docs/img/demux-data-pattern.png" width="500">
 </p>
 
 1. Client sends transaction to blockchain
@@ -59,29 +83,9 @@ We use the demux pattern's ability for blockchain events to trigger new transact
 1. Actions run their corresponding Effects, triggering external events
 1. Client queries API for updated data
 
-### Services Using Demux
-
-- **Account Registration** Triggers `verifyacc` action that updates referral when invitee registers an new account.
-
-- **Account KYC** Triggers `verifykyc` action that updates referral when invitee registers an new account.
-
-## Tech Stack
-
-<p align="center">
-   <img src="./docs/img/services.png">
-</p>
-This application features the following tech stack :
-
-- React JS ......................... Front End Web Application Framework
-- Hasura GraphQL Engine ............ GraphQL Generator
-- Hapi ............................. HTTP API
-- Demux ............................ Deterministic event-sourced state and side effect handling
-- EOSIO ............................ Blockchain protocol with industry-leading transaction speed
-- Kubernetes ....................... Container Orchestration
-
 # Installation
 
-## Before to Start
+## Before you Start
 
 Somethings you need before getting started:
 
@@ -108,84 +112,47 @@ At this point you can navigate to `http://localhost:3000`.
 
 # File Structure
 
-Within the download you'll find the following directories and files:
+Within this repository you will find the following directories and files:
 
 ```
-├── contracts
-│   └── affiliatepoc
-├── docs
-│   └── img
-├── hapi
+.
+├── contracts ..................... EOSIO Smart Contracts
+│   └── affiliate ................. Affiliate Platform Contract
+├── docs .......................... Documentation
+│   └── img ....................... Images and Diagrams
+├── hapi .......................... HTTP API 
 │   └── src
-│       ├── config
-│       ├── routes
-│       ├── services
-│       └── utils
-├── hasura
-│   ├── metadata
-│   ├── migrations
-│   └── seeds
-├── kubernetes
-├── utils
-├── wallet
-│   └── config
-└── webapp
-    ├── public
-    └── src
-        ├── components
-        │   ├── Footer
-        │   ├── Header
-        │   ├── Loader
-        │   ├── Message
-        │   ├── PageTitle
-        │   └── Sidebar
-        ├── config
-        ├── context
-        ├── gql
-        ├── language
-        ├── layouts
-        │   └── Dashboard
-        ├── routes
-        │   ├── About
-        │   ├── Help
-        │   ├── Home
-        │   └── Route404
-        ├── theme
-        └── utils
+│       └── services
+|           └── demux ............. Demux Implementation
+├── kubernetes .................... Kubernetes Manifests
+├── utils ......................... Makefiles for project build
+├── wallet ........................ EOSIO Wallet Service
+└── webapp ........................ ReactJS Web Application
 ```
 
 # Technical Documentation
 
-## Infrastructure Diagram
+### EOSIO Blockchain Integration
 
-<p align="center">
-  <img src="docs/img/infra.svg" />
-</p>
+This project is being developed on the [Proton Testnet](https://proton-testnet.eosio.online/) using the [`affiliate`](https://proton-test.bloks.io/account/affiliate) smart contract account. The backend service is currently using [EOS Costa Rica's testnet API Node](https://proton-testnet.eosio.cr/v1/chain/get_info)
 
-## Technologies Specification
+We use the [EOS JS](https://github.com/EOSIO/eosjs) javascript API for integration with EOSIO-based blockchains using EOSIO RPC API.
 
-### Kubernetes Cluster
-
-At EOS Costa Rica, we build software taking into consideration a high availability of the services that can integrate it. For this, we use [Kubernetes](https://kubernetes.io/), that allows to isolate modules in order to reduce the risk of the system collapsing. In the image above, you can take a look at our representation of the architecture we consider is more suitable to our purposes.
+EOSJS documentation can be found [here](https://developers.eos.io/manuals/eosjs/latest/index)
 
 ### Web Application
 
 This FullStack Template uses [React.js](https://reactjs.org) as a Frontend Library which together with other tools like [Apollo Client](https://www.apollographql.com/docs/react/), [GraphQL](https://graphql.org/) and [Material UI](https://material-ui.com/) brings a robust solution for building Single Page Applications out of the box.
 
-### Backend
-
-#### Hasura GraphQL Server
+<!--#### Hasura GraphQL Engine
 
 [Hasura](https://hasura.io/) technology maps a [PostgreSQL](https://www.postgresql.org/) database and provides a reliable and easy-to-use API. This allow us to focus on critical features of our projects, delegating mechanic CRUD (Create, Read, Update, Delete) operations.
-Hasura also enables custom REST handling capabilities with the possibility to integrate a custom REST server, that way we can extend the base CRUD functionalities and build custom business logic.
+Hasura also enables custom REST handling capabilities with the possibility to integrate a custom REST server, that way we can extend the base CRUD functionalities and build custom business logic.-->
 
 #### Hapi REST Server
 
 We need to handle REST custom requests coming from the Hasura GraphQL server. For this, we use [hapi.dev](https://hapi.dev/), which is a simple and easy-to-use backend framework.
 
-### EOSIO Blockchain Technology Integration
-
-As a company that delivers EOSIO blockchain-based solutions, we build a template which contains EOSIO integration, specifically [eosjs](https://github.com/EOSIO/eosjs). This allow us to iterate quickly over the more challenging features of our projects.
 
 # License
 
