@@ -196,21 +196,13 @@ ACTION affiliate::rejectref(name admin, name invitee, string memo) {
   // _referrals.erase(referral_itr);
 }
 
-ACTION affiliate::setparams(name setting, string value) {
-  // only smart contract account can set params 
+ACTION affiliate::setparams(name payer, asset reward_amount, uint8_t expiration_days) {
   require_auth(get_self());
-  params_table _params(get_self(), get_self().value);
-  auto params_itr = _params.find( setting.value );
-  if (params_itr == _params.end()) {
-    _params.emplace(get_self(), [&](auto& param) {
-      param.setting = setting;
-      param.value = value;
-    });
-  } else {
-    _params.modify(params_itr, get_self(), [&](auto& param) {
-      param.value = value;
-    });
-  }
+  auto data = _params.get_or_create(get_self());
+  data.payer = payer;
+  data.reward_amount = reward_amount;
+  data.expiration_days = expiration_days;
+  _params.set(data, get_self());
 }
 
 ACTION affiliate::clear() {

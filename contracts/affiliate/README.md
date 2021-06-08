@@ -51,18 +51,16 @@ Data persisted in the smart contract multi index tables
 | Backend Service | `expireref` | Delete Expired Referrals  |          Referral hasn’t been paid          |         Referral deleted          |
 |      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referal hasnt expired    |          Token Transfer           |
 |      Admin      | `rejectref` |      Reject Referral      |          Referral hasn’t been paid          |         Referral deleted          |
-| Smart Contract  | `setparams` |       System Config       |                                             |                                   |
+| Smart Contract  | `setparams` |       System Config       |                    None                     |Set the account that will pay for the referlas, the rewards amount to pay and the days before a referral expires|
 | Smart Contract  |   `clear`   |       Clear Tables        |                                             |                                   |
 
 #### Params
 
 Referral system configuration parameters set by smart contract account.
 
-- **token_symbol** : Token used to pay rewards _(symbol)_
-- **reward_account** : Account that holds token balance _(name)_
-- **reward_amount** : Amount of tokens rewarded _(number)_
-- **expiry_period** : Time period for referal expiration _(datetime)_
-- **manual_review** : Manual review required _(true or false)_
+- **payer** : Account that holds token balance _(name)_
+- **reward_amount** : Amount of tokens rewarded _(asset)_
+- **expiration_days** : Time period for referal expiration _(datetime)_
 
 ## Services Architecture
 

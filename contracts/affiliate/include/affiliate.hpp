@@ -1,4 +1,6 @@
 #include <eosio/eosio.hpp>
+#include <eosio/singleton.hpp>
+#include <eosio/asset.hpp>
 
 using namespace std;
 using namespace eosio;
@@ -6,6 +8,10 @@ using namespace eosio;
 CONTRACT affiliate : public contract {
   public:
     using contract::contract;
+    affiliate(name receiver, name code, datastream<const char *> ds): 
+      contract(receiver, code, ds), 
+      _params(receiver, receiver.value) 
+      {}
 
     ACTION addadmin(name admin);
     ACTION rmadmin(name admin);
@@ -17,7 +23,7 @@ CONTRACT affiliate : public contract {
     ACTION verifykyc(name invitee);
     ACTION payref(name admin, name invitee);
     ACTION rejectref(name admin, name invitee, string memo);
-    ACTION setparams(name setting, string value);
+    ACTION setparams(name payer, asset reward_amount, uint8_t expiration_days);
     ACTION clear();
     
     enum user_roles : uint8_t {
@@ -52,11 +58,12 @@ CONTRACT affiliate : public contract {
     typedef multi_index<name("referrals"), referrals> referrals_table;
 
     TABLE params {
-      name      setting;
-      string    value;
-      auto primary_key() const { return setting.value; }
+      name       payer;
+      asset      reward_amount;
+      uint8_t    expiration_days;
     };
-    typedef multi_index<name("params"), params> params_table;
+    typedef singleton<name("params"), params> params_table;
+    params_table _params;
 
     struct kyc_prov {
       name kyc_provider;
@@ -83,5 +90,4 @@ CONTRACT affiliate : public contract {
 		};
 		typedef multi_index<name("usersinfo"), userinfo > usersinfo_table;
 };
-
 
