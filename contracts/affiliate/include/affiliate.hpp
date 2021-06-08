@@ -1,3 +1,11 @@
+/*##################################
+#
+#
+# Created by EOSCostaRica.io
+#
+#
+##################################*/
+
 #include <eosio/eosio.hpp>
 #include <eosio/singleton.hpp>
 #include <eosio/asset.hpp>
@@ -8,10 +16,6 @@ using namespace eosio;
 CONTRACT affiliate : public contract {
   public:
     using contract::contract;
-    affiliate(name receiver, name code, datastream<const char *> ds): 
-      contract(receiver, code, ds), 
-      _params(receiver, receiver.value) 
-      {}
 
     ACTION addadmin(name admin);
     ACTION rmadmin(name admin);
@@ -21,7 +25,19 @@ CONTRACT affiliate : public contract {
     ACTION expireref(name ivitee);
     ACTION verifyacc(name invitee);
     ACTION verifykyc(name invitee);
+
+    /**
+     * Pay referral. 
+     * 
+     * This action pay the reward amount for a valid referral 
+     * (status PENDING_PAYMENT and not expired)
+     *
+     * @param admin - The name of the admin approving the referral
+     * @param invitee - The name of the invitee in the referral
+     * @return no return value.
+     */
     ACTION payref(name admin, name invitee);
+
     ACTION rejectref(name admin, name invitee, string memo);
     ACTION setparams(name payer, asset reward_amount, uint8_t expiration_days);
     ACTION clear();
@@ -63,7 +79,6 @@ CONTRACT affiliate : public contract {
       uint8_t    expiration_days;
     };
     typedef singleton<name("params"), params> params_table;
-    params_table _params;
 
     struct kyc_prov {
       name kyc_provider;

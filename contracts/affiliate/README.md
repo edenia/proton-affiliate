@@ -51,7 +51,7 @@ Data persisted in the smart contract multi index tables
 | Backend Service | `expireref` | Delete Expired Referrals  |          Referral hasn’t been paid          |         Referral deleted          |
 |      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referal hasnt expired    |          Token Transfer           |
 |      Admin      | `rejectref` |      Reject Referral      |          Referral hasn’t been paid          |         Referral deleted          |
-| Smart Contract  | `setparams` |       System Config       |                    None                     |Set the account that will pay for the referlas, the rewards amount to pay and the days before a referral expires|
+| Smart Contract  | `setparams` |       System Config       |                    None                     |Set the account that will pay for the referrals, the rewards amount to pay and the days before a referral expires|
 | Smart Contract  |   `clear`   |       Clear Tables        |                                             |                                   |
 
 #### Params
