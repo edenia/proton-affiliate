@@ -1,3 +1,11 @@
+/*##################################
+#
+#
+# Created by EOSCostaRica.io
+#
+#
+##################################*/
+
 #include <affiliate.hpp>
 #include <eosio/system.hpp>
 
@@ -149,26 +157,50 @@ ACTION affiliate::verifykyc(name invitee) {
 }
 
 ACTION affiliate::payref(name admin, name invitee) {
-  users_table _users(get_self(), get_self().value);
-  eosio::check( is_account( admin ), "Admin is not a registered account");
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr != _users.end(), "Admin Account is not an affiliate" );
-  eosio::check( admin_itr->role == user_roles::ADMIN, "You must be an admin to pay a referral");
   require_auth(admin);
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), "Admin " + admin.to_string() + " is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, "You must be an admin to pay a referral");
 
-  // transfer REFERRAL_AMOUNT to invitee and referrer
-  //eosio::transaction txn{};
-  //txn.actions.emplace_back(
-  //    eosio::permission_level(from, N(active)),
-  //    N(eosio.token),
-  //     N(transfer),
-  //    std::make_tuple(from, to, quantity, memo));
-  //txn.send(eosio::string_to_name(memo.c_str()), from);
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
+  check(_referral->status == referral_status::PENDING_PAYMENT, "invalid status for invitee " + invitee.to_string() + " referral");
+  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
 
-  // set referal status to  PAID
+  params_table _params(get_self(), get_self().value);
+  auto params_data = _params.get_or_create(get_self());
+  action(
+    permission_level {
+      get_self(), name("active")
+    },
+    name("eosio.token"),
+    name("transfer"),
+    std::make_tuple(
+      params_data.payer,
+      _referral->invitee,
+      params_data.reward_amount,
+      "Referral payment for new account: " + invitee.to_string()
+    )
+  ).send();
+  action(
+    permission_level {
+      get_self(), name("active")
+    },
+    name("eosio.token"),
+    name("transfer"),
+    std::make_tuple(
+      params_data.payer,
+      _referral->referrer,
+      params_data.reward_amount,
+      "Referral payment for new account: " + invitee.to_string()
+    )
+  ).send();
 
-  // delete record to save RAM
-  //referral.erase(referral_itr);
+  _referrals.modify(_referral, get_self(), [&](auto & row) {
+    row.status = referral_status::PAID;
+  });
 }
 
 ACTION affiliate::rejectref(name admin, name invitee, string memo) {
@@ -196,21 +228,14 @@ ACTION affiliate::rejectref(name admin, name invitee, string memo) {
   // _referrals.erase(referral_itr);
 }
 
-ACTION affiliate::setparams(name setting, string value) {
-  // only smart contract account can set params 
+ACTION affiliate::setparams(name payer, asset reward_amount, uint8_t expiration_days) {
   require_auth(get_self());
   params_table _params(get_self(), get_self().value);
-  auto params_itr = _params.find( setting.value );
-  if (params_itr == _params.end()) {
-    _params.emplace(get_self(), [&](auto& param) {
-      param.setting = setting;
-      param.value = value;
-    });
-  } else {
-    _params.modify(params_itr, get_self(), [&](auto& param) {
-      param.value = value;
-    });
-  }
+  auto data = _params.get_or_create(get_self());
+  data.payer = payer;
+  data.reward_amount = reward_amount;
+  data.expiration_days = expiration_days;
+  _params.set(data, get_self());
 }
 
 ACTION affiliate::clear() {
