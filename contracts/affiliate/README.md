@@ -21,7 +21,7 @@ Data persisted in the smart contract multi index tables
    <img src="../../docs/img/data-model.png">
 </p>
 
-### Referal Status
+### Referral Status
 
 ```
   PENDING_USER_REGISTRATION = 1
@@ -44,18 +44,18 @@ Data persisted in the smart contract multi index tables
 |    User Role    |   Action    |        Description        |               Pre Conditions                |          Post Conditions          |
 | :-------------: | :---------: | :-----------------------: | :-----------------------------------------: | :-------------------------------: |
 | Smart Contract  | `addadmin`  |  Grant Admin Permission   |       Account must exist and be KYCd        | Admin actions enabled for account |
-| Smart Contract  |  `rmadmin`  |  Revoke Admin Permission  |      Account must be registered admin       |   Referal link enabled for user   |
-|      Admin      |  `adduser`  | Grant Referal Permission  |       Account must exist and be KYCd        |   Referal link enabled for user   |
-|      Admin      |  `rmuser`   | Revoke Referal Permission |     Account must be registered referrer     |  Referal link disabled for user   |
-|    Referrer     |     N/A     |    Share Referal Link     |         Referral permission granted         |   Email sent with register link   |
-|     Invitee     |  `addref`   |      Accept Referral      | Account doesnt exist & not already referred |     Referreral added to table     |
-| Backend Service | `verifyacc` |  Verify when account used as invitee in a referral it's created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasnt expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
-| Backend Service | `verifykyc` |  Verify when account used as invitee in a referral it's marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasnt expired | Referral status set to "PENDING_PAYMENT" |
+| Smart Contract  |  `rmadmin`  |  Revoke Admin Permission  |      Account must be registered admin       |   Referral link enabled for user   |
+|      Admin      |  `adduser`  | Grant Referral Permission  |       Account must exist and be KYCd        |   Referral link enabled for user   |
+|      Admin      |  `rmuser`   | Revoke Referral Permission |     Account must be registered referrer     |  Referral link disabled for user   |
+|    Referrer     |     N/A     |    Share Referral Link     |         Referral permission granted         |   Email sent with register link   |
+|     Invitee     |  `addref`   |      Accept Referral      | Account doesn't exist & not already referred |     Referral added to table     |
+| Backend Service | `verifyacc` |  Verify when account used as invitee in a referral it's created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasn't expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
+| Backend Service | `verifykyc` |  Verify when account used as invitee in a referral it's marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasn't expired | Referral status set to "PENDING_PAYMENT" |
 | Backend Service | `expireref` | Delete Expired Referrals  |          Referral hasn’t been paid          |         Referral deleted          |
-|      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referal hasnt expired    |          Token Transfer           |
+|      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referral hasn't expired    |          Token Transfer           |
 |      Admin      | `rejectref` |      Reject Referral      |          Referral hasn’t been paid          |         Referral deleted          |
 | Smart Contract  | `setparams` |       System Config       |                                             |                                   |
-| Smart Contract  |   `clear`   |       Clear Tables        |                                             |                                   |
+| Smart Contract  |   `clear`   |       Clear Tables        |            For development purposes only                      |                                   |
 
 #### Params
 
@@ -64,18 +64,10 @@ Referral system configuration parameters set by smart contract account.
 - **token_symbol** : Token used to pay rewards _(symbol)_
 - **reward_account** : Account that holds token balance _(name)_
 - **reward_amount** : Amount of tokens rewarded _(number)_
-- **expiry_period** : Time period for referal expiration _(datetime)_
+- **expiry_period** : Time period for referral expiration _(datetime)_
 - **manual_review** : Manual review required _(true or false)_
-
-## Services Architecture
-
-In order to send emails and to store the email addresses "off chain" we would need some backend services , meaning someone would have to host the email server and database
-
-<p align="center">
-     <img src="../../docs/img/services.png">
-</p>
 
 ### Admin Roles Appointed by Committee
 
 - Smart Contract Account can update config params
-- SysAdmin hosts backend service and email server
+- SysAdmin hosts backend service infrastructure
