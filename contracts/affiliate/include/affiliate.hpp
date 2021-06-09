@@ -1,4 +1,14 @@
+/*##################################
+#
+#
+# Created by EOSCostaRica.io
+#
+#
+##################################*/
+
 #include <eosio/eosio.hpp>
+#include <eosio/singleton.hpp>
+#include <eosio/asset.hpp>
 
 using namespace std;
 using namespace eosio;
@@ -15,9 +25,21 @@ CONTRACT affiliate : public contract {
     ACTION expireref(name ivitee);
     ACTION verifyacc(name invitee);
     ACTION verifykyc(name invitee);
+
+    /**
+     * Pay referral. 
+     * 
+     * This action pay the reward amount for a valid referral 
+     * (status PENDING_PAYMENT and not expired)
+     *
+     * @param admin - The name of the admin approving the referral
+     * @param invitee - The name of the invitee in the referral
+     * @return no return value.
+     */
     ACTION payref(name admin, name invitee);
+
     ACTION rejectref(name admin, name invitee, string memo);
-    ACTION setparams(name setting, string value);
+    ACTION setparams(name payer, asset reward_amount, uint8_t expiration_days);
     ACTION clear();
     
     enum user_roles : uint8_t {
@@ -52,11 +74,11 @@ CONTRACT affiliate : public contract {
     typedef multi_index<name("referrals"), referrals> referrals_table;
 
     TABLE params {
-      name      setting;
-      string    value;
-      auto primary_key() const { return setting.value; }
+      name       payer;
+      asset      reward_amount;
+      uint8_t    expiration_days;
     };
-    typedef multi_index<name("params"), params> params_table;
+    typedef singleton<name("params"), params> params_table;
 
     struct kyc_prov {
       name kyc_provider;
@@ -83,5 +105,4 @@ CONTRACT affiliate : public contract {
 		};
 		typedef multi_index<name("usersinfo"), userinfo > usersinfo_table;
 };
-
 

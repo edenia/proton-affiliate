@@ -83,12 +83,16 @@
             "base": "",
             "fields": [
                 {
-                    "name": "setting",
+                    "name": "payer",
                     "type": "name"
                 },
                 {
-                    "name": "value",
-                    "type": "string"
+                    "name": "reward_amount",
+                    "type": "asset"
+                },
+                {
+                    "name": "expiration_days",
+                    "type": "uint8"
                 }
             ]
         },
@@ -175,12 +179,16 @@
             "base": "",
             "fields": [
                 {
-                    "name": "setting",
+                    "name": "payer",
                     "type": "name"
                 },
                 {
-                    "name": "value",
-                    "type": "string"
+                    "name": "reward_amount",
+                    "type": "asset"
+                },
+                {
+                    "name": "expiration_days",
+                    "type": "uint8"
                 }
             ]
         },
