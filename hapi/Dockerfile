@@ -4,8 +4,9 @@ WORKDIR /app
 
 # ---------- Builder ----------
 FROM base AS builder
-COPY package.json yarn.lock ./
-RUN yarn --ignore-optional --frozen-lockfile
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn --ignore-optional
 COPY ./src ./src
 
 # ---------- Release ----------

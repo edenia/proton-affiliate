@@ -34,7 +34,7 @@ WORKDIR $WORK_DIR
 COPY package.json $WORK_DIR/package.json
 COPY yarn.lock $WORK_DIR/yarn.lock
 
-RUN yarn install --frozen-lockfile --production=true
+RUN yarn install --production=true
 
 COPY ./ $WORK_DIR
 
