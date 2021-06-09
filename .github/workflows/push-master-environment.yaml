@@ -75,8 +75,10 @@ jobs:
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
 
       - name: Deploy kubernetes files
-        uses: Consensys/kubernetes-action@master
+        uses: steebchen/kubectl@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NAMESPACE: proton-affiliate
+          K8S_BUILD_DIR: build_k8s
         with:
-          args: apply -f build_k8s -n proton-affiliate
+          args: version && make deploy-kubernetes
