@@ -41,7 +41,7 @@ This application features the following tech stack :
 
 ## Smart Contract
 
-The **afiliatepoc** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
+The **afiliate** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
 ### Smart Contract Docs
 
@@ -55,7 +55,7 @@ We use the demux pattern's ability for blockchain events to trigger new transact
 
 ### Services Using Demux
 
-Backend services execute the following smart contract actions triggered by demux updaters. A custom permission is created for the smart contract account so that keys stored in wallet service can can only call these actions.
+Backend services execute the following smart contract actions triggered by demux updaters. The custom permission `affiliate@verify` is created for the smart contract account so that keys stored in wallet service can can only call the following actions.
 
 - **Account Registration** Triggers `verifyacc` action that updates referral when invitee registers a new account.
 
