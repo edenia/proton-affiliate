@@ -10,49 +10,50 @@
 #include <eosio/system.hpp>
 
 ACTION affiliate::addadmin(name admin) {
-  users_table _users(get_self(), get_self().value);
-
-  eosio::check( is_account( admin ), "Admin is not a registered account");
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr == _users.end(), "Admin Account is already an affiliate" );
   require_auth(get_self());
 
-  //TODO: check account has KYC
+  check(is_account(admin), admin.to_string() + " account is not a registered account");
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr == _users.end(), admin.to_string() + " account is already an affiliate");
+  // @todo: check account has KYC
 
   if (admin_itr == _users.end()) {
     _users.emplace(get_self(), [&](auto& usr) {
       usr.user = admin;
-      usr.role = 1;
+      usr.role = user_roles::ADMIN;
     });
   }
 }
 
 ACTION affiliate::rmadmin(name admin) {
-  users_table _users(get_self(), get_self().value);
-
-  eosio::check( is_account( admin ), "Admin is not a registered account");
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr != _users.end(), "Admin Account is not an affiliate" );
   require_auth(get_self());
 
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+  
   if (admin_itr != _users.end()) {
     _users.erase(admin_itr);
   }
 }
 
 ACTION affiliate::adduser(name admin, name user, uint8_t role) {
-  users_table _users(get_self(), get_self().value);
-
-  eosio::check( is_account( admin ), "Admin account does not exist");
-  eosio::check( is_account( user ), "User account does not exist");
-  eosio::check( admin != user, "Cannot add self as user" );
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr != _users.end(), "Admin Account is not registered" );
-  eosio::check( admin_itr->role == user_roles::ADMIN, "You must be an admin to register users");
   require_auth(admin);
-  //TODO: check account has KYC
 
-  auto usr_itr = _users.find( user.value );
+  check(admin != user, "cannot add self as user");
+  check(is_account(user), user.to_string() + " account does not exist");
+  check(role != user_roles::ADMIN, "role not allowed");
+  // @todo: check account has KYC
+  
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+
+  auto usr_itr = _users.find(user.value);
+
   if (usr_itr == _users.end()) {
     _users.emplace(get_self(), [&](auto& usr) {
       usr.user = user;
@@ -66,17 +67,16 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
 }
 
 ACTION affiliate::rmuser(name admin, name user) {
-// remove account as an admin 
-// TODO: Find out if admins can delete other admins
-
-users_table _users(get_self(), get_self().value);
-
-  eosio::check( is_account( admin ), "Admin is not a registered account");
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr != _users.end(), "Admin Account is not an affiliate" );
-  eosio::check( admin_itr->role == user_roles::ADMIN, "You must be an admin to remove users");
   require_auth(admin);
-  auto user_itr = _users.find( user.value );
+
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not registered");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+
+  auto user_itr = _users.find(user.value);
+  check(user_itr->role != user_roles::ADMIN, admin.to_string() + " account is an admin");
+
   if (user_itr != _users.end()) {
     _users.erase(user_itr);
   }
@@ -84,42 +84,39 @@ users_table _users(get_self(), get_self().value);
 
 ACTION affiliate::addref(name referrer, name invitee) {
   require_auth(get_self());
-  eosio::check( !is_account( invitee ), "Account invited " + invitee.to_string() + " is already registered");
+
   users_table _users(get_self(), get_self().value);
+  auto referrer_itr = _users.find(referrer.value);
+  check(referrer_itr != _users.end(), referrer.to_string() + " account is not an affiliate");
+  check(referrer_itr->role == user_roles::REFERRER, referrer.to_string() + " account is not a referrer");
+
+  check(!is_account(invitee), invitee.to_string() + " account is already registered");
   referrals_table _referrals(get_self(), get_self().value);
-  auto referrer_itr = _users.find( referrer.value );
-  eosio::check( referrer_itr != _users.end(), "Account referring is not an affiliate" );
-  // TODO: Can Admins refer users? (other admins approve users they refer? )    
+  auto referrals_itr = _referrals.find(invitee.value);
+  check(referrals_itr == _referrals.end(), invitee.to_string() + " account already have a referral");
 
-  // TODO: Integrate with expire_period parameters table
-  eosio::time_point_sec expiration = eosio::current_time_point() + days(3);
-
-  auto referrals_itr = _referrals.find( invitee.value );
-  if (referrals_itr == _referrals.end()) {
-    _referrals.emplace(get_self(), [&](auto& ref) {
-      ref.invitee = invitee;;
-      ref.referrer = referrer;
-      ref.status = 1; 
-      ref.expires_on = expiration;
-    });
-  }
+  // @todo: integrate with expiration_days from params table
+  time_point_sec expiration = current_time_point() + days(3);
+  _referrals.emplace(get_self(), [&](auto& ref) {
+    ref.invitee = invitee;
+    ref.referrer = referrer;
+    ref.status = 1;
+    ref.expires_on = expiration;
+  });
 }
 
 ACTION affiliate::expireref(name invitee) {
+  // @todo: implement a new action to clean expired, paid and rejected referrals
   require_auth(get_self());
   referrals_table _referrals(get_self(), get_self().value);
 
   auto referral_itr = _referrals.find(invitee.value);
-  eosio::check(referral_itr != _referrals.end(), "Referal does not exist");
-  eosio::check( (eosio::time_point_sec) current_time_point() >= referral_itr->expires_on, "Referal has not expired yet");
+  check(referral_itr != _referrals.end(), "Referal does not exist");
+  check((time_point_sec) current_time_point() >= referral_itr->expires_on, "Referal has not expired yet");
 
   _referrals.modify(referral_itr, get_self(), [&](auto& ref) {
       ref.status = 5;
   });
-
-  // TODO : define cleanup method
-  // delete record to save RAM
-  //_referrals.erase(referral_itr);
 }
 
 ACTION affiliate::verifyacc(name invitee) {
@@ -130,9 +127,9 @@ ACTION affiliate::verifyacc(name invitee) {
   auto _referral = _referrals.find(invitee.value);
   check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
   check(_referral->status == referral_status::PENDING_USER_REGISTRATION, "invalid status for invitee " + invitee.to_string() + " referral");
-  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
+  check(_referral->expires_on > current_time_point(), "referral already expired for invitee " + invitee.to_string());
 
-  _referrals.modify(_referral, get_self(), [&]( auto& row ) {
+  _referrals.modify(_referral, get_self(), [&](auto& row) {
     row.status = referral_status::PENDING_KYC_VERIFICATION;
   });
 }
@@ -144,57 +141,70 @@ ACTION affiliate::verifykyc(name invitee) {
   auto _referral = _referrals.find(invitee.value);
   check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
   check(_referral->status == referral_status::PENDING_KYC_VERIFICATION, "invalid status for invitee " + invitee.to_string() + " referral");
-  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
+  check(_referral->expires_on > current_time_point(), "referral already expired for invitee " + invitee.to_string());
 
   usersinfo_table _usersinfo(name("eosio.proton"), name("eosio.proton").value);
   auto _userinfo = _usersinfo.find(invitee.value);
   check(_userinfo != _usersinfo.end(), "userinfo for " + invitee.to_string() + " does not exist");
   check(_userinfo->verified, "userinfo for " + invitee.to_string() + " it's not verified");
 
-  _referrals.modify(_referral, get_self(), [&]( auto& row ) {
+  _referrals.modify(_referral, get_self(), [&](auto& row) {
     row.status = referral_status::PENDING_PAYMENT;
   });
 }
 
 ACTION affiliate::payref(name admin, name invitee) {
   require_auth(admin);
+
   users_table _users(get_self(), get_self().value);
   auto admin_itr = _users.find(admin.value);
-  check(admin_itr != _users.end(), "Admin " + admin.to_string() + " is not an affiliate");
-  check(admin_itr->role == user_roles::ADMIN, "You must be an admin to pay a referral");
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
 
   referrals_table _referrals(get_self(), get_self().value);
   auto _referral = _referrals.find(invitee.value);
   check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
   check(_referral->status == referral_status::PENDING_PAYMENT, "invalid status for invitee " + invitee.to_string() + " referral");
-  check(_referral->expires_on > eosio::current_time_point(), "referral already expired for invitee " + invitee.to_string());
+  check(_referral->expires_on > current_time_point(), "referral already expired for invitee " + invitee.to_string());
 
   params_table _params(get_self(), get_self().value);
   auto params_data = _params.get_or_create(get_self());
   action(
     permission_level {
-      get_self(), name("active")
+      get_self(), name("payout")
     },
     name("eosio.token"),
     name("transfer"),
     std::make_tuple(
       params_data.payer,
       _referral->invitee,
-      params_data.reward_amount,
-      "Referral payment for new account: " + invitee.to_string()
+      params_data.asset_reward_amount,
+      "Referral payment from referrer account: " 
+        + _referral->referrer.to_string() 
+        + " ($ " 
+        + to_string(params_data.usd_reward_amount) 
+        + " at " 
+        + to_string(params_data.rate) 
+        + ")"
     )
   ).send();
   action(
     permission_level {
-      get_self(), name("active")
+      get_self(), name("payout")
     },
     name("eosio.token"),
     name("transfer"),
     std::make_tuple(
       params_data.payer,
       _referral->referrer,
-      params_data.reward_amount,
-      "Referral payment for new account: " + invitee.to_string()
+      params_data.asset_reward_amount,
+      "Referral payment for new account: " 
+        + invitee.to_string() 
+        + " ($ " 
+        + to_string(params_data.usd_reward_amount) 
+        + " at " 
+        + to_string(params_data.rate) 
+        + ")"
     )
   ).send();
 
@@ -204,55 +214,65 @@ ACTION affiliate::payref(name admin, name invitee) {
 }
 
 ACTION affiliate::rejectref(name admin, name invitee, string memo) {
-  // memo string is optional and not persisted to tables
-  users_table _users(get_self(), get_self().value);
-
-  eosio::check( is_account( admin ), "Admin is not a registered account");
-  auto admin_itr = _users.find( admin.value );
-  eosio::check( admin_itr != _users.end(), "Admin Account is not an affiliate" );
-  eosio::check( admin_itr->role == user_roles::ADMIN, "You must be an admin to reject a referral");
   require_auth(admin);
 
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+
   referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
+  check(_referral->status == referral_status::PENDING_PAYMENT, "invalid status for invitee " + invitee.to_string() + " referral");
 
-  auto referral_itr = _referrals.find(invitee.value);
-  eosio::check(referral_itr != _referrals.end(), "Referal does not exist");
-
-  // set referal status to PAYMENT_REJECTED 
-  _referrals.modify(referral_itr, get_self(), [&](auto& ref) {
-      ref.status = 4;
+  _referrals.modify(_referral, get_self(), [&](auto& ref) {
+    ref.status = referral_status::PAYMENT_REJECTED;
   });
-
-  // TODO : define cleanup method
-  // delete record to save RAM
-  // _referrals.erase(referral_itr);
 }
 
-ACTION affiliate::setparams(name payer, asset reward_amount, uint8_t expiration_days) {
+ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days) {
   require_auth(get_self());
+
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
   data.payer = payer;
-  data.reward_amount = reward_amount;
+  data.rate = rate;
+  data.usd_reward_amount = usd_reward_amount;
+  data.asset_reward_amount = asset((usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.expiration_days = expiration_days;
+  _params.set(data, get_self());
+}
+
+ACTION affiliate::setrate(double rate) {
+  require_auth(get_self());
+
+  params_table _params(get_self(), get_self().value);
+  auto data = _params.get_or_create(get_self());
+  data.rate = rate;
+  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   _params.set(data, get_self());
 }
 
 ACTION affiliate::clear() {
   require_auth(get_self());
 
-  referrals_table _referrals(get_self(), get_self().value);
+  // delete all records in params table
+  params_table _params(get_self(), get_self().value);
+  _params.remove();
 
-  // Delete all records in users table
+  // delete all records in referrals table
+  referrals_table _referrals(get_self(), get_self().value);
   auto referal_itr = _referrals.begin();
+
   while (referal_itr != _referrals.end()) {
     referal_itr = _referrals.erase(referal_itr);
   }
 
+  // delete all records in users table
   users_table _users(get_self(), get_self().value);
-
-  // Delete all records in users table
   auto user_itr = _users.begin();
+
   while (user_itr != _users.end()) {
     user_itr = _users.erase(user_itr);
   }

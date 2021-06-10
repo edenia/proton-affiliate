@@ -87,7 +87,15 @@
                     "type": "name"
                 },
                 {
-                    "name": "reward_amount",
+                    "name": "rate",
+                    "type": "float64"
+                },
+                {
+                    "name": "usd_reward_amount",
+                    "type": "float64"
+                },
+                {
+                    "name": "asset_reward_amount",
                     "type": "asset"
                 },
                 {
@@ -183,12 +191,26 @@
                     "type": "name"
                 },
                 {
-                    "name": "reward_amount",
-                    "type": "asset"
+                    "name": "rate",
+                    "type": "float64"
+                },
+                {
+                    "name": "usd_reward_amount",
+                    "type": "float64"
                 },
                 {
                     "name": "expiration_days",
                     "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "setrate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "rate",
+                    "type": "float64"
                 }
             ]
         },
@@ -354,6 +376,11 @@
         {
             "name": "setparams",
             "type": "setparams",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setrate",
+            "type": "setrate",
             "ricardian_contract": ""
         },
         {
