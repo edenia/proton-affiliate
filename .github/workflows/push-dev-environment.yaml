@@ -69,6 +69,10 @@ jobs:
           HAPI_HASURA_ADMIN_SECRET: ${{ secrets.HAPI_HASURA_ADMIN_SECRET }}
           HAPI_AFFILIATE_ACCOUNT: ${{ secrets.HAPI_AFFILIATE_ACCOUNT }}
           HAPI_AFFILIATE_PASSWORD: ${{ secrets.HAPI_AFFILIATE_PASSWORD }}
+          HAPI_EXCHANGE_API: 'https://api.coingecko.com/api/v3/simple/price?ids=(from)&vs_currencies=(to)'
+          HAPI_EXCHANGE_FROM: 'proton'
+          HAPI_EXCHANGE_TO: 'usd'
+          HAPI_EXCHANGE_SYNC_INTERVAL: 86400
           # hasura
           HASURA_GRAPHQL_ENABLE_CONSOLE: true
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
