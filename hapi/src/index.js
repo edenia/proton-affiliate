@@ -2,7 +2,7 @@ const Hapi = require('@hapi/hapi')
 
 const { serverConfig } = require('./config')
 const routes = require('./routes')
-const { demuxService } = require('./services')
+const { demuxService, exchangeService } = require('./services')
 
 const init = async () => {
   const server = Hapi.server({
@@ -19,6 +19,7 @@ const init = async () => {
   console.log(`🚀 Server ready at ${server.info.uri}`)
   server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
   demuxService.init()
+  exchangeService.sync()
 }
 
 process.on('uncaughtException', (err, origin) => {

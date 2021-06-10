@@ -45,7 +45,30 @@ const verifyKYC = async invitee => {
   return transaction
 }
 
+const setRate = async rate => {
+  const transaction = await eosUtil.transact(
+    [
+      {
+        authorization: [
+          {
+            actor: affiliateConfig.account,
+            permission: 'active'
+          }
+        ],
+        account: affiliateConfig.account,
+        name: 'setrate',
+        data: { rate }
+      }
+    ],
+    affiliateConfig.account,
+    affiliateConfig.password
+  )
+
+  return transaction
+}
+
 module.exports = {
   verifyAccount,
-  verifyKYC
+  verifyKYC,
+  setRate
 }
