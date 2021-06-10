@@ -52,6 +52,7 @@ jobs:
           # general
           NAMESPACE: proton-affiliate
           INGRESS_HOST: earnproton.com
+          INGRESS_GRAPHQL_HOST: graphql.earnproton.com
           # postgres
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
