@@ -8,7 +8,7 @@ const verifyAccount = async invitee => {
         authorization: [
           {
             actor: affiliateConfig.account,
-            permission: 'active'
+            permission: 'verify'
           }
         ],
         account: affiliateConfig.account,
@@ -30,7 +30,7 @@ const verifyKYC = async invitee => {
         authorization: [
           {
             actor: affiliateConfig.account,
-            permission: 'active'
+            permission: 'verify'
           }
         ],
         account: affiliateConfig.account,
@@ -52,7 +52,7 @@ const setRate = async rate => {
         authorization: [
           {
             actor: affiliateConfig.account,
-            permission: 'active'
+            permission: 'setrate'
           }
         ],
         account: affiliateConfig.account,
