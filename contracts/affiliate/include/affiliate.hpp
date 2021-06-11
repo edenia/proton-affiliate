@@ -39,7 +39,8 @@ CONTRACT affiliate : public contract {
     ACTION payref(name admin, name invitee);
 
     ACTION rejectref(name admin, name invitee, string memo);
-    ACTION setparams(name payer, asset reward_amount, uint8_t expiration_days);
+    ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
+    ACTION setrate(double rate);
     ACTION clear();
     
     enum user_roles : uint8_t {
@@ -75,7 +76,9 @@ CONTRACT affiliate : public contract {
 
     TABLE params {
       name       payer;
-      asset      reward_amount;
+      double     rate;
+      double     usd_reward_amount;
+      asset      asset_reward_amount;
       uint8_t    expiration_days;
     };
     typedef singleton<name("params"), params> params_table;
