@@ -49,8 +49,8 @@ Data persisted in the smart contract multi index tables
 | Admin           | `rmuser`    | Revoke Referral Permission | Account must be registered referrer          | Referral link disabled for user     |
 | Referrer        | N/A         | Share Referral Link        | Referral permission granted                  | Link shared through social networks |
 | Invitee         | `addref`    | Accept Referral            | Account doesn't exist & not already referred | Referral added to table with status "PENDING_USER_REGISTRATION" |
-| Backend Service | `verifyacc` | Verify when account used as invitee in a referral it's created | Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasn't expired | Referral status set to "PENDING_KYC_VERIFICATION" |
-| Backend Service | `verifykyc` | Verify when account used as invitee in a referral it's marked as verified in `eosio.proton` :: `usersinfo` table | Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasn't expired | Referral status set to "PENDING_PAYMENT" |
+| Backend Service | `verifyacc` |   Verify when accounts registered as invitee in a referral are created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasn't expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
+| Backend Service | `verifykyc` |  Verify when accounts registered as invitee in a referral are marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasn't expired | Referral status set to "PENDING_PAYMENT" |
 | Backend Service | `verifyexp` | Change the status for expired referrals | Referral exists with status "PENDING_USER_REGISTRATION" or "PENDING_KYC_VERIFICATION" | Referral status set to "EXPIRED" |
 | Admin | `payref` | Approve Referral | Referral exists with status “PENDING_PAYMENT” | Pay the rewards and set the referral status to "PAID" |
 | Admin | `rejectref` | Reject Referral | Referral exists with status “PENDING_PAYMENT” | Referral status set to "PAYMENT_REJECTED" |
@@ -67,7 +67,7 @@ Referral system configuration parameters set by smart contract account.
 - **rate** : Exchange rate used to convert from USD to XPR _(double)_
 - **usd_reward_amount** : Amount of USD rewarded _(double)_
 - **asset_reward_amount** : Amount of XPR rewarded is calculated using rate and usd_reward_amount _(asset)_
-- **expiration_days** : Time period in days for referal expiration _(uint8_t)_
+- **expiration_days** : Time period in days for referral expiration _(uint8_t)_
 
 ### Admin Roles Appointed by Committee
 

@@ -18,6 +18,7 @@
   - [Infrastructure Diagram](#infrastructure-diagram)
   - [Web Application](#web-application)
   - [Hapi REST Server](#hapi-rest-server)
+  - [Hasura GraphQL Engine](#hasura-graphql-engine)
   - [EOSIO Blockchain Integration](#eosio-blockchain-integration)
 - [License](#license)
 - [Contributing](#contributing)
@@ -31,6 +32,7 @@ This application features the following tech stack :
 - **React JS** : A Front End Web Application Framework.
 - **Hapi** : Node JS HTTP API.
 - **Demux** : Deterministic event-sourced state and side effect handling.
+- **Hasura** : GraphQL Engine for PostgreSQL Database.
 - **KEOSD** : Wallet service daemon for storing private keys and signing digital messages.
 - **EOSIO** : Blockchain protocol with industry-leading transaction speed.
 - **Kubernetes** : Docker Container Orchestration.
@@ -117,6 +119,7 @@ Within this repository you will find the following directories and files:
 │   └── src
 │       └── services
 |           └── demux ............. Demux Implementation
+├── hasura ........................ Hasura GraphQL Engine
 ├── kubernetes .................... Kubernetes Manifests
 ├── utils ......................... Makefiles for project build
 ├── wallet ........................ EOSIO Wallet Service
@@ -137,10 +140,10 @@ EOS JS documentation can be found [here](https://developers.eos.io/manuals/eosjs
 
 This FullStack Template uses [React.js](https://reactjs.org) as a Frontend Library which together with other tools like [Apollo Client](https://www.apollographql.com/docs/react/), [GraphQL](https://graphql.org/) and [Material UI](https://material-ui.com/) brings a robust solution for building Single Page Applications out of the box.
 
-<!--### Hasura GraphQL Engine
+### Hasura GraphQL Engine
 
 [Hasura](https://hasura.io/) technology maps a [PostgreSQL](https://www.postgresql.org/) database and provides a reliable and easy-to-use API. This allow us to focus on critical features of our projects, delegating mechanic CRUD (Create, Read, Update, Delete) operations.
-Hasura also enables custom REST handling capabilities with the possibility to integrate a custom REST server, that way we can extend the base CRUD functionalities and build custom business logic.-->
+Hasura also enables custom REST handling capabilities with the possibility to integrate a custom REST server, that way we can extend the base CRUD functionalities and build custom business logic.
 
 ### Hapi REST Server
 
