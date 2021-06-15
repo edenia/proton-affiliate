@@ -22,6 +22,13 @@ module.exports = {
 
     const referral = rows[0]
 
+    if (referral.status !== 1) {
+      console.log(
+        `referral with invitee ${payload.data.name} it's already validated`
+      )
+      return
+    }
+
     try {
       const transaction = await affiliateService.verifyAccount(referral.invitee)
       console.log(`success verify account: trxid ${transaction.processed.id}`)

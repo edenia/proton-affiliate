@@ -28,6 +28,28 @@
             ]
         },
         {
+            "name": "addreflog",
+            "base": "",
+            "fields": [
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                },
+                {
+                    "name": "expires_on",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
             "name": "adduser",
             "base": "",
             "fields": [
@@ -51,14 +73,9 @@
             "fields": []
         },
         {
-            "name": "expireref",
+            "name": "clearref",
             "base": "",
-            "fields": [
-                {
-                    "name": "ivitee",
-                    "type": "name"
-                }
-            ]
+            "fields": []
         },
         {
             "name": "kyc_prov",
@@ -215,6 +232,20 @@
             ]
         },
         {
+            "name": "statuslog",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
             "name": "tuple_name_name",
             "base": "",
             "fields": [
@@ -317,6 +348,11 @@
             ]
         },
         {
+            "name": "verifyexp",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "verifykyc",
             "base": "",
             "fields": [
@@ -339,6 +375,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "addreflog",
+            "type": "addreflog",
+            "ricardian_contract": ""
+        },
+        {
             "name": "adduser",
             "type": "adduser",
             "ricardian_contract": ""
@@ -349,8 +390,8 @@
             "ricardian_contract": ""
         },
         {
-            "name": "expireref",
-            "type": "expireref",
+            "name": "clearref",
+            "type": "clearref",
             "ricardian_contract": ""
         },
         {
@@ -384,8 +425,18 @@
             "ricardian_contract": ""
         },
         {
+            "name": "statuslog",
+            "type": "statuslog",
+            "ricardian_contract": ""
+        },
+        {
             "name": "verifyacc",
             "type": "verifyacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "verifyexp",
+            "type": "verifyexp",
             "ricardian_contract": ""
         },
         {

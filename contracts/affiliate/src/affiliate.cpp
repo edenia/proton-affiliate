@@ -14,6 +14,7 @@ ACTION affiliate::addadmin(name admin) {
 
   check(is_account(admin), admin.to_string() + " account is not a registered account");
   users_table _users(get_self(), get_self().value);
+
   auto admin_itr = _users.find(admin.value);
   check(admin_itr == _users.end(), admin.to_string() + " account is already an affiliate");
   // @todo: check account has KYC
@@ -100,23 +101,10 @@ ACTION affiliate::addref(name referrer, name invitee) {
   _referrals.emplace(get_self(), [&](auto& ref) {
     ref.invitee = invitee;
     ref.referrer = referrer;
-    ref.status = 1;
+    ref.status = referral_status::PENDING_USER_REGISTRATION;
     ref.expires_on = expiration;
   });
-}
-
-ACTION affiliate::expireref(name invitee) {
-  // @todo: implement a new action to clean expired, paid and rejected referrals
-  require_auth(get_self());
-  referrals_table _referrals(get_self(), get_self().value);
-
-  auto referral_itr = _referrals.find(invitee.value);
-  check(referral_itr != _referrals.end(), "Referal does not exist");
-  check((time_point_sec) current_time_point() >= referral_itr->expires_on, "Referal has not expired yet");
-
-  _referrals.modify(referral_itr, get_self(), [&](auto& ref) {
-      ref.status = 5;
-  });
+  SEND_INLINE_ACTION(*this, addreflog, { {get_self(), name("active")} }, { referrer, invitee, referral_status::PENDING_USER_REGISTRATION, expiration });
 }
 
 ACTION affiliate::verifyacc(name invitee) {
@@ -132,6 +120,7 @@ ACTION affiliate::verifyacc(name invitee) {
   _referrals.modify(_referral, get_self(), [&](auto& row) {
     row.status = referral_status::PENDING_KYC_VERIFICATION;
   });
+  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PENDING_KYC_VERIFICATION });
 }
 
 ACTION affiliate::verifykyc(name invitee) {
@@ -151,6 +140,25 @@ ACTION affiliate::verifykyc(name invitee) {
   _referrals.modify(_referral, get_self(), [&](auto& row) {
     row.status = referral_status::PENDING_PAYMENT;
   });
+  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PENDING_PAYMENT });
+}
+
+ACTION affiliate::verifyexp() {
+  require_auth(get_self());
+
+  referrals_table _referrals(get_self(), get_self().value);
+  auto expires_on_index = _referrals.get_index<name("expireson")>();
+
+  for (auto itr = expires_on_index.begin(); itr != expires_on_index.upper_bound(current_time_point().sec_since_epoch()); itr++) {
+    if (itr->status >= referral_status::PENDING_PAYMENT) {
+      continue;
+    }
+
+    _referrals.modify(*itr, get_self(), [&](auto& ref) {
+      ref.status = referral_status::EXPIRED;
+    });
+    SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { itr->invitee, referral_status::EXPIRED });
+  }
 }
 
 ACTION affiliate::payref(name admin, name invitee) {
@@ -211,6 +219,7 @@ ACTION affiliate::payref(name admin, name invitee) {
   _referrals.modify(_referral, get_self(), [&](auto & row) {
     row.status = referral_status::PAID;
   });
+  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PAID });
 }
 
 ACTION affiliate::rejectref(name admin, name invitee, string memo) {
@@ -229,6 +238,7 @@ ACTION affiliate::rejectref(name admin, name invitee, string memo) {
   _referrals.modify(_referral, get_self(), [&](auto& ref) {
     ref.status = referral_status::PAYMENT_REJECTED;
   });
+  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PAYMENT_REJECTED });
 }
 
 ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days) {
@@ -252,6 +262,27 @@ ACTION affiliate::setrate(double rate) {
   data.rate = rate;
   data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   _params.set(data, get_self());
+}
+
+ACTION affiliate::clearref() {
+  require_auth(get_self());
+
+  referrals_table _referrals(get_self(), get_self().value);
+  auto status_index = _referrals.get_index<name("status")>();
+  auto itr = status_index.lower_bound(referral_status::PAYMENT_REJECTED);
+
+  while (itr != status_index.upper_bound(referral_status::PAID))
+  {
+    itr = status_index.erase(itr);
+  }
+}
+
+ACTION affiliate::addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on) {
+  require_auth(get_self());
+}
+
+ACTION affiliate::statuslog(name invitee, uint8_t status) {
+  require_auth(get_self());
 }
 
 ACTION affiliate::clear() {
