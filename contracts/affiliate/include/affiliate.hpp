@@ -22,9 +22,9 @@ CONTRACT affiliate : public contract {
     ACTION adduser(name admin, name user, uint8_t role);
     ACTION rmuser(name admin, name user);
     ACTION addref(name referrer,name invitee);
-    ACTION expireref(name ivitee);
     ACTION verifyacc(name invitee);
     ACTION verifykyc(name invitee);
+    ACTION verifyexp();
 
     /**
      * Pay referral. 
@@ -41,6 +41,9 @@ CONTRACT affiliate : public contract {
     ACTION rejectref(name admin, name invitee, string memo);
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
     ACTION setrate(double rate);
+    ACTION clearref();
+    ACTION addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on);
+    ACTION statuslog(name invitee, uint8_t status);
     ACTION clear();
     
     enum user_roles : uint8_t {
@@ -70,9 +73,17 @@ CONTRACT affiliate : public contract {
       name      referrer;
       uint8_t   status;
       eosio::time_point_sec  expires_on;
+
       auto primary_key() const { return invitee.value; }
+      uint64_t by_status() const { return status; }
+      uint64_t by_expires_on() const { return expires_on.sec_since_epoch(); }
     };
-    typedef multi_index<name("referrals"), referrals> referrals_table;
+    typedef multi_index<
+      name("referrals"),
+      referrals,
+      indexed_by<name("status"), const_mem_fun<referrals, uint64_t, &referrals::by_status>>,
+      indexed_by<name("expireson"), const_mem_fun<referrals, uint64_t, &referrals::by_expires_on>>
+    > referrals_table;
 
     TABLE params {
       name       payer;

@@ -10,8 +10,8 @@ const init = () => {
   const actionHandler = new ActionHandler([handlerVersion])
   const actionReader = new NodeosActionReader({
     onlyIrreversible: true,
-    // @todo: get start from env variable
-    startAtBlock: 7467537,
+    // @todo: get start from env variable.
+    startAtBlock: 75287680,
     nodeosEndpoint: networkConfig.api
   })
   const watcher = new BaseActionWatcher(actionReader, actionHandler, 250)

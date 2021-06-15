@@ -1,5 +1,6 @@
 const { AbstractActionHandler } = require('demux')
 
+// @todo handle demux state with a database
 let state = {
   blockNumber: 0,
   blockHash: '',
@@ -20,8 +21,8 @@ class ActionHandler extends AbstractActionHandler {
   async updateIndexState(prevState, block) {
     const { blockInfo } = block
     console.log(`updateIndexState ${blockInfo.blockNumber}`)
+
     try {
-      // @todo save the last processed block in the database
       state = {
         ...prevState,
         blockNumber: blockInfo.blockNumber,
@@ -34,7 +35,6 @@ class ActionHandler extends AbstractActionHandler {
 
   async loadIndexState() {
     try {
-      // @todo get the last processed block from the database
       return state
     } catch (err) {
       console.error(err)

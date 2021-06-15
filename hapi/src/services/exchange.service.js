@@ -11,12 +11,6 @@ const getRate = async (from, to) => {
   return data[from][to]
 }
 
-const sleep = seconds => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(), seconds * 1000)
-  })
-}
-
 const sync = async () => {
   try {
     const rate = await getRate(exchangeConfig.from, exchangeConfig.to)
@@ -25,11 +19,16 @@ const sync = async () => {
   } catch (error) {
     console.error(`error syncing exchange rate: ${error.message}`)
   }
+}
 
-  await sleep(exchangeConfig.syncInterval)
-  sync()
+const worker = () => {
+  return {
+    name: 'SYNC EXCHANGE RATE',
+    interval: exchangeConfig.syncInterval,
+    action: sync
+  }
 }
 
 module.exports = {
-  sync
+  worker
 }
