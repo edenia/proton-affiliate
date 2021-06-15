@@ -49,13 +49,13 @@ Data persisted in the smart contract multi index tables
 |      Admin      |  `rmuser`   | Revoke Referral Permission |     Account must be registered referrer     |  Referral link disabled for user   |
 |    Referrer     |     N/A     |    Share Referral Link     |         Referral permission granted         |   Email sent with register link   |
 |     Invitee     |  `addref`   |      Accept Referral      | Account doesn't exist & not already referred |     Referral added to table     |
-| Backend Service | `verifyacc` |  Verify when account used as invitee in a referral it's created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasn't expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
-| Backend Service | `verifykyc` |  Verify when account used as invitee in a referral it's marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasn't expired | Referral status set to "PENDING_PAYMENT" |
+| Backend Service | `verifyacc` |   Verify when accounts registered as invitee in a referral are created   |    Referral exists with status "PENDING_USER_REGISTRATION" && Referral hasn't expired    |  Referral status set to "PENDING_KYC_VERIFICATION"  |
+| Backend Service | `verifykyc` |  Verify when accounts registered as invitee in a referral are marked as verified in `eosio.proton` - `usersinfo` table   |    Referral exists with status "PENDING_KYC_VERIFICATION" && Referral hasn't expired | Referral status set to "PENDING_PAYMENT" |
 | Backend Service | `expireref` | Delete Expired Referrals  |          Referral hasn’t been paid          |         Referral deleted          |
 |      Admin      |  `payref`   |      Manual Approval      |    KYC completed & Referral hasn't expired    |          Token Transfer           |
 |      Admin      | `rejectref` |      Reject Referral      |          Referral hasn’t been paid          |         Referral deleted          |
 | Smart Contract  | `setparams` |       System Config       |                    None                     |  Set the account that will pay for the referrals, the rewards amount to pay and the days before a referral expires|
-| Smart Contract  |   `clear`   |       Clear Tables        |            For development purposes only                      |                                   |
+| Smart Contract  |   `clear`   |       Clear Tables        |            For development purposes only    |                                   |
 
 #### Params
 
@@ -63,7 +63,7 @@ Referral system configuration parameters set by smart contract account.
 
 - **payer** : Account that holds token balance _(name)_
 - **reward_amount** : Amount of tokens rewarded _(asset)_
-- **expiration_days** : Time period for referal expiration _(datetime)_
+- **expiration_days** : Time period for referral expiration _(datetime)_
 
 ### Admin Roles Appointed by Committee
 
