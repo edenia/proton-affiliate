@@ -1,1 +1,6 @@
-[]
+- table:
+    schema: public
+    name: referral
+- table:
+    schema: public
+    name: referral_history

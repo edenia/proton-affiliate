@@ -189,7 +189,7 @@ ACTION affiliate::payref(name admin, name invitee) {
       params_data.asset_reward_amount,
       "Referral payment from referrer account: " 
         + _referral->referrer.to_string() 
-        + " ($ " 
+        + " ($" 
         + to_string(params_data.usd_reward_amount) 
         + " at " 
         + to_string(params_data.rate) 
@@ -208,7 +208,7 @@ ACTION affiliate::payref(name admin, name invitee) {
       params_data.asset_reward_amount,
       "Referral payment for new account: " 
         + invitee.to_string() 
-        + " ($ " 
+        + " ($" 
         + to_string(params_data.usd_reward_amount) 
         + " at " 
         + to_string(params_data.rate) 
