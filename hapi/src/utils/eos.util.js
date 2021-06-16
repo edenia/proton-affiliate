@@ -259,6 +259,16 @@ const transactWithAuths = async (actions, auths) => {
   }
 }
 
+const getTransaction = id => eosApi.getTransaction(id)
+
+const getTransactionTraces = async trxid => {
+  try {
+    const transaction = await getTransaction(trxid)
+
+    return transaction.traces
+  } catch (error) {}
+}
+
 module.exports = {
   newAccount,
   generateRandomAccountName,
@@ -269,5 +279,7 @@ module.exports = {
   getCurrencyBalance,
   getTableRows,
   transact,
-  transactWithAuths
+  transactWithAuths,
+  getTransaction,
+  getTransactionTraces
 }

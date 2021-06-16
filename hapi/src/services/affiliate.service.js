@@ -1,6 +1,10 @@
 const { affiliateConfig } = require('../config')
 const { eosUtil } = require('../utils')
 
+// @todo: implement adduser
+// @todo: implement rmuser
+// @todo: implement addref
+
 const verifyAccount = async invitee => {
   const transaction = await eosUtil.transact(
     [
@@ -67,12 +71,29 @@ const verifyExpired = async () => {
   return transaction
 }
 
-const verifyExpiredWorker = () => {
-  return {
-    name: 'VERIFY EXPIRATION',
-    interval: affiliateConfig.verifyExpiredInterval,
-    action: verifyExpired
-  }
+// @todo: implement payref
+// @todo: implement rejectref
+
+const setRate = async rate => {
+  const transaction = await eosUtil.transact(
+    [
+      {
+        authorization: [
+          {
+            actor: affiliateConfig.account,
+            permission: 'setrate'
+          }
+        ],
+        account: affiliateConfig.account,
+        name: 'setrate',
+        data: { rate }
+      }
+    ],
+    affiliateConfig.account,
+    affiliateConfig.password
+  )
+
+  return transaction
 }
 
 const clearReferrals = async () => {
@@ -97,6 +118,14 @@ const clearReferrals = async () => {
   return transaction
 }
 
+const verifyExpiredWorker = () => {
+  return {
+    name: 'VERIFY EXPIRATION',
+    interval: affiliateConfig.verifyExpiredInterval,
+    action: verifyExpired
+  }
+}
+
 const clearReferralsWorker = () => {
   return {
     name: 'CLEAR REFERRALS',
@@ -105,34 +134,12 @@ const clearReferralsWorker = () => {
   }
 }
 
-const setRate = async rate => {
-  const transaction = await eosUtil.transact(
-    [
-      {
-        authorization: [
-          {
-            actor: affiliateConfig.account,
-            permission: 'setrate'
-          }
-        ],
-        account: affiliateConfig.account,
-        name: 'setrate',
-        data: { rate }
-      }
-    ],
-    affiliateConfig.account,
-    affiliateConfig.password
-  )
-
-  return transaction
-}
-
 module.exports = {
   verifyAccount,
   verifyKYC,
   verifyExpired,
-  verifyExpiredWorker,
+  setRate,
   clearReferrals,
-  clearReferralsWorker,
-  setRate
+  verifyExpiredWorker,
+  clearReferralsWorker
 }
