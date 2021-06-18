@@ -17,7 +17,7 @@ ACTION affiliate::addadmin(name admin) {
 
   auto admin_itr = _users.find(admin.value);
   check(admin_itr == _users.end(), admin.to_string() + " account is already an affiliate");
-  // @todo: check account has KYC
+  check(has_valid_kyc(admin), "userinfo for " + admin.to_string() + " it's not verified");
 
   if (admin_itr == _users.end()) {
     _users.emplace(get_self(), [&](auto& usr) {
@@ -46,7 +46,7 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
   check(admin != user, "cannot add self as user");
   check(is_account(user), user.to_string() + " account does not exist");
   check(role != user_roles::ADMIN, "role not allowed");
-  // @todo: check account has KYC
+  check(has_valid_kyc(user), "userinfo for " + user.to_string() + " it's not verified");
   
   users_table _users(get_self(), get_self().value);
   auto admin_itr = _users.find(admin.value);
@@ -132,11 +132,7 @@ ACTION affiliate::verifykyc(name invitee) {
   check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
   check(_referral->status == referral_status::PENDING_KYC_VERIFICATION, "invalid status for invitee " + invitee.to_string() + " referral");
   check(_referral->expires_on > current_time_point(), "referral already expired for invitee " + invitee.to_string());
-
-  usersinfo_table _usersinfo(name("eosio.proton"), name("eosio.proton").value);
-  auto _userinfo = _usersinfo.find(invitee.value);
-  check(_userinfo != _usersinfo.end(), "userinfo for " + invitee.to_string() + " does not exist");
-  check(_userinfo->verified, "userinfo for " + invitee.to_string() + " it's not verified");
+  check(has_valid_kyc(invitee), "userinfo for " + invitee.to_string() + " it's not verified");
 
   _referrals.modify(_referral, get_self(), [&](auto& row) {
     row.status = referral_status::PENDING_PAYMENT;
@@ -308,4 +304,15 @@ ACTION affiliate::clear() {
   while (user_itr != _users.end()) {
     user_itr = _users.erase(user_itr);
   }
+}
+
+bool affiliate::has_valid_kyc (name account) {
+  usersinfo_table _usersinfo(name("eosio.proton"), name("eosio.proton").value);
+  auto _userinfo = _usersinfo.find(account.value);
+  
+  if (_userinfo == _usersinfo.end()) {
+    return false;
+  }
+
+  return _userinfo->verified;
 }
