@@ -96,8 +96,9 @@ ACTION affiliate::addref(name referrer, name invitee) {
   auto referrals_itr = _referrals.find(invitee.value);
   check(referrals_itr == _referrals.end(), invitee.to_string() + " account already have a referral");
 
-  // @todo: integrate with expiration_days from params table
-  time_point_sec expiration = current_time_point() + days(3);
+  params_table _params(get_self(), get_self().value);
+  auto params_data = _params.get_or_create(get_self());
+  time_point_sec expiration = current_time_point() + days(params_data.expiration_days);
   _referrals.emplace(get_self(), [&](auto& ref) {
     ref.invitee = invitee;
     ref.referrer = referrer;
