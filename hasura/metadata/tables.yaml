@@ -1,5 +1,8 @@
 - table:
     schema: public
+    name: demux_state
+- table:
+    schema: public
     name: referral
 - table:
     schema: public
