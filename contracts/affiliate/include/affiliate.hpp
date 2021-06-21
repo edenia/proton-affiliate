@@ -55,7 +55,7 @@ CONTRACT affiliate : public contract {
     ACTION adduser(name admin, name user, uint8_t role);
 
     /**
-     *remove user
+     * remove user
      * 
      * This action removes an user 
      *
@@ -100,8 +100,8 @@ CONTRACT affiliate : public contract {
      */
     ACTION verifykyc(name invitee);
 
-     /**
-     * Verify expire 
+    /**
+     * Verify expiration 
      * 
      * This action checks the referrals expiration date, and marks as EXPIRED
      * the due referrals
@@ -110,7 +110,7 @@ CONTRACT affiliate : public contract {
      */
     ACTION verifyexp();
 
-   /**
+    /**
      * Pay referral. 
      * 
      * This action pay the reward amount for a valid referral 
@@ -151,9 +151,33 @@ CONTRACT affiliate : public contract {
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
 
     ACTION setrate(double rate);
-    ACTION addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on);
-    ACTION statuslog(name invitee, uint8_t status);
+
+    /**
+     * Clear referrals
+     * 
+     * This action cleans referrals with status PAYMENT_REJECTED, EXPIRED, PAID to save ram
+     *
+     * @return no return value.
+     */
     ACTION clearref();
+
+    /**
+     * addref logging
+     * 
+     * This action logs the add reference activity
+     *
+     * @return no return value.
+     */
+    ACTION addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on);
+
+    /**
+     * status logging
+     * 
+     * This action logs status' changes
+     *
+     * @return no return value.
+     */
+    ACTION statuslog(name invitee, uint8_t status);
     
     /**
      * Clear
