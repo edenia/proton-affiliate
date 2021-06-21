@@ -8,7 +8,6 @@
 *    GitHub:         https://github.com/eoscostarica/proton-affiliate
 *
 */
-
 #include <eosio/eosio.hpp>
 #include <eosio/singleton.hpp>
 #include <eosio/asset.hpp>
@@ -25,7 +24,8 @@ CONTRACT affiliate : public contract {
      * 
      * This action adds an admin
      *
-     * @param admin - The name of the admin approving the referral
+     * @param admin - The account name of the admin.
+     * 
      * @return no return value.
      */
     ACTION addadmin(name admin);
@@ -33,43 +33,47 @@ CONTRACT affiliate : public contract {
     /**
      * Removes an admin
      * 
-     * This action removes an admin
+     * This action remove an admin
      *
-     * @param admin - The name of the admin to remoe
+     * @param admin - The account name of the admin to add to the users table (must be signed by smart contract)
+     * 
      * @return no return value.
      */
     ACTION rmadmin(name admin);
 
     /**
-     * Add an User
+     * Add User
      * 
      * This action adds a user
      *
-     * @param admin - The name of the admin 
-     * @param user - The name of the user
-     * @param role - The assined users' rol
+     * @param admin - Name of the admin account that signs the action
+     * @param user - The account name of the referrer user
+     * @param role - The assined users' role
+     * 
      * @return no return value.
      */
     ACTION adduser(name admin, name user, uint8_t role);
 
     /**
-     * Remove an user
+     *remove user
      * 
      * This action removes an user 
      *
-     * @param admin - The name of the admin
+     * @param admin - The account name of the admin to remove
      * @param user - The name of the user to be removed
+     * 
      * @return no return value.
      */
     ACTION rmuser(name admin, name user);
 
     /**
-     * Add a referral. 
+     * add a referral. 
      * 
      * This acction sets a referral
      *
      * @param referrer - The name of the referrer
      * @param invitee - The name of the invitee in the referral
+     * 
      * @return no return value.
      */
     ACTION addref(name referrer, name invitee);
@@ -77,9 +81,10 @@ CONTRACT affiliate : public contract {
     /**
      * Verify Account. 
      * 
-     * This action verify an account
+     * This action verifies an invitee account has registered on the network
      *
      * @param invitee - The name of the invitee to verify
+     * 
      * @return no return value.
      */
     ACTION verifyacc(name invitee);
@@ -87,41 +92,46 @@ CONTRACT affiliate : public contract {
     /**
      * Verify KYC
      * 
-     * This action verify the KYC for an invitee
+     * This action verifies an invitee account has completed KYC process
      * 
-     * @param invitee - The name of the invitee for kyc
+     * @param invitee - the account name of the invitee
+     * 
+     * @return no return value.
      */
     ACTION verifykyc(name invitee);
 
-    /**
-     * Verify expiration
+     /**
+     * Verify expire 
      * 
-     * This action update the status for expired referrals
-     *
+     * This action checks the referrals expiration date, and marks as EXPIRED
+     * the due referrals
+     * 
      * @return no return value.
      */
     ACTION verifyexp();
 
-    /**
-     * Pay referral.
+   /**
+     * Pay referral. 
      * 
      * This action pay the reward amount for a valid referral 
-     * @note (status PENDING_PAYMENT and not expired)
+     * (status PENDING_PAYMENT and not expired)
      *
      * @param admin - The name of the admin approving the referral
      * @param invitee - The name of the invitee in the referral
+     * 
      * @return no return value.
      */
     ACTION payref(name admin, name invitee);
 
     /**
-     * Reject a referral 
+     * reject a referral 
      * 
-     * This action rejects a referal
+     * This action rejects a referal this action expires a referral
      *
-     * @param admin - The name of the admin approving the referral
+     * @param admin - The name of the admin account approving the referral
      * @param invitee - The name of the invitee in the referral
-     * @param memo -  Reject memo message
+     * @param memo -  Reject memo message (optional)
+     * 
      * @return no return value.
      */
     ACTION rejectref(name admin, name invitee, string memo);
@@ -131,10 +141,11 @@ CONTRACT affiliate : public contract {
      * 
      * This action set the parameters values
      *
-     * @param payer - The payers' name
+     * @param payer - The account from which funds are paid for valid referrals
      * @param rate - The exchange rate to be used
      * @param usd_reward_amount - The amount rewarded
-     * @param expiration_days - Amount of days before expire
+     * @param expiration_days - Amount of days before referrals expire
+     * 
      * @return no return value.
      */
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
@@ -228,4 +239,3 @@ CONTRACT affiliate : public contract {
 		};
 		typedef multi_index<name("usersinfo"), userinfo > usersinfo_table;
 };
-
