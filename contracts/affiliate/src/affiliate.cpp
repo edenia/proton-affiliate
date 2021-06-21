@@ -1,10 +1,13 @@
-/*##################################
-#
-#
-# Created by EOSCostaRica.io
-#
-#
-##################################*/
+/*
+*
+* @author  EOSCostaRica.io [ https://eoscostarica.io ]
+*
+* @section DESCRIPTION
+*  Header file for the declaration of all functions related with the affiliate contract
+*
+*    GitHub:         https://github.com/eoscostarica/proton-affiliate
+*
+*/
 
 #include <affiliate.hpp>
 #include <eosio/system.hpp>
