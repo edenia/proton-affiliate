@@ -1,4 +1,6 @@
-
+<p align="center">
+   <img src="/docs/img/proton-xpr-logo.png" width="200">
+</p>
 
 # Proton affiliate unit tests
 The follow tests were design to test the proton smart contract's actions.
