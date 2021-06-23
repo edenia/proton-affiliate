@@ -45,6 +45,7 @@ CONTRACT affiliate : public contract {
     ACTION addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on);
     ACTION statuslog(name invitee, uint8_t status);
     ACTION clear();
+    bool has_valid_kyc(name account);
     
     enum user_roles : uint8_t {
       ADMIN = 1,
