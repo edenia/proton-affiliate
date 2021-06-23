@@ -4,7 +4,7 @@ services:
     container_name: wallet
     build: ./wallet
     ports:
-      - '8888:8888'
+      - '9999:8888'
     volumes:
       - ./tmp/wallet/:/opt/application/data/
   postgres:
