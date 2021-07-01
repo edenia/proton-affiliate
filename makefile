@@ -74,23 +74,10 @@ clean:
 	@rm -rf tmp/webapp
 	@docker system prune
 	
-local-testnet:
-	@docker pull eosio/eosio:release_2.0.x
-	@docker container rm local_testnet -f || echo ""
-	@docker run -dt --name local_testnet --publish 8888:8888 eosio/eosio:release_2.0.x nodeos \
-		--enable-stale-production \
-		--producer-name eosio \
-		--http-server-address 0.0.0.0:8888 \
-		--http-validate-host false \
-		--access-control-allow-origin='*' \
-		--abi-serializer-max-time-ms=50000 \
-		--http-max-response-time-ms=1000 \
-		--chain-state-db-size-mb=4096 \
-		--filter-on='*' \
-		--plugin eosio::chain_api_plugin \
-		--plugin eosio::http_plugin \
-		--plugin eosio::history_api_plugin \
-		--plugin eosio::history_plugin
+testnet:
+	@docker pull eoscostarica506/proton-local
+	@docker container rm testnet -f || echo ""
+	@docker run -d --name testnet --publish 8888:8888 eoscostarica506/proton-local
 
 contracts-init-tests:
 	@npm install -g mocha
@@ -99,7 +86,11 @@ contracts-init-tests:
 
 contracts-run-tests:
 	$(eval -include .env)
-	make -B local-testnet
+	make -B testnet
+	@until \
+		cleos get account eosio.proton > /dev/null 2>&1; \
+		do echo "$(BLUE)contracts-run-tests |$(RESET) waiting for testnet service"; \
+		sleep 5; done;
 	@cd contracts && eoslime test
 
 affiliate-contract-build:
@@ -111,7 +102,7 @@ affiliate-contract-deploy:
 	@cleos -u $(CONTRACTS_NETWORK_API) set contract $(CONTRACTS_AFFILIATE_ACCOUNT) ./contracts/affiliate || echo ""
 	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
 
-# @todo: improve permissions action to setup nwe custom permissions (verify, setrate, payout)
+# @todo: improve permissions action to setup new custom permissions (verify, setrate, payout)
 affiliate-contract-permissions:
 	$(eval -include .env)
 	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
