@@ -8,7 +8,8 @@ const save = async state => {
       }
     }  
   `
-  const data = await hasuraUtil.request(mutation, {
+
+  const data = await hasuraUtil.instance.request(mutation, {
     payload: {
       block_number: state.blockNumber,
       block_hash: state.blockHash,
@@ -28,7 +29,7 @@ const update = async (version, state) => {
     }  
   `
 
-  await hasuraUtil.request(mutation, {
+  await hasuraUtil.instance.request(mutation, {
     version,
     payload: {
       block_number: state.blockNumber,
@@ -49,7 +50,7 @@ const getByVersion = async version => {
       }
     }  
   `
-  const data = await hasuraUtil.request(query, { version })
+  const data = await hasuraUtil.instance.request(query, { version })
 
   if (!data.demux_state.length) {
     return

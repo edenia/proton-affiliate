@@ -1,5 +1,4 @@
-const { hasuraConfig } = require('../config')
-const { axiosUtil } = require('../utils')
+const { hasuraUtil } = require('../utils')
 
 const affiliateService = require('./affiliate.service')
 const exchangeService = require('./exchange.service')
@@ -28,26 +27,8 @@ const run = async ({ name, action, interval }) => {
   run({ name, action, interval })
 }
 
-const hasura = async () => {
-  let hasuraReady = false
-
-  while (!hasuraReady) {
-    try {
-      await axiosUtil.get(hasuraConfig.url.replace('/v1/graphql', '/healthz'))
-      hasuraReady = true
-    } catch (error) {
-      hasuraReady = false
-      console.log(
-        'waiting for hasura...',
-        hasuraConfig.url.replace('/v1/graphql', '/healthz')
-      )
-      await sleep(5)
-    }
-  }
-}
-
 const init = async () => {
-  await hasura()
+  await hasuraUtil.hasuraAssembled()
   run(affiliateService.verifyExpiredWorker())
   run(affiliateService.clearReferralsWorker())
   run(exchangeService.worker())

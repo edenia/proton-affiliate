@@ -73,3 +73,18 @@ Referral system configuration parameters set by smart contract account.
 
 - Smart Contract Account can update config params
 - SysAdmin hosts backend service infrastructure
+
+### Unit tests
+Tests were designed to validate the affiliate smart contracts actions, to run it follow those steps:
+
+- If Node.js is not installed on your system, install the Node.js package by typing:
+```brew install node```
+
+- Install required deendencies with 
+```make contracts-init-tests```
+
+- Build the contract
+```make affiliate-contract-build```
+
+- run all tests
+```make contracts-run-tests```

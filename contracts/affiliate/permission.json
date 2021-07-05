@@ -2,14 +2,14 @@
   "threshold": 1,
   "keys": [
     {
-      "key": "<CONTRACT_PUBLIC_KEY>",
+      "key": "<CONTRACTS_AFFILIATE_ACTIVE_PUBLIC_KEY>",
       "weight": 1
     }
   ],
   "accounts": [
     {
       "permission": {
-        "actor": "<CONTRACT_ACCOUNT>",
+        "actor": "<CONTRACTS_AFFILIATE_ACCOUNT>",
         "permission": "eosio.code"
       },
       "weight": 1

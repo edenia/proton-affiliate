@@ -73,26 +73,46 @@ clean:
 	@rm -rf tmp/hapi
 	@rm -rf tmp/webapp
 	@docker system prune
+	
+testnet:
+	@docker pull eoscostarica506/proton-local
+	@docker container rm testnet -f || echo ""
+	@docker run -d --name testnet --publish 8888:8888 eoscostarica506/proton-local
 
-permission-affiliate-contract:
+contracts-init-tests:
+	@npm install -g mocha
+	@npm install -g eoslime
+	@cd contracts && npm i
+
+contracts-run-tests:
+	$(eval -include .env)
+	make -B testnet
+	@until \
+		cleos get account eosio.proton > /dev/null 2>&1; \
+		do echo "$(BLUE)contracts-run-tests |$(RESET) waiting for testnet service"; \
+		sleep 5; done;
+	@cd contracts && eoslime test
+
+affiliate-contract-build:
+	@cd contracts/affiliate && eosio-cpp -w -I include -o affiliate.wasm src/affiliate.cpp
+
+affiliate-contract-deploy:
+	$(eval -include .env)
+	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
+	@cleos -u $(CONTRACTS_NETWORK_API) set contract $(CONTRACTS_AFFILIATE_ACCOUNT) ./contracts/affiliate || echo ""
+	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
+
+# @todo: improve permissions action to setup new custom permissions (verify, setrate, payout)
+affiliate-contract-permissions:
 	$(eval -include .env)
 	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
 	@mkdir -p tmp/contracts
 	@cat "contracts/affiliate/permission.json" | sed -e 's/<CONTRACT_ACCOUNT>/${CONTRACTS_AFFILIATE_ACCOUNT}/g' > "tmp/contracts/permission1.json"
-	@cat "tmp/contracts/permission1.json" | sed -e 's/<CONTRACT_PUBLIC_KEY>/${CONTRACTS_AFFILIATE_PUBLIC_KEY}/g' > "tmp/contracts/permission.json"
-	@cleos -u $(CONTRACTS_NETWORK) set account permission $(CONTRACTS_AFFILIATE_ACCOUNT) active tmp/contracts/permission.json owner -p $(CONTRACTS_AFFILIATE_ACCOUNT)
+	@cat "tmp/contracts/permission1.json" | sed -e 's/<CONTRACT_PUBLIC_KEY>/${CONTRACTS_AFFILIATE_ACTIVE_PUBLIC_KEY}/g' > "tmp/contracts/permission.json"
+	@cleos -u $(CONTRACTS_NETWORK_API) set account permission $(CONTRACTS_AFFILIATE_ACCOUNT) active tmp/contracts/permission.json owner -p $(CONTRACTS_AFFILIATE_ACCOUNT)
 	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
 	@rm -rf tmp/contracts/
 
-build-affiliate-contract:
-	@cd contracts/affiliate && eosio-cpp -w -I include -o affiliate.wasm src/affiliate.cpp
-
-deploy-affiliate-contract:
-	$(eval -include .env)
-	@cleos wallet unlock --name $(CONTRACTS_AFFILIATE_ACCOUNT) --password $(CONTRACTS_AFFILIATE_PASSWORD) || echo ""
-	@cleos -u $(CONTRACTS_NETWORK) set contract $(CONTRACTS_AFFILIATE_ACCOUNT) ./contracts/affiliate || echo ""
-	@cleos wallet lock --name $(CONTRACTS_AFFILIATE_ACCOUNT)
-	
 build-kubernetes: ##@devops Generate proper k8s files based on the templates
 build-kubernetes: ./kubernetes
 	@echo "Build kubernetes files..."
@@ -101,7 +121,6 @@ build-kubernetes: ./kubernetes
 		mkdir -p `dirname "$(K8S_BUILD_DIR)/$$file"`; \
 		$(SHELL_EXPORT) envsubst <./kubernetes/$$file >$(K8S_BUILD_DIR)/$$file; \
 	done
-
 
 deploy-kubernetes: ##@devops Publish the build k8s files
 deploy-kubernetes: $(K8S_BUILD_DIR)

@@ -1,21 +1,22 @@
 const { BaseActionWatcher } = require('demux')
 const { NodeosActionReader } = require('demux-eos')
 
-const { networkConfig } = require('../../config')
+const { networkConfig, demuxConfig } = require('../../config')
+const { hasuraUtil } = require('../../utils')
 
 const ActionHandler = require('./action-handler')
 const handlerVersion = require('./handler-version')
 
-const init = () => {
+const init = async () => {
   const actionHandler = new ActionHandler([handlerVersion])
   const actionReader = new NodeosActionReader({
     onlyIrreversible: true,
-    // @todo: get start from env variable.
-    startAtBlock: 75535703,
+    startAtBlock: demuxConfig.startAtBlock,
     nodeosEndpoint: networkConfig.api
   })
   const watcher = new BaseActionWatcher(actionReader, actionHandler, 250)
 
+  await hasuraUtil.hasuraAssembled()
   watcher.watch()
 }
 

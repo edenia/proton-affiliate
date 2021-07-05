@@ -8,7 +8,7 @@ const save = async payload => {
       }
     }
   `
-  const data = await hasuraUtil.request(mutation, { payload })
+  const data = await hasuraUtil.instance.request(mutation, { payload })
 
   return data.insert_referral_one
 }
@@ -22,7 +22,7 @@ const update = async (invitee, payload) => {
     }
   `
 
-  await hasuraUtil.request(mutation, { invitee, payload })
+  await hasuraUtil.instance.request(mutation, { invitee, payload })
 }
 
 const addHistory = async payload => {
@@ -33,7 +33,7 @@ const addHistory = async payload => {
       }
     }
   `
-  const data = await hasuraUtil.request(mutation, { payload })
+  const data = await hasuraUtil.instance.request(mutation, { payload })
 
   return data.insert_referral_one
 }
