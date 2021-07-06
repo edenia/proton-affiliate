@@ -1,11 +1,13 @@
-/*##################################
-#
-#
-# Created by EOSCostaRica.io
-#
-#
-##################################*/
-
+/*
+*
+* @author  EOSCostaRica.io [ https://eoscostarica.io ]
+*
+* @section DESCRIPTION
+*  Header file for the declaration of all functions related with the affiliate contract
+*
+*    GitHub:         https://github.com/eoscostarica/proton-affiliate
+*
+*/
 #include <eosio/eosio.hpp>
 #include <eosio/singleton.hpp>
 #include <eosio/asset.hpp>
@@ -17,13 +19,95 @@ CONTRACT affiliate : public contract {
   public:
     using contract::contract;
 
+    /**
+     * Add an Admin
+     * 
+     * This action adds an admin
+     *
+     * @param admin - The account name of the admin.
+     * 
+     * @return no return value.
+     */
     ACTION addadmin(name admin);
+
+    /**
+     * Removes an admin
+     * 
+     * This action remove an admin
+     *
+     * @param admin - The account name of the admin to add to the users table (must be signed by smart contract)
+     * 
+     * @return no return value.
+     */
     ACTION rmadmin(name admin);
+
+    /**
+     * Add User
+     * 
+     * This action adds a user
+     *
+     * @param admin - Name of the admin account that signs the action
+     * @param user - The account name of the referrer user
+     * @param role - The assined users' role
+     * 
+     * @return no return value.
+     */
     ACTION adduser(name admin, name user, uint8_t role);
+
+    /**
+     * remove user
+     * 
+     * This action removes an user 
+     *
+     * @param admin - The account name of the admin to remove
+     * @param user - The name of the user to be removed
+     * 
+     * @return no return value.
+     */
     ACTION rmuser(name admin, name user);
-    ACTION addref(name referrer,name invitee);
+
+    /**
+     * add a referral. 
+     * 
+     * This acction sets a referral
+     *
+     * @param referrer - The name of the referrer
+     * @param invitee - The name of the invitee in the referral
+     * 
+     * @return no return value.
+     */
+    ACTION addref(name referrer, name invitee);
+
+    /**
+     * Verify Account. 
+     * 
+     * This action verifies an invitee account has registered on the network
+     *
+     * @param invitee - The name of the invitee to verify
+     * 
+     * @return no return value.
+     */
     ACTION verifyacc(name invitee);
+
+    /**
+     * Verify KYC
+     * 
+     * This action verifies an invitee account has completed KYC process
+     * 
+     * @param invitee - the account name of the invitee
+     * 
+     * @return no return value.
+     */
     ACTION verifykyc(name invitee);
+
+    /**
+     * Verify expiration 
+     * 
+     * This action checks the referrals expiration date, and marks as EXPIRED
+     * the due referrals
+     * 
+     * @return no return value.
+     */
     ACTION verifyexp();
 
     /**
@@ -34,17 +118,76 @@ CONTRACT affiliate : public contract {
      *
      * @param admin - The name of the admin approving the referral
      * @param invitee - The name of the invitee in the referral
+     * 
      * @return no return value.
      */
     ACTION payref(name admin, name invitee);
 
+    /**
+     * reject a referral 
+     * 
+     * This action rejects a referal this action expires a referral
+     *
+     * @param admin - The name of the admin account approving the referral
+     * @param invitee - The name of the invitee in the referral
+     * @param memo -  Reject memo message (optional)
+     * 
+     * @return no return value.
+     */
     ACTION rejectref(name admin, name invitee, string memo);
+
+    /**
+     * Setup parameters
+     * 
+     * This action set the parameters values
+     *
+     * @param payer - The account from which funds are paid for valid referrals
+     * @param rate - The exchange rate to be used
+     * @param usd_reward_amount - The amount rewarded
+     * @param expiration_days - Amount of days before referrals expire
+     * 
+     * @return no return value.
+     */
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
+
     ACTION setrate(double rate);
+
+    /**
+     * Clear referrals
+     * 
+     * This action cleans referrals with status PAYMENT_REJECTED, EXPIRED, PAID to save ram
+     *
+     * @return no return value.
+     */
     ACTION clearref();
+
+    /**
+     * addref logging
+     * 
+     * This action logs the add reference activity
+     *
+     * @return no return value.
+     */
     ACTION addreflog(name referrer,name invitee, uint8_t status, time_point_sec expires_on);
+
+    /**
+     * status logging
+     * 
+     * This action logs status' changes
+     *
+     * @return no return value.
+     */
     ACTION statuslog(name invitee, uint8_t status);
+    
+    /**
+     * Clear
+     * 
+     * This action cleans the affiliate data
+     *
+     * @return no return value.
+     */
     ACTION clear();
+
     bool has_valid_kyc(name account);
     
     enum user_roles : uint8_t {
@@ -120,4 +263,3 @@ CONTRACT affiliate : public contract {
 		};
 		typedef multi_index<name("usersinfo"), userinfo > usersinfo_table;
 };
-
