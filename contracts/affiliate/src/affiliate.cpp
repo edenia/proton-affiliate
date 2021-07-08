@@ -241,21 +241,23 @@ ACTION affiliate::rejectref(name admin, name invitee, string memo) {
   SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PAYMENT_REJECTED });
 }
 
-ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days) {
+ACTION affiliate::setparams(name payer, double usd_reward_amount, uint8_t expiration_days) {
   require_auth(get_self());
 
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
   data.payer = payer;
-  data.rate = rate;
   data.usd_reward_amount = usd_reward_amount;
-  data.asset_reward_amount = asset((usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.expiration_days = expiration_days;
   _params.set(data, get_self());
 }
 
-ACTION affiliate::setrate(double rate) {
+ACTION affiliate::setrate() {
   require_auth(get_self());
+
+  double rate = get_current_exchange_rate();
+  check(rate > 0, "Invalid rate");
+  // check(false, to_string(rate));
 
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
@@ -319,3 +321,35 @@ bool affiliate::has_valid_kyc (name account) {
 
   return _userinfo->verified;
 }
+
+double affiliate::get_current_exchange_rate () {
+  feeds_table _feedstable(name("oracles"), name("oracles").value);
+  data_table _data_table(name("oracles"), name("oracles").value);
+
+  auto 	xpr_btc = _feedstable.find(0);
+  
+  if (xpr_btc == _feedstable.end() || xpr_btc->name != "XPR/BTC") {
+    return 0;
+  }
+
+  auto xpr_btc_fee = _data_table.find(xpr_btc->index);
+
+  if (xpr_btc_fee == _data_table.end()) {
+    return 0;
+  }
+
+  auto btc_usdt = _feedstable.find(1);
+  
+  if (btc_usdt == _feedstable.end() || btc_usdt->name != "BTC/USDT") {
+    return 0;
+  }
+
+  auto btc_usdt_fee = _data_table.find(btc_usdt->index);
+
+  if (btc_usdt_fee == _data_table.end()) {
+    return 0;
+  }
+  
+  return xpr_btc_fee->aggregate.d_double.value() * btc_usdt_fee->aggregate.d_double.value();
+}
+

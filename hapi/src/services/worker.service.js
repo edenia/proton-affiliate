@@ -1,7 +1,6 @@
 const { hasuraUtil } = require('../utils')
 
 const affiliateService = require('./affiliate.service')
-const exchangeService = require('./exchange.service')
 
 const sleep = seconds => {
   return new Promise(resolve => {
@@ -31,7 +30,7 @@ const init = async () => {
   await hasuraUtil.hasuraAssembled()
   run(affiliateService.verifyExpiredWorker())
   run(affiliateService.clearReferralsWorker())
-  run(exchangeService.worker())
+  run(affiliateService.setRateWorker())
 }
 
 module.exports = {

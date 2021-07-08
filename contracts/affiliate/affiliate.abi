@@ -208,10 +208,6 @@
                     "type": "name"
                 },
                 {
-                    "name": "rate",
-                    "type": "float64"
-                },
-                {
                     "name": "usd_reward_amount",
                     "type": "float64"
                 },
@@ -224,12 +220,7 @@
         {
             "name": "setrate",
             "base": "",
-            "fields": [
-                {
-                    "name": "rate",
-                    "type": "float64"
-                }
-            ]
+            "fields": []
         },
         {
             "name": "statuslog",

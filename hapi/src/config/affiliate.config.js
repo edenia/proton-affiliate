@@ -6,5 +6,8 @@ module.exports = {
   ),
   clearReferralsInterval: parseInt(
     process.env.HAPI_AFFILIATE_CLEAR_REFERRALS_INTERVAL || 86400
+  ),
+  setRateInterval: parseInt(
+    process.env.HAPI_AFFILIATE_SET_RATE_INTERVAL || 86400
   )
 }
