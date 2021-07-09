@@ -74,7 +74,7 @@ const verifyExpired = async () => {
 // @todo: implement payref
 // @todo: implement rejectref
 
-const setRate = async rate => {
+const setRate = async () => {
   const transaction = await eosUtil.transact(
     [
       {
@@ -86,7 +86,7 @@ const setRate = async rate => {
         ],
         account: affiliateConfig.account,
         name: 'setrate',
-        data: { rate }
+        data: {}
       }
     ],
     affiliateConfig.account,
@@ -134,6 +134,14 @@ const clearReferralsWorker = () => {
   }
 }
 
+const setRateWorker = () => {
+  return {
+    name: 'SET RATE',
+    interval: affiliateConfig.setRateInterval,
+    action: setRate
+  }
+}
+
 module.exports = {
   verifyAccount,
   verifyKYC,
@@ -141,5 +149,6 @@ module.exports = {
   setRate,
   clearReferrals,
   verifyExpiredWorker,
-  clearReferralsWorker
+  clearReferralsWorker,
+  setRateWorker
 }
