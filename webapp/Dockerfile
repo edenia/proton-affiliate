@@ -31,12 +31,9 @@ ENV REACT_APP_HASURA_URL $react_app_hasura_url
 RUN mkdir -p $WORK_DIR
 WORKDIR $WORK_DIR
 
-COPY package.json $WORK_DIR/package.json
-COPY yarn.lock $WORK_DIR/yarn.lock
-
-RUN yarn install --production=true
-
 COPY ./ $WORK_DIR
+
+RUN yarn install
 
 RUN yarn build
 
@@ -46,7 +43,7 @@ COPY --from=build-stage /usr/src/app/build /usr/share/nginx/html
 COPY --from=build-stage /usr/src/app/compression.conf /etc/nginx/conf.d/compression.conf
 COPY --from=build-stage /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]
 
