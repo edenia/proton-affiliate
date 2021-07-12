@@ -33,9 +33,7 @@ WORKDIR $WORK_DIR
 
 COPY ./ $WORK_DIR
 
-RUN yarn install
-
-RUN yarn build
+RUN yarn install && yarn build
 
 FROM nginx:1.17.10-alpine as run-stage
 
