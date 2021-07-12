@@ -42,7 +42,7 @@ COPY --from=build-stage /usr/src/app/build /usr/share/nginx/html
 COPY --from=build-stage /usr/src/app/compression.conf /etc/nginx/conf.d/compression.conf
 COPY --from=build-stage /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
 
