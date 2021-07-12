@@ -27,18 +27,14 @@ ENV REACT_APP_UAL_API_HOST $react_app_ual_api_host
 ENV REACT_APP_UAL_API_PORT $react_app_ual_api_port
 ENV REACT_APP_UAL_CHAIN_ID $react_app_ual_chain_id
 ENV REACT_APP_HASURA_URL $react_app_hasura_url
+ENV TOOL_NODE_FLAGS --max_old_space_size=4096
 
 RUN mkdir -p $WORK_DIR
 WORKDIR $WORK_DIR
 
-COPY package.json $WORK_DIR/package.json
-COPY yarn.lock $WORK_DIR/yarn.lock
-
-RUN yarn install --production=true
-
 COPY ./ $WORK_DIR
 
-RUN yarn build
+RUN yarn install && yarn build
 
 FROM nginx:1.17.10-alpine as run-stage
 
@@ -46,7 +42,7 @@ COPY --from=build-stage /usr/src/app/build /usr/share/nginx/html
 COPY --from=build-stage /usr/src/app/compression.conf /etc/nginx/conf.d/compression.conf
 COPY --from=build-stage /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]
 

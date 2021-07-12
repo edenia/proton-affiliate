@@ -12,6 +12,7 @@ import {
 import { mainConfig } from '../config'
 
 const Home = lazy(() => import('./Home'))
+const Admin = lazy(() => import('./Admin'))
 const About = lazy(() => import('./About'))
 const Help = lazy(() => import('./Help'))
 const Page404 = lazy(() => import('./Route404'))
@@ -22,7 +23,16 @@ const routes = [
     icon: <GridIcon />,
     component: Home,
     path: '/',
-    exact: true
+    exact: true,
+    roles: ['guest', 'NON-AFFILIATED']
+  },
+  {
+    name: 'admin',
+    icon: <GridIcon />,
+    component: Admin,
+    path: '/',
+    exact: true,
+    roles: ['ADMIN']
   },
   {
     header: 'docs',
