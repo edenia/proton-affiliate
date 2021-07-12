@@ -27,6 +27,7 @@ ENV REACT_APP_UAL_API_HOST $react_app_ual_api_host
 ENV REACT_APP_UAL_API_PORT $react_app_ual_api_port
 ENV REACT_APP_UAL_CHAIN_ID $react_app_ual_chain_id
 ENV REACT_APP_HASURA_URL $react_app_hasura_url
+ENV TOOL_NODE_FLAGS --max_old_space_size=4096
 
 RUN mkdir -p $WORK_DIR
 WORKDIR $WORK_DIR
