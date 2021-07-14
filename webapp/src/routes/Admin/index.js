@@ -9,6 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import styles from './styles'
 import AddUserModal from './AddUserModal'
+import UsersTable from './UsersTable'
 
 const useStyles = makeStyles(styles)
 
@@ -29,6 +30,9 @@ const Admin = () => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h1">{t('title')}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <UsersTable t={t} />
       </Grid>
       <Box className={classes.actionWrapper}>
         <Fab color="primary" onClick={handleOnClick}>

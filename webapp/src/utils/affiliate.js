@@ -58,6 +58,26 @@ const addUser = async (admin, user, role = 2) => {
   return transaction
 }
 
+const getUsers = async lowerBound => {
+  const {
+    rows,
+    more: hasMore,
+    next_key: cursor
+  } = await eosApi.getTableRows({
+    code: AFFILLIATE_ACCOUNT,
+    scope: AFFILLIATE_ACCOUNT,
+    table: 'users',
+    json: true,
+    lower_bound: lowerBound
+  })
+
+  return {
+    rows: rows.map(row => ({ ...row, role: ROLES[row.role] })),
+    cursor,
+    hasMore
+  }
+}
+
 export const affiliateUtil = {
   ROLES,
   GUEST_ROLE,
