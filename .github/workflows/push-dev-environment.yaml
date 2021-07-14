@@ -78,6 +78,7 @@ jobs:
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
+          HASURA_GRAPHQL_ACTION_BASE_URL: ${{ secrets.HASURA_GRAPHQL_ACTION_BASE_URL }}
 
       - name: Deploy kubernetes files
         uses: steebchen/kubectl@v1.1.0
