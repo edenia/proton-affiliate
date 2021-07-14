@@ -1,2 +1,14 @@
+type Mutation {
+  add_referral (
+    referrer: String!
+    invitee: String!
+  ): AddReferralOutput
+}
 
+
+
+
+type AddReferralOutput {
+  trxid : String!
+}
 
