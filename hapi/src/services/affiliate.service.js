@@ -118,6 +118,28 @@ const clearReferrals = async () => {
   return transaction
 }
 
+const addReferral = async data => {
+  const transaction = await eosUtil.transact(
+    [
+      {
+        data,
+        authorization: [
+          {
+            actor: affiliateConfig.account,
+            permission: 'active'
+          }
+        ],
+        account: affiliateConfig.account,
+        name: 'addref'
+      }
+    ],
+    affiliateConfig.account,
+    affiliateConfig.password
+  )
+
+  return transaction
+}
+
 const verifyExpiredWorker = () => {
   return {
     name: 'VERIFY EXPIRATION',
@@ -148,6 +170,7 @@ module.exports = {
   verifyExpired,
   setRate,
   clearReferrals,
+  addReferral,
   verifyExpiredWorker,
   clearReferralsWorker,
   setRateWorker
