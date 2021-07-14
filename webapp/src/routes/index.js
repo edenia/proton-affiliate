@@ -13,6 +13,7 @@ import { mainConfig } from '../config'
 
 const Home = lazy(() => import('./Home'))
 const Admin = lazy(() => import('./Admin'))
+const Join = lazy(() => import('./Join'))
 const About = lazy(() => import('./About'))
 const Help = lazy(() => import('./Help'))
 const Page404 = lazy(() => import('./Route404'))
@@ -33,6 +34,12 @@ const routes = [
     path: '/',
     exact: true,
     roles: ['ADMIN']
+  },
+  {
+    component: Join,
+    path: '/join/:referrer',
+    exact: true,
+    roles: ['guest']
   },
   {
     header: 'docs',

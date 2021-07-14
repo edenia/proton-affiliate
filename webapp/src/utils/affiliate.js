@@ -4,19 +4,19 @@ const ROLES = {
   1: 'ADMIN',
   2: 'REFERRER'
 }
-
 const GUEST_ROLE = 'NON-AFFILIATED'
+// @todo: use env variable for smart contract name
+const AFFILLIATE_ACCOUNT = 'affiliate'
 
 const getUserRole = async accountName => {
   if (!accountName) {
     return GUEST_ROLE
   }
 
-  // @todo: use env variable for smart contract name
   const { rows } = await eosApi.getTableRows({
     json: true,
-    code: 'affiliate',
-    scope: 'affiliate',
+    code: AFFILLIATE_ACCOUNT,
+    scope: AFFILLIATE_ACCOUNT,
     table: 'users',
     lower_bound: accountName,
     upper_bound: accountName
@@ -34,7 +34,7 @@ const addUser = async (admin, user, role = 2) => {
     {
       actions: [
         {
-          account: 'affiliate',
+          account: AFFILLIATE_ACCOUNT,
           name: 'adduser',
           authorization: [
             {
@@ -78,9 +78,61 @@ const getUsers = async lowerBound => {
   }
 }
 
+const getUser = async account => {
+  const { rows } = await eosApi.getTableRows({
+    code: AFFILLIATE_ACCOUNT,
+    scope: AFFILLIATE_ACCOUNT,
+    table: 'users',
+    json: true,
+    lower_bound: account,
+    upper_bound: account
+  })
+
+  if (!rows.length) {
+    return
+  }
+
+  return {
+    ...rows[0],
+    role: ROLES[rows[0].role]
+  }
+}
+
+const isAccountValidAsReferrer = async account => {
+  if (!account) {
+    return false
+  }
+
+  try {
+    const user = (await getUser(account)) || {}
+
+    return user.role === ROLES[2]
+  } catch (error) {}
+
+  return false
+}
+
+const isAccountValidAsInvitee = async account => {
+  if (!account) {
+    return false
+  }
+
+  try {
+    const data = await eosApi.getAccount(account)
+
+    return !data
+  } catch (error) {}
+
+  return true
+}
+
 export const affiliateUtil = {
   ROLES,
   GUEST_ROLE,
   getUserRole,
-  addUser
+  addUser,
+  getUsers,
+  getUser,
+  isAccountValidAsReferrer,
+  isAccountValidAsInvitee
 }
