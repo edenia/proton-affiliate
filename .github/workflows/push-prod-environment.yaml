@@ -41,7 +41,7 @@ jobs:
           REACT_APP_UAL_API_HOST: 'proton.eosio.cr'
           REACT_APP_UAL_API_PORT: '443'
           REACT_APP_UAL_CHAIN_ID: '384da888112027f0321850a169f737c33e53b388aad48b5adace4bab97f437e0'
-          REACT_APP_HASURA_URL: ${{ secrets.REACT_APP_HASURA_URL }}
+          REACT_APP_HASURA_URL: https://graphql.earnproton.com/v1/graphql
 
       - name: Build kubernetes files
         id: build_kubernetes_files
