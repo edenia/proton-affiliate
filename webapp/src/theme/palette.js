@@ -1,6 +1,6 @@
 export default {
   primary: {
-    main: '#4DD5EA'
+    main: '#7045D9'
   },
   secondary: {
     main: '#ED5951'

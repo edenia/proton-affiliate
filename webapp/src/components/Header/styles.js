@@ -2,7 +2,6 @@ export default theme => ({
   appBar: {
     backgroundColor: `${theme.palette.background.paper}`,
     boxShadow: `${theme.shadows[0]}`,
-    borderBottom: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.up('md')]: {
       boxShadow: `${theme.shadows[4]}`,
       borderBottom: 0
@@ -10,6 +9,7 @@ export default theme => ({
   },
   toolbar: {
     padding: 0,
+    justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
       padding: `${theme.spacing(0, 2)}`
     }
