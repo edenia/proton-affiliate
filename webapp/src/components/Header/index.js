@@ -11,18 +11,19 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 import MenuIcon from '@material-ui/icons/Menu'
 import LanguageIcon from '@material-ui/icons/Language'
-import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import AccountIcon from '@material-ui/icons/AccountCircle'
-import ExitIcon from '@material-ui/icons/ExitToApp'
-import MoreIcon from '@material-ui/icons/MoreVert'
+import EditIcon from '@material-ui/icons/Edit'
+import RotateRightIcon from '@material-ui/icons/RotateRight'
+import CloseIcon from '@material-ui/icons/Close'
 import { Sun as SunIcon, Moon as MoonIcon } from 'react-feather'
 
 import { useSharedState } from '../../context/state.context'
 import { mainConfig } from '../../config'
 import PageTitle from '../PageTitle'
+import { ProtonLogo } from '../SvgIcons'
 
 import styles from './styles'
 
@@ -109,30 +110,19 @@ UserButton.propTypes = {
   user: PropTypes.any
 }
 
-const AuthButton = memo(({ user, onLogin, onSignOut }) => {
+const AuthButton = memo(({ onSignOut }) => {
   const { t } = useTranslation()
 
   return (
-    <>
-      {user && (
-        <Button startIcon={<ExitIcon />} onClick={onSignOut}>
-          {t('signOut')}
-        </Button>
-      )}
-      {!user && (
-        <Button startIcon={<FingerprintIcon />} onClick={onLogin}>
-          {t('login')}
-        </Button>
-      )}
-    </>
+    <Button startIcon={<CloseIcon />} onClick={onSignOut}>
+      {t('signOut')}
+    </Button>
   )
 })
 
 AuthButton.displayName = 'AuthButton'
 
 AuthButton.propTypes = {
-  user: PropTypes.any,
-  onLogin: PropTypes.func,
   onSignOut: PropTypes.func
 }
 
@@ -181,9 +171,7 @@ const Header = memo(({ onDrawerToggle }) => {
             <MenuIcon />
           </IconButton>
         </Hidden>
-        <Typography className={classes.typography} variant="h4">
-          {t(`${location.pathname}>heading`, '')}
-        </Typography>
+        <ProtonLogo />
         <PageTitle title={t(`${location.pathname}>title`, mainConfig.title)} />
         <Box className={classes.desktopSection}>
           <SwitchThemeModeButton
@@ -202,13 +190,17 @@ const Header = memo(({ onDrawerToggle }) => {
           />
         </Box>
         <Box className={classes.mobileSection}>
-          <IconButton
-            aria-label="show more"
-            aria-haspopup="true"
-            onClick={handleOpenMenu}
-          >
-            <MoreIcon />
-          </IconButton>
+          {state.user ? (
+            <IconButton
+              aria-label="show more"
+              aria-haspopup="true"
+              onClick={handleOpenMenu}
+            >
+              <AccountIcon />
+            </IconButton>
+          ) : (
+            <Button onClick={handleLogin}>{t('login')}</Button>
+          )}
         </Box>
       </Toolbar>
       <Menu
@@ -217,28 +209,14 @@ const Header = memo(({ onDrawerToggle }) => {
         onClose={handleCloseMenu}
       >
         <MenuItem>
-          <SwitchThemeModeButton
-            useDarkMode={state.useDarkMode}
-            onSwitch={handleSwitchThemeMode}
-          />
+          <Button startIcon={<EditIcon />}>Admin</Button>
         </MenuItem>
         <MenuItem>
-          <LanguageButton
-            current={currentLanguaje}
-            onChange={handleChangeLanguage}
-          />
+          <Button startIcon={<RotateRightIcon />}>Switch User</Button>
         </MenuItem>
-        {state.user && (
-          <MenuItem>
-            <UserButton user={state.user} />
-          </MenuItem>
-        )}
+        <Divider />
         <MenuItem>
-          <AuthButton
-            user={state.user}
-            onLogin={handleLogin}
-            onSignOut={handleSignOut}
-          />
+          <AuthButton onSignOut={handleSignOut} />
         </MenuItem>
       </Menu>
     </AppBar>

@@ -1,10 +1,9 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { NavLink as RouterNavLink, useHistory } from 'react-router-dom'
+import { NavLink as RouterNavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import Drawer from '@material-ui/core/Drawer'
-import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
 import List from '@material-ui/core/List'
 import MuiListItem from '@material-ui/core/ListItem'
@@ -19,8 +18,6 @@ import {
 } from 'react-feather'
 import Scrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-
-import { mainConfig } from '../../config'
 
 import styles from './styles'
 
@@ -137,19 +134,10 @@ ListItem.propTypes = {
 }
 
 const Sidebar = ({ routes, ...props }) => {
-  const history = useHistory()
   const classes = useStyles()
 
   return (
     <Drawer {...props}>
-      <Box className={classes.brand}>
-        <img
-          alt={mainConfig.title}
-          src={mainConfig.logo}
-          onClick={() => history.push('/')}
-        />
-      </Box>
-      <Divider />
       <Scrollbar className={classes.scrollbar}>
         <List component="nav">
           {routes.map((category, index) => (

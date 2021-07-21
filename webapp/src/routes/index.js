@@ -1,17 +1,7 @@
-import React, { lazy } from 'react'
-
-import {
-  Grid as GridIcon,
-  Info as InfoIcon,
-  HelpCircle as HelpIcon,
-  GitMerge as GitMergeIcon,
-  GitHub as GitHubIcon,
-  Send as TelegramIcon
-} from 'react-feather'
-
-import { mainConfig } from '../config'
+import { lazy } from 'react'
 
 const Home = lazy(() => import('./Home'))
+const Affiliate = lazy(() => import('./Affiliate'))
 const Admin = lazy(() => import('./Admin'))
 const Join = lazy(() => import('./Join'))
 const About = lazy(() => import('./About'))
@@ -21,17 +11,21 @@ const Page404 = lazy(() => import('./Route404'))
 const routes = [
   {
     name: 'home',
-    icon: <GridIcon />,
     component: Home,
     path: '/',
-    exact: true,
-    roles: ['guest', 'NON-AFFILIATED']
+    exact: true
+    // roles: ['guest', 'NON-AFFILIATED']
   },
   {
-    name: 'admin',
-    icon: <GridIcon />,
+    name: 'affiliate',
+    component: Affiliate,
+    path: '/affiliate',
+    exact: true
+    // roles: ['ADMIN', 'REFERRER']
+  },
+  {
     component: Admin,
-    path: '/',
+    path: '/admin',
     exact: true,
     roles: ['ADMIN']
   },
@@ -42,37 +36,21 @@ const routes = [
     roles: ['guest']
   },
   {
-    header: 'docs',
     name: 'about',
-    icon: <InfoIcon />,
     component: About,
     path: '/about',
     exact: true
   },
   {
     name: 'help',
-    icon: <HelpIcon />,
     component: Help,
     path: '/help',
     exact: true
   },
   {
-    name: 'changelog',
-    badge: mainConfig.appVersion,
-    path: 'https://github.com/eoscostarica/proton-affiliate/tags',
-    icon: <GitMergeIcon />,
+    component: Join,
+    path: '/join',
     exact: true
-  },
-  {
-    header: 'community',
-    name: 'github',
-    path: 'https://github.com/eoscostarica/proton-affiliate',
-    icon: <GitHubIcon />
-  },
-  {
-    name: 'telegram',
-    path: 'https://t.me/blockchaincostarica',
-    icon: <TelegramIcon />
   },
   {
     component: Page404

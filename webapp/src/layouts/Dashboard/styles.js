@@ -15,12 +15,12 @@ export default (theme, drawerWidth) => ({
     flexDirection: 'column',
     maxWidth: '100%',
     overflow: 'hidden',
+    backgroundColor: '#ffffff',
     height: '100vh'
   },
   childContent: {
     flex: 1,
     height: '100%',
-    padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
     overflow: 'scroll'
   }
