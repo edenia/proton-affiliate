@@ -7,7 +7,6 @@ const Join = lazy(() => import('./Join'))
 const About = lazy(() => import('./About'))
 const Help = lazy(() => import('./Help'))
 const Page404 = lazy(() => import('./Route404'))
-const Join = lazy(() => import('./Join'))
 
 const routes = [
   {
@@ -37,7 +36,6 @@ const routes = [
     roles: ['guest']
   },
   {
-    header: 'docs',
     name: 'about',
     component: About,
     path: '/about',
