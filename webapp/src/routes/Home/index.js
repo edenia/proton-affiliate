@@ -1,4 +1,5 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -16,131 +17,13 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 
 import { HomeImage } from '../../components/SvgIcons'
+import { affiliateUtil } from '../../utils'
+import useDebounce from '../../hooks/useDebounce'
 import Modal from '../../components/Modal'
 
-const useStyles = makeStyles(theme => ({
-  homePage: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  title: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: theme.spacing(5),
-    marginTop: theme.spacing(2)
-  },
-  onChain: {
-    fontWeight: 'bold',
-    fontSize: 40,
-    lineHeight: '52px',
-    textAlign: 'center',
-    color: '#7045D9'
-  },
-  referralText: {
-    fontWeight: 'bold',
-    fontSize: 40,
-    lineHeight: '52px',
-    textAlign: 'center',
-    color: '#000000'
-  },
-  info: {
-    fontSize: 18,
-    lineHeight: '20px',
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    letterSpacing: '0.25px',
-    color: '#6B717F',
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(5),
-    width: 250
-  },
-  joinBtn: {
-    width: 270,
-    height: 48,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 14,
-    letterSpacing: '1px',
-    textTransform: 'uppercase',
-    color: '#FFFFFF'
-  },
-  lastReferral: {
-    marginTop: theme.spacing(6),
-    height: 56,
-    width: '100%',
-    background: 'rgba(245, 247, 250, 0.74)',
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 3)
-  },
-  tableTitle: {
-    fontWeight: '600',
-    fontSize: 21,
-    lineHeight: '27px',
-    letterSpacing: '0.15px',
-    color: 'rgba(0, 0, 0, 0.87)'
-  },
-  table: {
-    '& th': {
-      padding: theme.spacing(2, 1),
-      fontWeight: '600',
-      fontSize: 12,
-      textTransform: 'uppercase',
-      color: 'rgba(0, 0, 0, 0.87)'
-    },
-    '& td': {
-      padding: theme.spacing(2, 1),
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: 13
-    }
-  },
-  mainColorRow: {
-    color: theme.palette.primary.main
-  },
-  joinModel: {
-    width: '80%',
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(3, 3, 2, 3),
-    borderRadius: 5
-  },
-  joinText: {
-    fontSize: 16,
-    lineHeight: '24px',
-    letterSpacing: '0.44px',
-    color: 'rgba(0, 0, 0, 0.87)'
-  },
-  textField: {
-    width: '100%',
-    marginTop: theme.spacing(2)
-  },
-  helperText: {
-    fontSize: 12,
-    lineHeight: '16px',
-    letterSpacing: '0.4px',
-    color: 'rgba(0, 0, 0, 0.6)',
-    marginLeft: theme.spacing(1)
-  },
-  checkBoxReceive: {
-    marginTop: theme.spacing(1),
-    '& .MuiFormControlLabel-label': {
-      fontSize: 15,
-      lineHeight: '24px',
-      letterSpacing: '0.15px',
-      color: '#000000'
-    }
-  },
-  bntWrapper: {
-    marginTop: theme.spacing(4),
-    display: 'flex',
-    justifyContent: 'space-between'
-  }
-}))
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
 
 function createData(username, date, reward, tx) {
   return { username, date, reward, tx }
@@ -157,22 +40,44 @@ const rows = [
 
 const Home = () => {
   const classes = useStyles()
+  const { t } = useTranslation('homeRoute')
   const [open, setOpen] = useState(false)
   const [checked, setCheked] = useState(false)
+  const [account, setAccount] = useState('')
+  const [mail, setMail] = useState('')
+  const [isValidAccount, setIsValidAccount] = useState(false)
+  const debouncedSearchTerm = useDebounce(account, 200)
+
+  const handleOnChangeAccount = e => {
+    setAccount(e.target.value)
+  }
+
+  const handleOnChangeMail = e => {
+    setMail(e.target.value)
+  }
+
+  useEffect(() => {
+    const validateAccount = async () => {
+      const isValid = await affiliateUtil.isAccountValidAsInvitee(
+        debouncedSearchTerm
+      )
+
+      setIsValidAccount(isValid)
+    }
+
+    if (debouncedSearchTerm) {
+      validateAccount()
+    }
+  }, [debouncedSearchTerm])
 
   return (
     <Box className={classes.homePage}>
       <Box className={classes.title}>
-        <Typography className={classes.onChain}>On-Chain</Typography>
-        <Typography className={classes.referralText}>
-          Referral Program
-        </Typography>
+        <Typography className={classes.onChain}>{t('title')}</Typography>
+        <Typography className={classes.referralText}>{t('title2')}</Typography>
       </Box>
       <HomeImage />
-      <Typography className={classes.info}>
-        Join the program and recieve token rewards for every user that register
-        and KYC on to Proton.
-      </Typography>
+      <Typography className={classes.info}>{t('infoPage')}</Typography>
 
       <Button
         className={classes.joinBtn}
@@ -180,21 +85,21 @@ const Home = () => {
         color="primary"
         onClick={() => setOpen(true)}
       >
-        Join Now
+        {t('buttonLabel')}
       </Button>
       <Box className={classes.lastReferral}>
         <Typography variant="h5" className={classes.tableTitle}>
-          Last 10 Referrals
+          {t('tableTitle')}
         </Typography>
       </Box>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>USERNAME</TableCell>
-              <TableCell align="center">STATUS</TableCell>
-              <TableCell align="center">REWARD (XPR)</TableCell>
-              <TableCell align="right">TX</TableCell>
+              <TableCell>{t('username')}</TableCell>
+              <TableCell align="center">{t('status')}</TableCell>
+              <TableCell align="center">{t('reward')}</TableCell>
+              <TableCell align="right">{t('tx')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -216,34 +121,37 @@ const Home = () => {
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
           <Typography variant="p" className={classes.joinText}>
-            Enter your Proton account and email address to let you know when you
-            have been accepted to the referral program.
+            {t('modalInfo')}
           </Typography>
           <form noValidate autoComplete="off">
             <TextField
               className={classes.textField}
+              onChange={handleOnChangeAccount}
+              value={account}
               id="filled-account"
-              label="Account"
+              label={t('account')}
               variant="filled"
               InputProps={{
-                endAdornment: <DoneIcon color="primary" />
+                endAdornment: isValidAccount ? (
+                  <DoneIcon color="primary" />
+                ) : (
+                  <></>
+                )
               }}
             />
-            <Typography variant="p" className={classes.helperText}>
-              Account found!
-            </Typography>
+            {isValidAccount && (
+              <Typography variant="p" className={classes.helperText}>
+                {t('accountHelperText')}
+              </Typography>
+            )}
             <TextField
               className={classes.textField}
+              onChange={handleOnChangeMail}
+              value={mail}
               id="filled-email"
-              label="Email Address"
+              label={t('address')}
               variant="filled"
-              InputProps={{
-                endAdornment: <DoneIcon color="primary" />
-              }}
             />
-            <Typography variant="p" className={classes.helperText}>
-              Email found!
-            </Typography>
           </form>
           <FormControlLabel
             className={classes.checkBoxReceive}
@@ -255,11 +163,18 @@ const Home = () => {
                 color="primary"
               />
             }
-            label="Receive news and updates."
+            label={t('switchLabel')}
           />
           <Box className={classes.bntWrapper}>
-            <Button onClick={() => setCheked(false)}>Cancel</Button>
-            <Button color="primary">Save</Button>
+            <Button
+              onClick={() => {
+                setCheked(false)
+                setOpen(false)
+              }}
+            >
+              {t('cancel')}
+            </Button>
+            <Button color="primary">{t('save')}</Button>
           </Box>
         </Box>
       </Modal>
