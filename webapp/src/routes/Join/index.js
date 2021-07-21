@@ -90,7 +90,7 @@ const Join = () => {
       setAccountNameError({
         isError: !isValid,
         showMessage: isValid,
-        message: 'Username Available!',
+        message: 'helperTextUsername',
         showIcon: isValid
       })
     }
@@ -99,7 +99,7 @@ const Join = () => {
       setAccountNameError({
         isError: true,
         showMessage: true,
-        message: '*Non-standard account names',
+        message: 'helperTextUsernameError',
         showIcon: false
       })
     }
@@ -121,11 +121,8 @@ const Join = () => {
   return (
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
-        <Typography className={classes.joinTitle}>Join Proton!</Typography>
-        <Typography className={classes.joinInfo}>
-          John Smith invited you to the Proton Blockchain. Signup now and earn
-          $10 in proton cryptocurrency.
-        </Typography>
+        <Typography className={classes.joinTitle}>{t('title')}</Typography>
+        <Typography className={classes.joinInfo}>{t('infoPage')}</Typography>
 
         {!isValidReferrer && (
           <Typography>
@@ -134,13 +131,11 @@ const Join = () => {
         )}
 
         <Box className={clsx(classes.step, { [classes.showBox]: true })}>
-          <Typography className={classes.joinStep}>
-            Step 1: Select your username.
-          </Typography>
+          <Typography className={classes.joinStep}>{t('step1')}</Typography>
           <TextField
             className={classes.textField}
             id="filled-account"
-            label="Account"
+            label={t('account')}
             variant="filled"
             value={accountName}
             onChange={handleOnChange}
@@ -154,7 +149,7 @@ const Join = () => {
           />
           {accountNameError.showMessage && (
             <Typography className={classes.helperText}>
-              {accountNameError.message}
+              {t(accountNameError.message)}
             </Typography>
           )}
         </Box>
@@ -164,12 +159,8 @@ const Join = () => {
             [classes.showBox]: accountNameError.showIcon || state.user
           })}
         >
-          <Typography className={classes.joinStep}>
-            Step 2: Download and Register
-          </Typography>
-          <Typography className={classes.joinInfo}>
-            Download the Proton wallet. Please use the same username as above.
-          </Typography>
+          <Typography className={classes.joinStep}>{t('step2')}</Typography>
+          <Typography className={classes.joinInfo}>{t('step2Info')}</Typography>
           <Button
             variant="contained"
             color="primary"
@@ -191,9 +182,7 @@ const Join = () => {
             [classes.showBox]: accountNameError.showIcon || state.user
           })}
         >
-          <Typography className={classes.joinStep}>
-            Step 3: Login with your Wallet
-          </Typography>
+          <Typography className={classes.joinStep}>{t('step3')}</Typography>
           {state.user ? (
             <Typography className={classes.accountName}>
               {`Welcome ${state.user.accountName}`}
@@ -204,15 +193,13 @@ const Join = () => {
               color="primary"
               className={classes.storeBtn}
             >
-              Login
+              {t('login')}
             </Button>
           )}
         </Box>
 
         <Box className={clsx(classes.step, { [classes.showBox]: state.user })}>
-          <Typography className={classes.joinStep}>
-            Step 4: Complete KYC
-          </Typography>
+          <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <TextField
             className={classes.textField}
             id="filled-fullName"
@@ -266,21 +253,20 @@ const Join = () => {
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.congratsModal}>
           <Typography className={clsx(classes.joinTitle, classes.modalTitle)}>
-            Congratulations!
+            {t('modalTitle')}
           </Typography>
           <Typography className={clsx(classes.joinInfo, classes.reward)}>
-            Your $10 reward its in the way!
+            {t('info')}
           </Typography>
           <Typography className={clsx(classes.joinInfo, classes.rewardInfo)}>
-            Join the referral program, invite friends or family and obtain $10
-            more for each completed registration.
+            {t('info2')}
           </Typography>
           <Button
             variant="contained"
             color="primary"
             className={classes.moadalJoinBtn}
           >
-            JOIN AND INVITE
+            {t('buttonLabel')}
           </Button>
         </Box>
       </Modal>

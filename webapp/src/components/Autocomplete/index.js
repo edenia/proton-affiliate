@@ -4,15 +4,9 @@ import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
-  option: {
-    fontSize: 15,
-    '& > span': {
-      marginRight: 10,
-      fontSize: 18
-    }
-  }
-})
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
 
 const AutocompleteInput = ({ data, label, onHandleSelect, name }) => {
   const classes = useStyles()
