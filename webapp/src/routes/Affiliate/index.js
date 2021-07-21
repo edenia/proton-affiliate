@@ -22,7 +22,9 @@ const Afiliate = () => {
 
   const handleClick = event => {
     navigator.clipboard.writeText(
-      `https://earnproton.com/join/${state.user.accountName}`
+      `https://earnproton.com/join/${
+        state.user ? state.user.accountName : null
+      }`
     )
     setAnchorEl(event.currentTarget)
   }
@@ -36,7 +38,9 @@ const Afiliate = () => {
       navigator
         .share({
           title: 'share demo',
-          url: `https://earnproton.com/join/${state.user.accountName}`
+          url: `https://earnproton.com/join/${
+            state.user ? state.user.accountName : null
+          }`
         })
         .then(() => {
           console.log('Thanks for sharing!')
@@ -63,7 +67,9 @@ const Afiliate = () => {
 
         <Button onClick={handleClick}>
           <Typography className={classes.affiliateLinkInfo}>
-            {`https://earnproton.com/join/${state.user.accountName}`}
+            {`https://earnproton.com/join/${
+              state.user ? state.user.accountName : null
+            }`}
           </Typography>
         </Button>
         <Popover
