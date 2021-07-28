@@ -146,6 +146,7 @@ const Header = memo(({ onDrawerToggle, useSecondaryHeader = false }) => {
 
   const handleLogin = () => {
     login()
+    history.push('/affiliate')
   }
 
   const handleSignOut = () => {
