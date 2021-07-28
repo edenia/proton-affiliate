@@ -1,48 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import Fab from '@material-ui/core/Fab'
-import AddIcon from '@material-ui/icons/Add'
+
+import TableSearch from '../../components/TableSearch'
+import Accordion from '../../components/Accordion'
 
 import styles from './styles'
-import AddUserModal from './AddUserModal'
-import UsersTable from './UsersTable'
+import FloatingMenu from '../../components/FloatingButon'
+// import UsersTable from './UsersTable'
 
 const useStyles = makeStyles(styles)
 
 const Admin = () => {
   const { t } = useTranslation('adminRoute')
   const classes = useStyles()
-  const [showModal, setShowModal] = useState(false)
+  // const [showModal, setShowModal] = useState(false)
 
-  const handleOnClick = () => {
-    setShowModal(true)
-  }
+  // const handleOnClick = () => {
+  //   setShowModal(true)
+  // }
 
-  const handleOnClose = () => {
-    setShowModal(false)
-  }
+  // const handleOnClose = () => {
+  //   setShowModal(false)
+  // }
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="h1">{t('title')}</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <UsersTable t={t} />
-      </Grid>
-      <Box className={classes.actionWrapper}>
-        <Fab color="primary" onClick={handleOnClick}>
-          <AddIcon />
-        </Fab>
+    <Box className={classes.adminPage}>
+      <Box className={classes.adminHead}>
+        <Typography className={classes.adminTitle}>{t('title')}</Typography>
+        <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
-      {showModal && (
-        <AddUserModal open={showModal} onClose={handleOnClose} t={t} />
-      )}
-    </Grid>
+      <Accordion title="User Approvals">
+        <TableSearch />
+      </Accordion>
+      <Accordion title="Referral Payments">
+        <TableSearch />
+      </Accordion>
+
+      <FloatingMenu />
+    </Box>
   )
 }
 

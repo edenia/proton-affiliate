@@ -9,13 +9,31 @@ export default theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
-  },
-  centerCell: {
+  adminTitle: {
+    fontWeight: '500',
+    fontSize: 21,
+    lineHeight: '27px',
     textAlign: 'center',
-    verticalAlign: 'middle'
+    letterSpacing: '0.15px',
+    color: '#000000'
+  },
+  adminInfo: {
+    fontWeight: '500',
+    margin: theme.spacing(2, 0),
+    fontSize: 16,
+    lineHeight: '24px',
+    letterSpacing: '0.44px',
+    color: '#6B717F'
+  },
+  adminPage: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  adminHead: {
+    padding: theme.spacing(4, 2, 2, 2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 })
