@@ -7,6 +7,26 @@ export default theme => ({
       borderBottom: 0
     }
   },
+  secondayAppBar: {
+    height: 80,
+    backgroundColor: 'rgba(245, 247, 250, 0.74)',
+    boxShadow: 'none',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing(0, 4)
+  },
+  secondayTitle: {
+    fontSize: 21,
+    fontWeight: '500',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: '0.15px',
+    textAlign: 'center',
+    color: '#000000'
+  },
   toolbar: {
     padding: 0,
     justifyContent: 'space-between',

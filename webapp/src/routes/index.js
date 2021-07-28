@@ -13,15 +13,15 @@ const routes = [
     name: 'home',
     component: Home,
     path: '/',
-    exact: true
-    // roles: ['guest', 'NON-AFFILIATED']
+    exact: true,
+    roles: ['guest', 'NON-AFFILIATED']
   },
   {
     name: 'affiliate',
     component: Affiliate,
     path: '/affiliate',
-    exact: true
-    // roles: ['ADMIN', 'REFERRER']
+    exact: true,
+    roles: ['ADMIN', 'REFERRER']
   },
   {
     component: Admin,

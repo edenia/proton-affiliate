@@ -7,6 +7,7 @@ import Hidden from '@material-ui/core/Hidden'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import AppBar from '@material-ui/core/AppBar'
+import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
@@ -18,6 +19,7 @@ import AccountIcon from '@material-ui/icons/AccountCircle'
 import EditIcon from '@material-ui/icons/Edit'
 import RotateRightIcon from '@material-ui/icons/RotateRight'
 import CloseIcon from '@material-ui/icons/Close'
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import { Sun as SunIcon, Moon as MoonIcon } from 'react-feather'
 
 import { useSharedState } from '../../context/state.context'
@@ -126,7 +128,7 @@ AuthButton.propTypes = {
   onSignOut: PropTypes.func
 }
 
-const Header = memo(({ onDrawerToggle }) => {
+const Header = memo(({ onDrawerToggle, useSecondaryHeader = false }) => {
   const classes = useStyles()
   const { t } = useTranslation('routes')
   const history = useHistory()
@@ -151,6 +153,10 @@ const Header = memo(({ onDrawerToggle }) => {
     history.push('/')
   }
 
+  const handleSwitchRoute = path => {
+    history.push(path)
+  }
+
   const handleOpenMenu = event => {
     setMenuAnchorEl(event.currentTarget)
   }
@@ -162,6 +168,19 @@ const Header = memo(({ onDrawerToggle }) => {
   useEffect(() => {
     setCurrentLanguaje(i18n.language?.substring(0, 2) || 'en')
   }, [i18n.language])
+
+  if (useSecondaryHeader) {
+    return (
+      <AppBar className={classes.secondayAppBar} position="sticky">
+        <IconButton aria-label="Back" onClick={() => console.log('back')}>
+          <KeyboardBackspaceIcon />
+        </IconButton>
+        <Typography className={classes.secondayTitle}>
+          Aliceblack by bobwhite
+        </Typography>
+      </AppBar>
+    )
+  }
 
   return (
     <AppBar className={classes.appBar} position="sticky">
@@ -209,7 +228,12 @@ const Header = memo(({ onDrawerToggle }) => {
         onClose={handleCloseMenu}
       >
         <MenuItem>
-          <Button startIcon={<EditIcon />}>Admin</Button>
+          <Button
+            startIcon={<EditIcon />}
+            onClick={() => handleSwitchRoute('/admin')}
+          >
+            Admin
+          </Button>
         </MenuItem>
         <MenuItem>
           <Button startIcon={<RotateRightIcon />}>Switch User</Button>
@@ -226,7 +250,8 @@ const Header = memo(({ onDrawerToggle }) => {
 Header.displayName = 'Header'
 
 Header.propTypes = {
-  onDrawerToggle: PropTypes.func
+  onDrawerToggle: PropTypes.func,
+  useSecondaryHeader: PropTypes.bool
 }
 
 export default Header
