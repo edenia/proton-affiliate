@@ -4,6 +4,19 @@
 - table:
     schema: public
     name: referral
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - created_at
+      - expires_on
+      - id
+      - invitee
+      - referrer
+      - status
+      - updated_at
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: referral_history
