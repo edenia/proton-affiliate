@@ -86,6 +86,10 @@
   },
   "adminRoute": {
     "title": "Administration",
-    "pageInfo": "Affiliate approvals and payments must be performed manually and by batches."
+    "pageInfo": "Affiliate approvals and payments must be performed manually and by batches.",
+    "addAccount": "Add Account",
+    "approveAccount": "Approve Account",
+    "rejectAccount": "Reject Account",
+    "removeListing": "Remove Listing"
   }
 }
