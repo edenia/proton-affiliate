@@ -208,6 +208,10 @@
                     "type": "name"
                 },
                 {
+                    "name": "rate",
+                    "type": "float64"
+                },
+                {
                     "name": "usd_reward_amount",
                     "type": "float64"
                 },
@@ -221,6 +225,24 @@
             "name": "setrate",
             "base": "",
             "fields": []
+        },
+        {
+            "name": "setstatus",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                }
+            ]
         },
         {
             "name": "statuslog",
@@ -413,6 +435,11 @@
         {
             "name": "setrate",
             "type": "setrate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setstatus",
+            "type": "setstatus",
             "ricardian_contract": ""
         },
         {

@@ -148,7 +148,9 @@ CONTRACT affiliate : public contract {
      * 
      * @return no return value.
      */
-    ACTION setparams(name payer, double usd_reward_amount, uint8_t expiration_days);
+    ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
+
+    ACTION setstatus(name admin, name invitee, uint8_t status);
 
     ACTION setrate();
 

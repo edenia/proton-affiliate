@@ -14,7 +14,7 @@ const init = async () => {
     startAtBlock: demuxConfig.startAtBlock,
     nodeosEndpoint: networkConfig.api
   })
-  const watcher = new BaseActionWatcher(actionReader, actionHandler, 250)
+  const watcher = new BaseActionWatcher(actionReader, actionHandler, 500)
 
   await hasuraUtil.hasuraAssembled()
   watcher.watch()

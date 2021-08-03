@@ -123,6 +123,7 @@ describe('affiliate contract', function () {
   it('Should run setparams', async () => {
     const response = await affiliateContract.actions.setparams.broadcast([
       affiliateAccount.name,
+      0.5,
       5,
       3
     ])
