@@ -27,7 +27,7 @@ import styles from './styles'
 
 const headCellUserApprovals = [
   { id: 'username', align: 'left', label: 'username' },
-  { id: 'status', align: 'center', label: 'status' },
+  { id: 'role', align: 'center', label: 'role' },
   { id: 'reward', align: 'center', label: 'reward' },
   { id: 'tx', align: 'center', label: 'tx' }
 ]
@@ -79,7 +79,7 @@ const Admin = () => {
     const users = await affiliateUtil.getUsers(userPagination.cursor)
     const data = (users.rows || []).map(item => ({
       username: item.user,
-      status: '-',
+      role: item.role,
       reward: '-',
       tx: '-'
     }))

@@ -146,7 +146,7 @@ const Join = () => {
 
         <Box
           className={clsx(classes.step, {
-            [classes.showBox]: isValidReferrer && !open
+            [classes.showBox]: isValidReferrer
           })}
         >
           <Typography className={classes.joinStep}>{t('step1')}</Typography>
@@ -170,19 +170,21 @@ const Join = () => {
               {t(accountNameError.message)}
             </Typography>
           )}
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!accountNameError.showIcon}
-            className={clsx(classes.sendBtn, classes.marginMd)}
-            onClick={handleOnSubmit}
-          >
-            {loading ? (
-              <CircularProgress color="secondary" size={20} />
-            ) : (
-              'Send'
-            )}
-          </Button>
+          {!open && (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!accountNameError.showIcon}
+              className={clsx(classes.sendBtn, classes.marginMd)}
+              onClick={handleOnSubmit}
+            >
+              {loading ? (
+                <CircularProgress color="secondary" size={20} />
+              ) : (
+                'Send'
+              )}
+            </Button>
+          )}
         </Box>
 
         <Box
@@ -234,6 +236,15 @@ const Join = () => {
               {t('login')}
             </Button>
           )}
+        </Box>
+
+        <Box
+          className={clsx(classes.step, {
+            [classes.showBox]: open
+          })}
+        >
+          <Typography className={classes.joinStep}>{t('step4')}</Typography>
+          <Typography className={classes.joinInfo}>{t('step4Info')}</Typography>
         </Box>
 
         <Box className={clsx(classes.step, { [classes.showBox]: false })}>
