@@ -241,12 +241,14 @@ ACTION affiliate::rejectref(name admin, name invitee, string memo) {
   SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PAYMENT_REJECTED });
 }
 
-ACTION affiliate::setparams(name payer, double usd_reward_amount, uint8_t expiration_days) {
+ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days) {
   require_auth(get_self());
 
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
   data.payer = payer;
+  data.rate = rate;
+  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.usd_reward_amount = usd_reward_amount;
   data.expiration_days = expiration_days;
   _params.set(data, get_self());
@@ -257,13 +259,31 @@ ACTION affiliate::setrate() {
 
   double rate = get_current_exchange_rate();
   check(rate > 0, "Invalid rate");
-  // check(false, to_string(rate));
 
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
   data.rate = rate;
   data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   _params.set(data, get_self());
+}
+
+ACTION affiliate::setstatus(name admin, name invitee, uint8_t status) {
+  require_auth(admin);
+
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+  check(status >= referral_status::PENDING_USER_REGISTRATION && status <= referral_status::PAID, "status out of range");
+  
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
+
+  _referrals.modify(_referral, get_self(), [&](auto& ref) {
+    ref.status = status;
+  });
+  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, status });
 }
 
 ACTION affiliate::clearref() {
