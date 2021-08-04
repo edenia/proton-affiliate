@@ -1,8 +1,8 @@
 import React from 'react'
 
 const PlayStore = props => (
-  <svg viewBox="0 0 150 100" fill="none" {...props}>
-    <g clipPath="url(#clip0)">
+  <svg viewBox="0 0 337 100" fill="none" {...props}>
+    <g clipPath="url(#playStore)">
       <path
         d="M323.952 99.7512H13.0069C6.16611 99.7512 0.569092 94.1542 0.569092 87.3134V12.6865C0.569092 5.84575 6.16611 0.248734 13.0069 0.248734H323.952C330.793 0.248734 336.39 5.84575 336.39 12.6865V87.3134C336.39 94.1542 330.793 99.7512 323.952 99.7512Z"
         fill="black"
@@ -299,7 +299,7 @@ const PlayStore = props => (
         <stop offset={0.8009} stopColor="#44ED98" />
         <stop offset={1} stopColor="#40F498" />
       </linearGradient>
-      <clipPath id="clip0">
+      <clipPath id="playStore">
         <rect
           width={336.567}
           height={100}

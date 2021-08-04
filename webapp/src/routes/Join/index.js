@@ -9,7 +9,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { useMutation } from '@apollo/client'
 import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
-import IconButton from '@material-ui/core/IconButton'
 import DoneIcon from '@material-ui/icons/Done'
 
 import Modal from '../../components/Modal'
@@ -124,7 +123,9 @@ const Join = () => {
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
         <Typography className={classes.joinTitle}>{t('title')}</Typography>
-        <Typography className={classes.joinInfo}>{t('infoPage')}</Typography>
+        <Typography className={classes.joinInfo}>{`${referrer} ${t(
+          'infoPage'
+        )}`}</Typography>
 
         {!isValidReferrer && (
           <Typography>
@@ -132,7 +133,11 @@ const Join = () => {
           </Typography>
         )}
 
-        <Box className={clsx(classes.step, { [classes.showBox]: !open })}>
+        <Box
+          className={clsx(classes.step, {
+            [classes.showBox]: isValidReferrer && !open
+          })}
+        >
           <Typography className={classes.joinStep}>{t('step1')}</Typography>
           <TextField
             className={clsx(classes.textField, classes.marginMd)}
@@ -150,7 +155,7 @@ const Join = () => {
             }}
           />
           {accountNameError.showMessage && (
-            <Typography className={classes.helperText}>
+            <Typography className={clsx(classes.helperText, classes.marginMd)}>
               {t(accountNameError.message)}
             </Typography>
           )}
@@ -158,7 +163,7 @@ const Join = () => {
             variant="contained"
             color="primary"
             disabled={!accountNameError.showIcon}
-            className={classes.sendBtn}
+            className={clsx(classes.sendBtn, classes.marginMd)}
             onClick={handleOnSubmit}
           >
             {loading ? (
@@ -177,13 +182,26 @@ const Join = () => {
           <Typography className={classes.joinStep}>{t('step2')}</Typography>
           <Typography className={classes.joinInfo}>{t('step2Info')}</Typography>
 
-          <IconButton>
-            <AppStore className={classes.storeBtn} width={150} height={100} />
-          </IconButton>
-
-          <IconButton>
-            <PlayStore className={classes.storeBtn} width={150} height={100} />
-          </IconButton>
+          <Box className={classes.btnWrapper}>
+            <AppStore
+              className={classes.storeBtn}
+              onClick={() =>
+                window.open(
+                  'https://apps.apple.com/us/app/proton-wallet/id1516536231',
+                  '_blank'
+                )
+              }
+            />
+            <PlayStore
+              className={classes.storeBtn}
+              onClick={() =>
+                window.open(
+                  'https://play.google.com/store/apps/details?id=com.metallicus.protonwallet&hl=en&gl=US',
+                  '_blank'
+                )
+              }
+            />
+          </Box>
         </Box>
 
         <Box

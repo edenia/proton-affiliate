@@ -44,6 +44,6 @@ AutocompleteInput.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   onHandleSelect: PropTypes.func,
-  styles: PropTypes.object
+  styles: PropTypes.any
 }
 export default AutocompleteInput

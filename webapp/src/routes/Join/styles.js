@@ -38,7 +38,6 @@ export default theme => ({
     width: '100%',
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
-      border: '1px solid red',
       width: 244
     }
   },
@@ -57,13 +56,12 @@ export default theme => ({
     alignItems: 'center',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      border: '1px solid green',
       alignItems: 'flex-start'
     }
   },
   storeBtn: {
     margin: theme.spacing(1, 0),
-    width: 150
+    width: 117
   },
   congratsModal: {
     width: '80%',
@@ -104,7 +102,10 @@ export default theme => ({
   },
   sendBtn: {
     width: '100%',
-    margin: theme.spacing(6, 0, 1, 0)
+    margin: theme.spacing(6, 0, 1, 0),
+    [theme.breakpoints.up('md')]: {
+      width: 200
+    }
   },
   marginMd: {
     [theme.breakpoints.up('md')]: {
@@ -114,6 +115,15 @@ export default theme => ({
   marginLeft: {
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2)
+    }
+  },
+  btnWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(8),
+      width: 300
     }
   }
 })
