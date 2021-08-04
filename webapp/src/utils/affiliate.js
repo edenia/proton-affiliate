@@ -74,6 +74,92 @@ const addUser = async (admin, user, role = 2) => {
   return transaction
 }
 
+const approveKyc = async (admin, invitee) => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'setstatus',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            invitee,
+            status: REFFERAL_STATUS_IDS.PENDING_PAYMENT,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const payRef = async (admin, invitee) => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'payref',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            invitee,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const rejectRef = async (admin, invitee, memo = '') => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'rejectref',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            memo,
+            invitee,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
 const getUsers = async lowerBound => {
   const {
     rows,
@@ -148,7 +234,10 @@ export const affiliateUtil = {
   ROLES,
   GUEST_ROLE,
   getUserRole,
+  rejectRef,
+  payRef,
   addUser,
+  approveKyc,
   getUsers,
   getUser,
   isAccountValidAsReferrer,

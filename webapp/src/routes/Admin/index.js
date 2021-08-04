@@ -19,7 +19,8 @@ import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButon'
 import { GET_REFERRAL_QUERY } from '../../gql'
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import { affiliateUtil, getLastCharacters, getUALError } from '../../utils'
+import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
@@ -57,6 +58,7 @@ const Admin = () => {
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [currentReferral, setCurrentReferral] = useState()
+  const [{ ual }, { showMessage }] = useSharedState()
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -93,12 +95,51 @@ const Admin = () => {
     setCurrentReferral(data)
   }
 
-  const handleOnApproveReferral = () => {
-    console.log('handleOnApproveReferral')
+  const handleOnApproveReferral = async () => {
+    try {
+      const data = await affiliateUtil.payRef(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      showMessage({ type: 'success', content: t('success') })
+      handleOnClose()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
   }
 
-  const handleOnRejectReferral = () => {
-    console.log('handleOnRejectReferral')
+  const handleOnRejectReferral = async () => {
+    try {
+      const data = await affiliateUtil.rejectRef(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      showMessage({ type: 'success', content: t('success') })
+      handleOnClose()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnApproveKyc = async () => {
+    try {
+      const data = await affiliateUtil.approveKyc(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      showMessage({ type: 'success', content: t('success') })
+      handleOnClose()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnClose = () => {
+    setOpen(false)
+    setCurrentReferral(null)
   }
 
   useEffect(() => {
@@ -212,48 +253,64 @@ const Admin = () => {
           </Box>
         </Box>
       </FloatingMenu>
-      <Modal open={open} setOpen={setOpen}>
-        {currentReferral && (
-          <Box className={classes.timeline}>
-            <Box className={classes.secondayBar} position="sticky">
-              <IconButton aria-label="Back" onClick={() => setOpen(false)}>
-                <KeyboardBackspaceIcon />
-              </IconButton>
-              <Typography className={classes.secondayTitle}>
-                {currentReferral?.invitee} by {currentReferral?.referrer}
-              </Typography>
-            </Box>
-            <Typography className={classes.timelineTitle}>
-              {t('timelimeTitle')}
+      <Modal open={open} setOpen={handleOnClose}>
+        <Box className={classes.timeline}>
+          <Box className={classes.secondayBar} position="sticky">
+            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
+              <KeyboardBackspaceIcon />
+            </IconButton>
+            <Typography className={classes.secondayTitle}>
+              {currentReferral?.invitee} by {currentReferral?.referrer}
             </Typography>
-            <CustomizedTimeline items={currentReferral.history} />
-            {currentReferral.status ===
-              affiliateUtil.REFFERAL_STATUS[
-                affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
-              ] && (
-              <Box className={classes.modalFooter}>
-                <Typography>Approve This Refferal Payment</Typography>
-                <Box className={classes.modalBtnWrapper}>
-                  <Button
-                    variant="contained"
-                    onClick={handleOnRejectReferral}
-                    className={classes.timelineBtn}
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOnApproveReferral}
-                    className={classes.timelineBtn}
-                  >
-                    Yes
-                  </Button>
-                </Box>
-              </Box>
-            )}
           </Box>
-        )}
+          <Typography className={classes.timelineTitle}>
+            {t('timelimeTitle')}
+          </Typography>
+          <CustomizedTimeline items={currentReferral?.history} />
+          {currentReferral?.status ===
+            affiliateUtil.REFFERAL_STATUS[
+              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
+            ] && (
+            <Box className={classes.modalFooter}>
+              <Typography>Approve This Refferal Payment</Typography>
+              <Box className={classes.modalBtnWrapper}>
+                <Button
+                  variant="contained"
+                  onClick={handleOnRejectReferral}
+                  className={classes.timelineBtn}
+                >
+                  Reject
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOnApproveReferral}
+                  className={classes.timelineBtn}
+                >
+                  Yes
+                </Button>
+              </Box>
+            </Box>
+          )}
+          {currentReferral?.status ===
+            affiliateUtil.REFFERAL_STATUS[
+              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+            ] && (
+            <Box className={classes.modalFooter}>
+              <Typography>Approve This Refferal KYC</Typography>
+              <Box className={classes.modalBtnWrapper}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOnApproveKyc}
+                  className={classes.timelineBtn}
+                >
+                  Yes
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </Box>
       </Modal>
     </Box>
   )
