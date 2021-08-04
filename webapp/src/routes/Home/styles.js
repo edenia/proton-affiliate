@@ -2,7 +2,11 @@ export default theme => ({
   homePage: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   title: {
     width: '100%',
@@ -97,7 +101,10 @@ export default theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 3, 2, 3),
-    borderRadius: 5
+    borderRadius: 5,
+    [theme.breakpoints.up('md')]: {
+      width: 300
+    }
   },
   joinText: {
     fontSize: 16,

@@ -3,7 +3,9 @@
     "login": "Login",
     "signOut": "Logout",
     "lightMode": "Light Mode",
-    "darkMode": "Dark Mode"
+    "darkMode": "Dark Mode",
+    "empty": "No data",
+    "loadMore": "Load More"
   },
   "routes": {
     "/>title": "Proton Affiliate",

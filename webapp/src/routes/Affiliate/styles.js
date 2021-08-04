@@ -2,7 +2,11 @@ export default theme => ({
   affiliatePage: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   affiliateTitle: {
     fontWeight: '500',

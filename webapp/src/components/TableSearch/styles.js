@@ -45,5 +45,8 @@ export default theme => ({
   },
   tablePagination: {
     display: 'flex'
+  },
+  loadMore: {
+    textTransform: 'uppercase'
   }
 })

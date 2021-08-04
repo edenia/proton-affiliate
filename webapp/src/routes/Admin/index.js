@@ -231,12 +231,25 @@ const Admin = () => {
               affiliateUtil.REFFERAL_STATUS[
                 affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
               ] && (
-              <Box>
+              <Box className={classes.modalFooter}>
                 <Typography>Approve This Refferal Payment</Typography>
-                <Button onClick={handleOnRejectReferral}>Reject</Button>
-                <Button color="primary" onClick={handleOnApproveReferral}>
-                  Yes
-                </Button>
+                <Box className={classes.modalBtnWrapper}>
+                  <Button
+                    variant="contained"
+                    onClick={handleOnRejectReferral}
+                    className={classes.timelineBtn}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleOnApproveReferral}
+                    className={classes.timelineBtn}
+                  >
+                    Yes
+                  </Button>
+                </Box>
               </Box>
             )}
           </Box>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -69,6 +70,7 @@ const TablePages = ({
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
+  const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
@@ -166,8 +168,7 @@ const TablePages = ({
               {!rows.length && (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
-                    {/* @todo: add translation */}
-                    No hay datos
+                    {t('empty')}
                   </TableCell>
                 </TableRow>
               )}
@@ -187,8 +188,9 @@ const TablePages = ({
               variant="outlined"
               color="primary"
               onClick={handleOnLoadMore}
+              className={classes.loadMore}
             >
-              LOAD MORE
+              {t('loadMore')}
             </Button>
           </Box>
         )}

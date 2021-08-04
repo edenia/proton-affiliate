@@ -227,6 +227,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
               aria-label="show more"
               aria-haspopup="true"
               onClick={handleOpenMenu}
+              className={classes.iconButton}
             >
               <AccountIcon />
               <Typography>{state.user.accountName}</Typography>
@@ -242,6 +243,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
             <IconButton
               aria-label="show more"
               aria-haspopup="true"
+              className={classes.iconButton}
               onClick={handleOpenMenu}
             >
               <AccountIcon />

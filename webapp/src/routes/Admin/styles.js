@@ -28,7 +28,11 @@ export default theme => ({
   adminPage: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   adminHead: {
     padding: theme.spacing(4, 2, 2, 2),
@@ -84,7 +88,26 @@ export default theme => ({
   },
   timeline: {
     width: '100%',
-    height: '100%',
-    backgroundColor: '#fff'
+    height: '90%',
+    backgroundColor: '#fff',
+    [theme.breakpoints.up('md')]: {
+      width: 375
+    }
+  },
+  timelineBtn: {
+    borderRadius: 20,
+    width: 100
+  },
+  modalBtnWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: theme.spacing(0, 4),
+    width: '100%',
+    marginTop: theme.spacing(3)
+  },
+  modalFooter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 })

@@ -59,5 +59,13 @@ export default theme => ({
       textTransform: 'uppercase',
       color: '#121212'
     }
+  },
+  iconButton: {
+    color: '#000000',
+    [theme.breakpoints.up('md')]: {
+      '& svg': {
+        marginRight: theme.spacing(1)
+      }
+    }
   }
 })

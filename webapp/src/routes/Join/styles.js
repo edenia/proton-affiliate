@@ -3,7 +3,11 @@ export default theme => ({
     padding: theme.spacing(4, 2, 2, 2),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   joinPage: {
     display: 'flex',
@@ -16,7 +20,18 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000'
+    color: '#000000',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 40,
+      fontWeight: 'bold',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: '1.3',
+      letterSpacing: 'normal',
+      textAlign: 'left',
+      color: '#000000',
+      width: '100%'
+    }
   },
   joinInfo: {
     fontWeight: '500',
@@ -24,7 +39,16 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#6B717F'
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 21,
+      fontWeight: '500',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left'
+    }
   },
   joinStep: {
     fontWeight: 'normal',
