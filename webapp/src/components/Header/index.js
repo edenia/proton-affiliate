@@ -198,8 +198,6 @@ const Header = memo(({ onDrawerToggle, routes }) => {
     setMenuAnchorEl(null)
   }
 
-  console.log({ state })
-
   return (
     <AppBar className={classes.appBar} position="sticky">
       <Toolbar className={classes.toolbar}>
