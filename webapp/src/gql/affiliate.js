@@ -21,6 +21,47 @@ export const GET_REFERRAL_QUERY = gql`
       invitee
       referrer
       status
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
+    }
+  }
+`
+
+export const GET_REFERRAL_HISTORY = gql`
+  query getReferralHistory {
+    referral_history {
+      id
+      invitee
+      payload
+      trxid
+      created_at
+      block_time
+    }
+  }
+`
+export const GET_MY_REFERRALS = gql`
+  query getMyReferral(
+    $where: referral_bool_exp
+    $offset: Int = 0
+    $limit: Int = 5
+  ) {
+    info: referral_aggregate {
+      referrals: aggregate {
+        count
+      }
+    }
+    referrals: referral(where: $where, offset: $offset, limit: $limit) {
+      id
+      invitee
+      referrer
+      status
+      expires_on
+      created_at
     }
   }
 `

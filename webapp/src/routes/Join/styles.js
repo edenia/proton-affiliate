@@ -3,7 +3,11 @@ export default theme => ({
     padding: theme.spacing(4, 2, 2, 2),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   joinPage: {
     display: 'flex',
@@ -16,7 +20,18 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000'
+    color: theme.palette.common.black,
+    [theme.breakpoints.up('md')]: {
+      fontSize: 40,
+      fontWeight: 'bold',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: '1.3',
+      letterSpacing: 'normal',
+      textAlign: 'left',
+      color: theme.palette.common.black,
+      width: '100%'
+    }
   },
   joinInfo: {
     fontWeight: '500',
@@ -24,19 +39,31 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#6B717F'
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 21,
+      fontWeight: '500',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left'
+    }
   },
   joinStep: {
     fontWeight: 'normal',
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#000000',
+    color: theme.palette.common.black,
     width: '100%'
   },
   textField: {
     width: '100%',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      width: 244
+    }
   },
   helperText: {
     fontSize: 12,
@@ -51,11 +78,14 @@ export default theme => ({
     display: 'none',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start'
+    }
   },
   storeBtn: {
     margin: theme.spacing(1, 0),
-    width: 200
+    width: 117
   },
   congratsModal: {
     width: '80%',
@@ -96,6 +126,28 @@ export default theme => ({
   },
   sendBtn: {
     width: '100%',
-    margin: theme.spacing(6, 0, 1, 0)
+    margin: theme.spacing(6, 0, 1, 0),
+    [theme.breakpoints.up('md')]: {
+      width: 200
+    }
+  },
+  marginMd: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(11)
+    }
+  },
+  marginLeft: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(2)
+    }
+  },
+  btnWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(8),
+      width: 300
+    }
   }
 })

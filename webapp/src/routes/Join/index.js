@@ -15,7 +15,8 @@ import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
 import useCountries from '../../hooks/useCountries'
 import AutocompleteInput from '../../components/Autocomplete'
-import { affiliateUtil } from '../../utils'
+import { AppStore, PlayStore } from '../../components/SvgIcons'
+import { affiliateUtil, getLastCharacters } from '../../utils'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
@@ -64,7 +65,18 @@ const Join = () => {
         }
       })
 
-      showMessage({ type: 'success', content: `${t('success')} ${trxid}` })
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`https://testnet.protonscan.io/transaction/${trxid}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(trxid)}`}
+          </a>
+        )
+      })
       setOpen(true)
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
@@ -122,7 +134,9 @@ const Join = () => {
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
         <Typography className={classes.joinTitle}>{t('title')}</Typography>
-        <Typography className={classes.joinInfo}>{t('infoPage')}</Typography>
+        <Typography className={classes.joinInfo}>{`${referrer} ${t(
+          'infoPage'
+        )}`}</Typography>
 
         {!isValidReferrer && (
           <Typography>
@@ -130,10 +144,14 @@ const Join = () => {
           </Typography>
         )}
 
-        <Box className={clsx(classes.step, { [classes.showBox]: true })}>
+        <Box
+          className={clsx(classes.step, {
+            [classes.showBox]: isValidReferrer && !open
+          })}
+        >
           <Typography className={classes.joinStep}>{t('step1')}</Typography>
           <TextField
-            className={classes.textField}
+            className={clsx(classes.textField, classes.marginMd)}
             id="filled-account"
             label={t('account')}
             variant="filled"
@@ -148,38 +166,58 @@ const Join = () => {
             }}
           />
           {accountNameError.showMessage && (
-            <Typography className={classes.helperText}>
+            <Typography className={clsx(classes.helperText, classes.marginMd)}>
               {t(accountNameError.message)}
             </Typography>
           )}
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!accountNameError.showIcon}
+            className={clsx(classes.sendBtn, classes.marginMd)}
+            onClick={handleOnSubmit}
+          >
+            {loading ? (
+              <CircularProgress color="secondary" size={20} />
+            ) : (
+              'Send'
+            )}
+          </Button>
         </Box>
 
         <Box
           className={clsx(classes.step, {
-            [classes.showBox]: accountNameError.showIcon || state.user
+            [classes.showBox]: open
           })}
         >
           <Typography className={classes.joinStep}>{t('step2')}</Typography>
           <Typography className={classes.joinInfo}>{t('step2Info')}</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.storeBtn}
-          >
-            Play Store
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.storeBtn}
-          >
-            App Store
-          </Button>
+
+          <Box className={classes.btnWrapper}>
+            <AppStore
+              className={classes.storeBtn}
+              onClick={() =>
+                window.open(
+                  'https://apps.apple.com/us/app/proton-wallet/id1516536231',
+                  '_blank'
+                )
+              }
+            />
+            <PlayStore
+              className={classes.storeBtn}
+              onClick={() =>
+                window.open(
+                  'https://play.google.com/store/apps/details?id=com.metallicus.protonwallet&hl=en&gl=US',
+                  '_blank'
+                )
+              }
+            />
+          </Box>
         </Box>
 
         <Box
           className={clsx(classes.step, {
-            [classes.showBox]: accountNameError.showIcon || state.user
+            [classes.showBox]: open
           })}
         >
           <Typography className={classes.joinStep}>{t('step3')}</Typography>
@@ -198,59 +236,51 @@ const Join = () => {
           )}
         </Box>
 
-        <Box className={clsx(classes.step, { [classes.showBox]: state.user })}>
+        <Box className={clsx(classes.step, { [classes.showBox]: false })}>
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
-          <TextField
-            className={classes.textField}
-            id="filled-fullName"
-            onChange={e => handleOnChangeInputs('fullname', e.target.value)}
-            value={inputs.fullname.value}
-            label="Full Name"
-            variant="filled"
-          />
-          <TextField
-            className={classes.textField}
-            id="filled-address"
-            onChange={e => handleOnChangeInputs('address', e.target.value)}
-            value={inputs.address.value}
-            label="Address"
-            variant="filled"
-          />
-          <AutocompleteInput
-            data={countries}
-            label="Country"
-            onHandleSelect={handleOnChangeInputs}
-            name="country"
-          />
-          <AutocompleteInput
-            data={statesByCountry}
-            label="Provice or State"
-            onHandleSelect={handleOnChangeInputs}
-            name="state"
-          />
-          <TextField
-            className={classes.textField}
-            id="filled-dateBirth"
-            onChange={e => handleOnChangeInputs('date', e.target.value)}
-            value={inputs.date.value}
-            label="Date of Birth"
-            variant="filled"
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.sendBtn}
-            onClick={handleOnSubmit}
-          >
-            {loading ? (
-              <CircularProgress color="secondary" size={20} />
-            ) : (
-              'Send'
-            )}
-          </Button>
+          <Box style={{ display: 'flex', flexWrap: 'wrap', width: 700 }}>
+            <TextField
+              className={clsx(classes.textField, classes.marginMd)}
+              id="filled-fullName"
+              onChange={e => handleOnChangeInputs('fullname', e.target.value)}
+              value={inputs.fullname.value}
+              label="Full Name"
+              variant="filled"
+            />
+            <TextField
+              className={clsx(classes.textField, classes.marginLeft)}
+              id="filled-address"
+              onChange={e => handleOnChangeInputs('address', e.target.value)}
+              value={inputs.address.value}
+              label="Address"
+              variant="filled"
+            />
+            <AutocompleteInput
+              styles={classes.marginMd}
+              data={countries}
+              label="Country"
+              onHandleSelect={handleOnChangeInputs}
+              name="country"
+            />
+            <AutocompleteInput
+              styles={classes.marginLeft}
+              data={statesByCountry}
+              label="Provice or State"
+              onHandleSelect={handleOnChangeInputs}
+              name="state"
+            />
+            <TextField
+              className={clsx(classes.textField, classes.marginMd)}
+              id="filled-dateBirth"
+              onChange={e => handleOnChangeInputs('date', e.target.value)}
+              value={inputs.date.value}
+              label="Date of Birth"
+              variant="filled"
+            />
+          </Box>
         </Box>
       </Box>
-      <Modal open={open} setOpen={setOpen}>
+      <Modal open={false} setOpen={setOpen}>
         <Box className={classes.congratsModal}>
           <Typography className={clsx(classes.joinTitle, classes.modalTitle)}>
             {t('modalTitle')}

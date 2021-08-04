@@ -2,19 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import { useLazyQuery } from '@apollo/client'
+import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
+import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 
 import TableSearch from '../../components/TableSearch'
+import CustomizedTimeline from '../../components/Timeline'
+import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButon'
 import { GET_REFERRAL_QUERY } from '../../gql'
-import { affiliateUtil } from '../../utils'
+import { affiliateUtil, getLastCharacters, getUALError } from '../../utils'
+import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
@@ -48,8 +55,11 @@ const Admin = () => {
     initReferralPagination
   )
   const [referralRows, setReferralRows] = useState([])
+  const [open, setOpen] = useState(false)
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
+  const [currentReferral, setCurrentReferral] = useState()
+  const [{ ual }, { showMessage }] = useSharedState()
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -81,6 +91,76 @@ const Admin = () => {
     })
   }
 
+  const handleOnClickReferral = data => {
+    setOpen(true)
+    setCurrentReferral(data)
+  }
+
+  const handleOnPayRef = async () => {
+    try {
+      const data = await affiliateUtil.payRef(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      showMessage({ type: 'success', content: t('success') })
+      handleOnClose()
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnRejectRef = async () => {
+    try {
+      const data = await affiliateUtil.rejectRef(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      handleOnClose()
+      showMessage({ type: 'success', content: t('success') })
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnApproveKyc = async () => {
+    try {
+      const data = await affiliateUtil.approveKyc(
+        ual.activeUser,
+        currentReferral?.invitee
+      )
+      console.log('handleOnApproveKyc', data)
+      handleOnClose()
+      showMessage({ type: 'success', content: t('success') })
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnClose = () => {
+    setOpen(false)
+    setCurrentReferral(null)
+  }
+
   useEffect(() => {
     handleOnLoadMore()
     loadReferrals({
@@ -96,9 +176,10 @@ const Admin = () => {
 
     const data = (referrals || []).map(item => ({
       invitee: item.invitee,
-      status: item.status,
+      status: affiliateUtil.REFFERAL_STATUS[item.status],
       referrer: item.referrer,
-      tx: '-'
+      tx: getLastCharacters(item.history[item.history.length - 1].trxid),
+      history: item.history
     }))
 
     setReferralPagination({
@@ -126,7 +207,8 @@ const Admin = () => {
       <Accordion title="Referral Payments">
         <TableSearch
           headCells={headCellReferralPayment}
-          showColumnCheck
+          showColumnCheck={false}
+          onClickRow={handleOnClickReferral}
           rows={referralRows}
           pagination={referralPagination}
           handleOnPageChange={handleOnPageChange}
@@ -190,6 +272,65 @@ const Admin = () => {
           </Box>
         </Box>
       </FloatingMenu>
+      <Modal open={open} setOpen={handleOnClose}>
+        <Box className={classes.timeline}>
+          <Box className={classes.secondayBar} position="sticky">
+            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
+              <KeyboardBackspaceIcon />
+            </IconButton>
+            <Typography className={classes.secondayTitle}>
+              {currentReferral?.invitee} by {currentReferral?.referrer}
+            </Typography>
+          </Box>
+          <Typography className={classes.timelineTitle}>
+            {t('timelimeTitle')}
+          </Typography>
+          <CustomizedTimeline items={currentReferral?.history} />
+          {currentReferral?.status ===
+            affiliateUtil.REFFERAL_STATUS[
+              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
+            ] && (
+            <Box className={classes.modalFooter}>
+              <Typography>Approve This Refferal Payment</Typography>
+              <Box className={classes.modalBtnWrapper}>
+                <Button
+                  variant="contained"
+                  onClick={handleOnRejectRef}
+                  className={clsx(classes.timelineBtn, classes.reject)}
+                >
+                  Reject
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOnPayRef}
+                  className={classes.timelineBtn}
+                >
+                  Yes
+                </Button>
+              </Box>
+            </Box>
+          )}
+          {currentReferral?.status ===
+            affiliateUtil.REFFERAL_STATUS[
+              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+            ] && (
+            <Box className={classes.modalFooter}>
+              <Typography>Approve This Refferal KYC</Typography>
+              <Box className={classes.modalBtnWrapper}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOnApproveKyc}
+                  className={classes.timelineBtn}
+                >
+                  Yes
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </Modal>
     </Box>
   )
 }

@@ -3,7 +3,9 @@
     "login": "Login",
     "signOut": "Logout",
     "lightMode": "Light Mode",
-    "darkMode": "Dark Mode"
+    "darkMode": "Dark Mode",
+    "empty": "No data",
+    "loadMore": "Load More"
   },
   "routes": {
     "/>title": "Proton Affiliate",
@@ -26,7 +28,7 @@
     "title": "On-Chain",
     "title2": "Referral Program",
     "infoPage": "Join the program and recieve token rewards for every user that register and KYC on to Proton.",
-    "buttonLabel": "Join",
+    "buttonLabel": "Join Now",
     "tableTitle": "Last 10 Referrals",
     "username": "username",
     "status": "status",
@@ -60,8 +62,10 @@
   "affiliateRoute": {
     "title1": "Welcome to",
     "title2": "Proton’s Affiliate Program",
+    "titleDesktop": "Welcome to Proton’s Affiliate Program",
     "pageInfo": "Receive XPR token rewards equal to US$10.00 for every person you invite that registers to Proton as a user and completes the KYC within 72 hours.",
     "copy": "Copy and share this URL to invite new users:",
+    "copyDesktop": "Account affiliate link:",
     "copiedMessage": "Affiliate URL has been copied to your clipboard.",
     "butonLabel": "Share on Social Media",
     "tableTitle": "Your Invitees"
@@ -70,7 +74,7 @@
     "helperTextUsername": "Username Available!",
     "helperTextUsernameError": "*Non-standard account names",
     "title": "Join Proton!",
-    "infoPage": "John Smith invited you to the Proton Blockchain. Signup now and earn $10 in proton cryptocurrency.",
+    "infoPage": " invited you to the Proton Blockchain. Signup now and earn $10 in proton cryptocurrency.",
     "invalidReferrer": "Invalid Referrer",
     "step1": "Step 1: Select your username.",
     "account": "Account",
@@ -90,6 +94,7 @@
     "addAccount": "Add Account",
     "approveAccount": "Approve Account",
     "rejectAccount": "Reject Account",
-    "removeListing": "Remove Listing"
+    "removeListing": "Remove Listing",
+    "timelimeTitle": "Follow this referral history."
   }
 }

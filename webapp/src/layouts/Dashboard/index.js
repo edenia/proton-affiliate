@@ -24,8 +24,8 @@ const Dashboard = ({ children, routes }) => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.drawer}>
-        <Hidden mdUp implementation="js">
+      <Hidden mdUp implementation="js">
+        <Box className={classes.drawer}>
           <Sidebar
             PaperProps={{ style: { width: drawerWidth } }}
             variant="temporary"
@@ -33,17 +33,11 @@ const Dashboard = ({ children, routes }) => {
             onClose={handleDrawerToggle}
             routes={routes}
           />
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Sidebar
-            PaperProps={{ style: { width: drawerWidth } }}
-            variant="permanent"
-            routes={routes}
-          />
-        </Hidden>
-      </Box>
+        </Box>
+      </Hidden>
+
       <Box className={classes.mainContent}>
-        <Header onDrawerToggle={handleDrawerToggle} />
+        <Header onDrawerToggle={handleDrawerToggle} routes={routes} />
         <Box className={classes.childContent}>{children}</Box>
         <Footer />
         <Message />

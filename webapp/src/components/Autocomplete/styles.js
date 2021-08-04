@@ -5,5 +5,12 @@ export default theme => ({
       marginRight: 10,
       fontSize: 18
     }
+  },
+  autocompleteField: {
+    width: '100%',
+    marginTop: 16,
+    [theme.breakpoints.up('md')]: {
+      width: 244
+    }
   }
 })

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -64,10 +65,12 @@ const TablePages = ({
   handleOnLoadMore,
   pagination,
   handleOnPageChange,
-  handleOnRowsPerPageChange
+  handleOnRowsPerPageChange,
+  onClickRow
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
+  const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
@@ -129,6 +132,7 @@ const TablePages = ({
                     aria-checked={isItemSelected}
                     key={labelId}
                     selected={isItemSelected}
+                    onClick={() => onClickRow(row)}
                   >
                     {showColumnCheck && (
                       <TableCell padding="none" style={{ padding: '0' }}>
@@ -148,7 +152,7 @@ const TablePages = ({
                     >
                       <Typography
                         className={classes.linkLabel}
-                        onClick={() => console.log(row.username)}
+                        onClick={() => console.log(row.invitee)}
                       >
                         {row[headCells[0].id]}
                       </Typography>
@@ -164,7 +168,7 @@ const TablePages = ({
               {!rows.length && (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
-                    No hay datos
+                    {t('empty')}
                   </TableCell>
                 </TableRow>
               )}
@@ -184,13 +188,15 @@ const TablePages = ({
               variant="outlined"
               color="primary"
               onClick={handleOnLoadMore}
+              className={classes.loadMore}
             >
-              LOAD MORE
+              {t('loadMore')}
             </Button>
           </Box>
         )}
         {usePagination && (
           <TablePagination
+            classes={{ root: classes.tablePagination }}
             rowsPerPageOptions={pagination.rowsPerPageOptions}
             component="div"
             count={pagination.count}
@@ -215,7 +221,8 @@ TablePages.propTypes = {
   handleOnLoadMore: PropTypes.func,
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
-  handleOnRowsPerPageChange: PropTypes.func
+  handleOnRowsPerPageChange: PropTypes.func,
+  onClickRow: PropTypes.func
 }
 
 TablePages.defaultProps = {
@@ -228,6 +235,7 @@ TablePages.defaultProps = {
   handleOnLoadMore: () => {},
   handleOnPageChange: () => {},
   handleOnRowsPerPageChange: () => {},
+  onClickRow: () => {},
   pagination: {
     count: 0,
     rowsPerPage: 5,

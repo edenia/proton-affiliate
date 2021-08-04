@@ -22,7 +22,7 @@ export default theme => ({
     fontSize: 21,
     lineHeight: '27px',
     letterSpacing: '0.15px',
-    color: 'rgba(0, 0, 0, 0.87)'
+    color: theme.palette.warning.contrastText
   },
   summary: {
     width: '100%',

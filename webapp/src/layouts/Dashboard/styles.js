@@ -22,6 +22,10 @@ export default (theme, drawerWidth) => ({
     flex: 1,
     height: '100%',
     marginBottom: theme.spacing(2),
-    overflow: 'scroll'
+    overflow: 'scroll',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
   }
 })

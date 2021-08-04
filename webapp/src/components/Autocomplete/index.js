@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,13 +9,13 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const AutocompleteInput = ({ data, label, onHandleSelect, name }) => {
+const AutocompleteInput = ({ data, label, onHandleSelect, name, styles }) => {
   const classes = useStyles()
 
   return (
     <Autocomplete
       id={`country-selector-${name}`}
-      style={{ width: '100%', marginTop: 16 }}
+      className={clsx(classes.autocompleteField, styles)}
       options={data}
       classes={{
         option: classes.option
@@ -42,6 +43,7 @@ AutocompleteInput.propTypes = {
   data: PropTypes.array,
   label: PropTypes.string,
   name: PropTypes.string,
-  onHandleSelect: PropTypes.func
+  onHandleSelect: PropTypes.func,
+  styles: PropTypes.any
 }
 export default AutocompleteInput

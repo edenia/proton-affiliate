@@ -4,6 +4,22 @@ const ROLES = {
   1: 'ADMIN',
   2: 'REFERRER'
 }
+const REFFERAL_STATUS = {
+  1: 'PENDING_USER_REGISTRATION',
+  2: 'PENDING_KYC_VERIFICATION',
+  3: 'PENDING_PAYMENT',
+  4: 'PAYMENT_REJECTED',
+  5: 'EXPIRED',
+  6: 'PAID'
+}
+const REFFERAL_STATUS_IDS = {
+  PENDING_USER_REGISTRATION: 1,
+  PENDING_KYC_VERIFICATION: 2,
+  PENDING_PAYMENT: 3,
+  PAYMENT_REJECTED: 4,
+  EXPIRED: 5,
+  PAID: 6
+}
 const GUEST_ROLE = 'NON-AFFILIATED'
 // @todo: use env variable for smart contract name
 const AFFILLIATE_ACCOUNT = 'affiliate'
@@ -45,6 +61,92 @@ const addUser = async (admin, user, role = 2) => {
           data: {
             user,
             role,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const approveKyc = async (admin, invitee) => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'setstatus',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            invitee,
+            status: REFFERAL_STATUS_IDS.PENDING_PAYMENT,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const payRef = async (admin, invitee) => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'payref',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            invitee,
+            admin: admin.accountName
+          }
+        }
+      ]
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const rejectRef = async (admin, invitee, memo = '') => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: [
+        {
+          account: AFFILLIATE_ACCOUNT,
+          name: 'rejectref',
+          authorization: [
+            {
+              actor: admin.accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            memo,
+            invitee,
             admin: admin.accountName
           }
         }
@@ -127,10 +229,15 @@ const isAccountValidAsInvitee = async account => {
 }
 
 export const affiliateUtil = {
+  REFFERAL_STATUS,
+  REFFERAL_STATUS_IDS,
   ROLES,
   GUEST_ROLE,
   getUserRole,
+  rejectRef,
+  payRef,
   addUser,
+  approveKyc,
   getUsers,
   getUser,
   isAccountValidAsReferrer,

@@ -2,7 +2,11 @@ export default theme => ({
   homePage: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   title: {
     width: '100%',
@@ -10,7 +14,11 @@ export default theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: theme.spacing(5),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start',
+      margin: 0
+    }
   },
   onChain: {
     fontWeight: 'bold',
@@ -24,7 +32,7 @@ export default theme => ({
     fontSize: 40,
     lineHeight: '52px',
     textAlign: 'center',
-    color: '#000000'
+    color: theme.palette.common.black
   },
   info: {
     fontSize: 18,
@@ -36,7 +44,14 @@ export default theme => ({
     color: '#6B717F',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(5),
-    width: 250
+    width: 250,
+    [theme.breakpoints.up('md')]: {
+      width: 330,
+      fontSize: 21,
+      textAlign: 'left',
+      letterSpacing: '0.6px',
+      lineHeight: '28px'
+    }
   },
   joinBtn: {
     width: 270,
@@ -46,16 +61,15 @@ export default theme => ({
     fontSize: 14,
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: '#FFFFFF'
+    color: theme.palette.common.white
   },
   lastReferral: {
     marginTop: theme.spacing(6),
-    height: 56,
     width: '100%',
     background: 'rgba(245, 247, 250, 0.74)',
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 3)
+    padding: theme.spacing(2, 3)
   },
   tableTitle: {
     fontWeight: '600',
@@ -87,7 +101,10 @@ export default theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 3, 2, 3),
-    borderRadius: 5
+    borderRadius: 5,
+    [theme.breakpoints.up('md')]: {
+      width: 300
+    }
   },
   joinText: {
     fontSize: 16,
@@ -112,12 +129,41 @@ export default theme => ({
       fontSize: 15,
       lineHeight: '24px',
       letterSpacing: '0.15px',
-      color: '#000000'
+      color: theme.palette.common.black
     }
   },
   bntWrapper: {
     marginTop: theme.spacing(4),
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  infoBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& .left': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: 350
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(4),
+      width: '100%',
+      flexDirection: 'row'
+    }
+  },
+  imageSm: {
+    display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  imageMd: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'initial'
+    }
   }
 })
