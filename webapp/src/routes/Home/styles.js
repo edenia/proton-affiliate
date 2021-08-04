@@ -10,7 +10,11 @@ export default theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: theme.spacing(5),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start',
+      margin: 0
+    }
   },
   onChain: {
     fontWeight: 'bold',
@@ -36,7 +40,14 @@ export default theme => ({
     color: '#6B717F',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(5),
-    width: 250
+    width: 250,
+    [theme.breakpoints.up('md')]: {
+      width: 330,
+      fontSize: 21,
+      textAlign: 'left',
+      letterSpacing: '0.6px',
+      lineHeight: '28px'
+    }
   },
   joinBtn: {
     width: 270,
@@ -50,12 +61,11 @@ export default theme => ({
   },
   lastReferral: {
     marginTop: theme.spacing(6),
-    height: 56,
     width: '100%',
     background: 'rgba(245, 247, 250, 0.74)',
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 3)
+    padding: theme.spacing(2, 3)
   },
   tableTitle: {
     fontWeight: '600',
@@ -119,5 +129,34 @@ export default theme => ({
     marginTop: theme.spacing(4),
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  infoBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& .left': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: 350
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(4),
+      width: '100%',
+      flexDirection: 'row'
+    }
+  },
+  imageSm: {
+    display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  imageMd: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'initial'
+    }
   }
 })

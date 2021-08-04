@@ -36,7 +36,11 @@ export default theme => ({
   },
   textField: {
     width: '100%',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      border: '1px solid red',
+      width: 244
+    }
   },
   helperText: {
     fontSize: 12,
@@ -51,7 +55,11 @@ export default theme => ({
     display: 'none',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      border: '1px solid green',
+      alignItems: 'flex-start'
+    }
   },
   storeBtn: {
     margin: theme.spacing(1, 0),
@@ -97,5 +105,10 @@ export default theme => ({
   sendBtn: {
     width: '100%',
     margin: theme.spacing(6, 0, 1, 0)
+  },
+  marginMd: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(11)
+    }
   }
 })

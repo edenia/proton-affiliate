@@ -133,7 +133,7 @@ const Join = () => {
         <Box className={clsx(classes.step, { [classes.showBox]: true })}>
           <Typography className={classes.joinStep}>{t('step1')}</Typography>
           <TextField
-            className={classes.textField}
+            className={clsx(classes.textField, classes.marginMd)}
             id="filled-account"
             label={t('account')}
             variant="filled"
@@ -200,42 +200,45 @@ const Join = () => {
 
         <Box className={clsx(classes.step, { [classes.showBox]: state.user })}>
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
-          <TextField
-            className={classes.textField}
-            id="filled-fullName"
-            onChange={e => handleOnChangeInputs('fullname', e.target.value)}
-            value={inputs.fullname.value}
-            label="Full Name"
-            variant="filled"
-          />
-          <TextField
-            className={classes.textField}
-            id="filled-address"
-            onChange={e => handleOnChangeInputs('address', e.target.value)}
-            value={inputs.address.value}
-            label="Address"
-            variant="filled"
-          />
-          <AutocompleteInput
-            data={countries}
-            label="Country"
-            onHandleSelect={handleOnChangeInputs}
-            name="country"
-          />
-          <AutocompleteInput
-            data={statesByCountry}
-            label="Provice or State"
-            onHandleSelect={handleOnChangeInputs}
-            name="state"
-          />
-          <TextField
-            className={classes.textField}
-            id="filled-dateBirth"
-            onChange={e => handleOnChangeInputs('date', e.target.value)}
-            value={inputs.date.value}
-            label="Date of Birth"
-            variant="filled"
-          />
+          <Box style={{ display: 'flex', flexWrap: 'wrap', width: 700 }}>
+            <TextField
+              className={clsx(classes.textField, classes.marginMd)}
+              id="filled-fullName"
+              onChange={e => handleOnChangeInputs('fullname', e.target.value)}
+              value={inputs.fullname.value}
+              label="Full Name"
+              variant="filled"
+            />
+            <TextField
+              className={classes.textField}
+              id="filled-address"
+              onChange={e => handleOnChangeInputs('address', e.target.value)}
+              value={inputs.address.value}
+              label="Address"
+              variant="filled"
+            />
+            <AutocompleteInput
+              styles={classes.marginMd}
+              data={countries}
+              label="Country"
+              onHandleSelect={handleOnChangeInputs}
+              name="country"
+            />
+            <AutocompleteInput
+              data={statesByCountry}
+              label="Provice or State"
+              onHandleSelect={handleOnChangeInputs}
+              name="state"
+            />
+            <TextField
+              className={clsx(classes.textField, classes.marginMd)}
+              id="filled-dateBirth"
+              onChange={e => handleOnChangeInputs('date', e.target.value)}
+              value={inputs.date.value}
+              label="Date of Birth"
+              variant="filled"
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"

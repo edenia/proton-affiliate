@@ -42,5 +42,8 @@ export default theme => ({
     fontStretch: 'normal',
     fontStyle: 'normal',
     letterSpacing: 'normal'
+  },
+  tablePagination: {
+    display: 'flex'
   }
 })

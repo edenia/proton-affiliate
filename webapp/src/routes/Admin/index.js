@@ -7,10 +7,14 @@ import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
+import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
 
 import TableSearch from '../../components/TableSearch'
+import CustomizedTimeline from '../../components/Timeline'
+import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButon'
 import { GET_REFERRAL_QUERY } from '../../gql'
@@ -48,6 +52,7 @@ const Admin = () => {
     initReferralPagination
   )
   const [referralRows, setReferralRows] = useState([])
+  const [open, setOpen] = useState(false)
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
 
@@ -190,6 +195,22 @@ const Admin = () => {
           </Box>
         </Box>
       </FloatingMenu>
+      <Modal open={open} setOpen={setOpen}>
+        <Box className={classes.timeline}>
+          <Box className={classes.secondayBar} position="sticky">
+            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
+              <KeyboardBackspaceIcon />
+            </IconButton>
+            <Typography className={classes.secondayTitle}>
+              Aliceblack by bobwhite
+            </Typography>
+          </Box>
+          <Typography className={classes.timelineTitle}>
+            {t('timelimeTitle')}
+          </Typography>
+          <CustomizedTimeline />
+        </Box>
+      </Modal>
     </Box>
   )
 }

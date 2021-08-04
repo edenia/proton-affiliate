@@ -19,7 +19,7 @@ const routes = [
   {
     name: 'affiliate',
     component: Affiliate,
-    path: '/affiliate',
+    path: '/',
     exact: true,
     roles: ['ADMIN', 'REFERRER']
   },
@@ -33,7 +33,7 @@ const routes = [
     component: Join,
     path: '/join/:referrer',
     exact: true,
-    roles: ['guest']
+    roles: ['guest', 'ADMIN', 'REFERRER']
   },
   {
     name: 'about',

@@ -191,6 +191,7 @@ const TablePages = ({
         )}
         {usePagination && (
           <TablePagination
+            classes={{ root: classes.tablePagination }}
             rowsPerPageOptions={pagination.rowsPerPageOptions}
             component="div"
             count={pagination.count}

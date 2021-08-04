@@ -8,10 +8,16 @@ import ShareIcon from '@material-ui/icons/Share'
 import Popover from '@material-ui/core/Popover'
 
 import { useSharedState } from '../../context/state.context'
-import TableComp from '../../components/Table'
+import TableSearch from '../../components/TableSearch'
 
 import styles from './styles'
 
+const headCellAffiliate = [
+  { id: 'username', align: 'left', label: 'username' },
+  { id: 'status', align: 'center', label: 'status' },
+  { id: 'reward', align: 'center', label: 'reward' },
+  { id: 'tx', align: 'right', label: 'tx' }
+]
 const useStyles = makeStyles(styles)
 
 const Afiliate = () => {
@@ -60,17 +66,23 @@ const Afiliate = () => {
         <Typography className={classes.affiliateTitle}>
           {t('title2')}
         </Typography>
+
+        <Typography className={classes.affiliateTitleDesktop}>
+          {t('titleDesktop')}
+        </Typography>
+
         <Typography className={classes.affiliateInfo}>
           {t('pageInfo')}
         </Typography>
         <Typography className={classes.affiliateShare}>{t('copy')}</Typography>
+        <Typography className={classes.affiliateShareDesktop}>
+          {t('copyDesktop')}
+        </Typography>
 
-        <Button onClick={handleClick}>
-          <Typography className={classes.affiliateLinkInfo}>
-            {`https://earnproton.com/join/${
-              state.user ? state.user.accountName : null
-            }`}
-          </Typography>
+        <Button onClick={handleClick} className={classes.affiliateLinkInfo}>
+          {`https://earnproton.com/join/${
+            state.user ? state.user.accountName : null
+          }`}
         </Button>
         <Popover
           id="copy-popover"
@@ -93,8 +105,10 @@ const Afiliate = () => {
         </Popover>
         <Button
           color="primary"
+          // variant="contained"
           startIcon={<ShareIcon />}
           onClick={shareContent}
+          className={classes.shareButon}
         >
           {t('butonLabel')}
         </Button>
@@ -104,7 +118,7 @@ const Afiliate = () => {
           {t('tableTitle')}
         </Typography>
       </Box>
-      <TableComp />
+      <TableSearch headCells={headCellAffiliate || []} rows={[]} />
     </Box>
   )
 }

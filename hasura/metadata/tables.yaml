@@ -20,3 +20,18 @@
 - table:
     schema: public
     name: referral_history
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - action
+      - block_num
+      - block_time
+      - created_at
+      - id
+      - invitee
+      - payload
+      - trxid
+      - updated_at
+      filter: {}
+      allow_aggregations: true

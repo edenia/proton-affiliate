@@ -10,7 +10,11 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000'
+    color: '#000000',
+    display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
   },
   affiliateInfo: {
     fontWeight: '500',
@@ -18,7 +22,16 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#6B717F'
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 21,
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left',
+      margin: theme.spacing(3, 0, 5, 0)
+    }
   },
   affiliateShare: {
     fontWeight: '500',
@@ -26,19 +39,42 @@ export default theme => ({
     fontSize: 12,
     lineHeight: '16px',
     letterSpacing: '0.4px',
-    color: '#000000'
+    color: '#000000',
+    display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  affiliateShareDesktop: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.5',
+    letterSpacing: '0.15px',
+    textAlign: 'center',
+    color: '#000000',
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'initial'
+    }
   },
   affiliateLinkInfo: {
-    fontWeight: '600',
     margin: theme.spacing(2, 0),
-    width: 200,
-    fontSize: 12,
-    lineHeight: '16px',
-    textAlign: 'center',
-    letterSpacing: '1.5px',
-    textTransform: 'uppercase',
-    color: '#000000',
-    overflowWrap: ' break-word'
+    width: 260,
+    '& .MuiButton-label': {
+      fontWeight: '600',
+      fontSize: 12,
+      lineHeight: '16px',
+      textAlign: 'center',
+      letterSpacing: '1.5px',
+      textTransform: 'uppercase',
+      color: '#000000',
+      overflowWrap: 'anywhere'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 400
+    }
   },
   lastReferral: {
     marginTop: theme.spacing(4),
@@ -75,5 +111,26 @@ export default theme => ({
     lineHeight: '20px',
     color: '#FFFFFF',
     textAlign: 'center'
+  },
+  affiliateTitleDesktop: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.3',
+    letterSpacing: 'normal',
+    textAlign: 'center',
+    color: '#000000',
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'initial'
+    }
+  },
+  shareButon: {
+    color: theme.palette.primary.main,
+    [theme.breakpoints.up('md')]: {
+      color: '#fff',
+      backgroundColor: theme.palette.primary.main
+    }
   }
 })

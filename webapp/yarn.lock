@@ -11157,6 +11157,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.29.1":
+  version: 2.29.1
+  resolution: "moment@npm:2.29.1"
+  checksum: 86729013febf7160de5b93da69273dd304d674b0224f9544b3abd09a87671ddd2cdd57598261ce57588910d63747ffd5590965e83c790d8bf327083c0e0a06e0
+  languageName: node
+  linkType: hard
+
 "move-concurrently@npm:^1.0.1":
   version: 1.0.1
   resolution: "move-concurrently@npm:1.0.1"
@@ -13346,6 +13353,7 @@ fsevents@^1.2.7:
     i18next: ^19.9.1
     i18next-browser-languagedetector: ^6.0.1
     lint-staged: ^10.5.4
+    moment: ^2.29.1
     polished: ^4.1.1
     prettier: ^2.2.1
     prop-types: ^15.7.2

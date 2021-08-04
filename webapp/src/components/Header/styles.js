@@ -3,29 +3,8 @@ export default theme => ({
     backgroundColor: `${theme.palette.background.paper}`,
     boxShadow: `${theme.shadows[0]}`,
     [theme.breakpoints.up('md')]: {
-      boxShadow: `${theme.shadows[4]}`,
       borderBottom: 0
     }
-  },
-  secondayAppBar: {
-    height: 80,
-    backgroundColor: 'rgba(245, 247, 250, 0.74)',
-    boxShadow: 'none',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing(0, 4)
-  },
-  secondayTitle: {
-    fontSize: 21,
-    fontWeight: '500',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: '0.15px',
-    textAlign: 'center',
-    color: '#000000'
   },
   toolbar: {
     padding: 0,
@@ -43,7 +22,6 @@ export default theme => ({
     height: 54,
     alignItems: 'center',
     justifyContent: 'space-between',
-    margin: '0 auto 7px auto',
     [theme.breakpoints.up('md')]: {
       display: 'flex'
     }
@@ -52,6 +30,33 @@ export default theme => ({
     display: 'flex',
     [theme.breakpoints.up('md')]: {
       display: 'none'
+    }
+  },
+  imageSm: {
+    display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  imageMd: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'initial'
+    }
+  },
+  navBar: {
+    display: 'flex',
+    '& .MuiListItemText-primary': {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: 14,
+      lineHeight: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      textAlign: 'center',
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+      color: '#121212'
     }
   }
 })

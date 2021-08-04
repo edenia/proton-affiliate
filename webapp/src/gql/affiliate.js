@@ -24,3 +24,16 @@ export const GET_REFERRAL_QUERY = gql`
     }
   }
 `
+
+export const GET_REFERRAL_HISTORY = gql`
+  query getReferralHistory {
+    referral_history {
+      id
+      invitee
+      payload
+      trxid
+      created_at
+      block_time
+    }
+  }
+`
