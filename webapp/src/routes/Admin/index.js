@@ -96,7 +96,7 @@ const Admin = () => {
     setCurrentReferral(data)
   }
 
-  const handleOnApproveReferral = async () => {
+  const handleOnPayRef = async () => {
     try {
       const data = await affiliateUtil.payRef(
         ual.activeUser,
@@ -105,20 +105,32 @@ const Admin = () => {
       console.log('handleOnApproveKyc', data)
       showMessage({ type: 'success', content: t('success') })
       handleOnClose()
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
   }
 
-  const handleOnRejectReferral = async () => {
+  const handleOnRejectRef = async () => {
     try {
       const data = await affiliateUtil.rejectRef(
         ual.activeUser,
         currentReferral?.invitee
       )
       console.log('handleOnApproveKyc', data)
-      showMessage({ type: 'success', content: t('success') })
       handleOnClose()
+      showMessage({ type: 'success', content: t('success') })
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -131,8 +143,14 @@ const Admin = () => {
         currentReferral?.invitee
       )
       console.log('handleOnApproveKyc', data)
-      showMessage({ type: 'success', content: t('success') })
       handleOnClose()
+      showMessage({ type: 'success', content: t('success') })
+      loadReferrals({
+        variables: {
+          offset: 0,
+          limit: 5
+        }
+      })
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -277,7 +295,7 @@ const Admin = () => {
               <Box className={classes.modalBtnWrapper}>
                 <Button
                   variant="contained"
-                  onClick={handleOnRejectReferral}
+                  onClick={handleOnRejectRef}
                   className={clsx(classes.timelineBtn, classes.reject)}
                 >
                   Reject
@@ -285,7 +303,7 @@ const Admin = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleOnApproveReferral}
+                  onClick={handleOnPayRef}
                   className={classes.timelineBtn}
                 >
                   Yes
