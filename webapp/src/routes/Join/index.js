@@ -132,7 +132,7 @@ const Join = () => {
           </Typography>
         )}
 
-        <Box className={clsx(classes.step, { [classes.showBox]: true })}>
+        <Box className={clsx(classes.step, { [classes.showBox]: !open })}>
           <Typography className={classes.joinStep}>{t('step1')}</Typography>
           <TextField
             className={clsx(classes.textField, classes.marginMd)}
@@ -154,11 +154,24 @@ const Join = () => {
               {t(accountNameError.message)}
             </Typography>
           )}
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!accountNameError.showIcon}
+            className={classes.sendBtn}
+            onClick={handleOnSubmit}
+          >
+            {loading ? (
+              <CircularProgress color="secondary" size={20} />
+            ) : (
+              'Send'
+            )}
+          </Button>
         </Box>
 
         <Box
           className={clsx(classes.step, {
-            [classes.showBox]: accountNameError.showIcon || state.user
+            [classes.showBox]: open
           })}
         >
           <Typography className={classes.joinStep}>{t('step2')}</Typography>
@@ -175,7 +188,7 @@ const Join = () => {
 
         <Box
           className={clsx(classes.step, {
-            [classes.showBox]: accountNameError.showIcon || state.user
+            [classes.showBox]: open
           })}
         >
           <Typography className={classes.joinStep}>{t('step3')}</Typography>
@@ -194,7 +207,7 @@ const Join = () => {
           )}
         </Box>
 
-        <Box className={clsx(classes.step, { [classes.showBox]: state.user })}>
+        <Box className={clsx(classes.step, { [classes.showBox]: false })}>
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <Box style={{ display: 'flex', flexWrap: 'wrap', width: 700 }}>
             <TextField
@@ -236,21 +249,9 @@ const Join = () => {
               variant="filled"
             />
           </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.sendBtn}
-            onClick={handleOnSubmit}
-          >
-            {loading ? (
-              <CircularProgress color="secondary" size={20} />
-            ) : (
-              'Send'
-            )}
-          </Button>
         </Box>
       </Box>
-      <Modal open={open} setOpen={setOpen}>
+      <Modal open={false} setOpen={setOpen}>
         <Box className={classes.congratsModal}>
           <Typography className={clsx(classes.joinTitle, classes.modalTitle)}>
             {t('modalTitle')}
