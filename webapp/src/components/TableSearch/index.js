@@ -64,7 +64,8 @@ const TablePages = ({
   handleOnLoadMore,
   pagination,
   handleOnPageChange,
-  handleOnRowsPerPageChange
+  handleOnRowsPerPageChange,
+  onClickRow
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
@@ -129,6 +130,7 @@ const TablePages = ({
                     aria-checked={isItemSelected}
                     key={labelId}
                     selected={isItemSelected}
+                    onClick={() => onClickRow(row)}
                   >
                     {showColumnCheck && (
                       <TableCell padding="none" style={{ padding: '0' }}>
@@ -148,7 +150,7 @@ const TablePages = ({
                     >
                       <Typography
                         className={classes.linkLabel}
-                        onClick={() => console.log(row.username)}
+                        onClick={() => console.log(row.invitee)}
                       >
                         {row[headCells[0].id]}
                       </Typography>
@@ -164,6 +166,7 @@ const TablePages = ({
               {!rows.length && (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
+                    {/* @todo: add translation */}
                     No hay datos
                   </TableCell>
                 </TableRow>
@@ -216,7 +219,8 @@ TablePages.propTypes = {
   handleOnLoadMore: PropTypes.func,
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
-  handleOnRowsPerPageChange: PropTypes.func
+  handleOnRowsPerPageChange: PropTypes.func,
+  onClickRow: PropTypes.func
 }
 
 TablePages.defaultProps = {
@@ -229,6 +233,7 @@ TablePages.defaultProps = {
   handleOnLoadMore: () => {},
   handleOnPageChange: () => {},
   handleOnRowsPerPageChange: () => {},
+  onClickRow: () => {},
   pagination: {
     count: 0,
     rowsPerPage: 5,

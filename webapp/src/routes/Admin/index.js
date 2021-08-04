@@ -18,7 +18,7 @@ import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButon'
 import { GET_REFERRAL_QUERY } from '../../gql'
-import { affiliateUtil } from '../../utils'
+import { affiliateUtil, getLastCharacters } from '../../utils'
 
 import styles from './styles'
 
@@ -101,9 +101,9 @@ const Admin = () => {
 
     const data = (referrals || []).map(item => ({
       invitee: item.invitee,
-      status: item.status,
+      status: affiliateUtil.REFFERAL_STATUS[item.status],
       referrer: item.referrer,
-      tx: '-'
+      tx: getLastCharacters(item.history[item.history.length - 1].trxid)
     }))
 
     setReferralPagination({
@@ -131,7 +131,8 @@ const Admin = () => {
       <Accordion title="Referral Payments">
         <TableSearch
           headCells={headCellReferralPayment}
-          showColumnCheck
+          showColumnCheck={false}
+          onClickRow={console.log}
           rows={referralRows}
           pagination={referralPagination}
           handleOnPageChange={handleOnPageChange}

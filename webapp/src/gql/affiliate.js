@@ -21,6 +21,13 @@ export const GET_REFERRAL_QUERY = gql`
       invitee
       referrer
       status
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
     }
   }
 `
