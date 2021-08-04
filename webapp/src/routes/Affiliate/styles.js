@@ -14,7 +14,7 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000',
+    color: theme.palette.common.black,
     display: 'initial',
     [theme.breakpoints.up('md')]: {
       display: 'none'
@@ -43,7 +43,7 @@ export default theme => ({
     fontSize: 12,
     lineHeight: '16px',
     letterSpacing: '0.4px',
-    color: '#000000',
+    color: theme.palette.common.black,
     display: 'initial',
     [theme.breakpoints.up('md')]: {
       display: 'none'
@@ -57,7 +57,7 @@ export default theme => ({
     lineHeight: '1.5',
     letterSpacing: '0.15px',
     textAlign: 'center',
-    color: '#000000',
+    color: theme.palette.common.black,
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'initial'
@@ -73,7 +73,7 @@ export default theme => ({
       textAlign: 'center',
       letterSpacing: '1.5px',
       textTransform: 'uppercase',
-      color: '#000000',
+      color: theme.palette.common.black,
       overflowWrap: 'anywhere'
     },
     [theme.breakpoints.up('md')]: {
@@ -113,7 +113,7 @@ export default theme => ({
     fontWeight: 'normal',
     fontSize: 14,
     lineHeight: '20px',
-    color: '#FFFFFF',
+    color: theme.palette.common.white,
     textAlign: 'center'
   },
   affiliateTitleDesktop: {
@@ -123,7 +123,7 @@ export default theme => ({
     fontStyle: 'normal',
     lineHeight: '1.3',
     letterSpacing: 'normal',
-    color: '#000000',
+    color: theme.palette.common.black,
     display: 'none',
     textAlign: 'left',
     width: '100%',
@@ -134,7 +134,7 @@ export default theme => ({
   shareButon: {
     color: theme.palette.primary.main,
     [theme.breakpoints.up('md')]: {
-      color: '#fff',
+      color: theme.palette.common.white,
       backgroundColor: theme.palette.primary.main
     }
   }

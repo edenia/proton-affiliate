@@ -20,7 +20,7 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000',
+    color: theme.palette.common.black,
     [theme.breakpoints.up('md')]: {
       fontSize: 40,
       fontWeight: 'bold',
@@ -29,7 +29,7 @@ export default theme => ({
       lineHeight: '1.3',
       letterSpacing: 'normal',
       textAlign: 'left',
-      color: '#000000',
+      color: theme.palette.common.black,
       width: '100%'
     }
   },
@@ -55,7 +55,7 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#000000',
+    color: theme.palette.common.black,
     width: '100%'
   },
   textField: {

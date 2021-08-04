@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import { useLazyQuery } from '@apollo/client'
+import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
@@ -277,7 +278,7 @@ const Admin = () => {
                 <Button
                   variant="contained"
                   onClick={handleOnRejectReferral}
-                  className={classes.timelineBtn}
+                  className={clsx(classes.timelineBtn, classes.reject)}
                 >
                   Reject
                 </Button>

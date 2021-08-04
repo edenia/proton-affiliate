@@ -15,7 +15,17 @@ export default theme => ({
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
-    color: '#000000'
+    color: theme.palette.common.black,
+    [theme.breakpoints.up('md')]: {
+      fontSize: 40,
+      fontWeight: 'bold',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: '1.3',
+      letterSpacing: 'normal',
+      textAlign: 'left',
+      width: '100%'
+    }
   },
   adminInfo: {
     fontWeight: '500',
@@ -23,7 +33,17 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#6B717F'
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 21,
+      fontWeight: '500',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left',
+      width: '100%'
+    }
   },
   adminPage: {
     display: 'flex',
@@ -38,7 +58,11 @@ export default theme => ({
     padding: theme.spacing(4, 2, 2, 2),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(4, 0, 2, 0),
+      width: '100%'
+    }
   },
   fabBox: {
     display: 'flex',
@@ -63,7 +87,7 @@ export default theme => ({
     lineHeight: '1.14',
     letterSpacing: '1px',
     textAlign: 'right',
-    color: '#fff',
+    color: theme.palette.error.contrastText,
     textTransform: 'uppercase'
   },
   secondayBar: {
@@ -74,7 +98,7 @@ export default theme => ({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: theme.spacing(0, 4)
+    padding: theme.spacing(0, 1)
   },
   secondayTitle: {
     fontSize: 21,
@@ -84,12 +108,12 @@ export default theme => ({
     lineHeight: 'normal',
     letterSpacing: '0.15px',
     textAlign: 'center',
-    color: '#000000'
+    color: theme.palette.common.black
   },
   timeline: {
     width: '100%',
     height: '90%',
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
       width: 375
     }
@@ -109,5 +133,9 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  reject: {
+    backgroundColor: theme.palette.error.dark,
+    color: theme.palette.error.contrastText
   }
 })

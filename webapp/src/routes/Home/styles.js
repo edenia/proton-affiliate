@@ -32,7 +32,7 @@ export default theme => ({
     fontSize: 40,
     lineHeight: '52px',
     textAlign: 'center',
-    color: '#000000'
+    color: theme.palette.common.black
   },
   info: {
     fontSize: 18,
@@ -61,7 +61,7 @@ export default theme => ({
     fontSize: 14,
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: '#FFFFFF'
+    color: theme.palette.common.white
   },
   lastReferral: {
     marginTop: theme.spacing(6),
@@ -129,7 +129,7 @@ export default theme => ({
       fontSize: 15,
       lineHeight: '24px',
       letterSpacing: '0.15px',
-      color: '#000000'
+      color: theme.palette.common.black
     }
   },
   bntWrapper: {

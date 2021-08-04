@@ -61,7 +61,7 @@ export default theme => ({
     }
   },
   iconButton: {
-    color: '#000000',
+    color: theme.palette.common.black,
     [theme.breakpoints.up('md')]: {
       '& svg': {
         marginRight: theme.spacing(1)
