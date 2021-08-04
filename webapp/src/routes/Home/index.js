@@ -24,8 +24,6 @@ const dateFormat = blockTime => {
   const currentData = moment()
   const diff = currentData.diff(moment(blockTime), 'days')
 
-  console.log({ diff, currentData, blockTime: moment(blockTime) })
-
   if (diff === 0) return 'Today'
 
   return moment(blockTime).format('ll')

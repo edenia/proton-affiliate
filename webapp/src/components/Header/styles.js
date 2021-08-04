@@ -3,7 +3,8 @@ export default theme => ({
     backgroundColor: `${theme.palette.background.paper}`,
     boxShadow: `${theme.shadows[0]}`,
     [theme.breakpoints.up('md')]: {
-      borderBottom: 0
+      borderBottom: 0,
+      marginTop: theme.spacing(2)
     }
   },
   toolbar: {

@@ -119,9 +119,10 @@ export default theme => ({
     fontStyle: 'normal',
     lineHeight: '1.3',
     letterSpacing: 'normal',
-    textAlign: 'center',
     color: '#000000',
     display: 'none',
+    textAlign: 'left',
+    width: '100%',
     [theme.breakpoints.up('md')]: {
       display: 'initial'
     }

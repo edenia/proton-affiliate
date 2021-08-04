@@ -44,3 +44,24 @@ export const GET_REFERRAL_HISTORY = gql`
     }
   }
 `
+export const GET_MY_REFERRALS = gql`
+  query getMyReferral(
+    $where: referral_bool_exp
+    $offset: Int = 0
+    $limit: Int = 5
+  ) {
+    info: referral_aggregate {
+      referrals: aggregate {
+        count
+      }
+    }
+    referrals: referral(where: $where, offset: $offset, limit: $limit) {
+      id
+      invitee
+      referrer
+      status
+      expires_on
+      created_at
+    }
+  }
+`

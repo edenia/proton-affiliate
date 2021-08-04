@@ -16,7 +16,7 @@ import useDebounce from '../../hooks/useDebounce'
 import useCountries from '../../hooks/useCountries'
 import AutocompleteInput from '../../components/Autocomplete'
 import { AppStore, PlayStore } from '../../components/SvgIcons'
-import { affiliateUtil } from '../../utils'
+import { affiliateUtil, getLastCharacters } from '../../utils'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
@@ -65,7 +65,18 @@ const Join = () => {
         }
       })
 
-      showMessage({ type: 'success', content: `${t('success')} ${trxid}` })
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`https://testnet.protonscan.io/transaction/${trxid}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(trxid)}`}
+          </a>
+        )
+      })
       setOpen(true)
     } catch (error) {
       showMessage({ type: 'error', content: error.message })

@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLazyQuery } from '@apollo/client'
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -8,6 +9,8 @@ import ShareIcon from '@material-ui/icons/Share'
 import Popover from '@material-ui/core/Popover'
 
 import { useSharedState } from '../../context/state.context'
+import { GET_MY_REFERRALS } from '../../gql'
+import { affiliateUtil, getLastCharacters } from '../../utils'
 import TableSearch from '../../components/TableSearch'
 
 import styles from './styles'
@@ -18,6 +21,12 @@ const headCellAffiliate = [
   { id: 'reward', align: 'center', label: 'reward' },
   { id: 'tx', align: 'right', label: 'tx' }
 ]
+const initReferralPagination = {
+  count: 0,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5, 10, 25],
+  page: 0
+}
 const useStyles = makeStyles(styles)
 
 const Afiliate = () => {
@@ -25,6 +34,27 @@ const Afiliate = () => {
   const { t } = useTranslation('affiliateRoute')
   const [state] = useSharedState()
   const [anchorEl, setAnchorEl] = useState(null)
+  const [loadReferrals, { loading = true, data: { referrals, info } = {} }] =
+    useLazyQuery(GET_MY_REFERRALS)
+  const [referralPagination, setReferralPagination] = useState(
+    initReferralPagination
+  )
+  const [referralRows, setReferralRows] = useState([])
+
+  const handleOnPageChange = (_, page) => {
+    setReferralPagination(prev => ({
+      ...prev,
+      page
+    }))
+
+    loadReferrals({
+      variables: {
+        where: { referrer: { _eq: state.user.accountName } },
+        offset: page * referralPagination.rowsPerPage,
+        limit: referralPagination.rowsPerPage
+      }
+    })
+  }
 
   const handleClick = event => {
     navigator.clipboard.writeText(
@@ -56,6 +86,35 @@ const Afiliate = () => {
       console.log('Should be show some dialog for desktop version')
     }
   }
+
+  useEffect(() => {
+    if (loading || !referrals) return
+
+    const data = (referrals || []).map(item => ({
+      invitee: item.invitee,
+      status: affiliateUtil.REFFERAL_STATUS[item.status],
+      referrer: item.referrer,
+      tx: getLastCharacters(item.history[item.history.length - 1].trxid)
+    }))
+
+    setReferralPagination({
+      ...referralPagination,
+      count: info.referrals.count
+    })
+    setReferralRows(data)
+  }, [loading, referrals, info])
+
+  useEffect(() => {
+    if (!state.user) return
+
+    loadReferrals({
+      variables: {
+        where: { referrer: { _eq: state.user.accountName } },
+        offset: 0,
+        limit: 5
+      }
+    })
+  }, [])
 
   return (
     <Box className={classes.affiliatePage}>
@@ -105,7 +164,6 @@ const Afiliate = () => {
         </Popover>
         <Button
           color="primary"
-          // variant="contained"
           startIcon={<ShareIcon />}
           onClick={shareContent}
           className={classes.shareButon}
@@ -118,7 +176,14 @@ const Afiliate = () => {
           {t('tableTitle')}
         </Typography>
       </Box>
-      <TableSearch headCells={headCellAffiliate || []} rows={[]} />
+      <TableSearch
+        headCells={headCellAffiliate || []}
+        rows={referralRows || []}
+        pagination={referralPagination}
+        handleOnPageChange={handleOnPageChange}
+        handleOnRowsPerPageChange={() => {}}
+        usePagination={Boolean(referralRows.length)}
+      />
     </Box>
   )
 }

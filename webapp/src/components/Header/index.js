@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
 import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import List from '@material-ui/core/List'
 import MuiListItem from '@material-ui/core/ListItem'
@@ -197,6 +198,8 @@ const Header = memo(({ onDrawerToggle, routes }) => {
     setMenuAnchorEl(null)
   }
 
+  console.log({ state })
+
   return (
     <AppBar className={classes.appBar} position="sticky">
       <Toolbar className={classes.toolbar}>
@@ -226,6 +229,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
               onClick={handleOpenMenu}
             >
               <AccountIcon />
+              <Typography>{state.user.accountName}</Typography>
             </IconButton>
           ) : (
             <Button variant="contained" color="primary" onClick={handleLogin}>
