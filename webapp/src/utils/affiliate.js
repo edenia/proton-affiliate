@@ -12,6 +12,14 @@ const REFFERAL_STATUS = {
   5: 'EXPIRED',
   6: 'PAID'
 }
+const REFFERAL_STATUS_IDS = {
+  PENDING_USER_REGISTRATION: 1,
+  PENDING_KYC_VERIFICATION: 2,
+  PENDING_PAYMENT: 3,
+  PAYMENT_REJECTED: 4,
+  EXPIRED: 5,
+  PAID: 6
+}
 const GUEST_ROLE = 'NON-AFFILIATED'
 // @todo: use env variable for smart contract name
 const AFFILLIATE_ACCOUNT = 'affiliate'
@@ -136,6 +144,7 @@ const isAccountValidAsInvitee = async account => {
 
 export const affiliateUtil = {
   REFFERAL_STATUS,
+  REFFERAL_STATUS_IDS,
   ROLES,
   GUEST_ROLE,
   getUserRole,

@@ -11,6 +11,7 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 
 import TableSearch from '../../components/TableSearch'
 import CustomizedTimeline from '../../components/Timeline'
@@ -55,6 +56,7 @@ const Admin = () => {
   const [open, setOpen] = useState(false)
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
+  const [currentReferral, setCurrentReferral] = useState()
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -86,6 +88,19 @@ const Admin = () => {
     })
   }
 
+  const handleOnClickReferral = data => {
+    setOpen(true)
+    setCurrentReferral(data)
+  }
+
+  const handleOnApproveReferral = () => {
+    console.log('handleOnApproveReferral')
+  }
+
+  const handleOnRejectReferral = () => {
+    console.log('handleOnRejectReferral')
+  }
+
   useEffect(() => {
     handleOnLoadMore()
     loadReferrals({
@@ -103,7 +118,8 @@ const Admin = () => {
       invitee: item.invitee,
       status: affiliateUtil.REFFERAL_STATUS[item.status],
       referrer: item.referrer,
-      tx: getLastCharacters(item.history[item.history.length - 1].trxid)
+      tx: getLastCharacters(item.history[item.history.length - 1].trxid),
+      history: item.history
     }))
 
     setReferralPagination({
@@ -132,7 +148,7 @@ const Admin = () => {
         <TableSearch
           headCells={headCellReferralPayment}
           showColumnCheck={false}
-          onClickRow={console.log}
+          onClickRow={handleOnClickReferral}
           rows={referralRows}
           pagination={referralPagination}
           handleOnPageChange={handleOnPageChange}
@@ -197,20 +213,34 @@ const Admin = () => {
         </Box>
       </FloatingMenu>
       <Modal open={open} setOpen={setOpen}>
-        <Box className={classes.timeline}>
-          <Box className={classes.secondayBar} position="sticky">
-            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
-              <KeyboardBackspaceIcon />
-            </IconButton>
-            <Typography className={classes.secondayTitle}>
-              Aliceblack by bobwhite
+        {currentReferral && (
+          <Box className={classes.timeline}>
+            <Box className={classes.secondayBar} position="sticky">
+              <IconButton aria-label="Back" onClick={() => setOpen(false)}>
+                <KeyboardBackspaceIcon />
+              </IconButton>
+              <Typography className={classes.secondayTitle}>
+                {currentReferral?.invitee} by {currentReferral?.referrer}
+              </Typography>
+            </Box>
+            <Typography className={classes.timelineTitle}>
+              {t('timelimeTitle')}
             </Typography>
+            <CustomizedTimeline items={currentReferral.history} />
+            {currentReferral.status ===
+              affiliateUtil.REFFERAL_STATUS[
+                affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
+              ] && (
+              <Box>
+                <Typography>Approve This Refferal Payment</Typography>
+                <Button onClick={handleOnRejectReferral}>Reject</Button>
+                <Button color="primary" onClick={handleOnApproveReferral}>
+                  Yes
+                </Button>
+              </Box>
+            )}
           </Box>
-          <Typography className={classes.timelineTitle}>
-            {t('timelimeTitle')}
-          </Typography>
-          <CustomizedTimeline />
-        </Box>
+        )}
       </Modal>
     </Box>
   )
