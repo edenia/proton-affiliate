@@ -63,7 +63,7 @@ export default theme => ({
   },
   storeBtn: {
     margin: theme.spacing(1, 0),
-    width: 200
+    width: 150
   },
   congratsModal: {
     width: '80%',
@@ -109,6 +109,11 @@ export default theme => ({
   marginMd: {
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(11)
+    }
+  },
+  marginLeft: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(2)
     }
   }
 })

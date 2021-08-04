@@ -9,12 +9,14 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { useMutation } from '@apollo/client'
 import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
+import IconButton from '@material-ui/core/IconButton'
 import DoneIcon from '@material-ui/icons/Done'
 
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
 import useCountries from '../../hooks/useCountries'
 import AutocompleteInput from '../../components/Autocomplete'
+import { AppStore, PlayStore } from '../../components/SvgIcons'
 import { affiliateUtil } from '../../utils'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
@@ -161,20 +163,14 @@ const Join = () => {
         >
           <Typography className={classes.joinStep}>{t('step2')}</Typography>
           <Typography className={classes.joinInfo}>{t('step2Info')}</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.storeBtn}
-          >
-            Play Store
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.storeBtn}
-          >
-            App Store
-          </Button>
+
+          <IconButton>
+            <AppStore className={classes.storeBtn} width={150} height={100} />
+          </IconButton>
+
+          <IconButton>
+            <PlayStore className={classes.storeBtn} width={150} height={100} />
+          </IconButton>
         </Box>
 
         <Box
@@ -210,7 +206,7 @@ const Join = () => {
               variant="filled"
             />
             <TextField
-              className={classes.textField}
+              className={clsx(classes.textField, classes.marginLeft)}
               id="filled-address"
               onChange={e => handleOnChangeInputs('address', e.target.value)}
               value={inputs.address.value}
@@ -225,6 +221,7 @@ const Join = () => {
               name="country"
             />
             <AutocompleteInput
+              styles={classes.marginLeft}
               data={statesByCountry}
               label="Provice or State"
               onHandleSelect={handleOnChangeInputs}
