@@ -5,6 +5,7 @@ tmp/
 *.key
 *.pass
 build_k8s
+db_data
 
 # yarn
 .yarn/*

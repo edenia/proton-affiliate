@@ -5,9 +5,6 @@ type Mutation {
   ): AddReferralOutput
 }
 
-
-
-
 type AddReferralOutput {
   trxid : String!
 }
