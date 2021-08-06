@@ -41,7 +41,8 @@
     "addressHelperText": "Email found!",
     "switchLabel": "Receive news and updates.",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "success": "request sent successfully"
   },
   "aboutRoute": {
     "title": "This project",
