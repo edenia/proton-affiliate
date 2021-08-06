@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import moment from 'moment'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -10,15 +10,17 @@ import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { HomeImage } from '../../components/SvgIcons'
 import { affiliateUtil } from '../../utils'
-import { GET_REFERRAL_HISTORY } from '../../gql'
+import { GET_REFERRAL_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
 import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
+import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
+import HomeSvg from './home.svg'
 
 const dateFormat = blockTime => {
   const currentData = moment()
@@ -33,14 +35,19 @@ const headCellLAstReward = [
   { id: 'username', align: 'left', label: 'username' },
   { id: 'date', align: 'center', label: 'date' },
   { id: 'reward', align: 'center', label: 'reward (XPR)' },
-  { id: 'tx', align: 'center', label: 'tx' }
+  { id: 'tx', align: 'right', label: 'tx' }
 ]
 const useStyles = makeStyles(styles)
 
 const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
-  const { loading, data } = useQuery(GET_REFERRAL_HISTORY)
+  const [, { showMessage }] = useSharedState()
+  const [getLastReferral, { loading, data }] =
+    useLazyQuery(GET_REFERRAL_HISTORY)
+  const [addJoinRequest, { loading: loadingJoin }] = useMutation(
+    ADD_JOIN_REQUEST_MUTATION
+  )
   const [open, setOpen] = useState(false)
   const [checked, setCheked] = useState(false)
   const [account, setAccount] = useState('')
@@ -57,13 +64,40 @@ const Home = () => {
     setMail(e.target.value)
   }
 
+  const handleAddJoinRequest = async () => {
+    try {
+      await addJoinRequest({
+        variables: {
+          user: {
+            account,
+            email: mail,
+            receive_news: checked
+          }
+        }
+      })
+
+      handleCloseModal()
+      showMessage({
+        type: 'success',
+        content: t('success')
+      })
+    } catch (error) {
+      showMessage({ type: 'error', content: error.message })
+    }
+  }
+
+  const handleCloseModal = () => {
+    setCheked(false)
+    setOpen(false)
+  }
+
   useEffect(() => {
     const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
         debouncedSearchTerm
       )
 
-      setIsValidAccount(isValid)
+      setIsValidAccount(!isValid)
     }
 
     if (debouncedSearchTerm) {
@@ -84,6 +118,10 @@ const Home = () => {
     setReferralRows(lastReferrals)
   }, [data, loading])
 
+  useEffect(() => {
+    getLastReferral()
+  }, [])
+
   return (
     <Box className={classes.homePage}>
       <Box className={classes.infoBox}>
@@ -94,7 +132,11 @@ const Home = () => {
               {t('title2')}
             </Typography>
           </Box>
-          <HomeImage className={classes.imageSm} width={352} height={193} />
+          <img
+            src={HomeSvg}
+            className={classes.imageSm}
+            style={{ height: 193, width: 352 }}
+          />
           <Typography className={classes.info}>{t('infoPage')}</Typography>
 
           <Button
@@ -106,7 +148,11 @@ const Home = () => {
             {t('buttonLabel')}
           </Button>
         </Box>
-        <HomeImage className={classes.imageMd} height={328} />
+        <img
+          src={HomeSvg}
+          className={classes.imageMd}
+          style={{ height: 328 }}
+        />
       </Box>
 
       <Box className={classes.lastReferral}>
@@ -122,9 +168,7 @@ const Home = () => {
 
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
-          <Typography variant="p" className={classes.joinText}>
-            {t('modalInfo')}
-          </Typography>
+          <Typography className={classes.joinText}>{t('modalInfo')}</Typography>
           <form noValidate autoComplete="off">
             <TextField
               className={classes.textField}
@@ -142,7 +186,7 @@ const Home = () => {
               }}
             />
             {isValidAccount && (
-              <Typography variant="p" className={classes.helperText}>
+              <Typography className={classes.helperText}>
                 {t('accountHelperText')}
               </Typography>
             )}
@@ -168,15 +212,18 @@ const Home = () => {
             label={t('switchLabel')}
           />
           <Box className={classes.bntWrapper}>
+            <Button onClick={handleCloseModal}>{t('cancel')}</Button>
             <Button
-              onClick={() => {
-                setCheked(false)
-                setOpen(false)
-              }}
+              color="primary"
+              onClick={handleAddJoinRequest}
+              disabled={!isValidAccount}
             >
-              {t('cancel')}
+              {loadingJoin ? (
+                <CircularProgress color="primary" size={24} />
+              ) : (
+                t('save')
+              )}
             </Button>
-            <Button color="primary">{t('save')}</Button>
           </Box>
         </Box>
       </Modal>

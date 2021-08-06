@@ -3,6 +3,41 @@
     name: demux_state
 - table:
     schema: public
+    name: join_request
+  insert_permissions:
+  - role: guest
+    permission:
+      check: {}
+      columns:
+      - account
+      - email
+      - receive_news
+      backend_only: false
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - account
+      - email
+      - id
+      - receive_news
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: guest
+    permission:
+      columns:
+      - account
+      - email
+      - receive_news
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: guest
+    permission:
+      filter: {}
+- table:
+    schema: public
     name: referral
   array_relationships:
   - name: history

@@ -33,8 +33,8 @@ export const GET_REFERRAL_QUERY = gql`
 `
 
 export const GET_REFERRAL_HISTORY = gql`
-  query getReferralHistory {
-    referral_history {
+  query getReferralHistory($limit: Int = 10) {
+    referral_history(limit: $limit) {
       id
       invitee
       payload
@@ -62,6 +62,25 @@ export const GET_MY_REFERRALS = gql`
       status
       expires_on
       created_at
+    }
+  }
+`
+
+export const ADD_JOIN_REQUEST_MUTATION = gql`
+  mutation addJoinRequest($user: join_request_insert_input!) {
+    userJoin: insert_join_request_one(object: $user) {
+      id
+    }
+  }
+`
+
+export const GET_JOIN_REQUEST = gql`
+  query getJoinRequest($limit: Int = 10) {
+    join_request(limit: $limit) {
+      account
+      email
+      id
+      receive_news
     }
   }
 `
