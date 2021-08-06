@@ -42,7 +42,7 @@
     "switchLabel": "Receive news and updates.",
     "save": "Save",
     "cancel": "Cancel",
-    "success": "request send successfully"
+    "success": "request sent successfully"
   },
   "aboutRoute": {
     "title": "This project",
