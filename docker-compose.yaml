@@ -9,11 +9,11 @@ services:
       - ./tmp/wallet/:/opt/application/data/
   postgres:
     container_name: postgres
-    image: postgres:11.5-alpine
+    image: postgres:13.3-alpine
     ports:
       - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: '${POSTGRES_USER}'
       POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
@@ -48,18 +48,30 @@ services:
 
   hasura:
     container_name: hasura
-    image: hasura/graphql-engine:v2.0.0-beta.1.cli-migrations-v2
+    image: hasura/graphql-engine:v2.0.4.cli-migrations-v3
     ports:
       - '8080:8080'
+    depends_on:
+      - postgres
     volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
+      - ./hasura/migrations:/migrations
+      - ./hasura/metadata:/metadata
+      - ./hasura/seeds:/seeds
     environment:
       HASURA_GRAPHQL_DATABASE_URL: '${HASURA_GRAPHQL_DATABASE_URL}'
-      HASURA_GRAPHQL_ENABLE_CONSOLE: '${HASURA_GRAPHQL_ENABLE_CONSOLE}'
-      HASURA_GRAPHQL_ADMIN_SECRET: '${HASURA_GRAPHQL_ADMIN_SECRET}'
-      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: '${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}'
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /migrations
+      HASURA_GRAPHQL_METADATA_DIR: /metadata
+      HASURA_GRAPHQL_SEEDS_DIR: /seeds
       HASURA_GRAPHQL_ACTION_BASE_URL: '${HASURA_GRAPHQL_ACTION_BASE_URL}'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: '${HASURA_GRAPHQL_ENABLE_CONSOLE}'
+      # Local Development Configurations It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_LOGGING: 'true'
+      # disabled security for local development
+      # HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+      # HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
+
   webapp:
     container_name: webapp
     image: node:14.2.0

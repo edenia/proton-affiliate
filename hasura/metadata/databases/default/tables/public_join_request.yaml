@@ -1,0 +1,35 @@
+table:
+  name: join_request
+  schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - account
+    - email
+    - receive_news
+  role: guest
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - account
+    - email
+    - id
+    - receive_news
+    filter: {}
+  role: guest
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - account
+    - email
+    - receive_news
+    filter: {}
+  role: guest
+delete_permissions:
+- permission:
+    filter: {}
+  role: guest

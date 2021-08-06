@@ -1,0 +1,26 @@
+table:
+  name: referral
+  schema: public
+array_relationships:
+- name: history
+  using:
+    manual_configuration:
+      column_mapping:
+        invitee: invitee
+      insertion_order: null
+      remote_table:
+        name: referral_history
+        schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - expires_on
+    - id
+    - invitee
+    - referrer
+    - status
+    - updated_at
+    filter: {}
+  role: guest
