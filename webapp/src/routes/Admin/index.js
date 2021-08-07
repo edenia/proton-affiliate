@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
-import { useLazyQuery } from '@apollo/client'
 import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
 import CheckIcon from '@material-ui/icons/Check'
@@ -19,9 +18,14 @@ import CustomizedTimeline from '../../components/Timeline'
 import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButon'
-import { GET_REFERRAL_QUERY } from '../../gql'
-import { affiliateUtil, getLastCharacters, getUALError } from '../../utils'
+import {
+  affiliateUtil,
+  getUALError,
+  useImperativeQuery,
+  getLastCharacters
+} from '../../utils'
 import { useSharedState } from '../../context/state.context'
+import { GET_HISTORY } from '../../gql'
 
 import styles from './styles'
 
@@ -37,43 +41,20 @@ const headCellReferralPayment = [
   { id: 'referrer', align: 'center', label: 'referrer' },
   { id: 'tx', align: 'center', label: 'last tx' }
 ]
-const initReferralPagination = {
-  count: 0,
-  rowsPerPage: 5,
-  rowsPerPageOptions: [5, 10, 25],
-  page: 0
-}
 
 const useStyles = makeStyles(styles)
 
 const Admin = () => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
-  const [loadReferrals, { loading = true, data: { referrals, info } = {} }] =
-    useLazyQuery(GET_REFERRAL_QUERY)
-  const [referralPagination, setReferralPagination] = useState(
-    initReferralPagination
-  )
-  const [referralRows, setReferralRows] = useState([])
+  const loadHistoryQuery = useImperativeQuery(GET_HISTORY)
   const [open, setOpen] = useState(false)
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
+  const [referralRows, setReferralRows] = useState([])
+  const [referralPagination, setReferralPagination] = useState({})
   const [currentReferral, setCurrentReferral] = useState()
   const [{ ual }, { showMessage }] = useSharedState()
-
-  const handleOnPageChange = (_, page) => {
-    setReferralPagination(prev => ({
-      ...prev,
-      page
-    }))
-
-    loadReferrals({
-      variables: {
-        offset: page * referralPagination.rowsPerPage,
-        limit: referralPagination.rowsPerPage
-      }
-    })
-  }
 
   const handleOnLoadMore = async () => {
     const users = await affiliateUtil.getUsers(userPagination.cursor)
@@ -91,6 +72,39 @@ const Admin = () => {
     })
   }
 
+  const handleOnLoadMoreReferrals = async () => {
+    const referrals = await affiliateUtil.getReferrals(
+      referralPagination.cursor
+    )
+    const invitees = (referrals.rows || []).map(item => item.invitee)
+    const { data } = await loadHistoryQuery({ invitees })
+    const newRows = (referrals.rows || []).map(row => {
+      const history = data.history.filter(item => item.invitee === row.invitee)
+
+      return {
+        ...row,
+        history,
+        tx: getLastCharacters((history[history.length - 1] || {}).trxid)
+      }
+    })
+
+    setReferralRows(
+      referralPagination.cursor ? [...referralRows, ...newRows] : newRows
+    )
+    setReferralPagination({
+      hasMore: referrals.hasMore,
+      cursor: referrals.cursor
+    })
+  }
+
+  const reloadReferrals = () => {
+    setReferralPagination({
+      hasMore: false,
+      cursor: ''
+    })
+    setTimeout(handleOnLoadMoreReferrals, 500)
+  }
+
   const handleOnClickReferral = data => {
     setOpen(true)
     setCurrentReferral(data)
@@ -102,15 +116,10 @@ const Admin = () => {
         ual.activeUser,
         currentReferral?.invitee
       )
-      console.log('handleOnApproveKyc', data)
+      console.log('handleOnPayRef', data)
       showMessage({ type: 'success', content: t('success') })
       handleOnClose()
-      loadReferrals({
-        variables: {
-          offset: 0,
-          limit: 5
-        }
-      })
+      reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -122,15 +131,10 @@ const Admin = () => {
         ual.activeUser,
         currentReferral?.invitee
       )
-      console.log('handleOnApproveKyc', data)
+      console.log('handleOnRejectRef', data)
       handleOnClose()
       showMessage({ type: 'success', content: t('success') })
-      loadReferrals({
-        variables: {
-          offset: 0,
-          limit: 5
-        }
-      })
+      reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -142,15 +146,10 @@ const Admin = () => {
         ual.activeUser,
         currentReferral?.invitee
       )
-      console.log('handleOnApproveKyc', data)
+      console.log('handleOnRejectRef', data)
       handleOnClose()
       showMessage({ type: 'success', content: t('success') })
-      loadReferrals({
-        variables: {
-          offset: 0,
-          limit: 5
-        }
-      })
+      reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -163,31 +162,8 @@ const Admin = () => {
 
   useEffect(() => {
     handleOnLoadMore()
-    loadReferrals({
-      variables: {
-        offset: 0,
-        limit: 5
-      }
-    })
+    handleOnLoadMoreReferrals()
   }, [])
-
-  useEffect(() => {
-    if (loading || !referrals) return
-
-    const data = (referrals || []).map(item => ({
-      invitee: item.invitee,
-      status: affiliateUtil.REFFERAL_STATUS[item.status],
-      referrer: item.referrer,
-      tx: getLastCharacters(item.history[item.history.length - 1].trxid),
-      history: item.history
-    }))
-
-    setReferralPagination({
-      ...referralPagination,
-      count: info.referrals.count
-    })
-    setReferralRows(data)
-  }, [loading, referrals, info])
 
   return (
     <Box className={classes.adminPage}>
@@ -197,23 +173,21 @@ const Admin = () => {
       </Box>
       <Accordion title="User Approvals">
         <TableSearch
+          useLoadMore
           rows={userRows}
           showColumnCheck
           headCells={headCellUserApprovals}
-          useLoadMore
           handleOnLoadMore={handleOnLoadMore}
         />
       </Accordion>
       <Accordion title="Referral Payments">
         <TableSearch
-          headCells={headCellReferralPayment}
-          showColumnCheck={false}
-          onClickRow={handleOnClickReferral}
+          useLoadMore
           rows={referralRows}
-          pagination={referralPagination}
-          handleOnPageChange={handleOnPageChange}
-          handleOnRowsPerPageChange={() => {}}
-          usePagination
+          showColumnCheck={false}
+          headCells={headCellReferralPayment}
+          handleOnLoadMore={console.log}
+          onClickRow={handleOnClickReferral}
         />
       </Accordion>
       <FloatingMenu>

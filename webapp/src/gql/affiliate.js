@@ -8,26 +8,18 @@ export const ADD_REFERRAL_MUTATION = gql`
   }
 `
 
-export const GET_REFERRAL_QUERY = gql`
-  query ($offset: Int = 0, $limit: Int = 5) {
-    info: referral_aggregate {
-      referrals: aggregate {
-        count
-      }
-    }
-    referrals: referral(offset: $offset, limit: $limit) {
-      id
-      updated_at
+export const GET_HISTORY = gql`
+  query ($invitees: [String!]) {
+    history: referral_history(
+      where: { invitee: { _in: $invitees } }
+      order_by: { block_time: asc }
+    ) {
       invitee
-      referrer
-      status
-      history(order_by: { block_time: asc }) {
-        trxid
-        block_num
-        block_time
-        action
-        payload
-      }
+      trxid
+      block_num
+      block_time
+      action
+      payload
     }
   }
 `
@@ -44,6 +36,7 @@ export const GET_REFERRAL_HISTORY = gql`
     }
   }
 `
+
 export const GET_MY_REFERRALS = gql`
   query getMyReferral(
     $where: referral_bool_exp
@@ -62,6 +55,13 @@ export const GET_MY_REFERRALS = gql`
       status
       expires_on
       created_at
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
     }
   }
 `

@@ -16,7 +16,7 @@ import TableSearch from '../../components/TableSearch'
 import styles from './styles'
 
 const headCellAffiliate = [
-  { id: 'username', align: 'left', label: 'username' },
+  { id: 'invitee', align: 'left', label: 'invitee' },
   { id: 'status', align: 'center', label: 'status' },
   { id: 'reward', align: 'center', label: 'reward' },
   { id: 'tx', align: 'right', label: 'tx' }
@@ -90,12 +90,16 @@ const Afiliate = () => {
   useEffect(() => {
     if (loading || !referrals) return
 
-    const data = (referrals || []).map(item => ({
-      invitee: item.invitee,
-      status: affiliateUtil.REFFERAL_STATUS[item.status],
-      referrer: item.referrer,
-      tx: getLastCharacters(item.history[item.history.length - 1].trxid)
-    }))
+    const data = (referrals || []).map(item => {
+      const history = item.history || []
+
+      return {
+        invitee: item.invitee,
+        status: affiliateUtil.REFFERAL_STATUS[item.status],
+        referrer: item.referrer,
+        tx: getLastCharacters((history[history.length - 1] || {}).trxid)
+      }
+    })
 
     setReferralPagination({
       ...referralPagination,
