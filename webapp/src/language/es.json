@@ -15,6 +15,9 @@
     "/help>title": "Ayuda | Programa de afiliados de Proton",
     "/help>sidebar": "Ayuda",
     "/help>heading": "Ayuda",
+    "/terms>title": "Terms and Rules | EOSIO Proton Affiliate",
+    "/terms>sidebar": "Terms",
+    "/tems>heading": "Ricardian Contracts",
     "docs": "Documentación",
     "community": "Comunidad",
     "changelog": "Registro de cambios",
@@ -36,8 +39,8 @@
   "helpRoute": {
     "title": "Gracias por usar nuestro producto!",
     "paragraph": "Este proyecto aún está en proceso. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
-    "githubEOSCR": "GitHub EOS Costa Rica",
+    "protonGitHub": "GitHub EOS Costa Rica",
     "telegramChannel": "Grupo de Telegram",
-    "websiteEOSCR": "Página web EOS Costa Rica"
+    "protonWebsite": "Página web EOS Costa Rica"
   }
 }
