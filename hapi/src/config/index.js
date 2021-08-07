@@ -1,7 +1,7 @@
 module.exports = {
   affiliateConfig: require('./affiliate.config'),
-  demuxConfig: require('./demux.config'),
   hasuraConfig: require('./hasura.config'),
+  hyperionConfig: require('./hyperion.config'),
   networkConfig: require('./network.config'),
   serverConfig: require('./server.config')
 }

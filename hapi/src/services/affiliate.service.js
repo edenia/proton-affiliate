@@ -1,10 +1,6 @@
 const { affiliateConfig } = require('../config')
 const { eosUtil } = require('../utils')
 
-// @todo: implement adduser
-// @todo: implement rmuser
-// @todo: implement addref
-
 const verifyAccount = async invitee => {
   const transaction = await eosUtil.transact(
     [
@@ -70,9 +66,6 @@ const verifyExpired = async () => {
 
   return transaction
 }
-
-// @todo: implement payref
-// @todo: implement rejectref
 
 const setRate = async () => {
   const transaction = await eosUtil.transact(
