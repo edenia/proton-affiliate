@@ -180,6 +180,26 @@ const getUsers = async lowerBound => {
   }
 }
 
+const getReferrals = async lowerBound => {
+  const {
+    rows,
+    more: hasMore,
+    next_key: cursor
+  } = await eosApi.getTableRows({
+    code: AFFILLIATE_ACCOUNT,
+    scope: AFFILLIATE_ACCOUNT,
+    table: 'referrals',
+    json: true,
+    lower_bound: lowerBound
+  })
+
+  return {
+    rows: rows.map(row => ({ ...row, status: REFFERAL_STATUS[row.status] })),
+    cursor,
+    hasMore
+  }
+}
+
 const getUser = async account => {
   const { rows } = await eosApi.getTableRows({
     code: AFFILLIATE_ACCOUNT,
@@ -241,5 +261,6 @@ export const affiliateUtil = {
   getUsers,
   getUser,
   isAccountValidAsReferrer,
-  isAccountValidAsInvitee
+  isAccountValidAsInvitee,
+  getReferrals
 }
