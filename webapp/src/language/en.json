@@ -9,14 +9,17 @@
   },
   "routes": {
     "/>title": "Proton Affiliate",
-    "/>sidebar": "Home Page",
+    "/>sidebar": "Home",
     "/>heading": "Welcome",
     "/about>title": "About | Proton Affiliate",
-    "/about>sidebar": "Terms and Rules",
+    "/about>sidebar": "About",
     "/about>heading": "About",
     "/help>title": "Help | EOSIO Proton Affiliate",
-    "/help>sidebar": "Ricardian Contracts",
+    "/help>sidebar": "Help",
     "/help>heading": "Help",
+    "/terms>title": "Terms and Rules | EOSIO Proton Affiliate",
+    "/terms>sidebar": "Terms",
+    "/tems>heading": "Ricardian Contracts",
     "docs": "Docs",
     "community": "Community",
     "changelog": "Changelog",
@@ -45,20 +48,32 @@
     "success": "request sent successfully"
   },
   "aboutRoute": {
-    "title": "This project",
-    "subtitle1": "What is it?",
-    "paragraph1": "<!-- >",
-    "subtitle2": "Why is it important?",
-    "paragraph2": "<!-- >",
-    "subtitle3": "Where does the data come from?",
-    "paragraph3": "<!-- >"
+    "body": {
+      "paragraph1": "The Proton Affiliate platform is a fully An on-chain affiliate marketing platform, rewarding users in XPR for referring and registering new users on Proton."
+    },
+    "subtitle1": "Why Join The Affiliate Program?",
+    "body1": {
+      "paragraph1": "Proton Affiliate is a community-driven open-source"
+    },
+    "subtitle2": "Who can participate?",
+    "body2": {
+      "paragraph1": "Sed interdum feugiat aliquet. Aliquam convallis neque lorem, sed ullamcorper turpis sollicitudin nec. Sed sed aliquam diam. Integer eu dolor a sem ullamcorper eleifend. Sed varius mauris quis urna hendrerit, quis dictum velit fringilla. Donec condimentum tellus at dui euismod finibus. Fusce sit amet porttitor lectus. Nam et est quis nisi vulputate porta id ut purus. Nulla molestie vehicula ex, quis egestas elit fermentum sit amet."
+    },
+    "subtitle3": "How is the platform funded?",
+    "body3": {
+      "paragraph1": "Nulla at aliquet mi, non pretium libero. In malesuada placerat ligula. Donec ac orci commodo, euismod augue id, tempor tellus. Vivamus ullamcorper iaculis diam tempus rhoncus. Mauris in est sit amet leo varius commodo eu vel enim. Proin ornare posuere dolor, at tempor ante consectetur non. Fusce euismod nunc quis sem maximus malesuada convallis ac velit.",
+      "paragraph2": "For more information about Proton Affiliate, visit our GitHub repo or contact us on our Telegram group."
+    }
   },
   "helpRoute": {
-    "title": "Thank you for using our product!",
+    "title": "Thank you for using the proton affiliate platform",
     "paragraph": "This project is still work in progress. Please feel free to leave upgrade suggestions, log bugs, or use the code yourself. You can also find us on Telegram or visit our website.",
-    "githubEOSCR": "GitHub EOS Costa Rica",
+    "protonGitHub": "Proton Affiliate GitHub",
     "telegramChannel": "Telegram Channel",
-    "websiteEOSCR": "Website EOS Costa Rica"
+    "protonWebsite": "Proton Website"
+  },
+  "termsRoute": {
+    "title": "Ricardian Contracts"
   },
   "affiliateRoute": {
     "title1": "Welcome to",
@@ -69,7 +84,7 @@
     "copyDesktop": "Account affiliate link:",
     "copiedMessage": "Affiliate URL has been copied to your clipboard.",
     "butonLabel": "Share on Social Media",
-    "tableTitle": "Your Invitees"
+    "tableTitle": "Your Referrals"
   },
   "joinRoute": {
     "helperTextUsername": "Username Available!",

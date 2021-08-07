@@ -6,6 +6,7 @@ const Admin = lazy(() => import('./Admin'))
 const Join = lazy(() => import('./Join'))
 const About = lazy(() => import('./About'))
 const Help = lazy(() => import('./Help'))
+const Terms = lazy(() => import('./Terms'))
 const Page404 = lazy(() => import('./Route404'))
 
 const routes = [
@@ -39,6 +40,12 @@ const routes = [
     name: 'about',
     component: About,
     path: '/about',
+    exact: true
+  },
+  {
+    name: 'terms',
+    component: Terms,
+    path: '/terms',
     exact: true
   },
   {
