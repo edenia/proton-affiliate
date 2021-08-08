@@ -2,7 +2,7 @@ const Hapi = require('@hapi/hapi')
 
 const { serverConfig } = require('./config')
 const routes = require('./routes')
-const { demuxService, workerService } = require('./services')
+const { workerService } = require('./services')
 
 const init = async () => {
   const server = Hapi.server({
@@ -18,7 +18,6 @@ const init = async () => {
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)
   server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
-  demuxService.init()
   workerService.init()
 }
 

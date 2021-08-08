@@ -1,6 +1,7 @@
 const { hasuraUtil } = require('../utils')
 
 const affiliateService = require('./affiliate.service')
+const hyperionService = require('./hyperion')
 
 const sleep = seconds => {
   return new Promise(resolve => {
@@ -31,6 +32,7 @@ const init = async () => {
   run(affiliateService.verifyExpiredWorker())
   run(affiliateService.clearReferralsWorker())
   run(affiliateService.setRateWorker())
+  run(hyperionService.syncWorker())
 }
 
 module.exports = {
