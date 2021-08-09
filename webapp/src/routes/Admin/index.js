@@ -69,12 +69,10 @@ const dateFormat = time => {
   return moment(time).format('ll')
 }
 
-const OptionFAB = ({ type }) => {
+const OptionFAB = ({ type, onClickReject }) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   let result = <></>
-
-  console.log({ type })
 
   switch (type) {
     case 'new': {
@@ -101,7 +99,7 @@ const OptionFAB = ({ type }) => {
               size="small"
               color="primary"
               aria-label="reject"
-              onClick={() => {}}
+              onClick={onClickReject}
             >
               <CloseIcon />
             </Fab>
@@ -134,13 +132,16 @@ const OptionFAB = ({ type }) => {
       break
   }
 
-  console.log({ result })
-
   return result
 }
 
 OptionFAB.propTypes = {
-  type: PropTypes.string
+  type: PropTypes.string,
+  onClickReject: PropTypes.func
+}
+
+OptionFAB.defaultProps = {
+  onClickReject: () => {}
 }
 
 const Admin = () => {
@@ -153,7 +154,8 @@ const Admin = () => {
     { loading = true, data: { joinRequest, infoJoin } = {} }
   ] = useLazyQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
-  const [test, setTest] = useState(false)
+  const [openAddUser, setAddUser] = useState(false)
+  const [openInfoModa, setOpenInfoModal] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
@@ -294,6 +296,18 @@ const Admin = () => {
     setCurrentReferral(null)
   }
 
+  const getAccountName = () => {
+    if (!(selected.new || []).length) return ''
+
+    const accountsNames = (newUsersRows || [])
+      .filter(item =>
+        (selected.new || []).find(selectItem => selectItem === item.id)
+      )
+      .map(user => user.account)
+
+    return accountsNames.toString()
+  }
+
   useEffect(() => {
     if (loading || !joinRequest) return
 
@@ -381,17 +395,27 @@ const Admin = () => {
               color="primary"
               aria-label="add"
               onClick={() => {
-                setTest(true)
+                setAddUser(true)
                 setOpenFAB(false)
               }}
             >
               <AddIcon />
             </Fab>
           </Box>
-          <OptionFAB type={selected.tableName} />
+          <OptionFAB
+            type={selected.tableName}
+            onClickReject={() => {
+              setOpenInfoModal(true)
+              setOpenFAB(false)
+            }}
+          />
         </Box>
       </FloatingMenu>
-      <AddUserModal onClose={() => setTest(false)} t={t} open={test} />
+      <AddUserModal
+        onClose={() => setAddUser(false)}
+        t={t}
+        open={openAddUser}
+      />
       <Modal open={open} setOpen={handleOnClose}>
         <Box className={classes.timeline}>
           <Box className={classes.secondayBar} position="sticky">
@@ -453,6 +477,21 @@ const Admin = () => {
                 </Box>
               </Box>
             )}
+          </Box>
+        </Box>
+      </Modal>
+      <Modal open={openInfoModa} setOpen={setOpenInfoModal}>
+        <Box className={classes.rejectModal}>
+          <Typography className={classes.text}>
+            {`${t('rejectUserMessage')} ${getAccountName()}`}
+          </Typography>
+          <Box item xs={12} className={classes.btnAddAccount}>
+            <Button onClick={() => setOpenInfoModal(false)}>
+              {t('cancel')}
+            </Button>
+            <Button color="primary" onClick={() => {}}>
+              {t('add')}
+            </Button>
           </Box>
         </Box>
       </Modal>

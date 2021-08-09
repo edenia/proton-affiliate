@@ -74,12 +74,10 @@ const TablePages = ({
   selected
 }) => {
   const classes = useStyles()
-  // const [selected, setSelected] = useState([])
   const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      // setSelected(rows.map(n => n[idName]))
       onSelectItem(
         tableName,
         rows.map(n => n[idName])
@@ -88,7 +86,6 @@ const TablePages = ({
       return
     }
     onSelectItem(tableName, [])
-    // setSelected([])
   }
 
   const handleClick = (_, name) => {
@@ -109,7 +106,6 @@ const TablePages = ({
     }
 
     onSelectItem(tableName, newSelected)
-    // setSelected(newSelected)
   }
 
   const isSelected = name => selected.indexOf(name) !== -1

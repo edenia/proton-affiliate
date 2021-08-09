@@ -3,7 +3,10 @@ export default theme => ({
     borderRadius: 5,
     backgroundColor: theme.palette.common.white,
     padding: theme.spacing(2, 3),
-    width: '90%'
+    width: '90%',
+    [theme.breakpoints.up('md')]: {
+      width: 300
+    }
   },
   btnAddAccount: {
     display: 'flex',
@@ -155,7 +158,8 @@ export default theme => ({
     height: '100%',
     backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
-      width: 375
+      width: 375,
+      height: '80%'
     }
   },
   timelineBtn: {
@@ -185,5 +189,19 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  rejectModal: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing(2, 3),
+    width: '90%',
+    [theme.breakpoints.up('md')]: {
+      width: 300
+    }
+  },
+  btnRejectModal: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: theme.spacing(3)
   }
 })
