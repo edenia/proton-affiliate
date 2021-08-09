@@ -12,7 +12,7 @@ import Switch from '@material-ui/core/Switch'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { affiliateUtil, getUALError } from '../../utils'
+import { affiliateUtil, getUALError, getLastCharacters } from '../../utils'
 import { useSharedState } from '../../context/state.context'
 import useDebounce from '../../hooks/useDebounce'
 
@@ -23,7 +23,6 @@ const useStyles = makeStyles(styles)
 const AddUserModal = ({ open, onClose, t }) => {
   const classes = useStyles()
   const [{ ual }, { showMessage }] = useSharedState()
-  const [user] = useState('')
   const [isValidAccount, setIsValidAccount] = useState(false)
   const [account, setAccount] = useState('')
   const [checked, setCheked] = useState(false)
@@ -49,12 +48,39 @@ const AddUserModal = ({ open, onClose, t }) => {
 
   const handleOnAdd = async () => {
     try {
-      await affiliateUtil.addUser(ual.activeUser, user)
-      showMessage({ type: 'success', content: t('success') })
+      const data = await affiliateUtil.addUser(
+        ual.activeUser,
+        account,
+        checked
+          ? affiliateUtil.ROLES_IDS.ADMIN
+          : affiliateUtil.ROLES_IDS.REFERRER
+      )
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`https://testnet.protonscan.io/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+      setAccount('')
+      setCheked(false)
+      setIsValidAccount(false)
       onClose()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
+  }
+
+  const handleOnClose = () => {
+    setAccount('')
+    setCheked(false)
+    setIsValidAccount(false)
+    onClose()
   }
 
   return (
@@ -108,7 +134,7 @@ const AddUserModal = ({ open, onClose, t }) => {
                 </Box>
               </Grid>
               <Grid item xs={12} className={classes.btnAddAccount}>
-                <Button onClick={onClose}>{t('cancel')}</Button>
+                <Button onClick={handleOnClose}>{t('cancel')}</Button>
                 <Button
                   color="primary"
                   disabled={!isValidAccount}

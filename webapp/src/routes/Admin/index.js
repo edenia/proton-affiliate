@@ -168,16 +168,16 @@ const Admin = () => {
   const [selected, setSelected] = useState({ tableName: null })
   const [{ ual }, { showMessage }] = useSharedState()
 
-  const handleOnLoadMore = async () => {
+  const handleOnLoadMoreUsers = async () => {
     const users = await affiliateUtil.getUsers(userPagination.cursor)
-    const data = (users.rows || []).map(item => ({
+    const newRows = (users.rows || []).map(item => ({
       username: item.user,
       role: item.role,
       reward: '-',
       tx: '-'
     }))
 
-    setUserRows([...userRows, ...data])
+    setUserRows(userPagination.cursor ? [...userRows, ...newRows] : newRows)
     setUserPagination({
       hasMore: users.hasMore,
       cursor: users.cursor
@@ -308,6 +308,15 @@ const Admin = () => {
     return accountsNames.toString()
   }
 
+  const handleOnCloseAddUser = () => {
+    setAddUser(false)
+    setUserPagination({
+      hasMore: false,
+      cursor: ''
+    })
+    setTimeout(handleOnLoadMoreUsers, 500)
+  }
+
   useEffect(() => {
     if (loading || !joinRequest) return
 
@@ -326,7 +335,7 @@ const Admin = () => {
   }, [loading, joinRequest, infoJoin])
 
   useEffect(() => {
-    handleOnLoadMore()
+    handleOnLoadMoreUsers()
     handleOnLoadMoreReferrals()
     loadNewUsers({
       variables: {
@@ -366,7 +375,7 @@ const Admin = () => {
           rows={userRows}
           showColumnCheck
           headCells={headCellUserApprovals}
-          handleOnLoadMore={handleOnLoadMore}
+          handleOnLoadMore={handleOnLoadMoreUsers}
           idName="username"
         />
       </Accordion>
@@ -379,7 +388,7 @@ const Admin = () => {
           rows={referralRows}
           showColumnCheck={false}
           headCells={headCellReferralPayment}
-          handleOnLoadMore={console.log}
+          handleOnLoadMore={handleOnLoadMoreReferrals}
           onClickRow={handleOnClickReferral}
           idName="invitee"
         />
@@ -411,11 +420,7 @@ const Admin = () => {
           />
         </Box>
       </FloatingMenu>
-      <AddUserModal
-        onClose={() => setAddUser(false)}
-        t={t}
-        open={openAddUser}
-      />
+      <AddUserModal onClose={handleOnCloseAddUser} t={t} open={openAddUser} />
       <Modal open={open} setOpen={handleOnClose}>
         <Box className={classes.timeline}>
           <Box className={classes.secondayBar} position="sticky">

@@ -4,6 +4,10 @@ const ROLES = {
   1: 'ADMIN',
   2: 'REFERRER'
 }
+const ROLES_IDS = {
+  ADMIN: 1,
+  REFERRER: 2
+}
 const REFFERAL_STATUS = {
   1: 'PENDING_USER_REGISTRATION',
   2: 'PENDING_KYC_VERIFICATION',
@@ -252,6 +256,7 @@ export const affiliateUtil = {
   REFFERAL_STATUS,
   REFFERAL_STATUS_IDS,
   ROLES,
+  ROLES_IDS,
   GUEST_ROLE,
   getUserRole,
   rejectRef,

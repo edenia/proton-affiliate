@@ -48,7 +48,6 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
 
   check(admin != user, "cannot add self as user");
   check(is_account(user), user.to_string() + " account does not exist");
-  check(role != user_roles::ADMIN, "role not allowed");
   check(has_valid_kyc(user), "KYC for " + user.to_string() + " is not verified");
   
   users_table _users(get_self(), get_self().value);
