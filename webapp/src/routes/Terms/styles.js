@@ -1,21 +1,12 @@
 export default theme => ({
-  title: {
-    marginBottom: theme.spacing(1),
-    fontWeight: 400
-  },
-  boxLinks: {
+  termsPage: {
     display: 'flex',
-    marginTop: theme.spacing(3),
-    '& a': {
-      '&:hover': {
-        textDecoration: 'none'
-      }
-    },
-    '& svg': {
-      marginRight: theme.spacing(3)
-    },
-    '& p': {
-      marginTop: 0
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 1024
     }
   }
 })

@@ -69,7 +69,7 @@ const dateFormat = time => {
   return moment(time).format('ll')
 }
 
-const OptionFAB = ({ type, onClickApprove }) => {
+const OptionFAB = ({ type, onClickReject }) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   let result = <></>
@@ -86,7 +86,7 @@ const OptionFAB = ({ type, onClickApprove }) => {
               size="small"
               color="primary"
               aria-label="edit"
-              onClick={onClickApprove}
+              onClick={() => {}}
             >
               <CheckIcon />
             </Fab>
@@ -99,7 +99,7 @@ const OptionFAB = ({ type, onClickApprove }) => {
               size="small"
               color="primary"
               aria-label="reject"
-              onClick={() => {}}
+              onClick={onClickReject}
             >
               <CloseIcon />
             </Fab>
@@ -137,11 +137,11 @@ const OptionFAB = ({ type, onClickApprove }) => {
 
 OptionFAB.propTypes = {
   type: PropTypes.string,
-  onClickApprove: PropTypes.func
+  onClickReject: PropTypes.func
 }
 
 OptionFAB.defaultProps = {
-  onClickApprove: () => {}
+  onClickReject: () => {}
 }
 
 const Admin = () => {
@@ -404,7 +404,7 @@ const Admin = () => {
           </Box>
           <OptionFAB
             type={selected.tableName}
-            onClickApprove={() => {
+            onClickReject={() => {
               setOpenInfoModal(true)
               setOpenFAB(false)
             }}

@@ -8,6 +8,12 @@ export default theme => ({
   },
   table: {
     minWidth: '100%',
+    '& .Mui-selected': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.04)'
+      }
+    },
     '& th': {
       padding: theme.spacing(2, 1),
       fontWeight: '600',
