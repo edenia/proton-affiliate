@@ -93,10 +93,13 @@
   "adminRoute": {
     "title": "Administration",
     "pageInfo": "Affiliate approvals and payments must be performed manually and by batches.",
-    "addAccount": "Add Account",
-    "approveAccount": "Approve Account",
-    "rejectAccount": "Reject Account",
-    "removeListing": "Remove Listing",
-    "timelimeTitle": "Follow this referral history."
+    "addAccount": "Add New Account",
+    "approveUser": "Approve User",
+    "rejectUser": "Reject User",
+    "removeAffiliate": "Remove Affiliate",
+    "timelimeTitle": "Follow this referral history.",
+    "accountHelperText": "Account found!",
+    "addUserTitle": "Enter an account and add it as active referrer.",
+    "switchLabel": "Set as admin"
   }
 }

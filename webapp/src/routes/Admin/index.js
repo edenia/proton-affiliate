@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
+import moment from 'moment'
 import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
+import { useLazyQuery } from '@apollo/client'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -17,7 +20,7 @@ import TableSearch from '../../components/TableSearch'
 import CustomizedTimeline from '../../components/Timeline'
 import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
-import FloatingMenu from '../../components/FloatingButon'
+import FloatingMenu from '../../components/FloatingButton'
 import {
   affiliateUtil,
   getUALError,
@@ -25,35 +28,142 @@ import {
   getLastCharacters
 } from '../../utils'
 import { useSharedState } from '../../context/state.context'
-import { GET_HISTORY } from '../../gql'
+import { GET_HISTORY, GET_JOIN_REQUEST } from '../../gql'
 
+import AddUserModal from './AddUserModal'
 import styles from './styles'
 
+const headCellNewUsers = [
+  { id: 'account', align: 'left', useMainColor: true, label: 'account' },
+  { id: 'applied', align: 'center', useMainColor: false, label: 'applied' },
+  { id: 'email', align: 'right', useMainColor: true, label: 'email' }
+]
 const headCellUserApprovals = [
-  { id: 'username', align: 'left', label: 'username' },
-  { id: 'role', align: 'center', label: 'role' },
-  { id: 'reward', align: 'center', label: 'reward' },
-  { id: 'tx', align: 'center', label: 'tx' }
+  { id: 'username', align: 'left', useMainColor: true, label: 'username' },
+  { id: 'role', align: 'center', useMainColor: false, label: 'role' },
+  { id: 'reward', align: 'center', useMainColor: false, label: 'reward' },
+  { id: 'tx', align: 'right', useMainColor: true, label: 'tx' }
 ]
 const headCellReferralPayment = [
-  { id: 'invitee', align: 'left', label: 'invitee' },
-  { id: 'status', align: 'center', label: 'status' },
-  { id: 'referrer', align: 'center', label: 'referrer' },
-  { id: 'tx', align: 'center', label: 'last tx' }
+  { id: 'invitee', align: 'left', useMainColor: true, label: 'invitee' },
+  { id: 'status', align: 'center', useMainColor: false, label: 'status' },
+  { id: 'referrer', align: 'center', useMainColor: false, label: 'referrer' },
+  { id: 'tx', align: 'right', useMainColor: true, label: 'last tx' }
 ]
 
+const initNewUsersPagination = {
+  count: 0,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5, 10, 25],
+  page: 0
+}
+
 const useStyles = makeStyles(styles)
+
+const dateFormat = time => {
+  const currentData = moment()
+  const diff = currentData.diff(moment(time), 'days')
+
+  if (diff === 0) return 'Today'
+
+  return moment(time).format('ll')
+}
+
+const OptionFAB = ({ type }) => {
+  const classes = useStyles()
+  const { t } = useTranslation('adminRoute')
+  let result = <></>
+
+  console.log({ type })
+
+  switch (type) {
+    case 'new': {
+      result = (
+        <>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('approveUser')}
+            </Typography>
+            <Fab
+              size="small"
+              color="primary"
+              aria-label="edit"
+              onClick={() => {}}
+            >
+              <CheckIcon />
+            </Fab>
+          </Box>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('rejectUser')}
+            </Typography>
+            <Fab
+              size="small"
+              color="primary"
+              aria-label="reject"
+              onClick={() => {}}
+            >
+              <CloseIcon />
+            </Fab>
+          </Box>
+        </>
+      )
+      break
+    }
+
+    case 'management': {
+      result = (
+        <Box className={classes.wrapperAction}>
+          <Typography className={classes.actionLabel}>
+            {t('removeAffiliate')}
+          </Typography>
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="delete"
+            onClick={() => {}}
+          >
+            <DeleteIcon />
+          </Fab>
+        </Box>
+      )
+      break
+    }
+
+    default:
+      break
+  }
+
+  console.log({ result })
+
+  return result
+}
+
+OptionFAB.propTypes = {
+  type: PropTypes.string
+}
 
 const Admin = () => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
+  const [openFAB, setOpenFAB] = useState(false)
   const loadHistoryQuery = useImperativeQuery(GET_HISTORY)
+  const [
+    loadNewUsers,
+    { loading = true, data: { joinRequest, infoJoin } = {} }
+  ] = useLazyQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
+  const [test, setTest] = useState(false)
+  const [newUsersRows, setNewUserRows] = useState([])
+  const [newUsersPagination, setNewUsersPagination] = useState(
+    initNewUsersPagination
+  )
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
   const [referralPagination, setReferralPagination] = useState({})
   const [currentReferral, setCurrentReferral] = useState()
+  const [selected, setSelected] = useState({ tableName: null })
   const [{ ual }, { showMessage }] = useSharedState()
 
   const handleOnLoadMore = async () => {
@@ -69,6 +179,30 @@ const Admin = () => {
     setUserPagination({
       hasMore: users.hasMore,
       cursor: users.cursor
+    })
+  }
+
+  const handleOnSelectItem = (tableName, items) => {
+    if (!items.length) {
+      setSelected({ tableName: null })
+
+      return
+    }
+
+    setSelected({ [tableName]: items, tableName })
+  }
+
+  const handleOnPageChange = (_, page) => {
+    setNewUsersPagination(prev => ({
+      ...prev,
+      page
+    }))
+
+    joinRequest({
+      variables: {
+        offset: page * newUsersPagination.rowsPerPage,
+        limit: newUsersPagination.rowsPerPage
+      }
     })
   }
 
@@ -161,8 +295,31 @@ const Admin = () => {
   }
 
   useEffect(() => {
+    if (loading || !joinRequest) return
+
+    const data = (joinRequest || []).map(item => ({
+      ...item,
+      account: item.account,
+      applied: dateFormat(item.created_at),
+      email: item.email
+    }))
+
+    setNewUsersPagination({
+      ...newUsersPagination,
+      count: infoJoin.aggregate.count
+    })
+    setNewUserRows(data)
+  }, [loading, joinRequest, infoJoin])
+
+  useEffect(() => {
     handleOnLoadMore()
     handleOnLoadMoreReferrals()
+    loadNewUsers({
+      variables: {
+        offset: 0,
+        limit: 5
+      }
+    })
   }, [])
 
   return (
@@ -171,26 +328,49 @@ const Admin = () => {
         <Typography className={classes.adminTitle}>{t('title')}</Typography>
         <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
-      <Accordion title="User Approvals">
+      <Accordion title="New Affiliates">
         <TableSearch
+          tableName="new"
+          onSelectItem={handleOnSelectItem}
+          selected={selected.new || []}
+          rows={newUsersRows}
+          showColumnCheck
+          headCells={headCellNewUsers}
+          idName="id"
+          pagination={newUsersPagination}
+          handleOnPageChange={handleOnPageChange}
+          handleOnRowsPerPageChange={() => {}}
+          usePagination
+        />
+      </Accordion>
+      <Accordion title="User Management">
+        <TableSearch
+          tableName="management"
+          onSelectItem={handleOnSelectItem}
+          selected={selected.management || []}
           useLoadMore
           rows={userRows}
           showColumnCheck
           headCells={headCellUserApprovals}
           handleOnLoadMore={handleOnLoadMore}
+          idName="username"
         />
       </Accordion>
       <Accordion title="Referral Payments">
         <TableSearch
+          tableName="payment"
+          onSelectItem={handleOnSelectItem}
+          selected={selected.payment || []}
           useLoadMore
           rows={referralRows}
           showColumnCheck={false}
           headCells={headCellReferralPayment}
           handleOnLoadMore={console.log}
           onClickRow={handleOnClickReferral}
+          idName="invitee"
         />
       </Accordion>
-      <FloatingMenu>
+      <FloatingMenu open={openFAB} setOpen={setOpenFAB} label="ACTIONS">
         <Box className={classes.fabBox}>
           <Box className={classes.wrapperAction}>
             <Typography className={classes.actionLabel}>
@@ -200,52 +380,18 @@ const Admin = () => {
               size="small"
               color="primary"
               aria-label="add"
-              onClick={() => {}}
+              onClick={() => {
+                setTest(true)
+                setOpenFAB(false)
+              }}
             >
               <AddIcon />
             </Fab>
           </Box>
-          <Box className={classes.wrapperAction}>
-            <Typography className={classes.actionLabel}>
-              {t('approveAccount')}
-            </Typography>
-            <Fab
-              size="small"
-              color="primary"
-              aria-label="edit"
-              onClick={() => {}}
-            >
-              <CheckIcon />
-            </Fab>
-          </Box>
-          <Box className={classes.wrapperAction}>
-            <Typography className={classes.actionLabel}>
-              {t('rejectAccount')}
-            </Typography>
-            <Fab
-              size="small"
-              color="primary"
-              aria-label="reject"
-              onClick={() => {}}
-            >
-              <CloseIcon />
-            </Fab>
-          </Box>
-          <Box className={classes.wrapperAction}>
-            <Typography className={classes.actionLabel}>
-              {t('removeListing')}
-            </Typography>
-            <Fab
-              size="small"
-              color="primary"
-              aria-label="delete"
-              onClick={() => {}}
-            >
-              <DeleteIcon />
-            </Fab>
-          </Box>
+          <OptionFAB type={selected.tableName} />
         </Box>
       </FloatingMenu>
+      <AddUserModal onClose={() => setTest(false)} t={t} open={test} />
       <Modal open={open} setOpen={handleOnClose}>
         <Box className={classes.timeline}>
           <Box className={classes.secondayBar} position="sticky">
@@ -256,53 +402,58 @@ const Admin = () => {
               {currentReferral?.invitee} by {currentReferral?.referrer}
             </Typography>
           </Box>
-          <Typography className={classes.timelineTitle}>
-            {t('timelimeTitle')}
-          </Typography>
-          <CustomizedTimeline items={currentReferral?.history} />
-          {currentReferral?.status ===
-            affiliateUtil.REFFERAL_STATUS[
-              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
-            ] && (
-            <Box className={classes.modalFooter}>
-              <Typography>Approve This Refferal Payment</Typography>
-              <Box className={classes.modalBtnWrapper}>
-                <Button
-                  variant="contained"
-                  onClick={handleOnRejectRef}
-                  className={clsx(classes.timelineBtn, classes.reject)}
-                >
-                  Reject
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOnPayRef}
-                  className={classes.timelineBtn}
-                >
-                  Yes
-                </Button>
-              </Box>
+          <Box className={classes.bodySecondary}>
+            <Box>
+              <Typography className={classes.timelineTitle}>
+                {t('timelimeTitle')}
+              </Typography>
+              <CustomizedTimeline items={currentReferral?.history} />
+              {currentReferral?.status ===
+                affiliateUtil.REFFERAL_STATUS[
+                  affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
+                ] && (
+                <Box className={classes.modalFooter}>
+                  <Typography>Approve This Refferal Payment</Typography>
+                  <Box className={classes.modalBtnWrapper}>
+                    <Button
+                      variant="contained"
+                      onClick={handleOnRejectRef}
+                      className={clsx(classes.timelineBtn, classes.reject)}
+                    >
+                      Reject
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleOnPayRef}
+                      className={classes.timelineBtn}
+                    >
+                      Yes
+                    </Button>
+                  </Box>
+                </Box>
+              )}
             </Box>
-          )}
-          {currentReferral?.status ===
-            affiliateUtil.REFFERAL_STATUS[
-              affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
-            ] && (
-            <Box className={classes.modalFooter}>
-              <Typography>Approve This Refferal KYC</Typography>
-              <Box className={classes.modalBtnWrapper}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOnApproveKyc}
-                  className={classes.timelineBtn}
-                >
-                  Yes
-                </Button>
+
+            {currentReferral?.status ===
+              affiliateUtil.REFFERAL_STATUS[
+                affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+              ] && (
+              <Box className={classes.modalFooter}>
+                <Typography>Approve This Refferal KYC</Typography>
+                <Box className={classes.modalBtnWrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleOnApproveKyc}
+                    className={classes.timelineBtn}
+                  >
+                    Yes
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
+          </Box>
         </Box>
       </Modal>
     </Box>

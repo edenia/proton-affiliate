@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
+import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -66,19 +67,28 @@ const TablePages = ({
   pagination,
   handleOnPageChange,
   handleOnRowsPerPageChange,
-  onClickRow
+  onClickRow,
+  idName,
+  onSelectItem,
+  tableName,
+  selected
 }) => {
   const classes = useStyles()
-  const [selected, setSelected] = useState([])
+  // const [selected, setSelected] = useState([])
   const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      setSelected(rows.map(n => n.name))
+      // setSelected(rows.map(n => n[idName]))
+      onSelectItem(
+        tableName,
+        rows.map(n => n[idName])
+      )
 
       return
     }
-    setSelected([])
+    onSelectItem(tableName, [])
+    // setSelected([])
   }
 
   const handleClick = (_, name) => {
@@ -98,7 +108,8 @@ const TablePages = ({
       )
     }
 
-    setSelected(newSelected)
+    onSelectItem(tableName, newSelected)
+    // setSelected(newSelected)
   }
 
   const isSelected = name => selected.indexOf(name) !== -1
@@ -123,7 +134,7 @@ const TablePages = ({
             />
             <TableBody>
               {(rows || []).map((row, index) => {
-                const isItemSelected = isSelected(row.username)
+                const isItemSelected = isSelected(row[idName])
                 const labelId = `table-checkbox-${index}`
 
                 return (
@@ -139,29 +150,39 @@ const TablePages = ({
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
-                          onClick={event => handleClick(event, row.username)}
+                          onClick={event => handleClick(event, row[idName])}
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
                     )}
-                    <TableCell
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                      className={classes.mainColorRow}
-                    >
-                      <Typography
-                        className={classes.linkLabel}
-                        onClick={() => console.log(row.invitee)}
-                      >
-                        {row[headCells[0].id]}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">{row[headCells[1].id]}</TableCell>
-                    <TableCell align="center">{row[headCells[2].id]}</TableCell>
-                    <TableCell align="right" className={classes.mainColorRow}>
-                      {row[headCells[3].id]}
-                    </TableCell>
+
+                    {(headCells || []).map((col, index) => {
+                      if (index === 0) {
+                        return (
+                          <TableCell
+                            key={`${labelId}-${index}`}
+                            id={labelId}
+                            className={classes.mainColorRow}
+                          >
+                            <Typography className={classes.linkLabel}>
+                              {row[col.id]}
+                            </Typography>
+                          </TableCell>
+                        )
+                      }
+
+                      return (
+                        <TableCell
+                          key={`${labelId}-${index}`}
+                          align={col.align}
+                          className={clsx({
+                            [classes.mainColorRow]: col.useMainColor
+                          })}
+                        >
+                          {row[col.id]}
+                        </TableCell>
+                      )
+                    })}
                   </TableRow>
                 )
               })}
@@ -222,7 +243,11 @@ TablePages.propTypes = {
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
   handleOnRowsPerPageChange: PropTypes.func,
-  onClickRow: PropTypes.func
+  onClickRow: PropTypes.func,
+  idName: PropTypes.string,
+  onSelectItem: PropTypes.func,
+  tableName: PropTypes.string,
+  selected: PropTypes.array
 }
 
 TablePages.defaultProps = {
@@ -236,12 +261,15 @@ TablePages.defaultProps = {
   handleOnPageChange: () => {},
   handleOnRowsPerPageChange: () => {},
   onClickRow: () => {},
+  onSelectItem: () => {},
   pagination: {
     count: 0,
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10, 25],
     page: 1
-  }
+  },
+  tableName: '',
+  selected: []
 }
 
 export default TablePages

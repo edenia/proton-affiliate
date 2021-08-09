@@ -1,4 +1,32 @@
 export default theme => ({
+  userModal: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing(2, 3),
+    width: '90%'
+  },
+  btnAddAccount: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: theme.spacing(3)
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: '24px',
+    letterSpacing: '0.44px',
+    color: 'rgba(0, 0, 0, 0.87)'
+  },
+  textField: {
+    width: '100%',
+    marginTop: theme.spacing(2)
+  },
+  helperText: {
+    fontSize: 12,
+    lineHeight: '16px',
+    letterSpacing: '0.4px',
+    color: 'rgba(0, 0, 0, 0.6)',
+    marginLeft: theme.spacing(1)
+  },
   actionWrapper: {
     position: 'absolute',
     bottom: theme.spacing(2),
@@ -8,6 +36,18 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  checkBoxReceive: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    '& .MuiFormControlLabel-label': {
+      fontSize: 15,
+      lineHeight: '24px',
+      letterSpacing: '0.15px',
+      color: theme.palette.common.black
+    }
   },
   adminTitle: {
     fontWeight: '500',
@@ -112,7 +152,7 @@ export default theme => ({
   },
   timeline: {
     width: '100%',
-    height: '90%',
+    height: '100%',
     backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
       width: 375
@@ -120,7 +160,8 @@ export default theme => ({
   },
   timelineBtn: {
     borderRadius: 20,
-    width: 100
+    width: 100,
+    height: 32
   },
   modalBtnWrapper: {
     display: 'flex',
@@ -137,5 +178,12 @@ export default theme => ({
   reject: {
     backgroundColor: theme.palette.error.dark,
     color: theme.palette.error.contrastText
+  },
+  bodySecondary: {
+    padding: theme.spacing(2, 1),
+    height: 'calc(100% - 80px)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   }
 })
