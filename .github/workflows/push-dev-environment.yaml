@@ -41,7 +41,7 @@ jobs:
           REACT_APP_UAL_API_HOST: 'proton-testnet.eosio.cr'
           REACT_APP_UAL_API_PORT: '443'
           REACT_APP_UAL_CHAIN_ID: '71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd'
-          REACT_APP_HASURA_URL: https://graphql-dev.earnproton.com/v1/graphql
+          REACT_APP_HASURA_URL: https://graphql-test.earnproton.com/v1/graphql
 
       - name: Build kubernetes files
         id: build_kubernetes_files
@@ -51,8 +51,8 @@ jobs:
         env:
           # general
           NAMESPACE: proton-affiliate
-          INGRESS_HOST: dev.earnproton.com
-          INGRESS_GRAPHQL_HOST: graphql-dev.earnproton.com
+          INGRESS_HOST: test.earnproton.com
+          INGRESS_GRAPHQL_HOST: graphql-test.earnproton.com
           # postgres
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -60,10 +60,8 @@ jobs:
           # hapi
           HAPI_SERVER_PORT: 9090
           HAPI_SERVER_ADDRESS: 0.0.0.0
-          HAPI_NETWORK_API: 'https://proton-testnet.eosio.cr'
+          HAPI_NETWORK_API: 'https://testnet.protonchain.com'
           HAPI_NETWORK_CHAIN_ID: '71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd'
-          HAPI_NETWORK_CREATOR_ACCOUNT: ${{ secrets.HAPI_NETWORK_CREATOR_ACCOUNT }}
-          HAPI_NETWORK_CREATOR_PASSWORD: ${{ secrets.HAPI_NETWORK_CREATOR_PASSWORD }}
           HAPI_NETWORK_WALLET: ${{ secrets.HAPI_NETWORK_WALLET }}
           HAPI_HASURA_URL: ${{ secrets.HAPI_HASURA_URL }}
           HAPI_HASURA_ADMIN_SECRET: ${{ secrets.HAPI_HASURA_ADMIN_SECRET }}
