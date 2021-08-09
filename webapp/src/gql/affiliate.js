@@ -75,12 +75,22 @@ export const ADD_JOIN_REQUEST_MUTATION = gql`
 `
 
 export const GET_JOIN_REQUEST = gql`
-  query getJoinRequest($limit: Int = 10) {
-    join_request(limit: $limit) {
+  query getJoinRequest(
+    $limit: Int = 5
+    $offset: Int = 0
+    $where: join_request_bool_exp
+  ) {
+    infoJoin: join_request_aggregate {
+      aggregate {
+        count
+      }
+    }
+    joinRequest: join_request(where: $where, offset: $offset, limit: $limit) {
       account
       email
       id
       receive_news
+      created_at
     }
   }
 `

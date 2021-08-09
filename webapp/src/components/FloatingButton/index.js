@@ -10,9 +10,8 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const FloatingActionButtons = ({ children }) => {
+const FloatingActionButtons = ({ children, open, setOpen, label }) => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
 
   const handleOpen = () => {
     setOpen(true)
@@ -30,7 +29,7 @@ const FloatingActionButtons = ({ children }) => {
         className={classes.fab}
         onClick={handleOpen}
       >
-        ACTIONS
+        {label}
       </Fab>
       <Modal
         open={open}
@@ -47,7 +46,10 @@ const FloatingActionButtons = ({ children }) => {
 }
 
 FloatingActionButtons.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+  label: PropTypes.string
 }
 
 export default FloatingActionButtons
