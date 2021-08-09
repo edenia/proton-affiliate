@@ -115,6 +115,7 @@
     "timelimeTitle": "Follow this referral history.",
     "accountHelperText": "Account found!",
     "addUserTitle": "Enter an account and add it as active referrer.",
-    "switchLabel": "Set as admin"
+    "switchLabel": "Set as admin",
+    "rejectUserMessage": "You are about to REJECT"
   }
 }
