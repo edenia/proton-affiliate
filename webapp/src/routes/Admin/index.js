@@ -405,6 +405,20 @@ const Admin = () => {
         <Typography className={classes.adminTitle}>{t('title')}</Typography>
         <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
+      <Accordion title="Referral Payments">
+        <TableSearch
+          tableName="payment"
+          onSelectItem={handleOnSelectItem}
+          selected={selected.payment || []}
+          useLoadMore
+          rows={referralRows}
+          showColumnCheck={false}
+          headCells={headCellReferralPayment}
+          handleOnLoadMore={handleOnLoadMoreReferrals}
+          onClickRow={handleOnClickReferral}
+          idName="invitee"
+        />
+      </Accordion>
       <Accordion title="New Affiliates">
         <TableSearch
           tableName="new"
@@ -431,20 +445,6 @@ const Admin = () => {
           headCells={headCellUserApprovals}
           handleOnLoadMore={handleOnLoadMoreUsers}
           idName="username"
-        />
-      </Accordion>
-      <Accordion title="Referral Payments">
-        <TableSearch
-          tableName="payment"
-          onSelectItem={handleOnSelectItem}
-          selected={selected.payment || []}
-          useLoadMore
-          rows={referralRows}
-          showColumnCheck={false}
-          headCells={headCellReferralPayment}
-          handleOnLoadMore={handleOnLoadMoreReferrals}
-          onClickRow={handleOnClickReferral}
-          idName="invitee"
         />
       </Accordion>
       <FloatingMenu open={openFAB} setOpen={setOpenFAB} label="ACTIONS">
