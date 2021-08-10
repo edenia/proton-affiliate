@@ -39,15 +39,15 @@ const headCellNewUsers = [
   { id: 'email', align: 'right', useMainColor: true, label: 'email' }
 ]
 const headCellUserApprovals = [
-  { id: 'username', align: 'left', useMainColor: true, label: 'username' },
+  { id: 'username', align: 'left', useMainColor: true, label: 'account' },
   { id: 'role', align: 'center', useMainColor: false, label: 'role' },
-  { id: 'reward', align: 'center', useMainColor: false, label: 'reward' },
-  { id: 'tx', align: 'right', useMainColor: true, label: 'tx' }
+  { id: 'joined', align: 'center', useMainColor: false, label: 'joined' },
+  { id: 'referrals', align: 'right', useMainColor: true, label: 'referrals' }
 ]
 const headCellReferralPayment = [
   { id: 'invitee', align: 'left', useMainColor: true, label: 'invitee' },
   { id: 'status', align: 'center', useMainColor: false, label: 'status' },
-  { id: 'referrer', align: 'center', useMainColor: false, label: 'referrer' },
+  { id: 'referrer', align: 'center', useMainColor: false, label: 'affiliate' },
   { id: 'tx', align: 'right', useMainColor: true, label: 'last tx' }
 ]
 
@@ -442,7 +442,7 @@ const Admin = () => {
                   affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
                 ] && (
                 <Box className={classes.modalFooter}>
-                  <Typography>Approve This Refferal Payment</Typography>
+                  <Typography>{t('approvePayment')}</Typography>
                   <Box className={classes.modalBtnWrapper}>
                     <Button
                       variant="contained"
@@ -469,7 +469,7 @@ const Admin = () => {
                 affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
               ] && (
               <Box className={classes.modalFooter}>
-                <Typography>Approve This Refferal KYC</Typography>
+                <Typography>{t('approveKYC')}</Typography>
                 <Box className={classes.modalBtnWrapper}>
                   <Button
                     variant="contained"

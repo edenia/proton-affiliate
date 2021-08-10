@@ -205,7 +205,7 @@ RicardianContract.propTypes = {
 }
 
 RicardianContract.defaultProps = {
-  url: 'https://bloks.io',
+  url: 'https://proton-test.bloks.io/',
   showClauses: true,
   loadingMessage: 'Fetching ricardian clauses from blockchain',
   LinearProgressColor: 'secondary',
