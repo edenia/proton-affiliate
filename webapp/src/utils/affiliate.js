@@ -49,26 +49,24 @@ const getUserRole = async accountName => {
   return ROLES[rows[0].role] || GUEST_ROLE
 }
 
-const addUser = async (admin, user, role = 2) => {
+const addUser = async (admin, users, role = 2) => {
   const transaction = await admin.signTransaction(
     {
-      actions: [
-        {
-          account: AFFILLIATE_ACCOUNT,
-          name: 'adduser',
-          authorization: [
-            {
-              actor: admin.accountName,
-              permission: 'active'
-            }
-          ],
-          data: {
-            user,
-            role,
-            admin: admin.accountName
+      actions: users.map(user => ({
+        account: AFFILLIATE_ACCOUNT,
+        name: 'adduser',
+        authorization: [
+          {
+            actor: admin.accountName,
+            permission: 'active'
           }
+        ],
+        data: {
+          user,
+          role,
+          admin: admin.accountName
         }
-      ]
+      }))
     },
     {
       broadcast: true
@@ -133,25 +131,23 @@ const approveKyc = async (admin, invitee) => {
   return transaction
 }
 
-const payRef = async (admin, invitee) => {
+const payRef = async (admin, invitees = []) => {
   const transaction = await admin.signTransaction(
     {
-      actions: [
-        {
-          account: AFFILLIATE_ACCOUNT,
-          name: 'payref',
-          authorization: [
-            {
-              actor: admin.accountName,
-              permission: 'active'
-            }
-          ],
-          data: {
-            invitee,
-            admin: admin.accountName
+      actions: invitees.map(invitee => ({
+        account: AFFILLIATE_ACCOUNT,
+        name: 'payref',
+        authorization: [
+          {
+            actor: admin.accountName,
+            permission: 'active'
           }
+        ],
+        data: {
+          invitee,
+          admin: admin.accountName
         }
-      ]
+      }))
     },
     {
       broadcast: true
@@ -161,26 +157,24 @@ const payRef = async (admin, invitee) => {
   return transaction
 }
 
-const rejectRef = async (admin, invitee, memo = '') => {
+const rejectRef = async (admin, invitees) => {
   const transaction = await admin.signTransaction(
     {
-      actions: [
-        {
-          account: AFFILLIATE_ACCOUNT,
-          name: 'rejectref',
-          authorization: [
-            {
-              actor: admin.accountName,
-              permission: 'active'
-            }
-          ],
-          data: {
-            memo,
-            invitee,
-            admin: admin.accountName
+      actions: invitees.map(invitee => ({
+        account: AFFILLIATE_ACCOUNT,
+        name: 'rejectref',
+        authorization: [
+          {
+            actor: admin.accountName,
+            permission: 'active'
           }
+        ],
+        data: {
+          memo: '',
+          invitee,
+          admin: admin.accountName
         }
-      ]
+      }))
     },
     {
       broadcast: true

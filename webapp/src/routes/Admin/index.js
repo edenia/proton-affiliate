@@ -16,6 +16,7 @@ import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 
+import { mainConfig } from '../../config'
 import TableSearch from '../../components/TableSearch'
 import CustomizedTimeline from '../../components/Timeline'
 import Modal from '../../components/Modal'
@@ -135,7 +136,14 @@ const dateFormat = time => {
   return moment(time).format('ll')
 }
 
-const OptionFAB = ({ type, onClickReject, onClickRemoveUsers }) => {
+const OptionFAB = ({
+  type,
+  onClickReject,
+  onClickRemoveUsers,
+  onClickApprovePayment,
+  onClickRejectPayment,
+  allowPayment
+}) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   let result = <></>
@@ -194,6 +202,42 @@ const OptionFAB = ({ type, onClickReject, onClickRemoveUsers }) => {
       break
     }
 
+    case 'payment': {
+      result = (
+        <>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('approvePayment')}
+            </Typography>
+            <Fab
+              disabled={!allowPayment}
+              size="small"
+              color="primary"
+              aria-label="approve"
+              onClick={onClickApprovePayment}
+            >
+              <CheckIcon />
+            </Fab>
+          </Box>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('rejectPayment')}
+            </Typography>
+            <Fab
+              disabled={!allowPayment}
+              size="small"
+              color="primary"
+              aria-label="delete"
+              onClick={onClickRejectPayment}
+            >
+              <CloseIcon />
+            </Fab>
+          </Box>
+        </>
+      )
+      break
+    }
+
     default:
       break
   }
@@ -203,7 +247,10 @@ const OptionFAB = ({ type, onClickReject, onClickRemoveUsers }) => {
 
 OptionFAB.propTypes = {
   type: PropTypes.string,
-  onClickReject: PropTypes.func
+  onClickReject: PropTypes.func,
+  onClickApprovePayment: PropTypes.func,
+  onClickRejectPayment: PropTypes.func,
+  allowPayment: PropTypes.bool
 }
 
 OptionFAB.defaultProps = {
@@ -223,6 +270,7 @@ const Admin = () => {
   const [open, setOpen] = useState(false)
   const [openAddUser, setAddUser] = useState(false)
   const [openInfoModa, setOpenInfoModal] = useState(false)
+  const [allowPayment, setAllowPayment] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
@@ -291,13 +339,13 @@ const Admin = () => {
     const { data } = await loadHistoryQuery({ invitees })
     const newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
-
       const trxid = (history[history.length - 1] || {}).trxid
 
       return {
         ...row,
-        status: t(row.status),
         history,
+        status: t(row.status),
+        statusId: row.status,
         tx: getLastCharacters(trxid),
         link: trxid
       }
@@ -325,14 +373,27 @@ const Admin = () => {
     setCurrentReferral(data)
   }
 
-  const handleOnPayRef = async () => {
+  const handleOnApprovePayment = async () => {
     try {
       const data = await affiliateUtil.payRef(
         ual.activeUser,
-        currentReferral?.invitee
+        currentReferral
+          ? [currentReferral.invitee]
+          : selected[selected.tableName]
       )
-      console.log('handleOnPayRef', data)
-      showMessage({ type: 'success', content: t('success') })
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
       handleOnClose()
       reloadReferrals()
     } catch (error) {
@@ -340,15 +401,28 @@ const Admin = () => {
     }
   }
 
-  const handleOnRejectRef = async () => {
+  const handleOnRejectPayment = async () => {
     try {
       const data = await affiliateUtil.rejectRef(
         ual.activeUser,
-        currentReferral?.invitee
+        currentReferral
+          ? [currentReferral.invitee]
+          : selected[selected.tableName]
       )
-      console.log('handleOnRejectRef', data)
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
       handleOnClose()
-      showMessage({ type: 'success', content: t('success') })
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -361,9 +435,20 @@ const Admin = () => {
         ual.activeUser,
         currentReferral?.invitee
       )
-      console.log('handleOnRejectRef', data)
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
       handleOnClose()
-      showMessage({ type: 'success', content: t('success') })
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -391,16 +476,17 @@ const Admin = () => {
     try {
       const data = await affiliateUtil.addUser(
         ual.activeUser,
-        payload.account,
+        [payload.account],
         payload.isAdmin
           ? affiliateUtil.ROLES_IDS.ADMIN
           : affiliateUtil.ROLES_IDS.REFERRER
       )
+
       showMessage({
         type: 'success',
         content: (
           <a
-            href={`https://testnet.protonscan.io/transaction/${data.transactionId}`}
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -408,8 +494,8 @@ const Admin = () => {
           </a>
         )
       })
-      reloadUsers()
       setAddUser(false)
+      reloadUsers()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -421,11 +507,12 @@ const Admin = () => {
         ual.activeUser,
         selected[selected.tableName]
       )
+
       showMessage({
         type: 'success',
         content: (
           <a
-            href={`https://testnet.protonscan.io/transaction/${data.transactionId}`}
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -433,9 +520,9 @@ const Admin = () => {
           </a>
         )
       })
-      reloadUsers()
       setOpenFAB(false)
       setSelected({ tableName: null })
+      reloadUsers()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -457,6 +544,25 @@ const Admin = () => {
     })
     setNewUserRows(data)
   }, [loading, joinRequest, infoJoin])
+
+  useEffect(() => {
+    if (selected.tableName !== 'payment') {
+      return
+    }
+
+    const selectedItems = selected[selected.tableName] || []
+    const notAllowed = referralRows
+      .filter(row => selectedItems.includes(row.invitee))
+      .find(
+        row =>
+          row.statusId !==
+          affiliateUtil.REFERRAL_STATUS[
+            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+          ]
+      )
+
+    setAllowPayment(!notAllowed)
+  }, [selected, referralRows, setAllowPayment])
 
   useEffect(() => {
     handleOnLoadMoreUsers()
@@ -482,7 +588,7 @@ const Admin = () => {
           selected={selected.payment || []}
           useLoadMore
           rows={referralRows}
-          showColumnCheck={false}
+          showColumnCheck
           headCells={headCellReferralPayment}
           handleOnLoadMore={handleOnLoadMoreReferrals}
           onClickRow={handleOnClickReferral}
@@ -542,6 +648,9 @@ const Admin = () => {
               setOpenFAB(false)
             }}
             onClickRemoveUsers={handleOnRemoveUsers}
+            onClickApprovePayment={handleOnApprovePayment}
+            onClickRejectPayment={handleOnRejectPayment}
+            allowPayment={allowPayment}
           />
         </Box>
       </FloatingMenu>
@@ -567,7 +676,7 @@ const Admin = () => {
                 {t('timelimeTitle')}
               </Typography>
               <CustomizedTimeline items={currentReferral?.history} />
-              {currentReferral?.status ===
+              {currentReferral?.statusId ===
                 affiliateUtil.REFERRAL_STATUS[
                   affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
                 ] && (
@@ -576,7 +685,7 @@ const Admin = () => {
                   <Box className={classes.modalBtnWrapper}>
                     <Button
                       variant="contained"
-                      onClick={handleOnRejectRef}
+                      onClick={handleOnRejectPayment}
                       className={clsx(classes.timelineBtn, classes.reject)}
                     >
                       Reject
@@ -584,7 +693,7 @@ const Admin = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={handleOnPayRef}
+                      onClick={handleOnApprovePayment}
                       className={classes.timelineBtn}
                     >
                       Yes
@@ -594,7 +703,7 @@ const Admin = () => {
               )}
             </Box>
 
-            {currentReferral?.status ===
+            {currentReferral?.statusId ===
               affiliateUtil.REFERRAL_STATUS[
                 affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
               ] && (

@@ -20,7 +20,7 @@ ACTION affiliate::addadmin(name admin) {
 
   auto admin_itr = _users.find(admin.value);
   check(admin_itr == _users.end(), admin.to_string() + " account is already an affiliate");
-  check(has_valid_kyc(admin), "KYC for " + admin.to_string() + " is not verified");
+  // check(has_valid_kyc(admin), "KYC for " + admin.to_string() + " is not verified");
 
   if (admin_itr == _users.end()) {
     _users.emplace(get_self(), [&](auto& usr) {
@@ -48,7 +48,7 @@ ACTION affiliate::adduser(name admin, name user, uint8_t role) {
 
   check(admin != user, "cannot add self as user");
   check(is_account(user), user.to_string() + " account does not exist");
-  check(has_valid_kyc(user), "KYC for " + user.to_string() + " is not verified");
+  // check(has_valid_kyc(user), "KYC for " + user.to_string() + " is not verified");
   
   users_table _users(get_self(), get_self().value);
   auto admin_itr = _users.find(admin.value);
