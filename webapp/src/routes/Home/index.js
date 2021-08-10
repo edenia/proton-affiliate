@@ -32,10 +32,10 @@ const dateFormat = blockTime => {
 }
 
 const headCellLAstReward = [
-  { id: 'username', align: 'left', label: 'username' },
-  { id: 'date', align: 'center', label: 'date' },
+  { id: 'username', align: 'left', label: 'account' },
+  { id: 'date', align: 'center', label: 'joined' },
   { id: 'reward', align: 'center', label: 'reward (XPR)' },
-  { id: 'tx', align: 'right', label: 'tx' }
+  { id: 'tx', align: 'right', label: 'tx id' }
 ]
 const useStyles = makeStyles(styles)
 

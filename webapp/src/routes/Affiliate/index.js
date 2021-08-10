@@ -16,10 +16,10 @@ import TableSearch from '../../components/TableSearch'
 import styles from './styles'
 
 const headCellAffiliate = [
-  { id: 'invitee', align: 'left', label: 'invitee' },
+  { id: 'invitee', align: 'left', label: 'account' },
   { id: 'status', align: 'center', label: 'status' },
   { id: 'reward', align: 'center', label: 'reward' },
-  { id: 'tx', align: 'right', label: 'tx' }
+  { id: 'tx', align: 'right', label: 'last tx' }
 ]
 const initReferralPagination = {
   count: 0,
@@ -29,7 +29,7 @@ const initReferralPagination = {
 }
 const useStyles = makeStyles(styles)
 
-const Afiliate = () => {
+const Affiliate = () => {
   const classes = useStyles()
   const { t } = useTranslation('affiliateRoute')
   const [state] = useSharedState()
@@ -192,4 +192,4 @@ const Afiliate = () => {
   )
 }
 
-export default Afiliate
+export default Affiliate
