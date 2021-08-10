@@ -184,6 +184,7 @@ export default theme => ({
     color: theme.palette.error.contrastText
   },
   bodySecondary: {
+    overflow: 'scroll',
     padding: theme.spacing(2, 1),
     height: 'calc(100% - 80px)',
     display: 'flex',

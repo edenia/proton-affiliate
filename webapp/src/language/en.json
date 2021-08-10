@@ -37,15 +37,17 @@
     "status": "status",
     "reward": "reward (xpr)",
     "tx": "tx id",
-    "modalInfo": "Enter your Proton account and email to apply as an affiliate.",
+    "modalInfo": "Enter your Proton account and e-mail to apply as an affiliate.",
     "account": "Account Name",
     "address": "Email Address",
     "accountHelperText": "Account found!",
-    "addressHelperText": "Email found!",
+    "accountHelperError": "Account name is not registered!",
     "switchLabel": "Receive news and updates.",
     "save": "Apply",
     "cancel": "Cancel",
-    "success": "request sent successfully"
+    "success": "request sent successfully",
+    "emailHelperText": "Valid e-mail!",
+    "emailHelperError": "Invalid e-mail format!"
   },
   "aboutRoute": {
     "body": {
@@ -115,9 +117,18 @@
     "approveKYC": "Approve this account's KYC ?",
     "removeAffiliate": "Remove Affiliate",
     "timelimeTitle": "Follow this referral's history.",
-    "accountHelperText": "Account found!",
     "addUserTitle": "Enter an account and add it as active referrer.",
     "switchLabel": "Set as admin",
-    "rejectUserMessage": "You are about to REJECT"
+    "rejectUserMessage": "You are about to REJECT",
+    "PENDING_USER_REGISTRATION": "Pending",
+    "PENDING_KYC_VERIFICATION": "Pending KYC",
+    "PENDING_PAYMENT": "Pending payment",
+    "PAYMENT_REJECTED": "Rejected",
+    "EXPIRED": "Expired",
+    "PAID": "Paid",
+    "ADMIN": "Admin",
+    "REFERRER": "Referrer",
+    "accountHelperText": "Account found!",
+    "accountHelperError": "Account name is not registered!"
   }
 }

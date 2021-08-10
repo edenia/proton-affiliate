@@ -11,9 +11,12 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Box from '@material-ui/core/Box'
+import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
+
+import { mainConfig } from '../../config'
 
 import styles from './styles'
 
@@ -161,8 +164,40 @@ const TablePages = ({
                             className={classes.mainColorRow}
                           >
                             <Typography className={classes.linkLabel}>
-                              {row[col.id]}
+                              {col.rowLink ? (
+                                <Link
+                                  href={`${mainConfig.blockExplorer}/account/${
+                                    row[col.id]
+                                  }`}
+                                  underline="always"
+                                  target="_blank"
+                                >
+                                  {row[col.id]}
+                                </Link>
+                              ) : (
+                                row[col.id]
+                              )}
                             </Typography>
+                          </TableCell>
+                        )
+                      }
+
+                      if (col.id === 'tx') {
+                        return (
+                          <TableCell
+                            key={`${labelId}-${index}`}
+                            align={col.align}
+                            className={clsx({
+                              [classes.mainColorRow]: col.useMainColor
+                            })}
+                          >
+                            <Link
+                              href={`${mainConfig.blockExplorer}/transaction/${row.link}`}
+                              underline="always"
+                              target="_blank"
+                            >
+                              {row[col.id]}
+                            </Link>
                           </TableCell>
                         )
                       }
