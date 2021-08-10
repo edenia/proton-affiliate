@@ -69,7 +69,7 @@ const dateFormat = time => {
   return moment(time).format('ll')
 }
 
-const OptionFAB = ({ type, onClickReject }) => {
+const OptionFAB = ({ type, onClickReject, onClickRemoveUsers }) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   let result = <></>
@@ -119,7 +119,7 @@ const OptionFAB = ({ type, onClickReject }) => {
             size="small"
             color="primary"
             aria-label="delete"
-            onClick={() => {}}
+            onClick={onClickRemoveUsers}
           >
             <DeleteIcon />
           </Fab>
@@ -141,7 +141,8 @@ OptionFAB.propTypes = {
 }
 
 OptionFAB.defaultProps = {
-  onClickReject: () => {}
+  onClickReject: () => {},
+  onClickRemoveUsers: () => {}
 }
 
 const Admin = () => {
@@ -182,6 +183,14 @@ const Admin = () => {
       hasMore: users.hasMore,
       cursor: users.cursor
     })
+  }
+
+  const reloadUsers = async () => {
+    setUserPagination({
+      hasMore: false,
+      cursor: ''
+    })
+    setTimeout(handleOnLoadMoreUsers, 500)
   }
 
   const handleOnSelectItem = (tableName, items) => {
@@ -308,13 +317,58 @@ const Admin = () => {
     return accountsNames.toString()
   }
 
-  const handleOnCloseAddUser = () => {
-    setAddUser(false)
-    setUserPagination({
-      hasMore: false,
-      cursor: ''
-    })
-    setTimeout(handleOnLoadMoreUsers, 500)
+  const handleOnSubmitAddUser = async payload => {
+    try {
+      const data = await affiliateUtil.addUser(
+        ual.activeUser,
+        payload.account,
+        payload.isAdmin
+          ? affiliateUtil.ROLES_IDS.ADMIN
+          : affiliateUtil.ROLES_IDS.REFERRER
+      )
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`https://testnet.protonscan.io/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+      reloadUsers()
+      setAddUser(false)
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnRemoveUsers = async () => {
+    try {
+      const data = await affiliateUtil.removeUsers(
+        ual.activeUser,
+        selected[selected.tableName]
+      )
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`https://testnet.protonscan.io/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+      reloadUsers()
+      setOpenFAB(false)
+      setSelected({ tableName: null })
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
   }
 
   useEffect(() => {
@@ -417,10 +471,16 @@ const Admin = () => {
               setOpenInfoModal(true)
               setOpenFAB(false)
             }}
+            onClickRemoveUsers={handleOnRemoveUsers}
           />
         </Box>
       </FloatingMenu>
-      <AddUserModal onClose={handleOnCloseAddUser} t={t} open={openAddUser} />
+      <AddUserModal
+        onClose={() => setAddUser(false)}
+        onSubmit={handleOnSubmitAddUser}
+        t={t}
+        open={openAddUser}
+      />
       <Modal open={open} setOpen={handleOnClose}>
         <Box className={classes.timeline}>
           <Box className={classes.secondayBar} position="sticky">
