@@ -56,6 +56,7 @@ const Affiliate = () => {
     })
   }
 
+  // @todo: use environmental variable for project URL
   const handleClick = event => {
     navigator.clipboard.writeText(
       `https://earnproton.com/join/${
@@ -95,7 +96,7 @@ const Affiliate = () => {
 
       return {
         invitee: item.invitee,
-        status: affiliateUtil.REFFERAL_STATUS[item.status],
+        status: affiliateUtil.REFERRAL_STATUS[item.status],
         referrer: item.referrer,
         tx: getLastCharacters((history[history.length - 1] || {}).trxid)
       }

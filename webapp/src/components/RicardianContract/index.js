@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { mainConfig } from '../../config'
 import { eosApi } from '../../utils/eosapi'
 
 import styles from './styles'
@@ -205,7 +206,7 @@ RicardianContract.propTypes = {
 }
 
 RicardianContract.defaultProps = {
-  url: 'https://proton-test.bloks.io/',
+  url: mainConfig.blockExplorer,
   showClauses: true,
   loadingMessage: 'Fetching ricardian clauses from blockchain',
   LinearProgressColor: 'secondary',

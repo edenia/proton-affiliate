@@ -11,7 +11,7 @@ ARG react_app_ual_api_host
 ARG react_app_ual_api_port
 ARG react_app_ual_chain_id
 ARG react_app_hasura_url
-ARG $react_app_block_explorer_url
+ARG react_app_block_explorer_url
 
 ENV WORK_DIR /usr/src/app
 ENV PATH $WORK_DIR/node_modules/.bin:$PATH
