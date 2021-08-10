@@ -8,7 +8,7 @@ const ROLES_IDS = {
   ADMIN: 1,
   REFERRER: 2
 }
-const REFFERAL_STATUS = {
+const REFERRAL_STATUS = {
   1: 'PENDING_USER_REGISTRATION',
   2: 'PENDING_KYC_VERIFICATION',
   3: 'PENDING_PAYMENT',
@@ -16,7 +16,7 @@ const REFFERAL_STATUS = {
   5: 'EXPIRED',
   6: 'PAID'
 }
-const REFFERAL_STATUS_IDS = {
+const REFERRAL_STATUS_IDS = {
   PENDING_USER_REGISTRATION: 1,
   PENDING_KYC_VERIFICATION: 2,
   PENDING_PAYMENT: 3,
@@ -119,7 +119,7 @@ const approveKyc = async (admin, invitee) => {
           ],
           data: {
             invitee,
-            status: REFFERAL_STATUS_IDS.PENDING_PAYMENT,
+            status: REFERRAL_STATUS_IDS.PENDING_PAYMENT,
             admin: admin.accountName
           }
         }
@@ -224,7 +224,7 @@ const getReferrals = async lowerBound => {
   })
 
   return {
-    rows: rows.map(row => ({ ...row, status: REFFERAL_STATUS[row.status] })),
+    rows: rows.map(row => ({ ...row, status: REFERRAL_STATUS[row.status] })),
     cursor,
     hasMore
   }
@@ -279,8 +279,8 @@ const isAccountValidAsInvitee = async account => {
 }
 
 export const affiliateUtil = {
-  REFFERAL_STATUS,
-  REFFERAL_STATUS_IDS,
+  REFERRAL_STATUS,
+  REFERRAL_STATUS_IDS,
   ROLES,
   ROLES_IDS,
   GUEST_ROLE,

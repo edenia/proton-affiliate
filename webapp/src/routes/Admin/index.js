@@ -568,8 +568,8 @@ const Admin = () => {
               </Typography>
               <CustomizedTimeline items={currentReferral?.history} />
               {currentReferral?.status ===
-                affiliateUtil.REFFERAL_STATUS[
-                  affiliateUtil.REFFERAL_STATUS_IDS.PENDING_PAYMENT
+                affiliateUtil.REFERRAL_STATUS[
+                  affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
                 ] && (
                 <Box className={classes.modalFooter}>
                   <Typography>{t('approvePayment')}</Typography>
@@ -595,8 +595,8 @@ const Admin = () => {
             </Box>
 
             {currentReferral?.status ===
-              affiliateUtil.REFFERAL_STATUS[
-                affiliateUtil.REFFERAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+              affiliateUtil.REFERRAL_STATUS[
+                affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
               ] && (
               <Box className={classes.modalFooter}>
                 <Typography>{t('approveKYC')}</Typography>
