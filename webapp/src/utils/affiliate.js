@@ -78,6 +78,32 @@ const addUser = async (admin, user, role = 2) => {
   return transaction
 }
 
+const removeUsers = async (admin, users = []) => {
+  const transaction = await admin.signTransaction(
+    {
+      actions: users.map(user => ({
+        account: AFFILLIATE_ACCOUNT,
+        name: 'rmuser',
+        authorization: [
+          {
+            actor: admin.accountName,
+            permission: 'active'
+          }
+        ],
+        data: {
+          user,
+          admin: admin.accountName
+        }
+      }))
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
 const approveKyc = async (admin, invitee) => {
   const transaction = await admin.signTransaction(
     {
@@ -262,6 +288,7 @@ export const affiliateUtil = {
   rejectRef,
   payRef,
   addUser,
+  removeUsers,
   approveKyc,
   getUsers,
   getUser,

@@ -78,7 +78,7 @@ ACTION affiliate::rmuser(name admin, name user) {
   check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
 
   auto user_itr = _users.find(user.value);
-  check(user_itr->role != user_roles::ADMIN, admin.to_string() + " account is an admin");
+  check(user_itr->role != user_roles::ADMIN, user.to_string() + " account is an admin");
 
   if (user_itr != _users.end()) {
     _users.erase(user_itr);
