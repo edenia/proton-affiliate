@@ -29,7 +29,7 @@ const initReferralPagination = {
 }
 const useStyles = makeStyles(styles)
 
-const Afiliate = () => {
+const Affiliate = () => {
   const classes = useStyles()
   const { t } = useTranslation('affiliateRoute')
   const [state] = useSharedState()
@@ -192,4 +192,4 @@ const Afiliate = () => {
   )
 }
 
-export default Afiliate
+export default Affiliate

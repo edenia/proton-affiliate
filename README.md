@@ -43,7 +43,7 @@ This application features the following tech stack :
 
 ## Smart Contract
 
-The **afiliate** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
+The **Affiliate** smart contract will store referral info, validation info, and issue rewards for a successfully validated referral.
 
 ### Smart Contract Docs
 
