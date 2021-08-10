@@ -19,7 +19,7 @@ const headCellAffiliate = [
   { id: 'invitee', align: 'left', label: 'account' },
   { id: 'status', align: 'center', label: 'status' },
   { id: 'reward', align: 'center', label: 'reward' },
-  { id: 'tx', align: 'right', label: 'tx' }
+  { id: 'tx', align: 'right', label: 'last tx' }
 ]
 const initReferralPagination = {
   count: 0,
