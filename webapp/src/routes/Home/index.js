@@ -33,8 +33,8 @@ const dateFormat = blockTime => {
 
 const headCellLAstReward = [
   { id: 'username', align: 'left', rowLink: true, label: 'account' },
-  { id: 'date', align: 'center', rowLink: false, label: 'joined' },
   { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
+  { id: 'date', align: 'center', rowLink: false, label: 'joined' },
   { id: 'tx', align: 'right', rowLink: true, label: 'tx' }
 ]
 const useStyles = makeStyles(styles)
@@ -182,7 +182,6 @@ const Home = () => {
             style={{ height: 193, width: 352 }}
           />
           <Typography className={classes.info}>{t('infoPage')}</Typography>
-
           <Button
             className={classes.joinBtn}
             variant="contained"
@@ -198,18 +197,15 @@ const Home = () => {
           style={{ height: 328 }}
         />
       </Box>
-
       <Box className={classes.lastReferral}>
         <Typography variant="h5" className={classes.tableTitle}>
           {t('tableTitle')}
         </Typography>
       </Box>
-
       <TableSearch
         headCells={headCellLAstReward || []}
         rows={referralRows || []}
       />
-
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>

@@ -34,21 +34,87 @@ import AddUserModal from './AddUserModal'
 import styles from './styles'
 
 const headCellNewUsers = [
-  { id: 'account', align: 'left', useMainColor: true, label: 'account' },
-  { id: 'applied', align: 'center', useMainColor: false, label: 'applied' },
-  { id: 'email', align: 'right', useMainColor: true, label: 'email' }
+  {
+    id: 'account',
+    align: 'left',
+    useMainColor: true,
+    rowLink: true,
+    label: 'account'
+  },
+  {
+    id: 'applied',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'applied'
+  },
+  {
+    id: 'email',
+    align: 'right',
+    useMainColor: true,
+    rowLink: false,
+    label: 'email'
+  }
 ]
 const headCellUserApprovals = [
-  { id: 'username', align: 'left', useMainColor: true, label: 'account' },
-  { id: 'role', align: 'center', useMainColor: false, label: 'role' },
-  { id: 'joined', align: 'center', useMainColor: false, label: 'joined' },
-  { id: 'referrals', align: 'right', useMainColor: true, label: 'referrals' }
+  {
+    id: 'username',
+    align: 'left',
+    useMainColor: true,
+    rowLink: true,
+    label: 'account'
+  },
+  {
+    id: 'role',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'role'
+  },
+  {
+    id: 'joined',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'joined'
+  },
+  {
+    id: 'referrals',
+    align: 'right',
+    useMainColor: true,
+    rowLink: false,
+    label: 'referrals'
+  }
 ]
 const headCellReferralPayment = [
-  { id: 'invitee', align: 'left', useMainColor: true, label: 'invitee' },
-  { id: 'status', align: 'center', useMainColor: false, label: 'status' },
-  { id: 'referrer', align: 'center', useMainColor: false, label: 'affiliate' },
-  { id: 'tx', align: 'right', useMainColor: true, label: 'last tx' }
+  {
+    id: 'invitee',
+    align: 'left',
+    useMainColor: true,
+    rowLink: true,
+    label: 'invitee'
+  },
+  {
+    id: 'status',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'status'
+  },
+  {
+    id: 'referrer',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'affiliate'
+  },
+  {
+    id: 'tx',
+    align: 'right',
+    useMainColor: true,
+    rowLink: true,
+    label: 'last tx'
+  }
 ]
 
 const initNewUsersPagination = {
@@ -173,9 +239,9 @@ const Admin = () => {
     const users = await affiliateUtil.getUsers(userPagination.cursor)
     const newRows = (users.rows || []).map(item => ({
       username: item.user,
-      role: item.role,
-      reward: '-',
-      tx: '-'
+      role: t(item.role),
+      joined: '-',
+      referrals: '-'
     }))
 
     setUserRows(userPagination.cursor ? [...userRows, ...newRows] : newRows)
@@ -226,10 +292,14 @@ const Admin = () => {
     const newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
 
+      const trxid = (history[history.length - 1] || {}).trxid
+
       return {
         ...row,
+        status: t(row.status),
         history,
-        tx: getLastCharacters((history[history.length - 1] || {}).trxid)
+        tx: getLastCharacters(trxid),
+        link: trxid
       }
     })
 

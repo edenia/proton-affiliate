@@ -21,10 +21,14 @@ const useStyles = makeStyles(styles)
 
 const AddUserModal = ({ open, onClose, onSubmit, t }) => {
   const classes = useStyles()
-  const [isValidAccount, setIsValidAccount] = useState(false)
+  const [isValidAccount, setIsValidAccount] = useState({
+    showHelper: false,
+    message: '',
+    isValid: false
+  })
   const [account, setAccount] = useState('')
   const [checked, setCheked] = useState(false)
-  const debouncedSearchTerm = useDebounce(account, 200)
+  const debouncedAccount = useDebounce(account, 200)
 
   const handleOnChangeAccount = e => {
     setAccount(e.target.value)
@@ -33,16 +37,26 @@ const AddUserModal = ({ open, onClose, onSubmit, t }) => {
   useEffect(() => {
     const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedSearchTerm
+        debouncedAccount
       )
 
-      setIsValidAccount(!isValid)
+      setIsValidAccount({
+        showHelper: true,
+        isValid: !isValid,
+        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
+      })
     }
 
-    if (debouncedSearchTerm) {
+    if (debouncedAccount) {
       validateAccount()
+    } else {
+      setIsValidAccount({
+        showHelper: false,
+        message: '',
+        isValid: false
+      })
     }
-  }, [debouncedSearchTerm])
+  }, [debouncedAccount])
 
   useEffect(() => {
     setAccount('')
@@ -75,16 +89,16 @@ const AddUserModal = ({ open, onClose, onSubmit, t }) => {
                   label={t('account')}
                   variant="filled"
                   InputProps={{
-                    endAdornment: isValidAccount ? (
+                    endAdornment: isValidAccount.isValid ? (
                       <DoneIcon color="primary" />
                     ) : (
                       <></>
                     )
                   }}
                 />
-                {isValidAccount && (
+                {isValidAccount.showHelper && (
                   <Typography className={classes.helperText}>
-                    {t('accountHelperText')}
+                    {isValidAccount.message}
                   </Typography>
                 )}
 
@@ -104,7 +118,7 @@ const AddUserModal = ({ open, onClose, onSubmit, t }) => {
                 <Button onClick={onClose}>{t('cancel')}</Button>
                 <Button
                   color="primary"
-                  disabled={!isValidAccount}
+                  disabled={!isValidAccount.isValid}
                   onClick={() =>
                     onSubmit({
                       account,

@@ -133,6 +133,9 @@ export default theme => ({
   },
   shareButon: {
     color: theme.palette.primary.main,
+    '&:hover': {
+      color: theme.palette.primary.main
+    },
     [theme.breakpoints.up('md')]: {
       color: theme.palette.common.white,
       backgroundColor: theme.palette.primary.main
