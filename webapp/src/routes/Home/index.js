@@ -35,7 +35,7 @@ const headCellLAstReward = [
   { id: 'username', align: 'left', rowLink: true, label: 'account' },
   { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
   { id: 'date', align: 'center', rowLink: false, label: 'joined' },
-  { id: 'tx', align: 'right', rowLink: true, label: 'tx' }
+  { id: 'tx', align: 'right', rowLink: true, label: 'tx id' }
 ]
 const useStyles = makeStyles(styles)
 

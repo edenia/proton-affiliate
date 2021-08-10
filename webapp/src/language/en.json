@@ -37,7 +37,7 @@
     "status": "status",
     "reward": "reward (xpr)",
     "tx": "tx id",
-    "modalInfo": "Enter your Proton account and email to apply as an affiliate.",
+    "modalInfo": "Enter your Proton account and e-mail to apply as an affiliate.",
     "account": "Account Name",
     "address": "Email Address",
     "accountHelperText": "Account found!",
@@ -46,8 +46,8 @@
     "save": "Apply",
     "cancel": "Cancel",
     "success": "request sent successfully",
-    "emailHelperText": "Email valid!",
-    "emailHelperError": "Email format invalid!"
+    "emailHelperText": "Valid e-mail!",
+    "emailHelperError": "Invalid e-mail format!"
   },
   "aboutRoute": {
     "body": {

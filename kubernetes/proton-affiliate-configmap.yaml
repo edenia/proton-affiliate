@@ -6,7 +6,6 @@ data:
   # webapp
   PORT: '${PORT}'
   REACT_APP_TITLE: '${REACT_APP_TITLE}'
-  REACT_APP_BLOCK_EXPLORER_URL: '${REACT_APP_BLOCK_EXPLORER_URL}'
 ---
 apiVersion: v1
 kind: ConfigMap

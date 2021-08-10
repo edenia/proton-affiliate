@@ -156,7 +156,6 @@ const TablePages = ({
                     )}
 
                     {(headCells || []).map((col, index) => {
-                      console.log({ row })
                       if (index === 0) {
                         return (
                           <TableCell
