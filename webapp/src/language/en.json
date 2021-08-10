@@ -41,11 +41,13 @@
     "account": "Account Name",
     "address": "Email Address",
     "accountHelperText": "Account found!",
-    "addressHelperText": "Email found!",
+    "accountHelperError": "Account name is not registered!",
     "switchLabel": "Receive news and updates.",
     "save": "Apply",
     "cancel": "Cancel",
-    "success": "request sent successfully"
+    "success": "request sent successfully",
+    "emailHelperText": "Email valid!",
+    "emailHelperError": "Email format invalid!"
   },
   "aboutRoute": {
     "body": {

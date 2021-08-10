@@ -32,10 +32,10 @@ const dateFormat = blockTime => {
 }
 
 const headCellLAstReward = [
-  { id: 'username', align: 'left', label: 'account' },
-  { id: 'date', align: 'center', label: 'joined' },
-  { id: 'reward', align: 'center', label: 'reward (XPR)' },
-  { id: 'tx', align: 'right', label: 'tx id' }
+  { id: 'username', align: 'left', rowLink: true, label: 'account' },
+  { id: 'date', align: 'center', rowLink: false, label: 'joined' },
+  { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
+  { id: 'tx', align: 'right', rowLink: true, label: 'tx' }
 ]
 const useStyles = makeStyles(styles)
 
@@ -51,9 +51,18 @@ const Home = () => {
   const [open, setOpen] = useState(false)
   const [checked, setCheked] = useState(false)
   const [account, setAccount] = useState('')
-  const [mail, setMail] = useState('')
-  const [isValidAccount, setIsValidAccount] = useState(false)
-  const debouncedSearchTerm = useDebounce(account, 200)
+  const [email, setEmail] = useState('')
+  const [isValidAccount, setIsValidAccount] = useState({
+    showHelper: false,
+    message: '',
+    isValid: false
+  })
+  const debouncedAccount = useDebounce(account, 200)
+  const [isValidEmail, setIsValidEmail] = useState({
+    showHelper: false,
+    message: '',
+    isValid: false
+  })
   const [referralRows, setReferralRows] = useState([])
 
   const handleOnChangeAccount = e => {
@@ -61,7 +70,31 @@ const Home = () => {
   }
 
   const handleOnChangeMail = e => {
-    setMail(e.target.value)
+    setEmail(e.target.value)
+
+    if (!e.target.value.length) {
+      setIsValidEmail({
+        showHelper: false,
+        message: '',
+        isValid: false
+      })
+
+      return
+    }
+
+    if (/(.+)@(.+){2,}\.(.+){2,}/.test(e.target.value)) {
+      setIsValidEmail({
+        showHelper: true,
+        message: t('emailHelperText'),
+        isValid: true
+      })
+    } else {
+      setIsValidEmail({
+        showHelper: true,
+        message: t('emailHelperError'),
+        isValid: false
+      })
+    }
   }
 
   const handleAddJoinRequest = async () => {
@@ -70,7 +103,7 @@ const Home = () => {
         variables: {
           user: {
             account,
-            email: mail,
+            email,
             receive_news: checked
           }
         }
@@ -94,16 +127,26 @@ const Home = () => {
   useEffect(() => {
     const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedSearchTerm
+        debouncedAccount
       )
 
-      setIsValidAccount(!isValid)
+      setIsValidAccount({
+        showHelper: true,
+        isValid: !isValid,
+        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
+      })
     }
 
-    if (debouncedSearchTerm) {
+    if (debouncedAccount) {
       validateAccount()
+    } else {
+      setIsValidAccount({
+        showHelper: false,
+        message: '',
+        isValid: false
+      })
     }
-  }, [debouncedSearchTerm])
+  }, [debouncedAccount])
 
   useEffect(() => {
     if (loading || !data) return
@@ -112,7 +155,8 @@ const Home = () => {
       username: item.invitee,
       date: dateFormat(item.block_time),
       reward: '-',
-      tx: (item.trxid || '').slice(0, 7)
+      tx: (item.trxid || '').slice(0, 7),
+      link: item.trxid
     }))
 
     setReferralRows(lastReferrals)
@@ -178,26 +222,38 @@ const Home = () => {
               label={t('account')}
               variant="filled"
               InputProps={{
-                endAdornment: isValidAccount ? (
+                endAdornment: isValidAccount.isValid ? (
                   <DoneIcon color="primary" />
                 ) : (
                   <></>
                 )
               }}
             />
-            {isValidAccount && (
+            {isValidAccount.showHelper && (
               <Typography className={classes.helperText}>
-                {t('accountHelperText')}
+                {isValidAccount.message}
               </Typography>
             )}
             <TextField
               className={classes.textField}
               onChange={handleOnChangeMail}
-              value={mail}
+              value={email}
               id="filled-email"
               label={t('address')}
               variant="filled"
+              InputProps={{
+                endAdornment: isValidEmail.isValid ? (
+                  <DoneIcon color="primary" />
+                ) : (
+                  <></>
+                )
+              }}
             />
+            {isValidEmail.showHelper && (
+              <Typography className={classes.helperText}>
+                {isValidEmail.message}
+              </Typography>
+            )}
           </form>
           <FormControlLabel
             className={classes.checkBoxReceive}
@@ -216,7 +272,7 @@ const Home = () => {
             <Button
               color="primary"
               onClick={handleAddJoinRequest}
-              disabled={!isValidAccount}
+              disabled={!isValidAccount.isValid || !isValidEmail.isValid}
             >
               {loadingJoin ? (
                 <CircularProgress color="primary" size={24} />
