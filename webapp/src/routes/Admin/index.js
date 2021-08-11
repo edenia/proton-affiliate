@@ -310,7 +310,7 @@ const Admin = () => {
         ...row,
         username: row.user,
         reward: history.reduce(
-          (total, item) => total + item.payload.referrerPayment.amount,
+          (total, item) => total + item.payload.referrerPayment?.amount,
           0
         ),
         txid: getLastCharacters(trxid) || '-'

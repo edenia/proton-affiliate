@@ -59,7 +59,7 @@ const Affiliate = () => {
   // @todo: use environmental variable for project URL
   const handleClick = event => {
     navigator.clipboard.writeText(
-      `https://earnproton.com/join/${
+      `https://test.earnproton.com/join/${
         state.user ? state.user.accountName : null
       }`
     )
@@ -75,7 +75,7 @@ const Affiliate = () => {
       navigator
         .share({
           title: 'share demo',
-          url: `https://earnproton.com/join/${
+          url: `https://test.earnproton.com/join/${
             state.user ? state.user.accountName : null
           }`
         })
@@ -84,6 +84,7 @@ const Affiliate = () => {
         })
         .catch(console.error)
     } else {
+      // @todo: replace console log for copy to clipboard
       console.log('Should be show some dialog for desktop version')
     }
   }
@@ -144,7 +145,7 @@ const Affiliate = () => {
         </Typography>
 
         <Button onClick={handleClick} className={classes.affiliateLinkInfo}>
-          {`https://earnproton.com/join/${
+          {`https://test.earnproton.com/join/${
             state.user ? state.user.accountName : null
           }`}
         </Button>
