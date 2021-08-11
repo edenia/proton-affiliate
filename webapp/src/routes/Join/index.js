@@ -33,7 +33,6 @@ const Join = () => {
   const [accountName, setAccountName] = useState('')
   const [statesByCountry, setStatesBycountrues] = useState([])
   const [accountNameError, setAccountNameError] = useState({})
-  const [state] = useSharedState()
   const [inputs, setInputs] = useState({
     fullname: { value: '' },
     address: { value: '' },
@@ -157,6 +156,7 @@ const Join = () => {
             variant="filled"
             value={accountName}
             onChange={handleOnChange}
+            disabled={open}
             InputProps={{
               endAdornment: accountNameError.showIcon ? (
                 <DoneIcon color="primary" />
@@ -223,19 +223,6 @@ const Join = () => {
           })}
         >
           <Typography className={classes.joinStep}>{t('step3')}</Typography>
-          {state.user ? (
-            <Typography className={classes.accountName}>
-              {`Welcome ${state.user.accountName}`}
-            </Typography>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.storeBtn}
-            >
-              {t('login')}
-            </Button>
-          )}
         </Box>
 
         <Box
@@ -245,6 +232,14 @@ const Join = () => {
         >
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <Typography className={classes.joinInfo}>{t('step4Info')}</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.storeBtn}
+            href="/"
+          >
+            {t('home')}
+          </Button>
         </Box>
 
         <Box className={clsx(classes.step, { [classes.showBox]: false })}>
