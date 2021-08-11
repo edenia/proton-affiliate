@@ -94,3 +94,11 @@ export const GET_JOIN_REQUEST = gql`
     }
   }
 `
+
+export const DELETE_JOIN_REQUEST_MUTATION = gql`
+  mutation deleteJoin($ids: [uuid!]) {
+    delete_join_request(where: { id: { _in: $ids } }) {
+      affected_rows
+    }
+  }
+`

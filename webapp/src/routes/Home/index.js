@@ -30,7 +30,11 @@ const dateFormat = blockTime => {
 
   return moment(blockTime).format('ll')
 }
-
+const INIT_VALIDATION_VALUES = {
+  showHelper: false,
+  message: '',
+  isValid: false
+}
 const headCellLAstReward = [
   { id: 'username', align: 'left', rowLink: true, label: 'account' },
   { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
@@ -52,17 +56,9 @@ const Home = () => {
   const [checked, setCheked] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
-  const [isValidAccount, setIsValidAccount] = useState({
-    showHelper: false,
-    message: '',
-    isValid: false
-  })
+  const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
   const debouncedAccount = useDebounce(account, 200)
-  const [isValidEmail, setIsValidEmail] = useState({
-    showHelper: false,
-    message: '',
-    isValid: false
-  })
+  const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
 
   const handleOnChangeAccount = e => {
@@ -114,14 +110,21 @@ const Home = () => {
         type: 'success',
         content: t('success')
       })
+      setCheked(false)
+      setAccount('')
+      setEmail('')
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
     }
   }
 
   const handleCloseModal = () => {
+    setIsValidEmail(INIT_VALIDATION_VALUES)
+    setIsValidAccount(INIT_VALIDATION_VALUES)
     setCheked(false)
     setOpen(false)
+    setAccount('')
+    setEmail('')
   }
 
   useEffect(() => {

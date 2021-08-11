@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import moment from 'moment'
 import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -14,6 +14,7 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 
 import { mainConfig } from '../../config'
@@ -29,7 +30,11 @@ import {
   getLastCharacters
 } from '../../utils'
 import { useSharedState } from '../../context/state.context'
-import { GET_HISTORY, GET_JOIN_REQUEST } from '../../gql'
+import {
+  GET_HISTORY,
+  GET_JOIN_REQUEST,
+  DELETE_JOIN_REQUEST_MUTATION
+} from '../../gql'
 
 import AddUserModal from './AddUserModal'
 import styles from './styles'
@@ -142,6 +147,7 @@ const OptionFAB = ({
   onClickRemoveUsers,
   onClickApprovePayment,
   onClickRejectPayment,
+  onClickApproveNewUser,
   allowPayment
 }) => {
   const classes = useStyles()
@@ -159,8 +165,8 @@ const OptionFAB = ({
             <Fab
               size="small"
               color="primary"
-              aria-label="edit"
-              onClick={() => {}}
+              aria-label="add"
+              onClick={onClickApproveNewUser}
             >
               <CheckIcon />
             </Fab>
@@ -250,12 +256,14 @@ OptionFAB.propTypes = {
   onClickReject: PropTypes.func,
   onClickApprovePayment: PropTypes.func,
   onClickRejectPayment: PropTypes.func,
+  onClickApproveNewUser: PropTypes.func,
   allowPayment: PropTypes.bool
 }
 
 OptionFAB.defaultProps = {
   onClickReject: () => {},
-  onClickRemoveUsers: () => {}
+  onClickRemoveUsers: () => {},
+  onClickApproveNewUser: () => {}
 }
 
 const Admin = () => {
@@ -267,9 +275,12 @@ const Admin = () => {
     loadNewUsers,
     { loading = true, data: { joinRequest, infoJoin } = {} }
   ] = useLazyQuery(GET_JOIN_REQUEST)
+  const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
+    DELETE_JOIN_REQUEST_MUTATION
+  )
   const [open, setOpen] = useState(false)
   const [openAddUser, setAddUser] = useState(false)
-  const [openInfoModa, setOpenInfoModal] = useState(false)
+  const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
@@ -297,6 +308,57 @@ const Admin = () => {
       hasMore: users.hasMore,
       cursor: users.cursor
     })
+  }
+
+  const deleteNewUsers = async () => {
+    try {
+      await deleteJoinRequest({
+        variables: {
+          ids: selected.new
+        }
+      })
+
+      setOpenInfoModal(false)
+
+      joinRequest({
+        variables: {
+          offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
+          limit: newUsersPagination.rowsPerPage
+        }
+      })
+
+      showMessage({ type: 'success', content: t('deleteSuccessfully') })
+    } catch (error) {
+      showMessage({ type: 'error', content: error })
+    }
+  }
+
+  const approveNewUser = async () => {
+    try {
+      const data = await affiliateUtil.addUser(
+        ual.activeUser,
+        selected.new,
+        affiliateUtil.ROLES_IDS.REFERRER
+      )
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+      setAddUser(false)
+      deleteNewUsers()
+      reloadUsers()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
   }
 
   const reloadUsers = async () => {
@@ -651,6 +713,7 @@ const Admin = () => {
             onClickApprovePayment={handleOnApprovePayment}
             onClickRejectPayment={handleOnRejectPayment}
             allowPayment={allowPayment}
+            onClickApproveNewUser={approveNewUser}
           />
         </Box>
       </FloatingMenu>
@@ -724,17 +787,21 @@ const Admin = () => {
           </Box>
         </Box>
       </Modal>
-      <Modal open={openInfoModa} setOpen={setOpenInfoModal}>
+      <Modal open={openInfoModal} setOpen={setOpenInfoModal}>
         <Box className={classes.rejectModal}>
           <Typography className={classes.text}>
             {`${t('rejectUserMessage')} ${getAccountName()}`}
           </Typography>
-          <Box item xs={12} className={classes.btnAddAccount}>
+          <Box className={classes.btnAddAccount}>
             <Button onClick={() => setOpenInfoModal(false)}>
               {t('cancel')}
             </Button>
-            <Button color="primary" onClick={() => {}}>
-              {t('add')}
+            <Button color="primary" onClick={deleteNewUsers}>
+              {loadingDelete ? (
+                <CircularProgress color="primary" size={24} />
+              ) : (
+                t('reject')
+              )}
             </Button>
           </Box>
         </Box>
