@@ -267,7 +267,7 @@ const Admin = () => {
   const [
     loadNewUsers,
     { loading = true, data: { joinRequest, infoJoin } = {} }
-  ] = useLazyQuery(GET_JOIN_REQUEST)
+  ] = useLazyQuery(GET_JOIN_REQUEST, { fetchPolicy: 'network-only' })
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
