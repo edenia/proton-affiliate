@@ -130,6 +130,7 @@
     "ADMIN": "Admin",
     "REFERRER": "Referrer",
     "accountHelperText": "Account found!",
-    "accountHelperError": "Account name is not registered!"
+    "accountHelperError": "Account name is not registered!",
+    "deleteSuccessfully": "Delete Successfully"
   }
 }
