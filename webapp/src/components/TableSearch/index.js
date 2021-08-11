@@ -15,7 +15,6 @@ import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
-// import DescriptionIcon from '@material-ui/icons/Description'
 import IconButton from '@material-ui/core/IconButton'
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile'
 
