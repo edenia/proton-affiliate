@@ -153,13 +153,12 @@ const Home = () => {
   useEffect(() => {
     if (loading || !data) return
 
-    console.log(data.referral_history)
     const lastReferrals = (data.referral_history || []).map(item => ({
       username: item.invitee,
       date: dateFormat(item.block_time),
       reward: !item.payload.inviteePayment
         ? '-'
-        : item.payload.inviteePayment.amount,
+        : item.payload.inviteePayment?.amount,
       tx: getLastCharacters(item.trxid),
       link: item.trxid
     }))
