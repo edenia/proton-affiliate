@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
-import VisibilityIcon from '@material-ui/icons/Visibility'
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 
 import { mainConfig } from '../../config'
 
@@ -56,11 +56,9 @@ const EnhancedTableHead = ({
         </TableCell>
       ))}
       {showColumnButton && (
-        <TableCell
-          padding="none"
-          align="right"
-          style={{ padding: '0' }}
-        ></TableCell>
+        <TableCell padding="none" align="right" style={{ padding: '0' }}>
+          History
+        </TableCell>
       )}
     </TableRow>
   </TableHead>
@@ -246,7 +244,9 @@ const TablePages = ({
                           component="span"
                           onClick={() => onClickButton(row)}
                         >
-                          <VisibilityIcon />
+                          <ArrowForwardIosIcon
+                            className={classes.historyIcon}
+                          />
                         </IconButton>
                       </TableCell>
                     )}

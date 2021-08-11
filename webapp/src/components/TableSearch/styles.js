@@ -54,5 +54,8 @@ export default theme => ({
   },
   loadMore: {
     textTransform: 'uppercase'
+  },
+  historyIcon: {
+    fontSize: '1rem'
   }
 })
