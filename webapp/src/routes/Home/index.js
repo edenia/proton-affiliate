@@ -12,8 +12,8 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { affiliateUtil } from '../../utils'
-import { GET_REFERRAL_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
+import { affiliateUtil, getLastCharacters } from '../../utils'
+import { GET_REWARDS_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
 import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
@@ -47,8 +47,7 @@ const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
   const [, { showMessage }] = useSharedState()
-  const [getLastReferral, { loading, data }] =
-    useLazyQuery(GET_REFERRAL_HISTORY)
+  const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
     ADD_JOIN_REQUEST_MUTATION
   )
@@ -154,11 +153,14 @@ const Home = () => {
   useEffect(() => {
     if (loading || !data) return
 
+    console.log(data.referral_history)
     const lastReferrals = (data.referral_history || []).map(item => ({
       username: item.invitee,
       date: dateFormat(item.block_time),
-      reward: '-',
-      tx: (item.trxid || '').slice(0, 7),
+      reward: !item.payload.inviteePayment
+        ? '-'
+        : item.payload.inviteePayment.amount,
+      tx: getLastCharacters(item.trxid),
       link: item.trxid
     }))
 

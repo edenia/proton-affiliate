@@ -31,7 +31,8 @@ import {
 } from '../../utils'
 import { useSharedState } from '../../context/state.context'
 import {
-  GET_HISTORY,
+  GET_HISTORY_BY_INVITEES,
+  GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
   DELETE_JOIN_REQUEST_MUTATION
 } from '../../gql'
@@ -78,18 +79,18 @@ const headCellUserApprovals = [
     label: 'role'
   },
   {
-    id: 'joined',
+    id: 'reward',
     align: 'center',
     useMainColor: false,
     rowLink: false,
-    label: 'joined'
+    label: 'reward (XPR)'
   },
   {
-    id: 'referrals',
+    id: 'txid',
     align: 'right',
     useMainColor: true,
     rowLink: false,
-    label: 'referrals'
+    label: 'txid'
   }
 ]
 const headCellReferralPayment = [
@@ -270,7 +271,8 @@ const Admin = () => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   const [openFAB, setOpenFAB] = useState(false)
-  const loadHistoryQuery = useImperativeQuery(GET_HISTORY)
+  const loadHistoryByInvites = useImperativeQuery(GET_HISTORY_BY_INVITEES)
+  const loadHistoryByReferrers = useImperativeQuery(GET_HISTORY_BY_REFERRERS)
   const [
     loadNewUsers,
     { loading = true, data: { joinRequest, infoJoin } = {} }
@@ -296,12 +298,24 @@ const Admin = () => {
 
   const handleOnLoadMoreUsers = async () => {
     const users = await affiliateUtil.getUsers(userPagination.cursor)
-    const newRows = (users.rows || []).map(item => ({
-      username: item.user,
-      role: t(item.role),
-      joined: '-',
-      referrals: '-'
-    }))
+    const referrers = (users.rows || []).map(item => item.user)
+    const { data } = await loadHistoryByReferrers({ referrers })
+    const newRows = (users.rows || []).map(row => {
+      const history = data.history.filter(
+        item => item.referral.referrer === row.user
+      )
+      const trxid = (history[history.length - 1] || {}).trxid
+
+      return {
+        ...row,
+        username: row.user,
+        reward: history.reduce(
+          (total, item) => total + item.payload.referrerPayment.amount,
+          0
+        ),
+        txid: getLastCharacters(trxid) || '-'
+      }
+    })
 
     setUserRows(userPagination.cursor ? [...userRows, ...newRows] : newRows)
     setUserPagination({
@@ -398,7 +412,7 @@ const Admin = () => {
       referralPagination.cursor
     )
     const invitees = (referrals.rows || []).map(item => item.invitee)
-    const { data } = await loadHistoryQuery({ invitees })
+    const { data } = await loadHistoryByInvites({ invitees })
     const newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
       const trxid = (history[history.length - 1] || {}).trxid

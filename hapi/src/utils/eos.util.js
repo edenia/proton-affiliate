@@ -265,7 +265,7 @@ const getTransactionTraces = async trxid => {
   try {
     const transaction = await getTransaction(trxid)
 
-    return transaction.traces
+    return transaction.traces || []
   } catch (error) {}
 }
 

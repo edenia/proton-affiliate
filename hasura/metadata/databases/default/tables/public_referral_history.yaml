@@ -1,6 +1,16 @@
 table:
   name: referral_history
   schema: public
+object_relationships:
+- name: referral
+  using:
+    manual_configuration:
+      column_mapping:
+        invitee: invitee
+      insertion_order: null
+      remote_table:
+        name: referral
+        schema: public
 select_permissions:
 - permission:
     allow_aggregations: true
