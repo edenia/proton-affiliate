@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 
 import { mainConfig } from '../../config'
 
@@ -246,7 +246,7 @@ const TablePages = ({
                           component="span"
                           onClick={() => onClickButton(row)}
                         >
-                          <InsertDriveFileIcon />
+                          <VisibilityIcon />
                         </IconButton>
                       </TableCell>
                     )}

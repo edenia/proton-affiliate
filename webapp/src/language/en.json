@@ -5,7 +5,13 @@
     "lightMode": "Light Mode",
     "darkMode": "Dark Mode",
     "empty": "No data",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "PENDING_USER_REGISTRATION": "Pending",
+    "PENDING_KYC_VERIFICATION": "Pending KYC",
+    "PENDING_PAYMENT": "Pending payment",
+    "PAYMENT_REJECTED": "Rejected",
+    "EXPIRED": "Expired",
+    "PAID": "Paid"
   },
   "routes": {
     "/>title": "Proton Affiliate",
@@ -121,12 +127,6 @@
     "addUserTitle": "Enter an account and add it as active referrer.",
     "switchLabel": "Set as admin",
     "rejectUserMessage": "You are about to REJECT",
-    "PENDING_USER_REGISTRATION": "Pending",
-    "PENDING_KYC_VERIFICATION": "Pending KYC",
-    "PENDING_PAYMENT": "Pending payment",
-    "PAYMENT_REJECTED": "Rejected",
-    "EXPIRED": "Expired",
-    "PAID": "Paid",
     "ADMIN": "Admin",
     "REFERRER": "Referrer",
     "accountHelperText": "Account found!",
