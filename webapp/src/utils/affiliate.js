@@ -203,6 +203,17 @@ const getUsers = async lowerBound => {
   }
 }
 
+const getParams = async () => {
+  const { rows } = await eosApi.getTableRows({
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
+    table: 'params',
+    json: true
+  })
+
+  return rows.length > 0 ? rows[0] : {}
+}
+
 const getReferrals = async lowerBound => {
   const {
     rows,
@@ -287,5 +298,6 @@ export const affiliateUtil = {
   getUser,
   isAccountValidAsReferrer,
   isAccountValidAsInvitee,
-  getReferrals
+  getReferrals,
+  getParams
 }

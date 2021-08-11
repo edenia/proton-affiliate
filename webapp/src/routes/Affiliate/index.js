@@ -10,7 +10,7 @@ import Popover from '@material-ui/core/Popover'
 
 import { useSharedState } from '../../context/state.context'
 import { GET_MY_REFERRALS } from '../../gql'
-import { affiliateUtil } from '../../utils'
+import { affiliateUtil, formatWithThousandSeparator } from '../../utils'
 import TableSearch from '../../components/TableSearch'
 import HistoryModal from '../../components/HistoryModal'
 
@@ -33,6 +33,7 @@ const Affiliate = () => {
   const classes = useStyles()
   const { t } = useTranslation('affiliateRoute')
   const [state] = useSharedState()
+  const [params, setParams] = useState({})
   const [anchorEl, setAnchorEl] = useState(null)
   const [loadReferrals, { loading = true, data: { referrals, info } = {} }] =
     useLazyQuery(GET_MY_REFERRALS)
@@ -96,6 +97,11 @@ const Affiliate = () => {
     setCurrentReferral(data)
   }
 
+  const loadParams = async () => {
+    const params = await affiliateUtil.getParams()
+    setParams(params)
+  }
+
   useEffect(() => {
     if (loading || !referrals) return
 
@@ -123,6 +129,7 @@ const Affiliate = () => {
   useEffect(() => {
     if (!state.user) return
 
+    loadParams()
     loadReferrals({
       variables: {
         where: { referrer: { _eq: state.user.accountName } },
@@ -147,7 +154,10 @@ const Affiliate = () => {
         </Typography>
 
         <Typography className={classes.affiliateInfo}>
-          {t('pageInfo')}
+          {t('pageInfo', {
+            reward: formatWithThousandSeparator(params.usd_reward_amount, 2),
+            hours: params.expiration_days * 24
+          })}
         </Typography>
         <Typography className={classes.affiliateShare}>{t('copy')}</Typography>
         <Typography className={classes.affiliateShareDesktop}>
