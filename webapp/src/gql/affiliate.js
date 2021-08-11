@@ -8,7 +8,7 @@ export const ADD_REFERRAL_MUTATION = gql`
   }
 `
 
-export const GET_HISTORY = gql`
+export const GET_HISTORY_BY_INVITEES = gql`
   query ($invitees: [String!]) {
     history: referral_history(
       where: { invitee: { _in: $invitees } }
@@ -24,15 +24,36 @@ export const GET_HISTORY = gql`
   }
 `
 
-export const GET_REFERRAL_HISTORY = gql`
-  query getReferralHistory($limit: Int = 10) {
-    referral_history(limit: $limit) {
-      id
-      invitee
-      payload
+export const GET_HISTORY_BY_REFERRERS = gql`
+  query ($referrers: [String!]) {
+    history: referral_history(
+      where: {
+        referral: { referrer: { _in: $referrers } }
+        action: { _eq: "payref" }
+      }
+      order_by: { block_time: asc }
+    ) {
+      referral {
+        referrer
+      }
       trxid
-      created_at
+      payload
+    }
+  }
+`
+
+export const GET_REWARDS_HISTORY = gql`
+  query ($limit: Int = 10) {
+    referral_history(
+      where: { action: { _eq: "payref" } }
+      limit: $limit
+      order_by: { block_time: desc }
+    ) {
+      invitee
+      action
+      payload
       block_time
+      trxid
     }
   }
 `
