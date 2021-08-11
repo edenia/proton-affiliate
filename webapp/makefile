@@ -21,7 +21,7 @@ build-docker: ./Dockerfile
 		--build-arg react_app_ual_chain_id="$(REACT_APP_UAL_CHAIN_ID)" \
 		--build-arg react_app_hasura_url="$(REACT_APP_HASURA_URL)" \
 		--build-arg react_app_block_explorer_url="$(REACT_APP_BLOCK_EXPLORER_URL)" \
-		--build-arg REACT_APP_AFFILIATE_ACCOUNT="$(REACT_APP_AFFILIATE_ACCOUNT)" \
+		--build-arg react_app_affiliate_account="$(REACT_APP_AFFILIATE_ACCOUNT)" \
 		.
 
 pull-image: ##@devops Pull the latest image from registry for caching
