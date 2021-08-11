@@ -10,8 +10,6 @@ import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
-import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -19,10 +17,10 @@ import Button from '@material-ui/core/Button'
 
 import { mainConfig } from '../../config'
 import TableSearch from '../../components/TableSearch'
-import CustomizedTimeline from '../../components/Timeline'
 import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButton'
+import HistoryModal from '../../components/HistoryModal'
 import {
   affiliateUtil,
   getUALError,
@@ -114,13 +112,6 @@ const headCellReferralPayment = [
     useMainColor: false,
     rowLink: false,
     label: 'affiliate'
-  },
-  {
-    id: 'tx',
-    align: 'right',
-    useMainColor: true,
-    rowLink: true,
-    label: 'last tx'
   }
 ]
 
@@ -280,7 +271,6 @@ const Admin = () => {
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
-  const [open, setOpen] = useState(false)
   const [openAddUser, setAddUser] = useState(false)
   const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
@@ -291,8 +281,9 @@ const Admin = () => {
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
-  const [referralPagination, setReferralPagination] = useState({})
   const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
+  const [referralPagination, setReferralPagination] = useState({})
   const [selected, setSelected] = useState({ tableName: null })
   const [{ ual }, { showMessage }] = useSharedState()
 
@@ -415,15 +406,12 @@ const Admin = () => {
     const { data } = await loadHistoryByInvites({ invitees })
     const newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
-      const trxid = (history[history.length - 1] || {}).trxid
 
       return {
         ...row,
         history,
         status: t(row.status),
-        statusId: row.status,
-        tx: getLastCharacters(trxid),
-        link: trxid
+        statusId: row.status
       }
     })
 
@@ -445,7 +433,7 @@ const Admin = () => {
   }
 
   const handleOnClickReferral = data => {
-    setOpen(true)
+    setIsHistoryModalOpen(true)
     setCurrentReferral(data)
   }
 
@@ -470,7 +458,7 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -498,7 +486,7 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -524,16 +512,11 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
-  }
-
-  const handleOnClose = () => {
-    setOpen(false)
-    setCurrentReferral(null)
   }
 
   const getAccountName = () => {
@@ -738,70 +721,55 @@ const Admin = () => {
         t={t}
         open={openAddUser}
       />
-      <Modal open={open} setOpen={handleOnClose}>
-        <Box className={classes.timeline}>
-          <Box className={classes.secondayBar} position="sticky">
-            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
-              <KeyboardBackspaceIcon />
-            </IconButton>
-            <Typography className={classes.secondayTitle}>
-              {currentReferral?.invitee} by {currentReferral?.referrer}
-            </Typography>
-          </Box>
-          <Box className={classes.bodySecondary}>
-            <Box>
-              <Typography className={classes.timelineTitle}>
-                {t('timelimeTitle')}
-              </Typography>
-              <CustomizedTimeline items={currentReferral?.history} />
-              {currentReferral?.statusId ===
-                affiliateUtil.REFERRAL_STATUS[
-                  affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
-                ] && (
-                <Box className={classes.modalFooter}>
-                  <Typography>{t('approvePayment')}</Typography>
-                  <Box className={classes.modalBtnWrapper}>
-                    <Button
-                      variant="contained"
-                      onClick={handleOnRejectPayment}
-                      className={clsx(classes.timelineBtn, classes.reject)}
-                    >
-                      Reject
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleOnApprovePayment}
-                      className={classes.timelineBtn}
-                    >
-                      Yes
-                    </Button>
-                  </Box>
-                </Box>
-              )}
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      >
+        {currentReferral?.statusId ===
+          affiliateUtil.REFERRAL_STATUS[
+            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+          ] && (
+          <>
+            <Typography>{t('approvePayment')}</Typography>
+            <Box className={classes.modalBtnWrapper}>
+              <Button
+                variant="contained"
+                onClick={handleOnRejectPayment}
+                className={clsx(classes.timelineBtn, classes.reject)}
+              >
+                Reject
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOnApprovePayment}
+                className={classes.timelineBtn}
+              >
+                Yes
+              </Button>
             </Box>
-
-            {currentReferral?.statusId ===
-              affiliateUtil.REFERRAL_STATUS[
-                affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
-              ] && (
-              <Box className={classes.modalFooter}>
-                <Typography>{t('approveKYC')}</Typography>
-                <Box className={classes.modalBtnWrapper}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOnApproveKyc}
-                    className={classes.timelineBtn}
-                  >
-                    Yes
-                  </Button>
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Modal>
+          </>
+        )}
+        {currentReferral?.statusId ===
+          affiliateUtil.REFERRAL_STATUS[
+            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+          ] && (
+          <>
+            <Typography>{t('approveKYC')}</Typography>
+            <Box className={classes.modalBtnWrapper}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOnApproveKyc}
+                className={classes.timelineBtn}
+              >
+                Yes
+              </Button>
+            </Box>
+          </>
+        )}
+      </HistoryModal>
       <Modal open={openInfoModal} setOpen={setOpenInfoModal}>
         <Box className={classes.rejectModal}>
           <Typography className={classes.text}>

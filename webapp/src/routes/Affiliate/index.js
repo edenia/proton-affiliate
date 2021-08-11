@@ -10,16 +10,16 @@ import Popover from '@material-ui/core/Popover'
 
 import { useSharedState } from '../../context/state.context'
 import { GET_MY_REFERRALS } from '../../gql'
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import { affiliateUtil } from '../../utils'
 import TableSearch from '../../components/TableSearch'
+import HistoryModal from '../../components/HistoryModal'
 
 import styles from './styles'
 
 const headCellAffiliate = [
   { id: 'invitee', align: 'left', label: 'account' },
   { id: 'status', align: 'center', label: 'status' },
-  { id: 'reward', align: 'center', label: 'reward' },
-  { id: 'tx', align: 'right', label: 'last tx' }
+  { id: 'reward', align: 'center', label: 'reward (XPR)' }
 ]
 const initReferralPagination = {
   count: 0,
@@ -40,6 +40,8 @@ const Affiliate = () => {
     initReferralPagination
   )
   const [referralRows, setReferralRows] = useState([])
+  const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -89,6 +91,11 @@ const Affiliate = () => {
     }
   }
 
+  const handleOnClickReferral = data => {
+    setIsHistoryModalOpen(true)
+    setCurrentReferral(data)
+  }
+
   useEffect(() => {
     if (loading || !referrals) return
 
@@ -96,10 +103,13 @@ const Affiliate = () => {
       const history = item.history || []
 
       return {
+        history,
         invitee: item.invitee,
-        status: affiliateUtil.REFERRAL_STATUS[item.status],
+        status: t(affiliateUtil.REFERRAL_STATUS[item.status]),
         referrer: item.referrer,
-        tx: getLastCharacters((history[history.length - 1] || {}).trxid)
+        reward:
+          history.find(item => item.action === 'payref')?.payload
+            ?.referrerPayment?.amount || '-'
       }
     })
 
@@ -183,12 +193,19 @@ const Affiliate = () => {
         </Typography>
       </Box>
       <TableSearch
+        showColumnButton
+        onClickButton={handleOnClickReferral}
         headCells={headCellAffiliate || []}
         rows={referralRows || []}
         pagination={referralPagination}
         handleOnPageChange={handleOnPageChange}
         handleOnRowsPerPageChange={() => {}}
         usePagination={Boolean(referralRows.length)}
+      />
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
       />
     </Box>
   )

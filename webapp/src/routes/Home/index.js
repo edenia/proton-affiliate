@@ -12,11 +12,12 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import { affiliateUtil } from '../../utils'
 import { GET_REWARDS_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
 import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
+import HistoryModal from '../../components/HistoryModal'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
@@ -38,8 +39,7 @@ const INIT_VALIDATION_VALUES = {
 const headCellLAstReward = [
   { id: 'username', align: 'left', rowLink: true, label: 'account' },
   { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
-  { id: 'date', align: 'center', rowLink: false, label: 'joined' },
-  { id: 'tx', align: 'right', rowLink: true, label: 'tx id' }
+  { id: 'date', align: 'center', rowLink: false, label: 'joined' }
 ]
 const useStyles = makeStyles(styles)
 
@@ -59,6 +59,8 @@ const Home = () => {
   const debouncedAccount = useDebounce(account, 200)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
+  const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
 
   const handleOnChangeAccount = e => {
     setAccount(e.target.value)
@@ -126,6 +128,11 @@ const Home = () => {
     setEmail('')
   }
 
+  const handleOnClickReferral = data => {
+    setIsHistoryModalOpen(true)
+    setCurrentReferral(data.referral)
+  }
+
   useEffect(() => {
     const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
@@ -154,13 +161,12 @@ const Home = () => {
     if (loading || !data) return
 
     const lastReferrals = (data.referral_history || []).map(item => ({
+      ...item,
       username: item.invitee,
       date: dateFormat(item.block_time),
       reward: !item.payload.inviteePayment
         ? '-'
-        : item.payload.inviteePayment?.amount,
-      tx: getLastCharacters(item.trxid),
-      link: item.trxid
+        : item.payload.inviteePayment.amount
     }))
 
     setReferralRows(lastReferrals)
@@ -209,6 +215,8 @@ const Home = () => {
       <TableSearch
         headCells={headCellLAstReward || []}
         rows={referralRows || []}
+        onClickButton={handleOnClickReferral}
+        showColumnButton
       />
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
@@ -283,6 +291,11 @@ const Home = () => {
           </Box>
         </Box>
       </Modal>
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      />
     </Box>
   )
 }

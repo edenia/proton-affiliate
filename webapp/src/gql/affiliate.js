@@ -54,6 +54,17 @@ export const GET_REWARDS_HISTORY = gql`
       payload
       block_time
       trxid
+      referral {
+        invitee
+        referrer
+        history(order_by: { block_time: asc }) {
+          trxid
+          block_num
+          block_time
+          action
+          payload
+        }
+      }
     }
   }
 `
