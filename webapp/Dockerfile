@@ -12,6 +12,7 @@ ARG react_app_ual_api_port
 ARG react_app_ual_chain_id
 ARG react_app_hasura_url
 ARG react_app_block_explorer_url
+ARG react_app_affiliate_account
 
 ENV WORK_DIR /usr/src/app
 ENV PATH $WORK_DIR/node_modules/.bin:$PATH
@@ -29,6 +30,7 @@ ENV REACT_APP_UAL_API_PORT $react_app_ual_api_port
 ENV REACT_APP_UAL_CHAIN_ID $react_app_ual_chain_id
 ENV REACT_APP_HASURA_URL $react_app_hasura_url
 ENV REACT_APP_BLOCK_EXPLORER_URL $react_app_block_explorer_url
+ENV REACT_APP_AFFILIATE_ACCOUNT $react_app_affiliate_account
 ENV TOOL_NODE_FLAGS --max_old_space_size=4096
 
 RUN mkdir -p $WORK_DIR
