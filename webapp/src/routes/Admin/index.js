@@ -653,7 +653,8 @@ const Admin = () => {
           showColumnCheck
           headCells={headCellReferralPayment}
           handleOnLoadMore={handleOnLoadMoreReferrals}
-          onClickRow={handleOnClickReferral}
+          onClickButton={handleOnClickReferral}
+          showColumnButton
           idName="invitee"
         />
       </Accordion>
