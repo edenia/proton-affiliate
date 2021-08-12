@@ -8,9 +8,17 @@ const { networkConfig } = require('../config')
 
 const walletUtil = require('./wallet.util')
 
+const customFetch = (url, options, timeout = 15000) => {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((resolve, reject) =>
+      setTimeout(() => reject(new Error('timeout')), timeout)
+    )
+  ])
+}
 const textEncoder = new TextEncoder()
 const textDecoder = new TextDecoder()
-const rpc = new JsonRpc(networkConfig.api, { fetch })
+const rpc = new JsonRpc(networkConfig.api, { fetch: customFetch })
 const eosApi = EosApi({
   httpEndpoint: networkConfig.api,
   verbose: false,
@@ -262,11 +270,9 @@ const transactWithAuths = async (actions, auths) => {
 const getTransaction = id => eosApi.getTransaction(id)
 
 const getTransactionTraces = async trxid => {
-  try {
-    const transaction = await getTransaction(trxid)
+  const transaction = await getTransaction(trxid)
 
-    return transaction.traces || []
-  } catch (error) {}
+  return transaction.traces || []
 }
 
 module.exports = {

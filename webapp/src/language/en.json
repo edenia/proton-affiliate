@@ -53,7 +53,10 @@
     "cancel": "Cancel",
     "success": "request sent successfully",
     "emailHelperText": "Valid e-mail!",
-    "emailHelperError": "Invalid e-mail format!"
+    "emailHelperError": "Invalid e-mail format!",
+    "referralNotFound": "Non referral found or not yet irreversible for invitee {{ invitee }}, check again later",
+    "searchTitle": "Check Your Invitation Status",
+    "protonAccount": "Proton Account"
   },
   "aboutRoute": {
     "body": {

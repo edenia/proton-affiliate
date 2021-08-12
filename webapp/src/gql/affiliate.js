@@ -134,3 +134,21 @@ export const DELETE_JOIN_REQUEST_MUTATION = gql`
     }
   }
 `
+export const GET_REFERRAL_BY_INVITEE = gql`
+  query ($invitee: String!) {
+    referrals: referral(where: { invitee: { _eq: $invitee } }, limit: 1) {
+      id
+      invitee
+      referrer
+      status
+      expires_on
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
+    }
+  }
+`
