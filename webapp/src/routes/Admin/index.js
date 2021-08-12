@@ -89,7 +89,7 @@ const headCellUserApprovals = [
     align: 'right',
     useMainColor: true,
     rowLink: false,
-    label: 'txid'
+    label: 'tx id'
   }
 ]
 const headCellReferralPayment = [
@@ -286,6 +286,7 @@ const Admin = () => {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [referralPagination, setReferralPagination] = useState({})
   const [selected, setSelected] = useState({ tableName: null })
+  const [usersAccounts, setUserAccounts] = useState([])
   const [{ ual }, { showMessage }] = useSharedState()
 
   const handleOnLoadMoreUsers = async usePagination => {
@@ -300,7 +301,7 @@ const Admin = () => {
       const trxid = (history[history.length - 1] || {}).trxid
 
       return {
-        ...row,
+        role: t(row.role),
         username: row.user,
         reward: formatWithThousandSeparator(
           history.reduce(
@@ -328,9 +329,7 @@ const Admin = () => {
         }
       })
 
-      setOpenInfoModal(false)
-
-      joinRequest({
+      await loadNewUsers({
         variables: {
           offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
           limit: newUsersPagination.rowsPerPage
@@ -338,6 +337,9 @@ const Admin = () => {
       })
 
       showMessage({ type: 'success', content: t('deleteSuccessfully') })
+      setOpenInfoModal(false)
+      setSelected({ tableName: null })
+      setUserAccounts([])
     } catch (error) {
       showMessage({ type: 'error', content: error })
     }
@@ -347,7 +349,7 @@ const Admin = () => {
     try {
       const data = await affiliateUtil.addUser(
         ual.activeUser,
-        selected.new,
+        usersAccounts,
         affiliateUtil.ROLES_IDS.REFERRER
       )
 
@@ -379,23 +381,24 @@ const Admin = () => {
     setTimeout(handleOnLoadMoreUsers, 1500)
   }
 
-  const handleOnSelectItem = (tableName, items) => {
+  const handleOnSelectItem = (tableName, items, accounts) => {
     if (!items.length) {
       setSelected({ tableName: null })
 
       return
     }
 
+    setUserAccounts(accounts || [])
     setSelected({ [tableName]: items, tableName })
   }
 
-  const handleOnPageChange = (_, page) => {
+  const handleOnPageChange = async (_, page) => {
     setNewUsersPagination(prev => ({
       ...prev,
       page
     }))
 
-    joinRequest({
+    await loadNewUsers({
       variables: {
         offset: page * newUsersPagination.rowsPerPage,
         limit: newUsersPagination.rowsPerPage

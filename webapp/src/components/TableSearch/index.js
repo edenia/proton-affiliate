@@ -98,15 +98,25 @@ const TablePages = ({
   const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      onSelectItem(
-        tableName,
-        rows.map(n => n[idName])
-      )
+    if (!event.target.checked) {
+      onSelectItem(tableName, [])
 
       return
     }
-    onSelectItem(tableName, [])
+
+    const ids = rows.map(n => n[idName])
+
+    if (tableName === 'new') {
+      const accounts = rows
+        .filter(row => ids.indexOf(row.id) !== -1)
+        .map(item => item.account)
+
+      onSelectItem(tableName, ids, accounts)
+
+      return
+    }
+
+    onSelectItem(tableName, ids)
   }
 
   const handleClick = (_, name) => {
@@ -124,6 +134,16 @@ const TablePages = ({
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
       )
+    }
+
+    if (tableName === 'new') {
+      const accounts = rows
+        .filter(row => newSelected.indexOf(row.id) !== -1)
+        .map(item => item.account)
+
+      onSelectItem(tableName, newSelected, accounts)
+
+      return
     }
 
     onSelectItem(tableName, newSelected)
