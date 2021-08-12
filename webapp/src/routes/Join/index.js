@@ -16,7 +16,11 @@ import useDebounce from '../../hooks/useDebounce'
 import useCountries from '../../hooks/useCountries'
 import AutocompleteInput from '../../components/Autocomplete'
 import { AppStore, PlayStore } from '../../components/SvgIcons'
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import {
+  affiliateUtil,
+  getLastCharacters,
+  formatWithThousandSeparator
+} from '../../utils'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
@@ -28,6 +32,7 @@ const Join = () => {
   const { t, i18n } = useTranslation('joinRoute')
   const classes = useStyles()
   const [, { showMessage }] = useSharedState()
+  const [params, setParams] = useState({})
   const { referrer } = useParams()
   const [open, setOpen] = useState(false)
   const [accountName, setAccountName] = useState('')
@@ -129,13 +134,24 @@ const Join = () => {
     validateReferrer()
   }, [referrer])
 
+  useEffect(() => {
+    const loadParams = async () => {
+      const params = await affiliateUtil.getParams()
+      setParams(params)
+    }
+
+    loadParams()
+  }, [])
+
   return (
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
         <Typography className={classes.joinTitle}>{t('title')}</Typography>
-        <Typography className={classes.joinInfo}>{`${referrer} ${t(
-          'infoPage'
-        )}`}</Typography>
+        <Typography className={classes.joinInfo}>
+          {`${referrer} ${t('infoPage', {
+            reward: formatWithThousandSeparator(params.usd_reward_amount, 2)
+          })}`}
+        </Typography>
 
         {!isValidReferrer && (
           <Typography>
