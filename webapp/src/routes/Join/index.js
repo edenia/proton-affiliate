@@ -26,6 +26,11 @@ import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
+const INIT_VALIDATION_VALUES = {
+  showHelper: false,
+  message: '',
+  isValid: false
+}
 const useStyles = makeStyles(styles)
 
 const Join = () => {
@@ -37,7 +42,9 @@ const Join = () => {
   const [open, setOpen] = useState(false)
   const [accountName, setAccountName] = useState('')
   const [statesByCountry, setStatesBycountrues] = useState([])
-  const [accountNameError, setAccountNameError] = useState({})
+  const [accountNameError, setAccountNameError] = useState(
+    INIT_VALIDATION_VALUES
+  )
   const [inputs, setInputs] = useState({
     fullname: { value: '' },
     address: { value: '' },
@@ -45,7 +52,7 @@ const Join = () => {
     state: { value: '' },
     date: { value: '' }
   })
-  const debouncedSearchTerm = useDebounce(accountName, 200)
+  const debouncedAccount = useDebounce(accountName, 200)
   const countries = useCountries(i18n.languages[1])
   const [isValidReferrer, setIsValidReferrer] = useState(false)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
@@ -99,31 +106,28 @@ const Join = () => {
   }
 
   useEffect(() => {
-    const validateInvitee = async () => {
+    const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedSearchTerm
+        debouncedAccount
       )
+
       setAccountNameError({
-        isError: !isValid,
-        showMessage: isValid,
-        message: 'helperTextUsername',
-        showIcon: isValid
+        showHelper: true,
+        isValid: isValid,
+        message: t(isValid ? 'accountHelperText' : 'accountHelperError')
       })
     }
 
-    if (debouncedSearchTerm.length && debouncedSearchTerm.length < 10) {
+    if (debouncedAccount) {
+      validateAccount()
+    } else {
       setAccountNameError({
-        isError: true,
-        showMessage: true,
-        message: 'helperTextUsernameError',
-        showIcon: false
+        showHelper: false,
+        message: '',
+        isValid: false
       })
     }
-
-    if (debouncedSearchTerm) {
-      validateInvitee()
-    }
-  }, [debouncedSearchTerm])
+  }, [debouncedAccount])
 
   useEffect(() => {
     const validateReferrer = async () => {
@@ -158,8 +162,9 @@ const Join = () => {
             {t('invalidReferrer')}: {referrer}
           </Typography>
         )}
-
-        <Box
+        <form
+          noValidate
+          autoComplete="off"
           className={clsx(classes.step, {
             [classes.showBox]: isValidReferrer
           })}
@@ -174,23 +179,23 @@ const Join = () => {
             onChange={handleOnChange}
             disabled={open}
             InputProps={{
-              endAdornment: accountNameError.showIcon ? (
+              endAdornment: accountNameError.isValid ? (
                 <DoneIcon color="primary" />
               ) : (
                 <></>
               )
             }}
           />
-          {accountNameError.showMessage && (
+          {accountNameError.showHelper && (
             <Typography className={clsx(classes.helperText, classes.marginMd)}>
-              {t(accountNameError.message)}
+              {accountNameError.message}
             </Typography>
           )}
           {!open && (
             <Button
               variant="contained"
               color="primary"
-              disabled={!accountNameError.showIcon}
+              disabled={!accountNameError.isValid}
               className={clsx(classes.sendBtn, classes.marginMd)}
               onClick={handleOnSubmit}
             >
@@ -201,7 +206,7 @@ const Join = () => {
               )}
             </Button>
           )}
-        </Box>
+        </form>
 
         <Box
           className={clsx(classes.step, {

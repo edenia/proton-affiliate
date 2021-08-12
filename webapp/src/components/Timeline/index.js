@@ -12,33 +12,12 @@ import HelpIcon from '@material-ui/icons/Help'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
+
 import { getLastCharacters } from '../../utils'
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(1)
-  },
-  secondaryTail: {
-    backgroundColor: theme.palette.primary.main
-  },
-  main: {
-    padding: 0
-  },
-  infomation: {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 12,
-    lineHeight: '16px',
-    display: 'flex',
-    letterSpacing: '0.4px',
-    color: '#000000',
-    textAlign: 'start'
-  },
-  item: {
-    marginTop: 0,
-    marginBottom: 0
-  }
-}))
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
 
 const CustomizedTimeline = ({ items }) => {
   const classes = useStyles()
@@ -48,7 +27,11 @@ const CustomizedTimeline = ({ items }) => {
       {items.map((item, index) => (
         <TimelineItem key={index}>
           <TimelineOppositeContent>
-            <Typography variant="body2" color="textSecondary">
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              className={classes.date}
+            >
               {moment(item.block_time).format('MM/DD/YYYY hh:mmA')}
             </Typography>
           </TimelineOppositeContent>
