@@ -75,7 +75,7 @@ export const GET_MY_REFERRALS = gql`
     $offset: Int = 0
     $limit: Int = 5
   ) {
-    info: referral_aggregate {
+    info: referral_aggregate(where: $where) {
       referrals: aggregate {
         count
       }

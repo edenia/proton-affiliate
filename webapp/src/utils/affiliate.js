@@ -262,7 +262,10 @@ const isAccountValidAsReferrer = async account => {
   try {
     const user = (await getUser(account)) || {}
 
-    return user.role === ROLES[2]
+    return (
+      user.role === ROLES[ROLES_IDS.REFERRER] ||
+      user.role === ROLES[ROLES_IDS.ADMIN]
+    )
   } catch (error) {}
 
   return false

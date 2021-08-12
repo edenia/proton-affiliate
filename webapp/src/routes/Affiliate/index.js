@@ -59,10 +59,9 @@ const Affiliate = () => {
     })
   }
 
-  // @todo: use environmental variable for project URL
   const handleClick = event => {
     navigator.clipboard.writeText(
-      `https://test.earnproton.com/join/${
+      `${window.location.origin}/join/${
         state.user ? state.user.accountName : null
       }`
     )
@@ -77,8 +76,8 @@ const Affiliate = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: 'share demo',
-          url: `https://test.earnproton.com/join/${
+          title: 'share',
+          url: `${window.location.origin}/join/${
             state.user ? state.user.accountName : null
           }`
         })
