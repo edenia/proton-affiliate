@@ -139,5 +139,14 @@
     "poweredBy": "Powered by",
     "info": "the Proton Worker Proposal System",
     "madeBy": "Made by EOS Costa Rica © 2021"
+  },
+  "timeline": {
+    "addref": "Referral registered",
+    "newaccount": "Account registered",
+    "verifyacc": "Account verified",
+    "verifyexp": "Experiration verified",
+    "verifykyc": "KYC verified",
+    "payref": "Referral payment",
+    "rejectref": "Referrer rejected"
   }
 }
