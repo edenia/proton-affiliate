@@ -7,6 +7,8 @@ const hyperionStateService = require('../hyperion-state.service')
 
 const updaters = require('./updaters')
 
+const TIME_BEFORE_IRREVERSIBILITY = 164
+
 const getLastSyncedAt = async () => {
   const state = await hyperionStateService.getState()
 
@@ -34,8 +36,28 @@ const getGap = lastSyncedAt => {
     }
   }
 
+  if (
+    moment().diff(moment(lastSyncedAt), 'seconds') >=
+    TIME_BEFORE_IRREVERSIBILITY * 2
+  ) {
+    return {
+      amount: TIME_BEFORE_IRREVERSIBILITY,
+      unit: 'seconds'
+    }
+  }
+
+  if (
+    moment().diff(moment(lastSyncedAt), 'seconds') >=
+    TIME_BEFORE_IRREVERSIBILITY + 10
+  ) {
+    return {
+      amount: 10,
+      unit: 'seconds'
+    }
+  }
+
   return {
-    amount: 164,
+    amount: 1,
     unit: 'seconds'
   }
 }
@@ -58,9 +80,8 @@ const getActions = async params => {
   const notIrreversible = data.simple_actions.find(item => !item.irreversible)
 
   if (!!notIrreversible) {
-    await sleepUtil(
-      164 - moment().diff(moment(notIrreversible.timestamp), 'seconds')
-    )
+    console.log('notIrreversible', params)
+    await sleepUtil(1)
 
     return getActions(params)
   }
@@ -90,14 +111,15 @@ const sync = async () => {
   await hasuraUtil.hasuraAssembled()
   const lastSyncedAt = await getLastSyncedAt()
   const gap = getGap(lastSyncedAt)
-  const after = moment(lastSyncedAt).add(1, 'millisecond').toISOString()
+  const after = moment(lastSyncedAt).toISOString()
   const before = moment(after).add(gap.amount, gap.unit).toISOString()
+  const diff = moment().diff(moment(before), 'seconds')
   let skip = 0
   let hasMore = true
   let actions = []
 
-  if (moment().diff(moment(before), 'seconds') <= 0) {
-    await sleepUtil(1)
+  if (diff < TIME_BEFORE_IRREVERSIBILITY) {
+    await sleepUtil(TIME_BEFORE_IRREVERSIBILITY - diff)
 
     return sync()
   }
