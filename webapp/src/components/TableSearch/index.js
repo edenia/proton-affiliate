@@ -83,6 +83,7 @@ const TablePages = ({
   useLoadMore,
   loadMoreDisable,
   handleOnLoadMore,
+  onReload,
   pagination,
   handleOnPageChange,
   handleOnRowsPerPageChange,
@@ -263,14 +264,25 @@ const TablePages = ({
             </TableBody>
           </Table>
         </TableContainer>
-        {useLoadMore && (
-          <Box
-            style={{
-              marginTop: 16,
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
+
+        <Box
+          style={{
+            marginTop: 16,
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          {!!onReload && (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={onReload}
+              className={classes.loadMore}
+            >
+              {t('reload')}
+            </Button>
+          )}
+          {useLoadMore && (
             <Button
               disabled={!loadMoreDisable}
               variant="outlined"
@@ -280,8 +292,9 @@ const TablePages = ({
             >
               {t('loadMore')}
             </Button>
-          </Box>
-        )}
+          )}
+        </Box>
+
         {usePagination && (
           <TablePagination
             classes={{ root: classes.tablePagination }}
@@ -307,6 +320,7 @@ TablePages.propTypes = {
   useLoadMore: PropTypes.bool,
   loadMoreDisable: PropTypes.bool,
   handleOnLoadMore: PropTypes.func,
+  onReload: PropTypes.func,
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
   handleOnRowsPerPageChange: PropTypes.func,

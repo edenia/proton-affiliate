@@ -25,7 +25,8 @@ import {
   affiliateUtil,
   getUALError,
   useImperativeQuery,
-  getLastCharacters
+  getLastCharacters,
+  formatWithThousandSeparator
 } from '../../utils'
 import { useSharedState } from '../../context/state.context'
 import {
@@ -287,8 +288,9 @@ const Admin = () => {
   const [selected, setSelected] = useState({ tableName: null })
   const [{ ual }, { showMessage }] = useSharedState()
 
-  const handleOnLoadMoreUsers = async () => {
-    const users = await affiliateUtil.getUsers(userPagination.cursor)
+  const handleOnLoadMoreUsers = async usePagination => {
+    const pagination = usePagination ? userPagination : {}
+    const users = await affiliateUtil.getUsers(pagination.cursor)
     const referrers = (users.rows || []).map(item => item.user)
     const { data } = await loadHistoryByReferrers({ referrers })
     const newRows = (users.rows || []).map(row => {
@@ -300,19 +302,22 @@ const Admin = () => {
       return {
         ...row,
         username: row.user,
-        reward: history.reduce(
-          (total, item) => total + item.payload.referrerPayment?.amount,
-          0
+        reward: formatWithThousandSeparator(
+          history.reduce(
+            (total, item) => total + item.payload.referrerPayment?.amount,
+            0
+          ),
+          2
         ),
         txid: getLastCharacters(trxid) || '-'
       }
     })
 
-    setUserRows(userPagination.cursor ? [...userRows, ...newRows] : newRows)
     setUserPagination({
       hasMore: users.hasMore,
       cursor: users.cursor
     })
+    setUserRows(pagination.cursor ? [...userRows, ...newRows] : newRows)
   }
 
   const deleteNewUsers = async () => {
@@ -366,12 +371,12 @@ const Admin = () => {
     }
   }
 
-  const reloadUsers = async () => {
+  const reloadUsers = () => {
     setUserPagination({
       hasMore: false,
       cursor: ''
     })
-    setTimeout(handleOnLoadMoreUsers, 500)
+    setTimeout(handleOnLoadMoreUsers, 1500)
   }
 
   const handleOnSelectItem = (tableName, items) => {
@@ -398,10 +403,9 @@ const Admin = () => {
     })
   }
 
-  const handleOnLoadMoreReferrals = async () => {
-    const referrals = await affiliateUtil.getReferrals(
-      referralPagination.cursor
-    )
+  const handleOnLoadMoreReferrals = async usePagination => {
+    const pagination = usePagination ? referralPagination : {}
+    const referrals = await affiliateUtil.getReferrals(pagination.cursor)
     const invitees = (referrals.rows || []).map(item => item.invitee)
     const { data } = await loadHistoryByInvites({ invitees })
     const newRows = (referrals.rows || []).map(row => {
@@ -415,13 +419,11 @@ const Admin = () => {
       }
     })
 
-    setReferralRows(
-      referralPagination.cursor ? [...referralRows, ...newRows] : newRows
-    )
     setReferralPagination({
       hasMore: referrals.hasMore,
       cursor: referrals.cursor
     })
+    setReferralRows(pagination.cursor ? [...referralRows, ...newRows] : newRows)
   }
 
   const reloadReferrals = () => {
@@ -429,7 +431,7 @@ const Admin = () => {
       hasMore: false,
       cursor: ''
     })
-    setTimeout(handleOnLoadMoreReferrals, 500)
+    setTimeout(handleOnLoadMoreReferrals, 1500)
   }
 
   const handleOnClickReferral = data => {
@@ -646,10 +648,12 @@ const Admin = () => {
           onSelectItem={handleOnSelectItem}
           selected={selected.payment || []}
           useLoadMore
+          handleOnLoadMore={handleOnLoadMoreReferrals}
+          loadMoreDisable={referralPagination.hasMore}
+          onReload={reloadReferrals}
           rows={referralRows}
           showColumnCheck
           headCells={headCellReferralPayment}
-          handleOnLoadMore={handleOnLoadMoreReferrals}
           onClickButton={handleOnClickReferral}
           showColumnButton
           idName="invitee"
@@ -680,6 +684,8 @@ const Admin = () => {
           showColumnCheck
           headCells={headCellUserApprovals}
           handleOnLoadMore={handleOnLoadMoreUsers}
+          loadMoreDisable={userPagination.hasMore}
+          onReload={reloadUsers}
           idName="username"
         />
       </Accordion>
