@@ -124,10 +124,17 @@ const sync = async () => {
     return sync()
   }
 
-  while (hasMore) {
-    ;({ hasMore, actions } = await getActions({ after, before, skip }))
-    skip += actions.length
-    await runUpdaters(actions)
+  try {
+    while (hasMore) {
+      ;({ hasMore, actions } = await getActions({ after, before, skip }))
+      skip += actions.length
+      await runUpdaters(actions)
+    }
+  } catch (error) {
+    console.error('hyperion error', error.message)
+    await sleepUtil(5)
+
+    return sync()
   }
 
   await hyperionStateService.saveOrUpdate(before)

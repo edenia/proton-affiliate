@@ -257,7 +257,7 @@ const Join = () => {
             variant="contained"
             color="primary"
             className={classes.storeBtn}
-            href="/"
+            href={`/?invitee=${accountName}`}
           >
             {t('home')}
           </Button>

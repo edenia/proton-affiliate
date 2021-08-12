@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import moment from 'moment'
@@ -12,8 +13,12 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { affiliateUtil } from '../../utils'
-import { GET_REWARDS_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
+import { affiliateUtil, useImperativeQuery } from '../../utils'
+import {
+  GET_REWARDS_HISTORY,
+  GET_REFERRAL_BY_INVITEE,
+  ADD_JOIN_REQUEST_MUTATION
+} from '../../gql'
 import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
@@ -46,8 +51,10 @@ const useStyles = makeStyles(styles)
 const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
+  const location = useLocation()
   const [, { showMessage }] = useSharedState()
   const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
+  const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
     ADD_JOIN_REQUEST_MUTATION
   )
@@ -55,6 +62,7 @@ const Home = () => {
   const [checked, setCheked] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
+  const [invitee, setInvitee] = useState('')
   const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
   const debouncedAccount = useDebounce(account, 200)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
@@ -133,6 +141,22 @@ const Home = () => {
     setCurrentReferral(data.referral)
   }
 
+  const searchReferral = async invitee => {
+    const { data } = await loadReferralByInvitee({ invitee })
+
+    if (data.referrals.length < 1) {
+      showMessage({
+        type: 'warning',
+        content: t('referralNotFound', { invitee })
+      })
+
+      return
+    }
+
+    setCurrentReferral(data.referrals[0])
+    setIsHistoryModalOpen(true)
+  }
+
   useEffect(() => {
     const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
@@ -171,6 +195,16 @@ const Home = () => {
 
     setReferralRows(lastReferrals)
   }, [data, loading])
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search)
+    const invitee = query.get('invitee')
+    setInvitee(invitee || '')
+
+    if (invitee) {
+      searchReferral(invitee)
+    }
+  }, [location.search])
 
   useEffect(() => {
     getLastReferral()
@@ -218,6 +252,29 @@ const Home = () => {
         onClickButton={handleOnClickReferral}
         showColumnButton
       />
+      <Box className={classes.searchFormWrapper}>
+        <form noValidate autoComplete="off">
+          <Typography variant="h6" className={classes.searchTitle}>
+            {t('searchTitle')}
+          </Typography>
+          <TextField
+            className={classes.searchInput}
+            onChange={event => setInvitee(event.target.value)}
+            value={invitee}
+            placeholder={t('protonAccount')}
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            className={classes.searchBtn}
+            variant="contained"
+            color="primary"
+            onClick={() => searchReferral(invitee)}
+          >
+            {t('check')}
+          </Button>
+        </form>
+      </Box>
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>
