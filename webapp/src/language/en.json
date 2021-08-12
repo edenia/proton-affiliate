@@ -111,7 +111,9 @@
     "modalTitle": "Congratulations!",
     "info": "Your $10 reward its in the way!",
     "info2": "Join the referral program, invite friends or family and obtain $10 more for each completed registration.",
-    "buttonLabel": "JOIN AND INVITE"
+    "buttonLabel": "JOIN AND INVITE",
+    "accountHelperText": "Account name available!",
+    "accountHelperError": "Account name is not available!"
   },
   "adminRoute": {
     "title": "Administration",
@@ -132,5 +134,10 @@
     "accountHelperText": "Account found!",
     "accountHelperError": "Account name is not registered!",
     "deleteSuccessfully": "Delete Successfully"
+  },
+  "footer": {
+    "poweredBy": "Powered by",
+    "info": "the Proton Worker Proposal System",
+    "madeBy": "Made by EOS Costa Rica © 2021"
   }
 }
