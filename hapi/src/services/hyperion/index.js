@@ -12,7 +12,7 @@ const TIME_BEFORE_IRREVERSIBILITY = 164
 const getLastSyncedAt = async () => {
   const state = await hyperionStateService.getState()
 
-  if (!!state) {
+  if (state) {
     return state.lastSyncedAt
   }
 
@@ -79,8 +79,7 @@ const getActions = async params => {
   )
   const notIrreversible = data.simple_actions.find(item => !item.irreversible)
 
-  if (!!notIrreversible) {
-    console.log('notIrreversible', params)
+  if (notIrreversible) {
     await sleepUtil(1)
 
     return getActions(params)
