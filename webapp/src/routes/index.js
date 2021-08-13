@@ -18,6 +18,13 @@ const routes = [
     roles: ['guest', 'NON-AFFILIATED']
   },
   {
+    name: 'home',
+    component: Home,
+    path: '/admin',
+    exact: true,
+    roles: ['guest', 'NON-AFFILIATED']
+  },
+  {
     name: 'affiliate',
     component: Affiliate,
     path: '/',
