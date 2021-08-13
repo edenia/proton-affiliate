@@ -47,5 +47,25 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  emptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing(4),
+    '& svg': {
+      fontSize: '48px',
+      color: '#1FACFF'
+    },
+    '& p': {
+      width: '220px',
+      margin: '8px 0 0',
+      fontFamily: 'CircularStd',
+      fontWeight: 500,
+      textTransform: 'uppercase',
+      textAlign: 'center',
+      color: '#000'
+    }
   }
 })

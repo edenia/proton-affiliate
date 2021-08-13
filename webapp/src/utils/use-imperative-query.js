@@ -8,7 +8,8 @@ export const useImperativeQuery = query => {
     variables =>
       client.query({
         query: query,
-        variables: variables
+        variables: variables,
+        fetchPolicy: 'network-only'
       }),
     [client]
   )
