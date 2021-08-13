@@ -24,7 +24,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import LanguageIcon from '@material-ui/icons/Language'
 import AccountIcon from '@material-ui/icons/AccountCircle'
 import EditIcon from '@material-ui/icons/Edit'
-import RotateRightIcon from '@material-ui/icons/RotateRight'
 import CloseIcon from '@material-ui/icons/Close'
 import { Sun as SunIcon, Moon as MoonIcon } from 'react-feather'
 
@@ -263,9 +262,6 @@ const Header = memo(({ onDrawerToggle, routes }) => {
           >
             Admin
           </Button>
-        </MenuItem>
-        <MenuItem>
-          <Button startIcon={<RotateRightIcon />}>Switch User</Button>
         </MenuItem>
         <Divider />
         <MenuItem>

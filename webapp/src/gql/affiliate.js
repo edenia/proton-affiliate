@@ -152,3 +152,11 @@ export const GET_REFERRAL_BY_INVITEE = gql`
     }
   }
 `
+
+export const GET_LAST_SYNCED = gql`
+  query {
+    hyperion_state(limit: 1) {
+      last_synced_at
+    }
+  }
+`
