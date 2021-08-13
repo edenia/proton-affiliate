@@ -10,6 +10,8 @@ import { useMutation } from '@apollo/client'
 import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
 import DoneIcon from '@material-ui/icons/Done'
+import Chip from '@material-ui/core/Chip'
+import TimerIcon from '@material-ui/icons/Timer'
 
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
@@ -21,11 +23,13 @@ import {
   getLastCharacters,
   formatWithThousandSeparator
 } from '../../utils'
+import { mainConfig } from '../../config'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
+const TIME_BEFORE_IRREVERSIBILITY = 164
 const INIT_VALIDATION_VALUES = {
   showHelper: false,
   message: '',
@@ -56,9 +60,22 @@ const Join = () => {
   const countries = useCountries(i18n.languages[1])
   const [isValidReferrer, setIsValidReferrer] = useState(false)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
+  const [irreversibilityCounter, setIrreversibilityCounter] = useState(0)
 
   const handleOnChange = e => {
     setAccountName(e.target.value)
+  }
+
+  const startCounter = () => {
+    setTimeout(() => {
+      setIrreversibilityCounter(prev => {
+        if (prev > 0) {
+          startCounter()
+        }
+
+        return prev - 1
+      })
+    }, 1000)
   }
 
   const handleOnSubmit = async event => {
@@ -76,11 +93,13 @@ const Join = () => {
         }
       })
 
+      setIrreversibilityCounter(TIME_BEFORE_IRREVERSIBILITY)
+      startCounter()
       showMessage({
         type: 'success',
         content: (
           <a
-            href={`https://testnet.protonscan.io/transaction/${trxid}`}
+            href={`${mainConfig.blockExplorer}/transaction/${trxid}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -244,6 +263,9 @@ const Join = () => {
           })}
         >
           <Typography className={classes.joinStep}>{t('step3')}</Typography>
+          <Typography className={classes.joinInfo}>
+            {t('step3Info', { hours: params.expiration_days * 24 })}
+          </Typography>
         </Box>
 
         <Box
@@ -253,13 +275,33 @@ const Join = () => {
         >
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <Typography className={classes.joinInfo}>{t('step4Info')}</Typography>
+          {irreversibilityCounter > 0 && (
+            <Chip
+              className={classes.irreversibilityStatus}
+              icon={<TimerIcon />}
+              label={t('pendingIrreversibility', {
+                seconds: irreversibilityCounter
+              })}
+              variant="outlined"
+            />
+          )}
+          {irreversibilityCounter < 1 && (
+            <Chip
+              className={classes.irreversibilityStatus}
+              icon={<DoneIcon />}
+              label={t('doneIrreversibility')}
+              color="primary"
+              variant="outlined"
+            />
+          )}
           <Button
+            disabled={irreversibilityCounter > 0}
             variant="contained"
             color="primary"
             className={classes.storeBtn}
             href={`/?invitee=${accountName}`}
           >
-            {t('home')}
+            {t('check')}
           </Button>
         </Box>
 

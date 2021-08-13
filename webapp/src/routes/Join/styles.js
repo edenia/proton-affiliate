@@ -149,5 +149,8 @@ export default theme => ({
       marginLeft: theme.spacing(8),
       width: 300
     }
+  },
+  irreversibilityStatus: {
+    marginTop: theme.spacing(2)
   }
 })

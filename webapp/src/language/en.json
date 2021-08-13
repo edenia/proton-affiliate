@@ -108,6 +108,7 @@
     "step2": "Step 2: Download and Register",
     "step2Info": "Download the Proton wallet. Please use the same username as above.",
     "step3": "Step 3: Complete the KYC process",
+    "step3Info": "You must complete your KYC process within the next {{ hours }} hours otherwise your referral will expire",
     "login": "Login",
     "step4": "Step 4: Wait for approval.",
     "step4Info": "An admin will review your referral and approve your rewards.",
@@ -116,7 +117,9 @@
     "info2": "Join the referral program, invite friends or family and obtain $10 more for each completed registration.",
     "buttonLabel": "JOIN AND INVITE",
     "accountHelperText": "Account name available!",
-    "accountHelperError": "Account name is not available!"
+    "accountHelperError": "Account name is not available!",
+    "doneIrreversibility": "Irreversible transaction",
+    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)"
   },
   "adminRoute": {
     "title": "Administration",
