@@ -18,7 +18,6 @@ const routes = [
     roles: ['guest', 'NON-AFFILIATED']
   },
   {
-    name: 'home',
     component: Home,
     path: '/admin',
     exact: true,
