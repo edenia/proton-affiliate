@@ -54,7 +54,10 @@ const HistoryModal = ({ open, onClose, children, referral, title }) => {
             )}
             {referral?.history?.length > 0 && (
               <>
-                <CustomizedTimeline items={referral?.history} />
+                <CustomizedTimeline
+                  items={referral?.history}
+                  itemHasAction={children.some(child => Boolean(child))}
+                />
                 <Box className={classes.modalFooter}>{children}</Box>
               </>
             )}

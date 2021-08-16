@@ -12,7 +12,8 @@ export default theme => ({
     backgroundColor: theme.palette.primary.main
   },
   main: {
-    padding: 0
+    padding: 0,
+    marginTop: theme.spacing(4)
   },
   infomation: {
     fontStyle: 'normal',
@@ -39,5 +40,12 @@ export default theme => ({
     textTransform: 'uppercase',
     color: theme.palette.common.black,
     marginTop: 5
+  },
+  paperWrapper: {
+    paddingTop: 0,
+    marginTop: -10
+  },
+  secondaryColor: {
+    borderColor: '#1DAEFF'
   }
 })

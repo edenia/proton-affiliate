@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import Timeline from '@material-ui/lab/Timeline'
@@ -20,6 +21,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
+import { mainConfig } from '../../config'
 import { getLastCharacters } from '../../utils'
 
 import styles from './styles'
@@ -70,7 +72,7 @@ TimelineIcon.propTypes = {
   color: PropTypes.string
 }
 
-const CustomizedTimeline = ({ items }) => {
+const CustomizedTimeline = ({ items, itemHasAction }) => {
   const classes = useStyles()
   const { t } = useTranslation('timeline')
 
@@ -92,14 +94,28 @@ const CustomizedTimeline = ({ items }) => {
             <TimelineDot
               color="primary"
               variant="outlined"
-              classes={{ root: classes.item }}
+              classes={{
+                root: clsx(classes.item, {
+                  [classes.secondaryColor]:
+                    itemHasAction && items.length - 1 === index
+                })
+              }}
             >
-              <TimelineIcon color="primary" action={item.action} />
+              <TimelineIcon
+                color={
+                  itemHasAction && items.length - 1 === index
+                    ? 'secondary'
+                    : 'primary'
+                }
+                action={item.action}
+              />
             </TimelineDot>
-            <TimelineConnector className={classes.secondaryTail} />
+            {items.length - 1 !== index && (
+              <TimelineConnector className={classes.secondaryTail} />
+            )}
           </TimelineSeparator>
 
-          <TimelineContent>
+          <TimelineContent classes={{ root: classes.paperWrapper }}>
             <Paper elevation={3} className={classes.paper}>
               <Typography className={classes.infomation}>
                 {t(item.action)}
@@ -107,7 +123,7 @@ const CustomizedTimeline = ({ items }) => {
               <a
                 rel="noreferrer"
                 target="_blank"
-                href={`https://testnet.protonscan.io/transaction/${item.trxid}`}
+                href={`${mainConfig.blockExplorer}/transaction/${item.trxid}`}
               >
                 {getLastCharacters(item.trxid)}
               </a>
@@ -120,11 +136,13 @@ const CustomizedTimeline = ({ items }) => {
 }
 
 CustomizedTimeline.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
+  itemHasAction: PropTypes.bool
 }
 
 CustomizedTimeline.defaultProps = {
-  items: []
+  items: [],
+  itemHasAction: false
 }
 
 export default CustomizedTimeline
