@@ -22,7 +22,6 @@ import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
 import { mainConfig } from '../../config'
-
 import { getLastCharacters } from '../../utils'
 
 import styles from './styles'
