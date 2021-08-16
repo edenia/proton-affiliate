@@ -1,17 +1,17 @@
 export default theme => ({
   appBar: {
     backgroundColor: `${theme.palette.background.paper}`,
+    marginTop: theme.spacing(2),
     boxShadow: `${theme.shadows[0]}`,
     [theme.breakpoints.up('md')]: {
-      borderBottom: 0,
-      marginTop: theme.spacing(2)
+      borderBottom: 0
     }
   },
   toolbar: {
-    padding: 0,
+    padding: theme.spacing(0, 3),
     justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing(0, 2)}`
+      padding: theme.spacing(0, 2)
     }
   },
   typography: {
@@ -66,6 +66,14 @@ export default theme => ({
       '& svg': {
         marginRight: theme.spacing(1)
       }
+    }
+  },
+  menuIcon: {
+    color: theme.palette.common.black
+  },
+  noHover: {
+    '&:hover': {
+      backgroundColor: 'transparent'
     }
   }
 })

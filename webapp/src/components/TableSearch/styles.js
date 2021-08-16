@@ -2,9 +2,13 @@ export default theme => ({
   root: {
     width: '100%'
   },
-  paper: {
+  boxTable: {
     width: '100%',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(0, 2),
+    [theme.breakpoints.up('md')]: {
+      padding: 0
+    }
   },
   table: {
     minWidth: '100%',
@@ -15,14 +19,14 @@ export default theme => ({
       }
     },
     '& th': {
-      padding: theme.spacing(2, 1),
+      padding: theme.spacing(2, 0),
       fontWeight: '600',
       fontSize: 12,
       textTransform: 'uppercase',
       color: 'rgba(0, 0, 0, 0.87)'
     },
     '& td': {
-      padding: theme.spacing(2, 1),
+      padding: theme.spacing(2, 0),
       fontStyle: 'normal',
       fontWeight: 'normal',
       fontSize: 13

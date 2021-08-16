@@ -118,10 +118,15 @@ UserButton.propTypes = {
 }
 
 const AuthButton = memo(({ onSignOut }) => {
+  const classes = useStyles()
   const { t } = useTranslation()
 
   return (
-    <Button startIcon={<CloseIcon />} onClick={onSignOut}>
+    <Button
+      startIcon={<CloseIcon />}
+      onClick={onSignOut}
+      className={classes.noHover}
+    >
       {t('signOut')}
     </Button>
   )
@@ -202,7 +207,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
       <Toolbar className={classes.toolbar}>
         <Hidden mdUp>
           <IconButton aria-label="Open drawer" onClick={onDrawerToggle}>
-            <MenuIcon />
+            <MenuIcon className={classes.menuIcon} />
           </IconButton>
         </Hidden>
         <ProtonLogo className={classes.imageSm} />
@@ -259,6 +264,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
           <Button
             startIcon={<EditIcon />}
             onClick={() => handleSwitchRoute('/admin')}
+            className={classes.noHover}
           >
             Admin
           </Button>

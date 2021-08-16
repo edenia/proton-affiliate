@@ -253,26 +253,28 @@ const Home = () => {
         showColumnButton
       />
       <Box className={classes.searchFormWrapper}>
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" className={classes.form}>
           <Typography variant="h6" className={classes.searchTitle}>
             {t('searchTitle')}
           </Typography>
-          <TextField
-            className={classes.searchInput}
-            onChange={event => setInvitee(event.target.value)}
-            value={invitee}
-            placeholder={t('protonAccount')}
-            variant="outlined"
-            size="small"
-          />
-          <Button
-            className={classes.searchBtn}
-            variant="contained"
-            color="primary"
-            onClick={() => searchReferral(invitee)}
-          >
-            {t('check')}
-          </Button>
+          <Box className={classes.formInputsWrapper}>
+            <TextField
+              className={classes.searchInput}
+              onChange={event => setInvitee(event.target.value)}
+              value={invitee}
+              placeholder={t('protonAccount')}
+              variant="outlined"
+              size="small"
+            />
+            <Button
+              className={classes.searchBtn}
+              variant="contained"
+              color="primary"
+              onClick={() => searchReferral(invitee)}
+            >
+              {t('check')}
+            </Button>
+          </Box>
         </form>
       </Box>
       <Modal open={open} setOpen={setOpen}>

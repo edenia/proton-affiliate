@@ -33,7 +33,7 @@ const EnhancedTableHead = ({
   <TableHead>
     <TableRow>
       {showColumnCheck && (
-        <TableCell padding="none" style={{ padding: '0' }}>
+        <TableCell>
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -55,11 +55,7 @@ const EnhancedTableHead = ({
           {headCell.label}
         </TableCell>
       ))}
-      {showColumnButton && (
-        <TableCell padding="none" align="right" style={{ padding: '0' }}>
-          History
-        </TableCell>
-      )}
+      {showColumnButton && <TableCell align="right">History</TableCell>}
     </TableRow>
   </TableHead>
 )
@@ -153,7 +149,7 @@ const TablePages = ({
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.paper}>
+      <Box className={classes.boxTable}>
         <TableContainer>
           <Table
             className={classes.table}
