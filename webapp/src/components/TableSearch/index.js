@@ -28,13 +28,15 @@ const EnhancedTableHead = ({
   rowCount,
   showColumnCheck,
   headCells,
-  showColumnButton
+  showColumnButton,
+  disabled
 }) => (
   <TableHead>
     <TableRow>
       {showColumnCheck && (
         <TableCell>
           <Checkbox
+            disabled={Boolean(disabled)}
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -66,7 +68,8 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
   showColumnCheck: PropTypes.bool,
   headCells: PropTypes.array,
-  showColumnButton: PropTypes.bool
+  showColumnButton: PropTypes.bool,
+  disabled: PropTypes.bool
 }
 
 const useStyles = makeStyles(styles)
@@ -88,7 +91,8 @@ const TablePages = ({
   tableName,
   selected,
   showColumnButton,
-  onClickButton
+  onClickButton,
+  disableByStatus
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
@@ -100,7 +104,11 @@ const TablePages = ({
       return
     }
 
-    const ids = rows.map(n => n[idName])
+    const ids = disableByStatus
+      ? rows
+          .filter(item => item.statusId === disableByStatus)
+          .map(n => n[idName])
+      : rows.map(n => n[idName])
 
     if (tableName === 'new') {
       const accounts = rows
@@ -165,6 +173,11 @@ const TablePages = ({
               showColumnCheck={showColumnCheck}
               headCells={headCells}
               showColumnButton={showColumnButton}
+              disabled={
+                disableByStatus
+                  ? !(rows || []).some(row => row.statusId === disableByStatus)
+                  : false
+              }
             />
             <TableBody>
               {(rows || []).map((row, index) => {
@@ -181,6 +194,11 @@ const TablePages = ({
                     {showColumnCheck && (
                       <TableCell padding="none" style={{ padding: '0' }}>
                         <Checkbox
+                          disabled={
+                            disableByStatus
+                              ? disableByStatus !== row.statusId
+                              : false
+                          }
                           color="primary"
                           checked={isItemSelected}
                           onClick={event => handleClick(event, row[idName])}
@@ -345,7 +363,8 @@ TablePages.propTypes = {
   onSelectItem: PropTypes.func,
   tableName: PropTypes.string,
   selected: PropTypes.array,
-  showColumnButton: PropTypes.bool
+  showColumnButton: PropTypes.bool,
+  disableByStatus: PropTypes.string
 }
 
 TablePages.defaultProps = {
@@ -368,7 +387,8 @@ TablePages.defaultProps = {
   },
   tableName: '',
   selected: [],
-  showColumnButton: false
+  showColumnButton: false,
+  disableByStatus: ''
 }
 
 export default TablePages

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLazyQuery } from '@apollo/client'
 import { makeStyles } from '@material-ui/core/styles'
@@ -43,6 +43,7 @@ const Affiliate = () => {
   const [referralRows, setReferralRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
+  const buttonEl = useRef(null)
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -86,8 +87,7 @@ const Affiliate = () => {
         })
         .catch(console.error)
     } else {
-      // @todo: replace console log for copy to clipboard
-      console.log('Should be show some dialog for desktop version')
+      buttonEl.current.click()
     }
   }
 
@@ -163,7 +163,11 @@ const Affiliate = () => {
           {t('copyDesktop')}
         </Typography>
 
-        <Button onClick={handleClick} className={classes.affiliateLinkInfo}>
+        <Button
+          ref={buttonEl}
+          onClick={handleClick}
+          className={classes.affiliateLinkInfo}
+        >
           {`https://test.earnproton.com/join/${
             state.user ? state.user.accountName : null
           }`}
