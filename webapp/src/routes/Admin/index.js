@@ -660,6 +660,7 @@ const Admin = () => {
           onClickButton={handleOnClickReferral}
           showColumnButton
           idName="invitee"
+          disableByStatus="PENDING_PAYMENT"
         />
       </Accordion>
       <Accordion title="New Affiliates">

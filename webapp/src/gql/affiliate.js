@@ -12,7 +12,7 @@ export const GET_HISTORY_BY_INVITEES = gql`
   query ($invitees: [String!]) {
     history: referral_history(
       where: { invitee: { _in: $invitees } }
-      order_by: { block_time: asc }
+      order_by: { block_time: desc }
     ) {
       invitee
       trxid
@@ -31,7 +31,7 @@ export const GET_HISTORY_BY_REFERRERS = gql`
         referral: { referrer: { _in: $referrers } }
         action: { _eq: "payref" }
       }
-      order_by: { block_time: asc }
+      order_by: { block_time: desc }
     ) {
       referral {
         referrer
@@ -117,7 +117,12 @@ export const GET_JOIN_REQUEST = gql`
         count
       }
     }
-    joinRequest: join_request(where: $where, offset: $offset, limit: $limit) {
+    joinRequest: join_request(
+      where: $where
+      offset: $offset
+      limit: $limit
+      order_by: { created_at: desc }
+    ) {
       account
       email
       id
