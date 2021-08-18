@@ -4,14 +4,17 @@ export default theme => ({
     marginTop: theme.spacing(2),
     boxShadow: `${theme.shadows[0]}`,
     [theme.breakpoints.up('md')]: {
-      borderBottom: 0
+      borderBottom: 0,
+      display: 'flex',
+      alignItems: 'center'
     }
   },
   toolbar: {
     padding: theme.spacing(0, 3),
     justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(0, 2)
+      padding: 0,
+      width: 1024
     }
   },
   typography: {
@@ -24,7 +27,9 @@ export default theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
-      display: 'flex'
+      display: 'flex',
+      justifyContent: 'flex-end',
+      width: 600
     }
   },
   mobileSection: {
@@ -47,6 +52,7 @@ export default theme => ({
   },
   navBar: {
     display: 'flex',
+    width: '80%',
     '& .MuiListItemText-primary': {
       fontStyle: 'normal',
       fontWeight: 'normal',
@@ -75,5 +81,8 @@ export default theme => ({
     '&:hover': {
       backgroundColor: 'transparent'
     }
+  },
+  btnLogin: {
+    borderRadius: 0
   }
 })

@@ -22,14 +22,14 @@ export default theme => ({
   },
   onChain: {
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 38,
     lineHeight: '52px',
     textAlign: 'center',
     color: '#7045D9'
   },
   referralText: {
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 38,
     lineHeight: '52px',
     textAlign: 'center',
     color: theme.palette.common.black
@@ -61,7 +61,8 @@ export default theme => ({
     fontSize: 14,
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    borderRadius: 0
   },
   lastReferral: {
     marginTop: theme.spacing(6),
@@ -69,7 +70,10 @@ export default theme => ({
     background: 'rgba(245, 247, 250, 0.74)',
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(2, 3)
+    padding: theme.spacing(2, 3),
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(8)
+    }
   },
   tableTitle: {
     fontWeight: '600',
@@ -149,7 +153,7 @@ export default theme => ({
     },
     [theme.breakpoints.up('md')]: {
       paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(4),
+      paddingBottom: theme.spacing(8),
       width: '100%',
       flexDirection: 'row'
     }
@@ -172,7 +176,7 @@ export default theme => ({
     padding: theme.spacing(4),
     borderRadius: 30,
     backgroundColor: '#010c2c',
-    margin: theme.spacing(0, 2),
+    margin: theme.spacing(8, 2, 0, 2),
     [theme.breakpoints.up('md')]: {
       margin: 0,
       width: '100%'

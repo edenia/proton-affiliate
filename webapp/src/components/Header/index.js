@@ -235,7 +235,12 @@ const Header = memo(({ onDrawerToggle, routes }) => {
               <Typography>{state.user.accountName}</Typography>
             </IconButton>
           ) : (
-            <Button variant="contained" color="primary" onClick={handleLogin}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.btnLogin}
+              onClick={handleLogin}
+            >
               {t('login')}
             </Button>
           )}

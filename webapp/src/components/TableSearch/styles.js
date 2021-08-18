@@ -30,6 +30,15 @@ export default theme => ({
       fontStyle: 'normal',
       fontWeight: 'normal',
       fontSize: 13
+    },
+
+    [theme.breakpoints.up('md')]: {
+      '& th': {
+        padding: theme.spacing(2)
+      },
+      '& td': {
+        padding: theme.spacing(2)
+      }
     }
   },
   visuallyHidden: {

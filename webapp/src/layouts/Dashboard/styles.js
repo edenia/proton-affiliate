@@ -19,13 +19,11 @@ export default (theme, drawerWidth) => ({
     height: '100vh'
   },
   childContent: {
-    flex: 1,
+    display: 'flex',
     height: '100%',
-    marginBottom: theme.spacing(2),
     overflow: 'scroll',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   }
 })

@@ -169,7 +169,9 @@ const Join = () => {
   return (
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
-        <Typography className={classes.joinTitle}>{t('title')}</Typography>
+        <Typography variant="h1" className={classes.joinTitle}>
+          {t('title')}
+        </Typography>
         <Typography className={classes.joinInfo}>
           {`${referrer} ${t('infoPage', {
             reward: formatWithThousandSeparator(params.usd_reward_amount, 2)

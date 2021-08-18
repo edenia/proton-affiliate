@@ -26,7 +26,7 @@ const About = () => {
             </Box>
 
             <Box className={classes.boxInfo}>
-              <Typography className={classes.aboutTitle}>
+              <Typography variant="h1" className={classes.aboutTitle}>
                 {t('subtitle1')}
               </Typography>
               <Typography className={classes.aboutInfo}>
@@ -35,7 +35,7 @@ const About = () => {
             </Box>
 
             <Box className={classes.boxInfo}>
-              <Typography className={classes.aboutTitle}>
+              <Typography variant="h1" className={classes.aboutTitle}>
                 {t('subtitle2')}
               </Typography>
               <Typography className={classes.aboutInfo}>
@@ -44,7 +44,7 @@ const About = () => {
             </Box>
 
             <Box className={classes.boxInfo}>
-              <Typography className={classes.aboutTitle}>
+              <Typography variant="h1" className={classes.aboutTitle}>
                 {t('subtitle3')}
               </Typography>
               <Typography className={classes.aboutInfo}>
