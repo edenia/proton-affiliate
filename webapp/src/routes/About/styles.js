@@ -18,7 +18,7 @@ export default theme => ({
     color: theme.palette.common.black,
     width: 200,
     [theme.breakpoints.up('md')]: {
-      fontSize: 40,
+      fontSize: 38,
       fontWeight: 'bold',
       fontStretch: 'normal',
       fontStyle: 'normal',

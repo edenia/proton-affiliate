@@ -18,7 +18,7 @@ export default theme => ({
   },
   heading: {
     fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: '600',
     fontSize: 21,
     lineHeight: '27px',
     letterSpacing: '0.15px',

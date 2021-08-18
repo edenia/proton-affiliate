@@ -17,7 +17,7 @@ export default theme => ({
     letterSpacing: '0.15px',
     color: theme.palette.common.black,
     [theme.breakpoints.up('md')]: {
-      fontSize: 40,
+      fontSize: 38,
       fontWeight: 'bold',
       fontStretch: 'normal',
       fontStyle: 'normal',

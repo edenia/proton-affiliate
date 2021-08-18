@@ -642,7 +642,9 @@ const Admin = () => {
   return (
     <Box className={classes.adminPage}>
       <Box className={classes.adminHead}>
-        <Typography className={classes.adminTitle}>{t('title')}</Typography>
+        <Typography variant="h1" className={classes.adminTitle}>
+          {t('title')}
+        </Typography>
         <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
       <Accordion title="Referral Payments">

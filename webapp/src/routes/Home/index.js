@@ -215,8 +215,10 @@ const Home = () => {
       <Box className={classes.infoBox}>
         <Box className="left">
           <Box className={classes.title}>
-            <Typography className={classes.onChain}>{t('title')}</Typography>
-            <Typography className={classes.referralText}>
+            <Typography variant="h1" className={classes.onChain}>
+              {t('title')}
+            </Typography>
+            <Typography variant="h1" className={classes.referralText}>
               {t('title2')}
             </Typography>
           </Box>
@@ -241,17 +243,7 @@ const Home = () => {
           style={{ height: 328 }}
         />
       </Box>
-      <Box className={classes.lastReferral}>
-        <Typography variant="h5" className={classes.tableTitle}>
-          {t('tableTitle')}
-        </Typography>
-      </Box>
-      <TableSearch
-        headCells={headCellLAstReward || []}
-        rows={referralRows || []}
-        onClickButton={handleOnClickReferral}
-        showColumnButton
-      />
+
       <Box className={classes.searchFormWrapper}>
         <form noValidate autoComplete="off" className={classes.form}>
           <Typography variant="h6" className={classes.searchTitle}>
@@ -277,6 +269,19 @@ const Home = () => {
           </Box>
         </form>
       </Box>
+
+      <Box className={classes.lastReferral}>
+        <Typography variant="h1" className={classes.tableTitle}>
+          {t('tableTitle')}
+        </Typography>
+      </Box>
+      <TableSearch
+        headCells={headCellLAstReward || []}
+        rows={referralRows || []}
+        onClickButton={handleOnClickReferral}
+        showColumnButton
+      />
+
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>

@@ -141,14 +141,14 @@ const Affiliate = () => {
   return (
     <Box className={classes.affiliatePage}>
       <Box className={classes.affiliateHead}>
-        <Typography className={classes.affiliateTitle}>
+        <Typography variant="h1" className={classes.affiliateTitle}>
           {t('title1')}
         </Typography>
-        <Typography className={classes.affiliateTitle}>
+        <Typography variant="h1" className={classes.affiliateTitle}>
           {t('title2')}
         </Typography>
 
-        <Typography className={classes.affiliateTitleDesktop}>
+        <Typography variant="h1" className={classes.affiliateTitleDesktop}>
           {t('titleDesktop')}
         </Typography>
 
@@ -201,7 +201,7 @@ const Affiliate = () => {
         </Button>
       </Box>
       <Box className={classes.lastReferral}>
-        <Typography variant="h5" className={classes.tableTitle}>
+        <Typography variant="h1" className={classes.tableTitle}>
           {t('tableTitle')}
         </Typography>
       </Box>

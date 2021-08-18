@@ -1,10 +1,16 @@
 export default theme => ({
   footer: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3, 0, 0, 0),
+    height: 177,
     position: 'relative',
     backgroundColor: '#F8F9FB',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      height: 97,
+      padding: 0
+    }
   },
   listItem: {
     display: 'inline-block',
@@ -40,10 +46,10 @@ export default theme => ({
     alignItems: 'center',
     [theme.breakpoints.up('md')]: {
       width: 1024,
+      height: 97,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'flex-end',
-      marginBottom: theme.spacing(2)
+      alignItems: 'flex-end'
     }
   },
   madeBy: {
@@ -59,15 +65,24 @@ export default theme => ({
   },
   list: {
     margin: theme.spacing(2, 0),
+    padding: theme.spacing(0, 1),
     [theme.breakpoints.up('md')]: {
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       margin: 0,
-      padding: 0
+      padding: theme.spacing(1, 0, 0, 0)
     }
   },
   supportWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+      justifyContent: 'center'
+    }
   },
   madeBySm: {
     display: 'flex',
@@ -78,7 +93,8 @@ export default theme => ({
   madeByMd: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
-      display: 'flex'
+      display: 'flex',
+      marginBottom: theme.spacing(1)
     }
   }
 })

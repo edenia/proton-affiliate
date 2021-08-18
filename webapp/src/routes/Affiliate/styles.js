@@ -87,7 +87,7 @@ export default theme => ({
     background: 'rgba(245, 247, 250, 0.74)',
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 3)
+    padding: theme.spacing(3)
   },
   tableTitle: {
     fontWeight: '600',

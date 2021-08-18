@@ -31,7 +31,9 @@ const AccordionComponent = ({ children, title }) => {
           id="panel1a-header"
         >
           <Box className={classes.summary}>
-            <Typography className={classes.heading}>{title}</Typography>
+            <Typography variant="h1" className={classes.heading}>
+              {title}
+            </Typography>
           </Box>
         </AccordionSummary>
         <AccordionDetails className={classes.accordionDetails}>
