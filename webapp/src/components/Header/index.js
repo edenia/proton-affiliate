@@ -225,15 +225,15 @@ const Header = memo(({ onDrawerToggle, routes }) => {
             ))}
           </List>
           {state.user ? (
-            <IconButton
+            <Button
               aria-label="show more"
               aria-haspopup="true"
               onClick={handleOpenMenu}
               className={classes.iconButton}
+              startIcon={<AccountIcon />}
             >
-              <AccountIcon />
               <Typography>{state.user.accountName}</Typography>
-            </IconButton>
+            </Button>
           ) : (
             <Button
               variant="contained"
