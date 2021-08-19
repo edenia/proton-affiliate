@@ -1,5 +1,6 @@
 export default theme => ({
   secondayBar: {
+    width: '100%',
     height: 80,
     backgroundColor: 'rgba(245, 247, 250, 0.74)',
     boxShadow: 'none',
@@ -22,9 +23,12 @@ export default theme => ({
   timeline: {
     width: '100%',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
-      width: 375,
+      width: 514,
       height: '80%'
     }
   },
@@ -46,7 +50,10 @@ export default theme => ({
     height: 'calc(100% - 80px)',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.up('md')]: {
+      width: 430
+    }
   },
   emptyState: {
     display: 'flex',

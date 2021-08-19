@@ -53,6 +53,10 @@ export default theme => ({
   navBar: {
     display: 'flex',
     width: '80%',
+    '& .MuiListItemText-root': {
+      display: 'flex',
+      justifyContent: 'center'
+    },
     '& .MuiListItemText-primary': {
       fontStyle: 'normal',
       fontWeight: 'normal',
@@ -67,12 +71,7 @@ export default theme => ({
     }
   },
   iconButton: {
-    color: theme.palette.common.black,
-    [theme.breakpoints.up('md')]: {
-      '& svg': {
-        marginRight: theme.spacing(1)
-      }
-    }
+    color: theme.palette.common.black
   },
   menuIcon: {
     color: theme.palette.common.black

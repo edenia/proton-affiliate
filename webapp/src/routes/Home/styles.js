@@ -107,7 +107,11 @@ export default theme => ({
     padding: theme.spacing(3, 3, 2, 3),
     borderRadius: 5,
     [theme.breakpoints.up('md')]: {
-      width: 300
+      width: 514,
+      height: 448,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-around'
     }
   },
   joinText: {

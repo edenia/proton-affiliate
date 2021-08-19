@@ -5,7 +5,7 @@ export default theme => ({
     padding: theme.spacing(2, 3),
     width: '90%',
     [theme.breakpoints.up('md')]: {
-      width: 300
+      width: 514
     }
   },
   btnAddAccount: {
@@ -158,7 +158,7 @@ export default theme => ({
     height: '100%',
     backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
-      width: 375,
+      width: 514,
       height: '80%'
     }
   },
@@ -197,7 +197,7 @@ export default theme => ({
     padding: theme.spacing(2, 3),
     width: '90%',
     [theme.breakpoints.up('md')]: {
-      width: 300
+      width: 514
     }
   },
   btnRejectModal: {
