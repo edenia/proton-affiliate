@@ -23,6 +23,7 @@ import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
 import HistoryModal from '../../components/HistoryModal'
+import SearchForm from '../../components/SearchForm'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
@@ -243,32 +244,11 @@ const Home = () => {
           style={{ height: 328 }}
         />
       </Box>
-
-      <Box className={classes.searchFormWrapper}>
-        <form noValidate autoComplete="off" className={classes.form}>
-          <Typography variant="h6" className={classes.searchTitle}>
-            {t('searchTitle')}
-          </Typography>
-          <Box className={classes.formInputsWrapper}>
-            <TextField
-              className={classes.searchInput}
-              onChange={event => setInvitee(event.target.value)}
-              value={invitee}
-              placeholder={t('protonAccount')}
-              variant="outlined"
-              size="small"
-            />
-            <Button
-              className={classes.searchBtn}
-              variant="contained"
-              color="primary"
-              onClick={() => searchReferral(invitee)}
-            >
-              {t('check')}
-            </Button>
-          </Box>
-        </form>
-      </Box>
+      <SearchForm
+        handleOnChange={setInvitee}
+        handleOnClick={searchReferral}
+        value={invitee}
+      />
 
       <Box className={classes.lastReferral}>
         <Typography variant="h1" className={classes.tableTitle}>

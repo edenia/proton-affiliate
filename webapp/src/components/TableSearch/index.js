@@ -29,12 +29,13 @@ const EnhancedTableHead = ({
   showColumnCheck,
   headCells,
   showColumnButton,
-  disabled
+  disabled,
+  classes
 }) => (
   <TableHead>
     <TableRow>
       {showColumnCheck && (
-        <TableCell>
+        <TableCell className={classes.noPadding}>
           <Checkbox
             disabled={Boolean(disabled)}
             color="primary"
@@ -69,7 +70,8 @@ EnhancedTableHead.propTypes = {
   showColumnCheck: PropTypes.bool,
   headCells: PropTypes.array,
   showColumnButton: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  classes: PropTypes.object
 }
 
 const useStyles = makeStyles(styles)

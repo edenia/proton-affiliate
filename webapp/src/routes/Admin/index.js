@@ -82,14 +82,14 @@ const headCellUserApprovals = [
     align: 'center',
     useMainColor: false,
     rowLink: false,
-    label: 'reward (XPR)'
+    label: 'Total Rewards'
   },
   {
     id: 'txid',
     align: 'right',
     useMainColor: true,
     rowLink: false,
-    label: 'tx id'
+    label: 'Last TX'
   }
 ]
 const headCellReferralPayment = [
@@ -406,6 +406,20 @@ const Admin = () => {
     })
   }
 
+  const handleOnRowPerPageChange = async e => {
+    setNewUsersPagination(prev => ({
+      ...prev,
+      rowsPerPage: e.target.value
+    }))
+
+    await loadNewUsers({
+      variables: {
+        offset: newUsersPagination.page * e.target.value,
+        limit: e.target.value
+      }
+    })
+  }
+
   const handleOnLoadMoreReferrals = async usePagination => {
     const pagination = usePagination ? referralPagination : {}
     const referrals = await affiliateUtil.getReferrals(pagination.cursor)
@@ -676,7 +690,7 @@ const Admin = () => {
           idName="id"
           pagination={newUsersPagination}
           handleOnPageChange={handleOnPageChange}
-          handleOnRowsPerPageChange={() => {}}
+          handleOnRowsPerPageChange={handleOnRowPerPageChange}
           usePagination
         />
       </Accordion>

@@ -1,7 +1,14 @@
 export default theme => ({
-  root: {
+  floatBtnBox: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    height: 0,
     '& > *': {
       margin: theme.spacing(1)
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 1024
     }
   },
   extendedIcon: {
@@ -13,7 +20,8 @@ export default theme => ({
     right: theme.spacing(2),
     zIndex: 100,
     [theme.breakpoints.up('md')]: {
-      bottom: theme.spacing(10)
+      bottom: theme.spacing(8),
+      right: 0
     }
   }
 })
