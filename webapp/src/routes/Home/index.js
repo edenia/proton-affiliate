@@ -244,34 +244,6 @@ const Home = () => {
           style={{ height: 328 }}
         />
       </Box>
-
-      {/* <Box className={classes.searchFormWrapper}>
-        <Box noValidate autoComplete="off" className={classes.form}>
-          <Typography variant="h6" className={classes.searchTitle}>
-            {t('searchTitle')}
-          </Typography>
-          <Box className={classes.formInputsWrapper}>
-            <TextField
-              className={classes.searchInput}
-              onChange={event => setInvitee(event.target.value)}
-              value={invitee}
-              placeholder={t('protonAccount')}
-              variant="outlined"
-              size="small"
-              autoComplete="off"
-              onKeyPress={e => console.log({ e })}
-            />
-            <Button
-              className={classes.searchBtn}
-              variant="contained"
-              color="primary"
-              onClick={() => searchReferral(invitee)}
-            >
-              {t('check')}
-            </Button>
-          </Box>
-        </Box>
-      </Box> */}
       <SearchForm
         handleOnChange={setInvitee}
         handleOnClick={searchReferral}
