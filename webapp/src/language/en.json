@@ -154,5 +154,9 @@
     "verifykyc": "KYC verified",
     "payref": "Referral payment",
     "rejectref": "Referrer rejected"
+  },
+  "searchForm": {
+    "searchTitle": "Check Your Invitation Status",
+    "protonAccount": "Proton Account"
   }
 }

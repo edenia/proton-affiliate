@@ -22,7 +22,7 @@ const FloatingActionButtons = ({ children, open, setOpen, label }) => {
   }
 
   return (
-    <Box className={classes.root}>
+    <Box className={classes.floatBtnBox}>
       <Fab
         variant="extended"
         color="primary"

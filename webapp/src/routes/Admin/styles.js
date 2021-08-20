@@ -108,17 +108,25 @@ export default theme => ({
     }
   },
   fabBox: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     position: 'absolute',
-    bottom: theme.spacing(10),
-    right: theme.spacing(2)
+    bottom: theme.spacing(25),
+    [theme.breakpoints.up('md')]: {
+      bottom: theme.spacing(18),
+      alignItems: 'center'
+    }
   },
   wrapperAction: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      width: 1024
+    }
   },
   actionLabel: {
     flexGrow: 0,

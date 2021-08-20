@@ -71,5 +71,10 @@ export default theme => ({
   },
   historyIcon: {
     fontSize: '1rem'
+  },
+  noPadding: {
+    [theme.breakpoints.up('md')]: {
+      padding: '0 !important'
+    }
   }
 })
