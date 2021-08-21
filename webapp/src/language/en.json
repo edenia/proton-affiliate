@@ -54,7 +54,7 @@
     "success": "request sent successfully",
     "emailHelperText": "Valid e-mail!",
     "emailHelperError": "Invalid e-mail format!",
-    "referralNotFound": "No referral found or not yet irreversible for invitee {{ invitee }}, check again later",
+    "referralNotFound": "No referral found  for {{ invitee }} or awaiting admin approval , please contact an Admin",
     "searchTitle": "Check Your Invitation Status",
     "protonAccount": "Proton Account"
   },
@@ -139,7 +139,8 @@
     "REFERRER": "Referrer",
     "accountHelperText": "Account found!",
     "accountHelperError": "Account name is not registered!",
-    "deleteSuccessfully": "Delete Successfully"
+    "deleteSuccessfully": "Delete Successfully",
+    "successNewUser": "Account has been added to the User Management table."
   },
   "footer": {
     "poweredBy": "Powered by",

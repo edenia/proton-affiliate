@@ -202,6 +202,43 @@ const Header = memo(({ onDrawerToggle, routes }) => {
     setMenuAnchorEl(null)
   }
 
+  const getMenuItem = () => {
+    if (state.user.role !== 'ADMIN')
+      return (
+        <Menu
+          anchorEl={menuAnchorEl}
+          open={!!menuAnchorEl}
+          onClose={handleCloseMenu}
+        >
+          <MenuItem>
+            <AuthButton onSignOut={handleSignOut} />
+          </MenuItem>
+        </Menu>
+      )
+
+    return (
+      <Menu
+        anchorEl={menuAnchorEl}
+        open={!!menuAnchorEl}
+        onClose={handleCloseMenu}
+      >
+        <MenuItem>
+          <Button
+            startIcon={<EditIcon />}
+            onClick={() => handleSwitchRoute('/admin')}
+            className={classes.noHover}
+          >
+            Admin
+          </Button>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <AuthButton onSignOut={handleSignOut} />
+        </MenuItem>
+      </Menu>
+    )
+  }
+
   return (
     <AppBar className={classes.appBar} position="sticky">
       <Toolbar className={classes.toolbar}>
@@ -260,25 +297,8 @@ const Header = memo(({ onDrawerToggle, routes }) => {
           )}
         </Box>
       </Toolbar>
-      <Menu
-        anchorEl={menuAnchorEl}
-        open={!!menuAnchorEl}
-        onClose={handleCloseMenu}
-      >
-        <MenuItem>
-          <Button
-            startIcon={<EditIcon />}
-            onClick={() => handleSwitchRoute('/admin')}
-            className={classes.noHover}
-          >
-            Admin
-          </Button>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <AuthButton onSignOut={handleSignOut} />
-        </MenuItem>
-      </Menu>
+
+      {state.user && getMenuItem()}
     </AppBar>
   )
 })
