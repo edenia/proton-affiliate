@@ -1706,6 +1706,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bloks/constants@npm:^22.0.58":
+  version: 22.0.88
+  resolution: "@bloks/constants@npm:22.0.88"
+  checksum: 5ff29a26f3ae11f738e231393cac4d2457e0fc93c5d63e198f7c858711e160b6e527347ab74fc9510d27e9967d22773a202d1aa479b628c874b560f8201d05d1
+  languageName: node
+  linkType: hard
+
 "@cnakazawa/watch@npm:^1.0.3":
   version: 1.0.4
   resolution: "@cnakazawa/watch@npm:1.0.4"
@@ -2358,6 +2365,70 @@ __metadata:
     webpack-plugin-serve:
       optional: true
   checksum: 718853bf7b8a517616e1b136d698fdd600998c667b556982c7f460ba628da7575248f1c75a3b2b8fe0e2a458121c81039038d25ed1c79f4517c783e407417585
+  languageName: node
+  linkType: hard
+
+"@proton/browser-transport@npm:^2.5.22":
+  version: 2.5.22
+  resolution: "@proton/browser-transport@npm:2.5.22"
+  dependencies:
+    "@proton/js": 22.0.64
+    qrcode: ^1.4.4
+  checksum: ac8285ce7e3d4e40b15599e1ecacae84091530f1f318a2beb9f1477e4ef2c7382ccecb1e24b168a6be8de28563b1c06fd198b5c4deeffc1775cf084678cdc55f
+  languageName: node
+  linkType: hard
+
+"@proton/js@npm:22.0.64":
+  version: 22.0.64
+  resolution: "@proton/js@npm:22.0.64"
+  dependencies:
+    "@bloks/constants": ^22.0.58
+    bs58: ^4.0.1
+    cross-fetch: ^3.1.4
+    elliptic: ^6.5.4
+    fast-text-encoding: ^1.0.3
+    hash.js: 1.1.7
+    pako: 2.0.3
+    ripemd-ts: 0.0.2
+    zod: ^1.11.13
+  checksum: 91da898d679e90b3d534e3766c4f492c375fd1f24eaba2bab985ae82079d405949c1cfa9aca6a38a3300cefde08814b52d6ed0712dadcbc2165672fe6f85f7c6
+  languageName: node
+  linkType: hard
+
+"@proton/link@npm:^2.5.38":
+  version: 2.5.38
+  resolution: "@proton/link@npm:2.5.38"
+  dependencies:
+    "@proton/js": 22.0.64
+    "@proton/signing-request": ^2.5.22
+    eosjs-ecc: ^4.0.7
+    isomorphic-ws: ^4.0.1
+    pako: ^1.0.11
+    uuid: ^8.3.1
+    ws: ^7.3.1
+  checksum: 19678a26c061874eab89ac4632126df1b80f405bae53d0059ad66a510ce375f98001545b8e69798ba37c2a725557b04c9765b4e1fa6196f25d1b0d9f85003c4e
+  languageName: node
+  linkType: hard
+
+"@proton/signing-request@npm:^2.5.22":
+  version: 2.5.22
+  resolution: "@proton/signing-request@npm:2.5.22"
+  dependencies:
+    "@proton/js": 22.0.64
+    fast-sha256: ^1.1.1
+    fast-text-encoding: ^1.0.3
+  checksum: 30adfd064b8515d61e113be1503b9bb234c68c33aebe4207fcbfdb26215449df3ffc2c0233d82e0f33238bc0061104749c84dce3f2c6984e3827b54b3c313477
+  languageName: node
+  linkType: hard
+
+"@proton/web-sdk@npm:^2.7.23":
+  version: 2.7.23
+  resolution: "@proton/web-sdk@npm:2.7.23"
+  dependencies:
+    "@proton/browser-transport": ^2.5.22
+    "@proton/js": 22.0.64
+    "@proton/link": ^2.5.38
+  checksum: 8024a358dd8b3fd6693ab6eeb78e59ec2179fc23633f15f6c06d82551cfb2cd91d4e8826433bad5619064d7b97462a2fa44864c2e206965a58dbcd2e5e260199
   languageName: node
   linkType: hard
 
@@ -4210,7 +4281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5.0.0, bn.js@npm:^5.1.1":
+"bn.js@npm:^5.0.0, bn.js@npm:^5.1.1, bn.js@npm:^5.2.0":
   version: 5.2.0
   resolution: "bn.js@npm:5.2.0"
   checksum: 7a73bdbba63013a7f9953fbbd6ea3351e4cf36d6fdbb5adf7969fcd65255b9c04f2994b0132d89d74ffe608a0eb5a48322526bee20c0e03e71e502603b420f63
@@ -4422,7 +4493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58@npm:4.0.1":
+"bs58@npm:4.0.1, bs58@npm:^4.0.1":
   version: 4.0.1
   resolution: "bs58@npm:4.0.1"
   dependencies:
@@ -5399,6 +5470,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "cross-fetch@npm:3.1.4"
+  dependencies:
+    node-fetch: 2.6.1
+  checksum: 47b33bc773d53f19805eeac914e7d76e022a1aee3b7a55277fae3d3d1a0cff354b92c4ec6c5d99aeef3e5757c2719e94c37879ba846c33de892e68a655758b61
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:7.0.3, cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -6335,7 +6415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"elliptic@npm:^6.5.3":
+"elliptic@npm:^6.5.3, elliptic@npm:^6.5.4":
   version: 6.5.4
   resolution: "elliptic@npm:6.5.4"
   dependencies:
@@ -7480,6 +7560,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-text-encoding@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "fast-text-encoding@npm:1.0.3"
+  checksum: f14fb9242fc8ea942d8b6374f84e918aa5e97bbdf3cafbbf737b04f677277a1900cb9914eab601822cc51787dc607bfff5904e646b3fcc82d84081b21261ba87
+  languageName: node
+  linkType: hard
+
 "fastq@npm:^1.6.0":
   version: 1.11.1
   resolution: "fastq@npm:1.11.1"
@@ -8270,7 +8357,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hash.js@npm:^1.0.0, hash.js@npm:^1.0.3":
+"hash.js@npm:1.1.7, hash.js@npm:^1.0.0, hash.js@npm:^1.0.3":
   version: 1.1.7
   resolution: "hash.js@npm:1.1.7"
   dependencies:
@@ -11325,6 +11412,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"node-fetch@npm:2.6.1, node-fetch@npm:~2.6.0":
+  version: 2.6.1
+  resolution: "node-fetch@npm:2.6.1"
+  checksum: cbb171635e538162b977eac5dfe7a1e07a9a02e991924377a6435502291e2f823d306b95aabc455caebf4a118ccf836868462bc70ccc3095af02bb9da61fda37
+  languageName: node
+  linkType: hard
+
 "node-fetch@npm:^1.0.1":
   version: 1.7.3
   resolution: "node-fetch@npm:1.7.3"
@@ -11332,13 +11426,6 @@ fsevents@^1.2.7:
     encoding: ^0.1.11
     is-stream: ^1.0.1
   checksum: d04afb2e328ffb974a5ac4800fe5714d7419243d72f089a6a2383d3b93368c61ae88954a4866c476c0d7f95d7af414c1b9a885e051971061efe4054d526e23ed
-  languageName: node
-  linkType: hard
-
-"node-fetch@npm:~2.6.0":
-  version: 2.6.1
-  resolution: "node-fetch@npm:2.6.1"
-  checksum: cbb171635e538162b977eac5dfe7a1e07a9a02e991924377a6435502291e2f823d306b95aabc455caebf4a118ccf836868462bc70ccc3095af02bb9da61fda37
   languageName: node
   linkType: hard
 
@@ -11937,7 +12024,14 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"pako@npm:^1.0.10, pako@npm:~1.0.5":
+"pako@npm:2.0.3":
+  version: 2.0.3
+  resolution: "pako@npm:2.0.3"
+  checksum: a89beeaf07a8853f1b1b4868088489582f9f3ba4170e779c2af6a9f2f91735c67a4e63e52b9c7cdef6e0b530838b72437cf53ff624ef5315d6eb2ae0c459b1dd
+  languageName: node
+  linkType: hard
+
+"pako@npm:^1.0.10, pako@npm:^1.0.11, pako@npm:~1.0.5":
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
   checksum: 71c60150b68220ec52a404f3c39a4ed38f750e42452b88fe0eb2e6b5c98e91f73f706444359b097aca1e6db83ef8fef50b5a9ec100e30a606cda6da8d45e5439
@@ -13330,6 +13424,8 @@ fsevents@^1.2.7:
     "@material-ui/pickers": ^3.2.10
     "@material-ui/styles": ^4.11.3
     "@material-ui/system": ^4.11.3
+    "@proton/web-sdk": ^2.7.23
+    bn.js: ^5.2.0
     clsx: ^1.1.1
     core-js: ^3.9.1
     customize-cra: ^1.0.0
@@ -14479,6 +14575,13 @@ resolve@^2.0.0-next.3:
   bin:
     rimraf: bin.js
   checksum: f0de3e445581e64a8a077af476cc30708e659f5779ec2ca2a161556d0792aa318a685923798ae22055b4ecd02b9aff444ef619578f7af53cf8e0e248031e3dee
+  languageName: node
+  linkType: hard
+
+"ripemd-ts@npm:0.0.2":
+  version: 0.0.2
+  resolution: "ripemd-ts@npm:0.0.2"
+  checksum: 0e408aaf9044ff962c1713177e8a41e619120071abf4ca80ec434b39e962a491fdc865e84cd0524df62764a49811118ecc23edc3f53545fa234de4165ac26201
   languageName: node
   linkType: hard
 
@@ -16601,7 +16704,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.1.0, uuid@npm:^8.3.0":
+"uuid@npm:^8.1.0, uuid@npm:^8.3.0, uuid@npm:^8.3.1":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
@@ -17267,7 +17370,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ws@npm:^5.2.0 || ^6.0.0 || ^7.0.0, ws@npm:^7.2.5, ws@npm:^7.4.5":
+"ws@npm:^5.2.0 || ^6.0.0 || ^7.0.0, ws@npm:^7.2.5, ws@npm:^7.3.1, ws@npm:^7.4.5":
   version: 7.5.3
   resolution: "ws@npm:7.5.3"
   peerDependencies:
@@ -17425,5 +17528,12 @@ resolve@^2.0.0-next.3:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: 7d155f8a75b9314f9f31e70a31edcd897b0e8a1313737502ab84a573e49d2c333b738e415c156334a6e910c363ce546b59fa7921eff61440285caa99c843df74
+  languageName: node
+  linkType: hard
+
+"zod@npm:^1.11.13":
+  version: 1.11.17
+  resolution: "zod@npm:1.11.17"
+  checksum: 27e8799fa87ea4478a3155f40c39c4bef331b3c3273f00252ca646879c92eef54a5c36dcf31b6cd29bfd723fa4c1502e24d59e252d657183eab1252f273dfd7f
   languageName: node
   linkType: hard

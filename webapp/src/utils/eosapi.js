@@ -1,9 +1,9 @@
 import EosApi from 'eosjs-api'
 
-import { ualConfig } from '../config'
+import { sdkConfig } from '../config'
 
 export const eosApi = EosApi({
-  httpEndpoint: ualConfig.endpoint,
+  httpEndpoint: sdkConfig.endpoint,
   verbose: false,
   fetchConfiguration: {}
 })
