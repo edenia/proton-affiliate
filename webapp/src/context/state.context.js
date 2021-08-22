@@ -15,7 +15,7 @@ const loginWallet = async (restoreSession = false) => {
   try {
     const { link, session } = await ConnectWallet({
       linkOptions: {
-        endpoints: sdkConfig.endpoint, // ['https://protontestnet.greymass.com'],
+        endpoints: sdkConfig.endpoint,
         restoreSession
       },
       transportOptions: {
