@@ -139,7 +139,7 @@
     "REFERRER": "Referrer",
     "accountHelperText": "Account found!",
     "accountHelperError": "Account name is not registered!",
-    "deleteSuccessfully": "Delete Successfully",
+    "deleteSuccessfully": "Deleted Successfully",
     "successNewUser": "Account has been added to the User Management table."
   },
   "footer": {
