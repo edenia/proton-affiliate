@@ -321,7 +321,28 @@ const Admin = () => {
     setUserRows(pagination.cursor ? [...userRows, ...newRows] : newRows)
   }
 
-  const deleteNewUsers = async () => {
+  const showMessageApproveOrDelete = trxId => {
+    if (trxId) {
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${trxId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('successNewUser')} ${getLastCharacters(trxId)}`}
+          </a>
+        )
+      })
+
+      return
+    }
+
+    showMessage({ type: 'success', content: t('deleteSuccessfully') })
+  }
+
+  const deleteNewUsers = async trxId => {
     try {
       await deleteJoinRequest({
         variables: {
@@ -336,7 +357,7 @@ const Admin = () => {
         }
       })
 
-      showMessage({ type: 'success', content: t('deleteSuccessfully') })
+      showMessageApproveOrDelete(trxId)
       setOpenInfoModal(false)
       setSelected({ tableName: null })
       setUserAccounts([])
@@ -353,20 +374,8 @@ const Admin = () => {
         affiliateUtil.ROLES_IDS.REFERRER
       )
 
-      showMessage({
-        type: 'success',
-        content: (
-          <a
-            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
-          </a>
-        )
-      })
       setAddUser(false)
-      deleteNewUsers()
+      deleteNewUsers(data.transactionId)
       reloadUsers()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
