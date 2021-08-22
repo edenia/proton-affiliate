@@ -1,4 +1,10 @@
-import React, { createContext, useReducer, useMemo, useContext } from 'react'
+import React, {
+  createContext,
+  useReducer,
+  useMemo,
+  useContext,
+  useEffect
+} from 'react'
 import { ConnectWallet } from '@proton/web-sdk'
 import PropTypes from 'prop-types'
 
@@ -8,7 +14,8 @@ import { affiliateUtil } from '../utils'
 const SharedStateContext = createContext()
 const initialValue = {
   useDarkMode: false,
-  user: null
+  user: null,
+  isActiveSession: localStorage.getItem('isActiveSession')
 }
 
 const loginWallet = async (restoreSession = false) => {
@@ -79,6 +86,31 @@ export const SharedStateProvider = ({ children, ...props }) => {
   })
   const value = useMemo(() => [state, dispatch], [state])
 
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        if (state.isActiveSession === 'true') {
+          const { link, session } = await loginWallet(true)
+          const role = await affiliateUtil.getUserRole(session?.auth?.actor)
+
+          dispatch({
+            type: 'login',
+            payload: {
+              link,
+              session,
+              role,
+              accountName: session?.auth?.actor || ''
+            }
+          })
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    restoreSession()
+  }, [])
+
   return (
     <SharedStateContext.Provider value={value} {...props}>
       {children}
@@ -115,16 +147,20 @@ export const useSharedState = () => {
           accountName: session?.auth?.actor || ''
         }
       })
+      localStorage.setItem('isActiveSession', true)
     } catch (error) {
       console.error(error)
     }
   }
   const logout = async () => {
     try {
-      const { link, session } = await loginWallet(true)
+      await state.user.link.removeSession(
+        sdkConfig.appName,
+        state.user.session.auth
+      )
 
-      await link.removeSession(sdkConfig.appName, session.auth)
       dispatch({ type: 'logout' })
+      localStorage.setItem('isActiveSession', false)
     } catch (error) {
       console.error(error)
     }
