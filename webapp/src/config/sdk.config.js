@@ -4,7 +4,7 @@ export const endpoint = `${process.env.REACT_APP_UAL_API_PROTOCOL}://${
   process.env.REACT_APP_UAL_API_PORT
 }`
 export const appName = process.env.REACT_APP_UAL_APP_NAME || 'app'
-export const appLogo = process.env.REACT_APP_LOGO
+export const appLogo = process.env.REACT_APP_CHAIN_LOGO
 export const network = {
   chainId: process.env.REACT_APP_UAL_CHAIN_ID,
   rpcEndpoints: [

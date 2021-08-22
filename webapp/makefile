@@ -12,7 +12,7 @@ build-docker: ./Dockerfile
 		--build-arg react_app_version="$(REACT_APP_VERSION)" \
 		--build-arg react_app_name="$(REACT_APP_NAME)" \
 		--build-arg react_app_title="$(REACT_APP_TITLE)" \
-		--build-arg react_app_logo="$(REACT_APP_LOGO)" \
+		--build-arg react_app_chain_logo="$(REACT_APP_CHAIN_LOGO)" \
 		--build-arg react_app_footer_links="$(REACT_APP_FOOTER_LINKS)" \
 		--build-arg react_app_ual_app_name="$(REACT_APP_UAL_APP_NAME)" \
 		--build-arg react_app_ual_api_protocol="$(REACT_APP_UAL_API_PROTOCOL)" \
