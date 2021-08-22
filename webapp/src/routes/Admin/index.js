@@ -287,7 +287,7 @@ const Admin = () => {
   const [referralPagination, setReferralPagination] = useState({})
   const [selected, setSelected] = useState({ tableName: null })
   const [usersAccounts, setUserAccounts] = useState([])
-  const [{ ual }, { showMessage }] = useSharedState()
+  const [{ user }, { showMessage }] = useSharedState()
 
   const handleOnLoadMoreUsers = async usePagination => {
     const pagination = usePagination ? userPagination : {}
@@ -369,9 +369,10 @@ const Admin = () => {
   const approveNewUser = async () => {
     try {
       const data = await affiliateUtil.addUser(
-        ual.activeUser,
+        user.session,
         usersAccounts,
-        affiliateUtil.ROLES_IDS.REFERRER
+        affiliateUtil.ROLES_IDS.REFERRER,
+        user.accountName
       )
 
       setAddUser(false)
@@ -381,6 +382,8 @@ const Admin = () => {
       showMessage({ type: 'error', content: getUALError(error) })
     }
   }
+
+  console.log({ user })
 
   const reloadUsers = () => {
     setUserPagination({
@@ -468,10 +471,11 @@ const Admin = () => {
   const handleOnApprovePayment = async () => {
     try {
       const data = await affiliateUtil.payRef(
-        ual.activeUser,
+        user.session,
         currentReferral
           ? [currentReferral.invitee]
-          : selected[selected.tableName]
+          : selected[selected.tableName],
+        user.accountName
       )
 
       showMessage({
@@ -496,10 +500,11 @@ const Admin = () => {
   const handleOnRejectPayment = async () => {
     try {
       const data = await affiliateUtil.rejectRef(
-        ual.activeUser,
+        user.session,
         currentReferral
           ? [currentReferral.invitee]
-          : selected[selected.tableName]
+          : selected[selected.tableName],
+        user.accountName
       )
 
       showMessage({
@@ -524,8 +529,9 @@ const Admin = () => {
   const handleOnApproveKyc = async () => {
     try {
       const data = await affiliateUtil.approveKyc(
-        ual.activeUser,
-        currentReferral?.invitee
+        user.session,
+        currentReferral?.invitee,
+        user.accountName
       )
 
       showMessage({
@@ -562,11 +568,12 @@ const Admin = () => {
   const handleOnSubmitAddUser = async payload => {
     try {
       const data = await affiliateUtil.addUser(
-        ual.activeUser,
+        user.session,
         [payload.account],
         payload.isAdmin
           ? affiliateUtil.ROLES_IDS.ADMIN
-          : affiliateUtil.ROLES_IDS.REFERRER
+          : affiliateUtil.ROLES_IDS.REFERRER,
+        user.accountName
       )
 
       showMessage({
@@ -591,8 +598,9 @@ const Admin = () => {
   const handleOnRemoveUsers = async () => {
     try {
       const data = await affiliateUtil.removeUsers(
-        ual.activeUser,
-        selected[selected.tableName]
+        user.session,
+        selected[selected.tableName],
+        user.accountName
       )
 
       showMessage({

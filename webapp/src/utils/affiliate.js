@@ -48,79 +48,113 @@ const getUserRole = async accountName => {
   return ROLES[rows[0].role] || GUEST_ROLE
 }
 
-const addUser = async (admin, users, role = 2) => {
-  const transaction = await admin.signTransaction(
+const addUser = async (admin, users, role = 2, accountName) => {
+  const transaction = await admin.transact(
     {
-      actions: users.map(user => ({
-        account: mainConfig.affiliateAccount,
-        name: 'adduser',
-        authorization: [
-          {
-            actor: admin.accountName,
-            permission: 'active'
-          }
-        ],
-        data: {
-          user,
-          role,
-          admin: admin.accountName
-        }
-      }))
-    },
-    {
-      broadcast: true
-    }
-  )
-
-  return transaction
-}
-
-const removeUsers = async (admin, users = []) => {
-  const transaction = await admin.signTransaction(
-    {
-      actions: users.map(user => ({
-        account: mainConfig.affiliateAccount,
-        name: 'rmuser',
-        authorization: [
-          {
-            actor: admin.accountName,
-            permission: 'active'
-          }
-        ],
-        data: {
-          user,
-          admin: admin.accountName
-        }
-      }))
-    },
-    {
-      broadcast: true
-    }
-  )
-
-  return transaction
-}
-
-const approveKyc = async (admin, invitee) => {
-  const transaction = await admin.signTransaction(
-    {
-      actions: [
-        {
+      transaction: {
+        actions: users.map(user => ({
           account: mainConfig.affiliateAccount,
-          name: 'setstatus',
+          name: 'adduser',
           authorization: [
             {
-              actor: admin.accountName,
+              actor: accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            user,
+            role,
+            admin: accountName
+          }
+        }))
+      }
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const removeUsers = async (admin, users = [], accountName) => {
+  const transaction = await admin.transact(
+    {
+      transaction: {
+        actions: users.map(user => ({
+          account: mainConfig.affiliateAccount,
+          name: 'rmuser',
+          authorization: [
+            {
+              actor: accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            user,
+            admin: accountName
+          }
+        }))
+      }
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const approveKyc = async (admin, invitee, accountName) => {
+  const transaction = await admin.transact(
+    {
+      transaction: {
+        actions: [
+          {
+            account: mainConfig.affiliateAccount,
+            name: 'setstatus',
+            authorization: [
+              {
+                actor: accountName,
+                permission: 'active'
+              }
+            ],
+            data: {
+              invitee,
+              status: REFERRAL_STATUS_IDS.PENDING_PAYMENT,
+              admin: accountName
+            }
+          }
+        ]
+      }
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
+const payRef = async (admin, invitees = [], accountName) => {
+  const transaction = await admin.transact(
+    {
+      transaction: {
+        actions: invitees.map(invitee => ({
+          account: mainConfig.affiliateAccount,
+          name: 'payref',
+          authorization: [
+            {
+              actor: accountName,
               permission: 'active'
             }
           ],
           data: {
             invitee,
-            status: REFERRAL_STATUS_IDS.PENDING_PAYMENT,
-            admin: admin.accountName
+            admin: accountName
           }
-        }
-      ]
+        }))
+      }
     },
     {
       broadcast: true
@@ -130,50 +164,26 @@ const approveKyc = async (admin, invitee) => {
   return transaction
 }
 
-const payRef = async (admin, invitees = []) => {
-  const transaction = await admin.signTransaction(
+const rejectRef = async (admin, invitees, accountName) => {
+  const transaction = await admin.transact(
     {
-      actions: invitees.map(invitee => ({
-        account: mainConfig.affiliateAccount,
-        name: 'payref',
-        authorization: [
-          {
-            actor: admin.accountName,
-            permission: 'active'
+      transaction: {
+        actions: invitees.map(invitee => ({
+          account: mainConfig.affiliateAccount,
+          name: 'rejectref',
+          authorization: [
+            {
+              actor: accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            memo: '',
+            invitee,
+            admin: accountName
           }
-        ],
-        data: {
-          invitee,
-          admin: admin.accountName
-        }
-      }))
-    },
-    {
-      broadcast: true
-    }
-  )
-
-  return transaction
-}
-
-const rejectRef = async (admin, invitees) => {
-  const transaction = await admin.signTransaction(
-    {
-      actions: invitees.map(invitee => ({
-        account: mainConfig.affiliateAccount,
-        name: 'rejectref',
-        authorization: [
-          {
-            actor: admin.accountName,
-            permission: 'active'
-          }
-        ],
-        data: {
-          memo: '',
-          invitee,
-          admin: admin.accountName
-        }
-      }))
+        }))
+      }
     },
     {
       broadcast: true

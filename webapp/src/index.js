@@ -1,28 +1,18 @@
 import React from 'react'
 import { render } from 'react-dom'
-// import { UALProvider, withUAL } from '@eoscostarica/ual-reactjs-renderer'
 import { ApolloProvider } from '@apollo/client'
 
 import App from './App'
 import { client } from './graphql'
 import * as serviceWorker from './serviceWorker'
-// import { ualConfig } from './config'
 import { SharedStateProvider } from './context/state.context'
 
-// const SharedStateProviderWithUAL = withUAL(SharedStateProvider)
-
 render(
-  // <UALProvider
-  //   chains={[ualConfig.network]}
-  //   authenticators={ualConfig.authenticators}
-  //   appName={ualConfig.appName}
-  // >
   <SharedStateProvider>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
   </SharedStateProvider>,
-  // </UALProvider>,
   document.getElementById('root')
 )
 

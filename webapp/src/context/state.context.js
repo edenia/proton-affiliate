@@ -3,6 +3,7 @@ import { ConnectWallet } from '@proton/web-sdk'
 import PropTypes from 'prop-types'
 
 import { sdkConfig } from '../config'
+import { affiliateUtil } from '../utils'
 
 const SharedStateContext = createContext()
 const initialValue = {
@@ -72,10 +73,9 @@ const sharedStateReducer = (state, action) => {
   }
 }
 
-export const SharedStateProvider = ({ children, ual, ...props }) => {
+export const SharedStateProvider = ({ children, ...props }) => {
   const [state, dispatch] = useReducer(sharedStateReducer, {
-    ...initialValue,
-    ual
+    ...initialValue
   })
   const value = useMemo(() => [state, dispatch], [state])
 
@@ -87,8 +87,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
 }
 
 SharedStateProvider.propTypes = {
-  children: PropTypes.node,
-  ual: PropTypes.any
+  children: PropTypes.node
 }
 
 export const useSharedState = () => {
@@ -103,18 +102,32 @@ export const useSharedState = () => {
   const showMessage = payload => dispatch({ type: 'showMessage', payload })
   const hideMessage = () => dispatch({ type: 'hideMessage' })
   const login = async () => {
-    const { link, session } = await loginWallet(false)
+    try {
+      const { link, session } = await loginWallet(false)
+      const role = await affiliateUtil.getUserRole(session?.auth?.actor)
 
-    // get user role
-    // const role = await affiliateUtil.getUserRole(ual.activeUser?.accountName)
-
-    dispatch({ type: 'login', payload: { link, session } })
+      dispatch({
+        type: 'login',
+        payload: {
+          link,
+          session,
+          role,
+          accountName: session?.auth?.actor || ''
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
   const logout = async () => {
-    const { link, session } = await loginWallet(true)
+    try {
+      const { link, session } = await loginWallet(true)
 
-    await link.removeSession(sdkConfig.appName, session.auth)
-    dispatch({ type: 'logout' })
+      await link.removeSession(sdkConfig.appName, session.auth)
+      dispatch({ type: 'logout' })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return [state, { setState, showMessage, hideMessage, login, logout }]
