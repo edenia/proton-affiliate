@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 import { mainConfig } from '../../config'
 
@@ -281,9 +281,7 @@ const TablePages = ({
                           component="span"
                           onClick={() => onClickButton(row)}
                         >
-                          <ArrowForwardIosIcon
-                            className={classes.historyIcon}
-                          />
+                          <ArrowForwardIcon className={classes.historyIcon} />
                         </IconButton>
                       </TableCell>
                     )}

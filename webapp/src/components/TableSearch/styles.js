@@ -19,14 +19,14 @@ export default theme => ({
       }
     },
     '& th': {
-      padding: theme.spacing(2, 0),
+      padding: theme.spacing(2, 0, 2, 1),
       fontWeight: '600',
       fontSize: 12,
       textTransform: 'uppercase',
       color: 'rgba(0, 0, 0, 0.87)'
     },
     '& td': {
-      padding: theme.spacing(2, 0),
+      padding: theme.spacing(2, 0, 2, 1),
       fontStyle: 'normal',
       fontWeight: 'normal',
       fontSize: 13
@@ -73,8 +73,6 @@ export default theme => ({
     fontSize: '1rem'
   },
   noPadding: {
-    [theme.breakpoints.up('md')]: {
-      padding: '0 !important'
-    }
+    padding: '0 !important'
   }
 })
