@@ -2,7 +2,7 @@
 ---
 spec_version: 0.1.0
 title: Add an Administrator User
-summary: The intent of `{{ addadmin }}` is to allow `admin` accounts to add a new admin user.
+summary: The intent of {{addadmin}} is to allow `admin` accounts to add a new admin user.
 icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
 ---
 
@@ -10,7 +10,7 @@ icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
 ---
 spec_version: 0.1.0
 title: Remove an Administrator User
-summary: The intent of `{{ rmadmin }}` is to allow `admin` accounts to remove another admin user.
+summary: The intent of {{rmadmin}} is to allow `admin` accounts to remove another admin user.
 icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
 ---
 
@@ -18,7 +18,7 @@ icon: @ICON_BASE_URL@/@ADMIN_ICON_URI@
 ---
 spec_version: 0.1.0
 title: Add an Affiliate User
-summary: The intent of `{{ adduser }}` is to allow `admin` accounts to add a new affiliate user.
+summary: The intent of {{adduser}} is to allow `admin` accounts to add a new affiliate user.
 icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
 ---
 
@@ -26,7 +26,7 @@ icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
 ---
 spec_version: 0.1.0
 title: Remove an Affiliate User
-summary: The intent of `{{ rmuser }}` is to allow `admin` accounts to remove an affiliate user.
+summary: The intent of {{rmuser}} is to allow `admin` accounts to remove an affiliate user.
 icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
 ---
 
@@ -34,7 +34,7 @@ icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
 ---
 spec_version: 0.1.0
 title: Add a referral
-summary: This action creates a new referral.
+summary: This action creates a new referral with an {{invitee}}.
 icon: 
 ---
 
@@ -42,15 +42,15 @@ icon:
 ---
 spec_version: 0.1.0
 title: Verify Account
-summary: This action verifies an invitee account has registered on the network.
-icon: 
+summary: This action verifies an {{invitee}} account has registered on the network.
+icon: @ICON_BASE_URL@/@ACCOUNT_ICON_URI@
 ---
 
 <h1 class="contract">verifykyc</h1>
 ---
 spec_version: 0.1.0
 title: Verify KYC
-summary: This action verifies an invitee account has completed the KYC process.
+summary: This action verifies an {{invitee}} account has completed the KYC process.
 icon: 
 ---
 
