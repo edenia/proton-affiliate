@@ -5,7 +5,13 @@
     "lightMode": "Light Mode",
     "darkMode": "Dark Mode",
     "empty": "No data",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "PENDING_USER_REGISTRATION": "Pending",
+    "PENDING_KYC_VERIFICATION": "Pending KYC",
+    "PENDING_PAYMENT": "Pending payment",
+    "PAYMENT_REJECTED": "Rejected",
+    "EXPIRED": "Expired",
+    "PAID": "Paid"
   },
   "routes": {
     "/>title": "Proton Affiliate",
@@ -47,7 +53,10 @@
     "cancel": "Cancel",
     "success": "request sent successfully",
     "emailHelperText": "Valid e-mail!",
-    "emailHelperError": "Invalid e-mail format!"
+    "emailHelperError": "Invalid e-mail format!",
+    "referralNotFound": "No referral found or not yet irreversible for invitee {{ invitee }}, check again later",
+    "searchTitle": "Check Your Invitation Status",
+    "protonAccount": "Proton Account"
   },
   "aboutRoute": {
     "body": {
@@ -81,7 +90,7 @@
     "title1": "Welcome to",
     "title2": "Proton’s Affiliate Program",
     "titleDesktop": "Welcome to Proton’s Affiliate Program",
-    "pageInfo": "Receive XPR token rewards equal to {{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ exiration_period }} hours.",
+    "pageInfo": "Receive XPR token rewards equal to ${{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ hours }} hours.",
     "copy": "Copy and share this URL to invite new users:",
     "copyDesktop": "Your affiliate link:",
     "copiedMessage": "Affiliate URL has been copied to your clipboard.",
@@ -92,20 +101,25 @@
     "helperTextUsername": "Username Available!",
     "helperTextUsernameError": "*Non-standard account names",
     "title": "Join Proton!",
-    "infoPage": " invited you to the Proton Blockchain. Sign-up now and earn {{ reward }} in proton cryptocurrency.",
+    "infoPage": " invited you to the Proton Blockchain. Sign-up now and earn ${{ reward }} in proton cryptocurrency.",
     "invalidReferrer": "Invalid Referrer",
     "step1": "Step 1: Select your username.",
     "account": "Account",
     "step2": "Step 2: Download and Register",
     "step2Info": "Download the Proton wallet. Please use the same username as above.",
-    "step3": "Step 3: Login with your Wallet",
+    "step3": "Step 3: Complete the KYC process",
+    "step3Info": "You must complete your KYC process within the next {{ hours }} hours otherwise your referral will expire",
     "login": "Login",
     "step4": "Step 4: Wait for approval.",
     "step4Info": "An admin will review your referral and approve your rewards.",
     "modalTitle": "Congratulations!",
     "info": "Your $10 reward its in the way!",
     "info2": "Join the referral program, invite friends or family and obtain $10 more for each completed registration.",
-    "buttonLabel": "JOIN AND INVITE"
+    "buttonLabel": "JOIN AND INVITE",
+    "accountHelperText": "Account name available!",
+    "accountHelperError": "Account name is not available!",
+    "doneIrreversibility": "Irreversible transaction",
+    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)"
   },
   "adminRoute": {
     "title": "Administration",
@@ -121,15 +135,24 @@
     "addUserTitle": "Enter an account and add it as active referrer.",
     "switchLabel": "Set as admin",
     "rejectUserMessage": "You are about to REJECT",
-    "PENDING_USER_REGISTRATION": "Pending",
-    "PENDING_KYC_VERIFICATION": "Pending KYC",
-    "PENDING_PAYMENT": "Pending payment",
-    "PAYMENT_REJECTED": "Rejected",
-    "EXPIRED": "Expired",
-    "PAID": "Paid",
     "ADMIN": "Admin",
     "REFERRER": "Referrer",
     "accountHelperText": "Account found!",
-    "accountHelperError": "Account name is not registered!"
+    "accountHelperError": "Account name is not registered!",
+    "deleteSuccessfully": "Delete Successfully"
+  },
+  "footer": {
+    "poweredBy": "Powered by",
+    "info": "the Proton Worker Proposal System",
+    "madeBy": "Made by EOS Costa Rica © 2021"
+  },
+  "timeline": {
+    "addref": "Referral registered",
+    "newaccount": "Account registered",
+    "verifyacc": "Account verified",
+    "verifyexp": "Experiration verified",
+    "verifykyc": "KYC verified",
+    "payref": "Referral payment",
+    "rejectref": "Referrer rejected"
   }
 }

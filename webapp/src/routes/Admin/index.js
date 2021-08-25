@@ -5,31 +5,36 @@ import { makeStyles } from '@material-ui/styles'
 import moment from 'moment'
 import clsx from 'clsx'
 import AddIcon from '@material-ui/icons/Add'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
-import IconButton from '@material-ui/core/IconButton'
 import Fab from '@material-ui/core/Fab'
 import Box from '@material-ui/core/Box'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 
 import { mainConfig } from '../../config'
 import TableSearch from '../../components/TableSearch'
-import CustomizedTimeline from '../../components/Timeline'
 import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButton'
+import HistoryModal from '../../components/HistoryModal'
 import {
   affiliateUtil,
   getUALError,
   useImperativeQuery,
-  getLastCharacters
+  getLastCharacters,
+  formatWithThousandSeparator
 } from '../../utils'
 import { useSharedState } from '../../context/state.context'
-import { GET_HISTORY, GET_JOIN_REQUEST } from '../../gql'
+import {
+  GET_HISTORY_BY_INVITEES,
+  GET_HISTORY_BY_REFERRERS,
+  GET_JOIN_REQUEST,
+  DELETE_JOIN_REQUEST_MUTATION
+} from '../../gql'
 
 import AddUserModal from './AddUserModal'
 import styles from './styles'
@@ -73,18 +78,18 @@ const headCellUserApprovals = [
     label: 'role'
   },
   {
-    id: 'joined',
+    id: 'reward',
     align: 'center',
     useMainColor: false,
     rowLink: false,
-    label: 'joined'
+    label: 'reward (XPR)'
   },
   {
-    id: 'referrals',
+    id: 'txid',
     align: 'right',
     useMainColor: true,
     rowLink: false,
-    label: 'referrals'
+    label: 'tx id'
   }
 ]
 const headCellReferralPayment = [
@@ -108,13 +113,6 @@ const headCellReferralPayment = [
     useMainColor: false,
     rowLink: false,
     label: 'affiliate'
-  },
-  {
-    id: 'tx',
-    align: 'right',
-    useMainColor: true,
-    rowLink: true,
-    label: 'last tx'
   }
 ]
 
@@ -142,6 +140,7 @@ const OptionFAB = ({
   onClickRemoveUsers,
   onClickApprovePayment,
   onClickRejectPayment,
+  onClickApproveNewUser,
   allowPayment
 }) => {
   const classes = useStyles()
@@ -159,8 +158,8 @@ const OptionFAB = ({
             <Fab
               size="small"
               color="primary"
-              aria-label="edit"
-              onClick={() => {}}
+              aria-label="add"
+              onClick={onClickApproveNewUser}
             >
               <CheckIcon />
             </Fab>
@@ -250,26 +249,31 @@ OptionFAB.propTypes = {
   onClickReject: PropTypes.func,
   onClickApprovePayment: PropTypes.func,
   onClickRejectPayment: PropTypes.func,
+  onClickApproveNewUser: PropTypes.func,
   allowPayment: PropTypes.bool
 }
 
 OptionFAB.defaultProps = {
   onClickReject: () => {},
-  onClickRemoveUsers: () => {}
+  onClickRemoveUsers: () => {},
+  onClickApproveNewUser: () => {}
 }
 
 const Admin = () => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
   const [openFAB, setOpenFAB] = useState(false)
-  const loadHistoryQuery = useImperativeQuery(GET_HISTORY)
+  const loadHistoryByInvites = useImperativeQuery(GET_HISTORY_BY_INVITEES)
+  const loadHistoryByReferrers = useImperativeQuery(GET_HISTORY_BY_REFERRERS)
   const [
     loadNewUsers,
     { loading = true, data: { joinRequest, infoJoin } = {} }
-  ] = useLazyQuery(GET_JOIN_REQUEST)
-  const [open, setOpen] = useState(false)
+  ] = useLazyQuery(GET_JOIN_REQUEST, { fetchPolicy: 'network-only' })
+  const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
+    DELETE_JOIN_REQUEST_MUTATION
+  )
   const [openAddUser, setAddUser] = useState(false)
-  const [openInfoModa, setOpenInfoModal] = useState(false)
+  const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
@@ -278,52 +282,123 @@ const Admin = () => {
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
-  const [referralPagination, setReferralPagination] = useState({})
   const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
+  const [referralPagination, setReferralPagination] = useState({})
   const [selected, setSelected] = useState({ tableName: null })
+  const [usersAccounts, setUserAccounts] = useState([])
   const [{ ual }, { showMessage }] = useSharedState()
 
-  const handleOnLoadMoreUsers = async () => {
-    const users = await affiliateUtil.getUsers(userPagination.cursor)
-    const newRows = (users.rows || []).map(item => ({
-      username: item.user,
-      role: t(item.role),
-      joined: '-',
-      referrals: '-'
-    }))
+  const handleOnLoadMoreUsers = async usePagination => {
+    const pagination = usePagination ? userPagination : {}
+    const users = await affiliateUtil.getUsers(pagination.cursor)
+    const referrers = (users.rows || []).map(item => item.user)
+    const { data } = await loadHistoryByReferrers({ referrers })
+    const newRows = (users.rows || []).map(row => {
+      const history = data.history.filter(
+        item => item.referral.referrer === row.user
+      )
+      const trxid = (history[history.length - 1] || {}).trxid
 
-    setUserRows(userPagination.cursor ? [...userRows, ...newRows] : newRows)
+      return {
+        role: t(row.role),
+        username: row.user,
+        reward: formatWithThousandSeparator(
+          history.reduce(
+            (total, item) => total + item.payload.referrerPayment?.amount,
+            0
+          ),
+          2
+        ),
+        txid: getLastCharacters(trxid) || '-'
+      }
+    })
+
     setUserPagination({
       hasMore: users.hasMore,
       cursor: users.cursor
     })
+    setUserRows(pagination.cursor ? [...userRows, ...newRows] : newRows)
   }
 
-  const reloadUsers = async () => {
+  const deleteNewUsers = async () => {
+    try {
+      await deleteJoinRequest({
+        variables: {
+          ids: selected.new
+        }
+      })
+
+      await loadNewUsers({
+        variables: {
+          offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
+          limit: newUsersPagination.rowsPerPage
+        }
+      })
+
+      showMessage({ type: 'success', content: t('deleteSuccessfully') })
+      setOpenInfoModal(false)
+      setSelected({ tableName: null })
+      setUserAccounts([])
+    } catch (error) {
+      showMessage({ type: 'error', content: error })
+    }
+  }
+
+  const approveNewUser = async () => {
+    try {
+      const data = await affiliateUtil.addUser(
+        ual.activeUser,
+        usersAccounts,
+        affiliateUtil.ROLES_IDS.REFERRER
+      )
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+      setAddUser(false)
+      deleteNewUsers()
+      reloadUsers()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const reloadUsers = () => {
     setUserPagination({
       hasMore: false,
       cursor: ''
     })
-    setTimeout(handleOnLoadMoreUsers, 500)
+    setTimeout(handleOnLoadMoreUsers, 1500)
   }
 
-  const handleOnSelectItem = (tableName, items) => {
+  const handleOnSelectItem = (tableName, items, accounts) => {
     if (!items.length) {
       setSelected({ tableName: null })
 
       return
     }
 
+    setUserAccounts(accounts || [])
     setSelected({ [tableName]: items, tableName })
   }
 
-  const handleOnPageChange = (_, page) => {
+  const handleOnPageChange = async (_, page) => {
     setNewUsersPagination(prev => ({
       ...prev,
       page
     }))
 
-    joinRequest({
+    await loadNewUsers({
       variables: {
         offset: page * newUsersPagination.rowsPerPage,
         limit: newUsersPagination.rowsPerPage
@@ -331,33 +406,27 @@ const Admin = () => {
     })
   }
 
-  const handleOnLoadMoreReferrals = async () => {
-    const referrals = await affiliateUtil.getReferrals(
-      referralPagination.cursor
-    )
+  const handleOnLoadMoreReferrals = async usePagination => {
+    const pagination = usePagination ? referralPagination : {}
+    const referrals = await affiliateUtil.getReferrals(pagination.cursor)
     const invitees = (referrals.rows || []).map(item => item.invitee)
-    const { data } = await loadHistoryQuery({ invitees })
+    const { data } = await loadHistoryByInvites({ invitees })
     const newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
-      const trxid = (history[history.length - 1] || {}).trxid
 
       return {
         ...row,
         history,
         status: t(row.status),
-        statusId: row.status,
-        tx: getLastCharacters(trxid),
-        link: trxid
+        statusId: row.status
       }
     })
 
-    setReferralRows(
-      referralPagination.cursor ? [...referralRows, ...newRows] : newRows
-    )
     setReferralPagination({
       hasMore: referrals.hasMore,
       cursor: referrals.cursor
     })
+    setReferralRows(pagination.cursor ? [...referralRows, ...newRows] : newRows)
   }
 
   const reloadReferrals = () => {
@@ -365,11 +434,11 @@ const Admin = () => {
       hasMore: false,
       cursor: ''
     })
-    setTimeout(handleOnLoadMoreReferrals, 500)
+    setTimeout(handleOnLoadMoreReferrals, 1500)
   }
 
   const handleOnClickReferral = data => {
-    setOpen(true)
+    setIsHistoryModalOpen(true)
     setCurrentReferral(data)
   }
 
@@ -394,7 +463,7 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -422,7 +491,7 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -448,16 +517,11 @@ const Admin = () => {
           </a>
         )
       })
-      handleOnClose()
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
-  }
-
-  const handleOnClose = () => {
-    setOpen(false)
-    setCurrentReferral(null)
   }
 
   const getAccountName = () => {
@@ -587,11 +651,14 @@ const Admin = () => {
           onSelectItem={handleOnSelectItem}
           selected={selected.payment || []}
           useLoadMore
+          handleOnLoadMore={handleOnLoadMoreReferrals}
+          loadMoreDisable={referralPagination.hasMore}
+          onReload={reloadReferrals}
           rows={referralRows}
           showColumnCheck
           headCells={headCellReferralPayment}
-          handleOnLoadMore={handleOnLoadMoreReferrals}
-          onClickRow={handleOnClickReferral}
+          onClickButton={handleOnClickReferral}
+          showColumnButton
           idName="invitee"
         />
       </Accordion>
@@ -620,6 +687,8 @@ const Admin = () => {
           showColumnCheck
           headCells={headCellUserApprovals}
           handleOnLoadMore={handleOnLoadMoreUsers}
+          loadMoreDisable={userPagination.hasMore}
+          onReload={reloadUsers}
           idName="username"
         />
       </Accordion>
@@ -651,6 +720,7 @@ const Admin = () => {
             onClickApprovePayment={handleOnApprovePayment}
             onClickRejectPayment={handleOnRejectPayment}
             allowPayment={allowPayment}
+            onClickApproveNewUser={approveNewUser}
           />
         </Box>
       </FloatingMenu>
@@ -660,81 +730,70 @@ const Admin = () => {
         t={t}
         open={openAddUser}
       />
-      <Modal open={open} setOpen={handleOnClose}>
-        <Box className={classes.timeline}>
-          <Box className={classes.secondayBar} position="sticky">
-            <IconButton aria-label="Back" onClick={() => setOpen(false)}>
-              <KeyboardBackspaceIcon />
-            </IconButton>
-            <Typography className={classes.secondayTitle}>
-              {currentReferral?.invitee} by {currentReferral?.referrer}
-            </Typography>
-          </Box>
-          <Box className={classes.bodySecondary}>
-            <Box>
-              <Typography className={classes.timelineTitle}>
-                {t('timelimeTitle')}
-              </Typography>
-              <CustomizedTimeline items={currentReferral?.history} />
-              {currentReferral?.statusId ===
-                affiliateUtil.REFERRAL_STATUS[
-                  affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
-                ] && (
-                <Box className={classes.modalFooter}>
-                  <Typography>{t('approvePayment')}</Typography>
-                  <Box className={classes.modalBtnWrapper}>
-                    <Button
-                      variant="contained"
-                      onClick={handleOnRejectPayment}
-                      className={clsx(classes.timelineBtn, classes.reject)}
-                    >
-                      Reject
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleOnApprovePayment}
-                      className={classes.timelineBtn}
-                    >
-                      Yes
-                    </Button>
-                  </Box>
-                </Box>
-              )}
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      >
+        {currentReferral?.statusId ===
+          affiliateUtil.REFERRAL_STATUS[
+            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+          ] && (
+          <>
+            <Typography>{t('approvePayment')}</Typography>
+            <Box className={classes.modalBtnWrapper}>
+              <Button
+                variant="contained"
+                onClick={handleOnRejectPayment}
+                className={clsx(classes.timelineBtn, classes.reject)}
+              >
+                Reject
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOnApprovePayment}
+                className={classes.timelineBtn}
+              >
+                Yes
+              </Button>
             </Box>
-
-            {currentReferral?.statusId ===
-              affiliateUtil.REFERRAL_STATUS[
-                affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
-              ] && (
-              <Box className={classes.modalFooter}>
-                <Typography>{t('approveKYC')}</Typography>
-                <Box className={classes.modalBtnWrapper}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOnApproveKyc}
-                    className={classes.timelineBtn}
-                  >
-                    Yes
-                  </Button>
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Modal>
-      <Modal open={openInfoModa} setOpen={setOpenInfoModal}>
+          </>
+        )}
+        {currentReferral?.statusId ===
+          affiliateUtil.REFERRAL_STATUS[
+            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+          ] && (
+          <>
+            <Typography>{t('approveKYC')}</Typography>
+            <Box className={classes.modalBtnWrapper}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOnApproveKyc}
+                className={classes.timelineBtn}
+              >
+                Yes
+              </Button>
+            </Box>
+          </>
+        )}
+      </HistoryModal>
+      <Modal open={openInfoModal} setOpen={setOpenInfoModal}>
         <Box className={classes.rejectModal}>
           <Typography className={classes.text}>
             {`${t('rejectUserMessage')} ${getAccountName()}`}
           </Typography>
-          <Box item xs={12} className={classes.btnAddAccount}>
+          <Box className={classes.btnAddAccount}>
             <Button onClick={() => setOpenInfoModal(false)}>
               {t('cancel')}
             </Button>
-            <Button color="primary" onClick={() => {}}>
-              {t('add')}
+            <Button color="primary" onClick={deleteNewUsers}>
+              {loadingDelete ? (
+                <CircularProgress color="primary" size={24} />
+              ) : (
+                t('reject')
+              )}
             </Button>
           </Box>
         </Box>

@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import moment from 'moment'
@@ -12,11 +13,16 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { affiliateUtil } from '../../utils'
-import { GET_REFERRAL_HISTORY, ADD_JOIN_REQUEST_MUTATION } from '../../gql'
+import { affiliateUtil, useImperativeQuery } from '../../utils'
+import {
+  GET_REWARDS_HISTORY,
+  GET_REFERRAL_BY_INVITEE,
+  ADD_JOIN_REQUEST_MUTATION
+} from '../../gql'
 import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
+import HistoryModal from '../../components/HistoryModal'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
@@ -30,21 +36,25 @@ const dateFormat = blockTime => {
 
   return moment(blockTime).format('ll')
 }
-
+const INIT_VALIDATION_VALUES = {
+  showHelper: false,
+  message: '',
+  isValid: false
+}
 const headCellLAstReward = [
   { id: 'username', align: 'left', rowLink: true, label: 'account' },
   { id: 'reward', align: 'center', rowLink: false, label: 'reward (XPR)' },
-  { id: 'date', align: 'center', rowLink: false, label: 'joined' },
-  { id: 'tx', align: 'right', rowLink: true, label: 'tx id' }
+  { id: 'date', align: 'center', rowLink: false, label: 'joined' }
 ]
 const useStyles = makeStyles(styles)
 
 const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
+  const location = useLocation()
   const [, { showMessage }] = useSharedState()
-  const [getLastReferral, { loading, data }] =
-    useLazyQuery(GET_REFERRAL_HISTORY)
+  const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
+  const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
     ADD_JOIN_REQUEST_MUTATION
   )
@@ -52,18 +62,13 @@ const Home = () => {
   const [checked, setCheked] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
-  const [isValidAccount, setIsValidAccount] = useState({
-    showHelper: false,
-    message: '',
-    isValid: false
-  })
+  const [invitee, setInvitee] = useState('')
+  const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
   const debouncedAccount = useDebounce(account, 200)
-  const [isValidEmail, setIsValidEmail] = useState({
-    showHelper: false,
-    message: '',
-    isValid: false
-  })
+  const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
+  const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
 
   const handleOnChangeAccount = e => {
     setAccount(e.target.value)
@@ -114,14 +119,42 @@ const Home = () => {
         type: 'success',
         content: t('success')
       })
+      setCheked(false)
+      setAccount('')
+      setEmail('')
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
     }
   }
 
   const handleCloseModal = () => {
+    setIsValidEmail(INIT_VALIDATION_VALUES)
+    setIsValidAccount(INIT_VALIDATION_VALUES)
     setCheked(false)
     setOpen(false)
+    setAccount('')
+    setEmail('')
+  }
+
+  const handleOnClickReferral = data => {
+    setIsHistoryModalOpen(true)
+    setCurrentReferral(data.referral)
+  }
+
+  const searchReferral = async invitee => {
+    const { data } = await loadReferralByInvitee({ invitee })
+
+    if (data.referrals.length < 1) {
+      showMessage({
+        type: 'warning',
+        content: t('referralNotFound', { invitee })
+      })
+
+      return
+    }
+
+    setCurrentReferral(data.referrals[0])
+    setIsHistoryModalOpen(true)
   }
 
   useEffect(() => {
@@ -152,15 +185,26 @@ const Home = () => {
     if (loading || !data) return
 
     const lastReferrals = (data.referral_history || []).map(item => ({
+      ...item,
       username: item.invitee,
       date: dateFormat(item.block_time),
-      reward: '-',
-      tx: (item.trxid || '').slice(0, 7),
-      link: item.trxid
+      reward: !item.payload.inviteePayment
+        ? '-'
+        : item.payload.inviteePayment.amount
     }))
 
     setReferralRows(lastReferrals)
   }, [data, loading])
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search)
+    const invitee = query.get('invitee')
+    setInvitee(invitee || '')
+
+    if (invitee) {
+      searchReferral(invitee)
+    }
+  }, [location.search])
 
   useEffect(() => {
     getLastReferral()
@@ -205,7 +249,32 @@ const Home = () => {
       <TableSearch
         headCells={headCellLAstReward || []}
         rows={referralRows || []}
+        onClickButton={handleOnClickReferral}
+        showColumnButton
       />
+      <Box className={classes.searchFormWrapper}>
+        <form noValidate autoComplete="off">
+          <Typography variant="h6" className={classes.searchTitle}>
+            {t('searchTitle')}
+          </Typography>
+          <TextField
+            className={classes.searchInput}
+            onChange={event => setInvitee(event.target.value)}
+            value={invitee}
+            placeholder={t('protonAccount')}
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            className={classes.searchBtn}
+            variant="contained"
+            color="primary"
+            onClick={() => searchReferral(invitee)}
+          >
+            {t('check')}
+          </Button>
+        </form>
+      </Box>
       <Modal open={open} setOpen={setOpen}>
         <Box className={classes.joinModel}>
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>
@@ -279,6 +348,11 @@ const Home = () => {
           </Box>
         </Box>
       </Modal>
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      />
     </Box>
   )
 }

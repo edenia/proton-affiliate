@@ -53,6 +53,10 @@ export default theme => ({
     display: 'flex'
   },
   loadMore: {
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    margin: theme.spacing(0, 1)
+  },
+  historyIcon: {
+    fontSize: '1rem'
   }
 })

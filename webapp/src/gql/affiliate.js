@@ -8,7 +8,7 @@ export const ADD_REFERRAL_MUTATION = gql`
   }
 `
 
-export const GET_HISTORY = gql`
+export const GET_HISTORY_BY_INVITEES = gql`
   query ($invitees: [String!]) {
     history: referral_history(
       where: { invitee: { _in: $invitees } }
@@ -24,15 +24,47 @@ export const GET_HISTORY = gql`
   }
 `
 
-export const GET_REFERRAL_HISTORY = gql`
-  query getReferralHistory($limit: Int = 10) {
-    referral_history(limit: $limit) {
-      id
-      invitee
-      payload
+export const GET_HISTORY_BY_REFERRERS = gql`
+  query ($referrers: [String!]) {
+    history: referral_history(
+      where: {
+        referral: { referrer: { _in: $referrers } }
+        action: { _eq: "payref" }
+      }
+      order_by: { block_time: asc }
+    ) {
+      referral {
+        referrer
+      }
       trxid
-      created_at
+      payload
+    }
+  }
+`
+
+export const GET_REWARDS_HISTORY = gql`
+  query ($limit: Int = 10) {
+    referral_history(
+      where: { action: { _eq: "payref" } }
+      limit: $limit
+      order_by: { block_time: desc }
+    ) {
+      invitee
+      action
+      payload
       block_time
+      trxid
+      referral {
+        invitee
+        referrer
+        history(order_by: { block_time: asc }) {
+          trxid
+          block_num
+          block_time
+          action
+          payload
+        }
+      }
     }
   }
 `
@@ -43,7 +75,7 @@ export const GET_MY_REFERRALS = gql`
     $offset: Int = 0
     $limit: Int = 5
   ) {
-    info: referral_aggregate {
+    info: referral_aggregate(where: $where) {
       referrals: aggregate {
         count
       }
@@ -91,6 +123,40 @@ export const GET_JOIN_REQUEST = gql`
       id
       receive_news
       created_at
+    }
+  }
+`
+
+export const DELETE_JOIN_REQUEST_MUTATION = gql`
+  mutation deleteJoin($ids: [uuid!]) {
+    delete_join_request(where: { id: { _in: $ids } }) {
+      affected_rows
+    }
+  }
+`
+export const GET_REFERRAL_BY_INVITEE = gql`
+  query ($invitee: String!) {
+    referrals: referral(where: { invitee: { _eq: $invitee } }, limit: 1) {
+      id
+      invitee
+      referrer
+      status
+      expires_on
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
+    }
+  }
+`
+
+export const GET_LAST_SYNCED = gql`
+  query {
+    hyperion_state(limit: 1) {
+      last_synced_at
     }
   }
 `

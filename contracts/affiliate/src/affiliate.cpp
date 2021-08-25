@@ -78,11 +78,9 @@ ACTION affiliate::rmuser(name admin, name user) {
   check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
 
   auto user_itr = _users.find(user.value);
-  check(user_itr->role != user_roles::ADMIN, user.to_string() + " account is an admin");
+  check(user_itr != _users.end(), user.to_string() + " account is not an user");
 
-  if (user_itr != _users.end()) {
-    _users.erase(user_itr);
-  }
+  _users.erase(user_itr);
 }
 
 ACTION affiliate::addref(name referrer, name invitee) {
@@ -91,7 +89,6 @@ ACTION affiliate::addref(name referrer, name invitee) {
   users_table _users(get_self(), get_self().value);
   auto referrer_itr = _users.find(referrer.value);
   check(referrer_itr != _users.end(), referrer.to_string() + " account is not an affiliate");
-  check(referrer_itr->role == user_roles::REFERRER, referrer.to_string() + " account is not a referrer");
 
   check(!is_account(invitee), invitee.to_string() + " account is already registered");
   referrals_table _referrals(get_self(), get_self().value);

@@ -165,5 +165,44 @@ export default theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'initial'
     }
+  },
+  searchFormWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(4),
+    borderRadius: '30px',
+    backgroundColor: '#010c2c',
+    margin: theme.spacing(0, 2)
+  },
+  searchTitle: {
+    color: 'white',
+    marginBottom: theme.spacing(2)
+  },
+  searchBtn: {
+    marginTop: theme.spacing(2),
+    width: '100%'
+  },
+  searchInput: {
+    width: '100%',
+    '& label.Mui-focused': {
+      color: 'white'
+    },
+    '& input': {
+      color: 'white'
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'transparent'
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white'
+      },
+      '&:hover fieldset': {
+        borderColor: 'white'
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'white'
+      }
+    }
   }
 })

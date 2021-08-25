@@ -15,6 +15,8 @@ import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@material-ui/core/IconButton'
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 
 import { mainConfig } from '../../config'
 
@@ -25,7 +27,8 @@ const EnhancedTableHead = ({
   numSelected,
   rowCount,
   showColumnCheck,
-  headCells
+  headCells,
+  showColumnButton
 }) => (
   <TableHead>
     <TableRow>
@@ -40,11 +43,23 @@ const EnhancedTableHead = ({
           />
         </TableCell>
       )}
-      {headCells.map(headCell => (
-        <TableCell key={headCell.id} align={headCell.align}>
+      {headCells.map((headCell, index) => (
+        <TableCell
+          key={headCell.id}
+          align={
+            showColumnButton && index === headCells.length - 1
+              ? 'center'
+              : headCell.align
+          }
+        >
           {headCell.label}
         </TableCell>
       ))}
+      {showColumnButton && (
+        <TableCell padding="none" align="right" style={{ padding: '0' }}>
+          History
+        </TableCell>
+      )}
     </TableRow>
   </TableHead>
 )
@@ -54,7 +69,8 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   rowCount: PropTypes.number.isRequired,
   showColumnCheck: PropTypes.bool,
-  headCells: PropTypes.array
+  headCells: PropTypes.array,
+  showColumnButton: PropTypes.bool
 }
 
 const useStyles = makeStyles(styles)
@@ -67,28 +83,40 @@ const TablePages = ({
   useLoadMore,
   loadMoreDisable,
   handleOnLoadMore,
+  onReload,
   pagination,
   handleOnPageChange,
   handleOnRowsPerPageChange,
-  onClickRow,
   idName,
   onSelectItem,
   tableName,
-  selected
+  selected,
+  showColumnButton,
+  onClickButton
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
 
   const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      onSelectItem(
-        tableName,
-        rows.map(n => n[idName])
-      )
+    if (!event.target.checked) {
+      onSelectItem(tableName, [])
 
       return
     }
-    onSelectItem(tableName, [])
+
+    const ids = rows.map(n => n[idName])
+
+    if (tableName === 'new') {
+      const accounts = rows
+        .filter(row => ids.indexOf(row.id) !== -1)
+        .map(item => item.account)
+
+      onSelectItem(tableName, ids, accounts)
+
+      return
+    }
+
+    onSelectItem(tableName, ids)
   }
 
   const handleClick = (_, name) => {
@@ -106,6 +134,16 @@ const TablePages = ({
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
       )
+    }
+
+    if (tableName === 'new') {
+      const accounts = rows
+        .filter(row => newSelected.indexOf(row.id) !== -1)
+        .map(item => item.account)
+
+      onSelectItem(tableName, newSelected, accounts)
+
+      return
     }
 
     onSelectItem(tableName, newSelected)
@@ -130,6 +168,7 @@ const TablePages = ({
               rowCount={rows.length}
               showColumnCheck={showColumnCheck}
               headCells={headCells}
+              showColumnButton={showColumnButton}
             />
             <TableBody>
               {(rows || []).map((row, index) => {
@@ -142,7 +181,6 @@ const TablePages = ({
                     aria-checked={isItemSelected}
                     key={labelId}
                     selected={isItemSelected}
-                    onClick={() => onClickRow(row)}
                   >
                     {showColumnCheck && (
                       <TableCell padding="none" style={{ padding: '0' }}>
@@ -214,6 +252,25 @@ const TablePages = ({
                         </TableCell>
                       )
                     })}
+
+                    {showColumnButton && (
+                      <TableCell
+                        padding="none"
+                        align="right"
+                        style={{ padding: '0' }}
+                      >
+                        <IconButton
+                          color="primary"
+                          aria-label="history"
+                          component="span"
+                          onClick={() => onClickButton(row)}
+                        >
+                          <ArrowForwardIosIcon
+                            className={classes.historyIcon}
+                          />
+                        </IconButton>
+                      </TableCell>
+                    )}
                   </TableRow>
                 )
               })}
@@ -227,14 +284,25 @@ const TablePages = ({
             </TableBody>
           </Table>
         </TableContainer>
-        {useLoadMore && (
-          <Box
-            style={{
-              marginTop: 16,
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
+
+        <Box
+          style={{
+            marginTop: 16,
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          {!!onReload && (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={onReload}
+              className={classes.loadMore}
+            >
+              {t('reload')}
+            </Button>
+          )}
+          {useLoadMore && (
             <Button
               disabled={!loadMoreDisable}
               variant="outlined"
@@ -244,8 +312,9 @@ const TablePages = ({
             >
               {t('loadMore')}
             </Button>
-          </Box>
-        )}
+          )}
+        </Box>
+
         {usePagination && (
           <TablePagination
             classes={{ root: classes.tablePagination }}
@@ -271,14 +340,16 @@ TablePages.propTypes = {
   useLoadMore: PropTypes.bool,
   loadMoreDisable: PropTypes.bool,
   handleOnLoadMore: PropTypes.func,
+  onReload: PropTypes.func,
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
   handleOnRowsPerPageChange: PropTypes.func,
-  onClickRow: PropTypes.func,
+  onClickButton: PropTypes.func,
   idName: PropTypes.string,
   onSelectItem: PropTypes.func,
   tableName: PropTypes.string,
-  selected: PropTypes.array
+  selected: PropTypes.array,
+  showColumnButton: PropTypes.bool
 }
 
 TablePages.defaultProps = {
@@ -291,7 +362,7 @@ TablePages.defaultProps = {
   handleOnLoadMore: () => {},
   handleOnPageChange: () => {},
   handleOnRowsPerPageChange: () => {},
-  onClickRow: () => {},
+  onClickButton: () => {},
   onSelectItem: () => {},
   pagination: {
     count: 0,
@@ -300,7 +371,8 @@ TablePages.defaultProps = {
     page: 1
   },
   tableName: '',
-  selected: []
+  selected: [],
+  showColumnButton: false
 }
 
 export default TablePages

@@ -9,7 +9,11 @@ export default theme => ({
   },
   fab: {
     position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2)
+    bottom: theme.spacing(18),
+    right: theme.spacing(2),
+    zIndex: 100,
+    [theme.breakpoints.up('md')]: {
+      bottom: theme.spacing(10)
+    }
   }
 })

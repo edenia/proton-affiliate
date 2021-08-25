@@ -10,16 +10,16 @@ import Popover from '@material-ui/core/Popover'
 
 import { useSharedState } from '../../context/state.context'
 import { GET_MY_REFERRALS } from '../../gql'
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import { affiliateUtil, formatWithThousandSeparator } from '../../utils'
 import TableSearch from '../../components/TableSearch'
+import HistoryModal from '../../components/HistoryModal'
 
 import styles from './styles'
 
 const headCellAffiliate = [
   { id: 'invitee', align: 'left', label: 'account' },
   { id: 'status', align: 'center', label: 'status' },
-  { id: 'reward', align: 'center', label: 'reward' },
-  { id: 'tx', align: 'right', label: 'last tx' }
+  { id: 'reward', align: 'center', label: 'reward (XPR)' }
 ]
 const initReferralPagination = {
   count: 0,
@@ -33,6 +33,7 @@ const Affiliate = () => {
   const classes = useStyles()
   const { t } = useTranslation('affiliateRoute')
   const [state] = useSharedState()
+  const [params, setParams] = useState({})
   const [anchorEl, setAnchorEl] = useState(null)
   const [loadReferrals, { loading = true, data: { referrals, info } = {} }] =
     useLazyQuery(GET_MY_REFERRALS)
@@ -40,6 +41,8 @@ const Affiliate = () => {
     initReferralPagination
   )
   const [referralRows, setReferralRows] = useState([])
+  const [currentReferral, setCurrentReferral] = useState()
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
 
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
@@ -56,10 +59,9 @@ const Affiliate = () => {
     })
   }
 
-  // @todo: use environmental variable for project URL
   const handleClick = event => {
     navigator.clipboard.writeText(
-      `https://earnproton.com/join/${
+      `${window.location.origin}/join/${
         state.user ? state.user.accountName : null
       }`
     )
@@ -74,8 +76,8 @@ const Affiliate = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: 'share demo',
-          url: `https://earnproton.com/join/${
+          title: 'share',
+          url: `${window.location.origin}/join/${
             state.user ? state.user.accountName : null
           }`
         })
@@ -84,8 +86,19 @@ const Affiliate = () => {
         })
         .catch(console.error)
     } else {
+      // @todo: replace console log for copy to clipboard
       console.log('Should be show some dialog for desktop version')
     }
+  }
+
+  const handleOnClickReferral = data => {
+    setIsHistoryModalOpen(true)
+    setCurrentReferral(data)
+  }
+
+  const loadParams = async () => {
+    const params = await affiliateUtil.getParams()
+    setParams(params)
   }
 
   useEffect(() => {
@@ -95,10 +108,13 @@ const Affiliate = () => {
       const history = item.history || []
 
       return {
+        history,
         invitee: item.invitee,
-        status: affiliateUtil.REFERRAL_STATUS[item.status],
+        status: t(affiliateUtil.REFERRAL_STATUS[item.status]),
         referrer: item.referrer,
-        tx: getLastCharacters((history[history.length - 1] || {}).trxid)
+        reward:
+          history.find(item => item.action === 'payref')?.payload
+            ?.referrerPayment?.amount || '-'
       }
     })
 
@@ -112,6 +128,7 @@ const Affiliate = () => {
   useEffect(() => {
     if (!state.user) return
 
+    loadParams()
     loadReferrals({
       variables: {
         where: { referrer: { _eq: state.user.accountName } },
@@ -136,7 +153,10 @@ const Affiliate = () => {
         </Typography>
 
         <Typography className={classes.affiliateInfo}>
-          {t('pageInfo')}
+          {t('pageInfo', {
+            reward: formatWithThousandSeparator(params.usd_reward_amount, 2),
+            hours: params.expiration_days * 24
+          })}
         </Typography>
         <Typography className={classes.affiliateShare}>{t('copy')}</Typography>
         <Typography className={classes.affiliateShareDesktop}>
@@ -144,7 +164,7 @@ const Affiliate = () => {
         </Typography>
 
         <Button onClick={handleClick} className={classes.affiliateLinkInfo}>
-          {`https://earnproton.com/join/${
+          {`https://test.earnproton.com/join/${
             state.user ? state.user.accountName : null
           }`}
         </Button>
@@ -182,12 +202,19 @@ const Affiliate = () => {
         </Typography>
       </Box>
       <TableSearch
+        showColumnButton
+        onClickButton={handleOnClickReferral}
         headCells={headCellAffiliate || []}
         rows={referralRows || []}
         pagination={referralPagination}
         handleOnPageChange={handleOnPageChange}
         handleOnRowsPerPageChange={() => {}}
         usePagination={Boolean(referralRows.length)}
+      />
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
       />
     </Box>
   )

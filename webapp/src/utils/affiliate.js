@@ -1,4 +1,5 @@
 import { eosApi } from './eosapi'
+import { mainConfig } from '../config'
 
 const ROLES = {
   1: 'ADMIN',
@@ -25,8 +26,6 @@ const REFERRAL_STATUS_IDS = {
   PAID: 6
 }
 const GUEST_ROLE = 'NON-AFFILIATED'
-// @todo: use env variable for smart contract name
-const AFFILLIATE_ACCOUNT = 'affiliate'
 
 const getUserRole = async accountName => {
   if (!accountName) {
@@ -35,8 +34,8 @@ const getUserRole = async accountName => {
 
   const { rows } = await eosApi.getTableRows({
     json: true,
-    code: AFFILLIATE_ACCOUNT,
-    scope: AFFILLIATE_ACCOUNT,
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
     table: 'users',
     lower_bound: accountName,
     upper_bound: accountName
@@ -53,7 +52,7 @@ const addUser = async (admin, users, role = 2) => {
   const transaction = await admin.signTransaction(
     {
       actions: users.map(user => ({
-        account: AFFILLIATE_ACCOUNT,
+        account: mainConfig.affiliateAccount,
         name: 'adduser',
         authorization: [
           {
@@ -80,7 +79,7 @@ const removeUsers = async (admin, users = []) => {
   const transaction = await admin.signTransaction(
     {
       actions: users.map(user => ({
-        account: AFFILLIATE_ACCOUNT,
+        account: mainConfig.affiliateAccount,
         name: 'rmuser',
         authorization: [
           {
@@ -107,7 +106,7 @@ const approveKyc = async (admin, invitee) => {
     {
       actions: [
         {
-          account: AFFILLIATE_ACCOUNT,
+          account: mainConfig.affiliateAccount,
           name: 'setstatus',
           authorization: [
             {
@@ -135,7 +134,7 @@ const payRef = async (admin, invitees = []) => {
   const transaction = await admin.signTransaction(
     {
       actions: invitees.map(invitee => ({
-        account: AFFILLIATE_ACCOUNT,
+        account: mainConfig.affiliateAccount,
         name: 'payref',
         authorization: [
           {
@@ -161,7 +160,7 @@ const rejectRef = async (admin, invitees) => {
   const transaction = await admin.signTransaction(
     {
       actions: invitees.map(invitee => ({
-        account: AFFILLIATE_ACCOUNT,
+        account: mainConfig.affiliateAccount,
         name: 'rejectref',
         authorization: [
           {
@@ -190,8 +189,8 @@ const getUsers = async lowerBound => {
     more: hasMore,
     next_key: cursor
   } = await eosApi.getTableRows({
-    code: AFFILLIATE_ACCOUNT,
-    scope: AFFILLIATE_ACCOUNT,
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
     table: 'users',
     json: true,
     lower_bound: lowerBound
@@ -204,14 +203,25 @@ const getUsers = async lowerBound => {
   }
 }
 
+const getParams = async () => {
+  const { rows } = await eosApi.getTableRows({
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
+    table: 'params',
+    json: true
+  })
+
+  return rows.length > 0 ? rows[0] : {}
+}
+
 const getReferrals = async lowerBound => {
   const {
     rows,
     more: hasMore,
     next_key: cursor
   } = await eosApi.getTableRows({
-    code: AFFILLIATE_ACCOUNT,
-    scope: AFFILLIATE_ACCOUNT,
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
     table: 'referrals',
     json: true,
     lower_bound: lowerBound
@@ -226,8 +236,8 @@ const getReferrals = async lowerBound => {
 
 const getUser = async account => {
   const { rows } = await eosApi.getTableRows({
-    code: AFFILLIATE_ACCOUNT,
-    scope: AFFILLIATE_ACCOUNT,
+    code: mainConfig.affiliateAccount,
+    scope: mainConfig.affiliateAccount,
     table: 'users',
     json: true,
     lower_bound: account,
@@ -252,7 +262,10 @@ const isAccountValidAsReferrer = async account => {
   try {
     const user = (await getUser(account)) || {}
 
-    return user.role === ROLES[2]
+    return (
+      user.role === ROLES[ROLES_IDS.REFERRER] ||
+      user.role === ROLES[ROLES_IDS.ADMIN]
+    )
   } catch (error) {}
 
   return false
@@ -288,5 +301,6 @@ export const affiliateUtil = {
   getUser,
   isAccountValidAsReferrer,
   isAccountValidAsInvitee,
-  getReferrals
+  getReferrals,
+  getParams
 }

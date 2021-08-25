@@ -10,30 +10,45 @@ import { useMutation } from '@apollo/client'
 import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
 import DoneIcon from '@material-ui/icons/Done'
+import Chip from '@material-ui/core/Chip'
+import TimerIcon from '@material-ui/icons/Timer'
 
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
 import useCountries from '../../hooks/useCountries'
 import AutocompleteInput from '../../components/Autocomplete'
 import { AppStore, PlayStore } from '../../components/SvgIcons'
-import { affiliateUtil, getLastCharacters } from '../../utils'
+import {
+  affiliateUtil,
+  getLastCharacters,
+  formatWithThousandSeparator
+} from '../../utils'
+import { mainConfig } from '../../config'
 import { ADD_REFERRAL_MUTATION } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
+const TIME_BEFORE_IRREVERSIBILITY = 164
+const INIT_VALIDATION_VALUES = {
+  showHelper: false,
+  message: '',
+  isValid: false
+}
 const useStyles = makeStyles(styles)
 
 const Join = () => {
   const { t, i18n } = useTranslation('joinRoute')
   const classes = useStyles()
   const [, { showMessage }] = useSharedState()
+  const [params, setParams] = useState({})
   const { referrer } = useParams()
   const [open, setOpen] = useState(false)
   const [accountName, setAccountName] = useState('')
   const [statesByCountry, setStatesBycountrues] = useState([])
-  const [accountNameError, setAccountNameError] = useState({})
-  const [state] = useSharedState()
+  const [accountNameError, setAccountNameError] = useState(
+    INIT_VALIDATION_VALUES
+  )
   const [inputs, setInputs] = useState({
     fullname: { value: '' },
     address: { value: '' },
@@ -41,13 +56,26 @@ const Join = () => {
     state: { value: '' },
     date: { value: '' }
   })
-  const debouncedSearchTerm = useDebounce(accountName, 200)
+  const debouncedAccount = useDebounce(accountName, 200)
   const countries = useCountries(i18n.languages[1])
   const [isValidReferrer, setIsValidReferrer] = useState(false)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
+  const [irreversibilityCounter, setIrreversibilityCounter] = useState(0)
 
   const handleOnChange = e => {
     setAccountName(e.target.value)
+  }
+
+  const startCounter = () => {
+    setTimeout(() => {
+      setIrreversibilityCounter(prev => {
+        if (prev > 0) {
+          startCounter()
+        }
+
+        return prev - 1
+      })
+    }, 1000)
   }
 
   const handleOnSubmit = async event => {
@@ -65,11 +93,13 @@ const Join = () => {
         }
       })
 
+      setIrreversibilityCounter(TIME_BEFORE_IRREVERSIBILITY)
+      startCounter()
       showMessage({
         type: 'success',
         content: (
           <a
-            href={`https://testnet.protonscan.io/transaction/${trxid}`}
+            href={`${mainConfig.blockExplorer}/transaction/${trxid}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -95,31 +125,28 @@ const Join = () => {
   }
 
   useEffect(() => {
-    const validateInvitee = async () => {
+    const validateAccount = async () => {
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedSearchTerm
+        debouncedAccount
       )
+
       setAccountNameError({
-        isError: !isValid,
-        showMessage: isValid,
-        message: 'helperTextUsername',
-        showIcon: isValid
+        showHelper: true,
+        isValid: isValid,
+        message: t(isValid ? 'accountHelperText' : 'accountHelperError')
       })
     }
 
-    if (debouncedSearchTerm.length && debouncedSearchTerm.length < 10) {
+    if (debouncedAccount) {
+      validateAccount()
+    } else {
       setAccountNameError({
-        isError: true,
-        showMessage: true,
-        message: 'helperTextUsernameError',
-        showIcon: false
+        showHelper: false,
+        message: '',
+        isValid: false
       })
     }
-
-    if (debouncedSearchTerm) {
-      validateInvitee()
-    }
-  }, [debouncedSearchTerm])
+  }, [debouncedAccount])
 
   useEffect(() => {
     const validateReferrer = async () => {
@@ -130,21 +157,33 @@ const Join = () => {
     validateReferrer()
   }, [referrer])
 
+  useEffect(() => {
+    const loadParams = async () => {
+      const params = await affiliateUtil.getParams()
+      setParams(params)
+    }
+
+    loadParams()
+  }, [])
+
   return (
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
         <Typography className={classes.joinTitle}>{t('title')}</Typography>
-        <Typography className={classes.joinInfo}>{`${referrer} ${t(
-          'infoPage'
-        )}`}</Typography>
+        <Typography className={classes.joinInfo}>
+          {`${referrer} ${t('infoPage', {
+            reward: formatWithThousandSeparator(params.usd_reward_amount, 2)
+          })}`}
+        </Typography>
 
         {!isValidReferrer && (
           <Typography>
             {t('invalidReferrer')}: {referrer}
           </Typography>
         )}
-
-        <Box
+        <form
+          noValidate
+          autoComplete="off"
           className={clsx(classes.step, {
             [classes.showBox]: isValidReferrer
           })}
@@ -157,24 +196,25 @@ const Join = () => {
             variant="filled"
             value={accountName}
             onChange={handleOnChange}
+            disabled={open}
             InputProps={{
-              endAdornment: accountNameError.showIcon ? (
+              endAdornment: accountNameError.isValid ? (
                 <DoneIcon color="primary" />
               ) : (
                 <></>
               )
             }}
           />
-          {accountNameError.showMessage && (
+          {accountNameError.showHelper && (
             <Typography className={clsx(classes.helperText, classes.marginMd)}>
-              {t(accountNameError.message)}
+              {accountNameError.message}
             </Typography>
           )}
           {!open && (
             <Button
               variant="contained"
               color="primary"
-              disabled={!accountNameError.showIcon}
+              disabled={!accountNameError.isValid}
               className={clsx(classes.sendBtn, classes.marginMd)}
               onClick={handleOnSubmit}
             >
@@ -185,7 +225,7 @@ const Join = () => {
               )}
             </Button>
           )}
-        </Box>
+        </form>
 
         <Box
           className={clsx(classes.step, {
@@ -223,19 +263,9 @@ const Join = () => {
           })}
         >
           <Typography className={classes.joinStep}>{t('step3')}</Typography>
-          {state.user ? (
-            <Typography className={classes.accountName}>
-              {`Welcome ${state.user.accountName}`}
-            </Typography>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.storeBtn}
-            >
-              {t('login')}
-            </Button>
-          )}
+          <Typography className={classes.joinInfo}>
+            {t('step3Info', { hours: params.expiration_days * 24 })}
+          </Typography>
         </Box>
 
         <Box
@@ -245,6 +275,34 @@ const Join = () => {
         >
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <Typography className={classes.joinInfo}>{t('step4Info')}</Typography>
+          {irreversibilityCounter > 0 && (
+            <Chip
+              className={classes.irreversibilityStatus}
+              icon={<TimerIcon />}
+              label={t('pendingIrreversibility', {
+                seconds: irreversibilityCounter
+              })}
+              variant="outlined"
+            />
+          )}
+          {irreversibilityCounter < 1 && (
+            <Chip
+              className={classes.irreversibilityStatus}
+              icon={<DoneIcon />}
+              label={t('doneIrreversibility')}
+              color="primary"
+              variant="outlined"
+            />
+          )}
+          <Button
+            disabled={irreversibilityCounter > 0}
+            variant="contained"
+            color="primary"
+            className={classes.storeBtn}
+            href={`/?invitee=${accountName}`}
+          >
+            {t('check')}
+          </Button>
         </Box>
 
         <Box className={clsx(classes.step, { [classes.showBox]: false })}>
