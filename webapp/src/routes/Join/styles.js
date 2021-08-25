@@ -92,6 +92,9 @@ export default theme => ({
     '& img': {
       width: 117
     },
+    '&:hover': {
+      cursor: 'pointer'
+    },
     [theme.breakpoints.up('md')]: {
       '& img': {
         marginLeft: theme.spacing(2),
@@ -104,6 +107,9 @@ export default theme => ({
     margin: theme.spacing(1, 0),
     '& img': {
       width: 134
+    },
+    '&:hover': {
+      cursor: 'pointer'
     },
     [theme.breakpoints.up('md')]: {
       '& img': {
