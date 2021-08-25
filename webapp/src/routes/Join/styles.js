@@ -15,6 +15,7 @@ export default theme => ({
     alignItems: 'center'
   },
   joinTitle: {
+    width: 250,
     fontWeight: '500',
     fontSize: 21,
     lineHeight: '27px',
@@ -34,7 +35,8 @@ export default theme => ({
     }
   },
   joinInfo: {
-    fontWeight: '500',
+    width: '100%',
+    fontWeight: 'normal',
     marginTop: theme.spacing(2),
     fontSize: 16,
     lineHeight: '24px',
@@ -42,7 +44,7 @@ export default theme => ({
     color: '#6B717F',
     [theme.breakpoints.up('md')]: {
       fontSize: 21,
-      fontWeight: '500',
+      fontWeight: 'normal',
       fontStretch: 'normal',
       fontStyle: 'normal',
       lineHeight: 'normal',
@@ -62,7 +64,7 @@ export default theme => ({
     width: '100%',
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
-      width: 244
+      width: 400
     }
   },
   helperText: {
@@ -74,18 +76,47 @@ export default theme => ({
     marginLeft: theme.spacing(2)
   },
   step: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(3),
     display: 'none',
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      alignItems: 'flex-start'
+      '& p': {
+        width: 435
+      }
     }
   },
-  storeBtn: {
+  appleBtn: {
     margin: theme.spacing(1, 0),
-    width: 117
+    '& img': {
+      width: 117
+    },
+    '&:hover': {
+      cursor: 'pointer'
+    },
+    [theme.breakpoints.up('md')]: {
+      '& img': {
+        marginLeft: theme.spacing(2),
+        width: 174
+      }
+    }
+  },
+
+  googleBtn: {
+    margin: theme.spacing(1, 0),
+    '& img': {
+      width: 134
+    },
+    '&:hover': {
+      cursor: 'pointer'
+    },
+    [theme.breakpoints.up('md')]: {
+      '& img': {
+        width: 195,
+        marginLeft: theme.spacing(4)
+      }
+    }
   },
   congratsModal: {
     width: '80%',
@@ -145,6 +176,7 @@ export default theme => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     width: '100%',
+    marginTop: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(8),
       width: 300
@@ -152,5 +184,31 @@ export default theme => ({
   },
   irreversibilityStatus: {
     marginTop: theme.spacing(2)
+  },
+  joinStepInfo: {
+    width: '100%',
+    fontWeight: 'normal',
+    marginTop: theme.spacing(1),
+    fontSize: 16,
+    lineHeight: '24px',
+    letterSpacing: '0.44px',
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontWeight: 'normal',
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left'
+    }
+  },
+  checkWrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(7)
+    }
   }
 })
