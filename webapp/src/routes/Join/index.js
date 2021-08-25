@@ -15,19 +15,23 @@ import TimerIcon from '@material-ui/icons/Timer'
 
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
+import SearchForm from '../../components/SearchForm'
 import useCountries from '../../hooks/useCountries'
+import HistoryModal from '../../components/HistoryModal'
 import AutocompleteInput from '../../components/Autocomplete'
-import { AppStore, PlayStore } from '../../components/SvgIcons'
 import {
   affiliateUtil,
   getLastCharacters,
-  formatWithThousandSeparator
+  formatWithThousandSeparator,
+  useImperativeQuery
 } from '../../utils'
 import { mainConfig } from '../../config'
-import { ADD_REFERRAL_MUTATION } from '../../gql'
+import { ADD_REFERRAL_MUTATION, GET_REFERRAL_BY_INVITEE } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
+import appStore from './appStore.svg'
+import googlePlay from './googlePlay.svg'
 
 const TIME_BEFORE_IRREVERSIBILITY = 164
 const INIT_VALIDATION_VALUES = {
@@ -61,6 +65,28 @@ const Join = () => {
   const [isValidReferrer, setIsValidReferrer] = useState(false)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
   const [irreversibilityCounter, setIrreversibilityCounter] = useState(0)
+  const [invitee, setInvitee] = useState('')
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
+  const [currentReferral, setCurrentReferral] = useState()
+  const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
+
+  const searchReferral = async invitee => {
+    const { data } = await loadReferralByInvitee({ invitee })
+
+    if (data.referrals.length < 1) {
+      showMessage({
+        type: 'warning',
+        content: t('referralNotFound', { invitee })
+      })
+
+      return
+    }
+
+    console.log('teto')
+
+    setCurrentReferral(data.referrals[0])
+    setIsHistoryModalOpen(true)
+  }
 
   const handleOnChange = e => {
     setAccountName(e.target.value)
@@ -173,9 +199,10 @@ const Join = () => {
           {t('title')}
         </Typography>
         <Typography className={classes.joinInfo}>
-          {`${referrer} ${t('infoPage', {
-            reward: formatWithThousandSeparator(params.usd_reward_amount, 2)
-          })}`}
+          {t('infoPage', {
+            reward: formatWithThousandSeparator(params.usd_reward_amount, 2),
+            referrer
+          })}
         </Typography>
 
         {!isValidReferrer && (
@@ -235,48 +262,45 @@ const Join = () => {
           })}
         >
           <Typography className={classes.joinStep}>{t('step2')}</Typography>
-          <Typography className={classes.joinInfo}>{t('step2Info')}</Typography>
+          <Typography className={classes.joinStepInfo}>
+            {t('step2Info')}
+          </Typography>
 
           <Box className={classes.btnWrapper}>
-            <AppStore
-              className={classes.storeBtn}
+            <Box
+              className={classes.appleBtn}
               onClick={() =>
                 window.open(
                   'https://apps.apple.com/us/app/proton-wallet/id1516536231',
                   '_blank'
                 )
               }
-            />
-            <PlayStore
-              className={classes.storeBtn}
+            >
+              <img src={appStore} />
+            </Box>
+
+            <Box
+              className={classes.googleBtn}
               onClick={() =>
                 window.open(
                   'https://play.google.com/store/apps/details?id=com.metallicus.protonwallet&hl=en&gl=US',
                   '_blank'
                 )
               }
-            />
+            >
+              <img src={googlePlay} />
+            </Box>
           </Box>
         </Box>
-
-        <Box
-          className={clsx(classes.step, {
-            [classes.showBox]: open
-          })}
-        >
-          <Typography className={classes.joinStep}>{t('step3')}</Typography>
-          <Typography className={classes.joinInfo}>
-            {t('step3Info', { hours: params.expiration_days * 24 })}
-          </Typography>
-        </Box>
-
         <Box
           className={clsx(classes.step, {
             [classes.showBox]: open
           })}
         >
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
-          <Typography className={classes.joinInfo}>{t('step4Info')}</Typography>
+          <Typography className={classes.joinStepInfo}>
+            {t('step4Info')}
+          </Typography>
           {irreversibilityCounter > 0 && (
             <Chip
               className={classes.irreversibilityStatus}
@@ -287,24 +311,23 @@ const Join = () => {
               variant="outlined"
             />
           )}
+
           {irreversibilityCounter < 1 && (
-            <Chip
-              className={classes.irreversibilityStatus}
-              icon={<DoneIcon />}
-              label={t('doneIrreversibility')}
-              color="primary"
-              variant="outlined"
-            />
+            <Box className={classes.checkWrapper}>
+              <SearchForm
+                handleOnChange={setInvitee}
+                handleOnClick={searchReferral}
+                value={invitee}
+              />
+              <Chip
+                className={classes.irreversibilityStatus}
+                icon={<DoneIcon />}
+                label={t('doneIrreversibility')}
+                color="primary"
+                variant="outlined"
+              />
+            </Box>
           )}
-          <Button
-            disabled={irreversibilityCounter > 0}
-            variant="contained"
-            color="primary"
-            className={classes.storeBtn}
-            href={`/?invitee=${accountName}`}
-          >
-            {t('check')}
-          </Button>
         </Box>
 
         <Box className={clsx(classes.step, { [classes.showBox]: false })}>
@@ -356,10 +379,12 @@ const Join = () => {
           <Typography className={clsx(classes.joinTitle, classes.modalTitle)}>
             {t('modalTitle')}
           </Typography>
-          <Typography className={clsx(classes.joinInfo, classes.reward)}>
+          <Typography className={clsx(classes.joinStepInfo, classes.reward)}>
             {t('info')}
           </Typography>
-          <Typography className={clsx(classes.joinInfo, classes.rewardInfo)}>
+          <Typography
+            className={clsx(classes.joinStepInfo, classes.rewardInfo)}
+          >
             {t('info2')}
           </Typography>
           <Button
@@ -371,6 +396,11 @@ const Join = () => {
           </Button>
         </Box>
       </Modal>
+      <HistoryModal
+        referral={currentReferral}
+        open={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      />
     </Box>
   )
 }

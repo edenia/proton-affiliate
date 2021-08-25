@@ -1,11 +1,12 @@
 export default theme => ({
   searchFormWrapper: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(4),
     borderRadius: 30,
     backgroundColor: '#010c2c',
-    margin: theme.spacing(8, 2, 0, 2),
+    marginTop: theme.spacing(3),
     [theme.breakpoints.up('md')]: {
       margin: 0,
       width: '100%'
