@@ -47,7 +47,7 @@ const Join = () => {
   const [, { showMessage }] = useSharedState()
   const [params, setParams] = useState({})
   const { referrer } = useParams()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [accountName, setAccountName] = useState('')
   const [statesByCountry, setStatesBycountrues] = useState([])
   const [accountNameError, setAccountNameError] = useState(
