@@ -10,8 +10,8 @@ import FacebookIcon from '@material-ui/icons/Facebook'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import TelegramIcon from '@material-ui/icons/Telegram'
-import YouTubeIcon from '@material-ui/icons/YouTube'
-import LinkedInIcon from '@material-ui/icons/LinkedIn'
+import InstagramIcon from '@material-ui/icons/Instagram'
+import RedditIcon from '@material-ui/icons/Reddit'
 import Typography from '@material-ui/core/Typography'
 
 import styles from './styles'
@@ -38,7 +38,7 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://www.facebook.com/costaricaeos"
+                href="https://www.facebook.com/protonxpr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -49,18 +49,18 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://www.youtube.com/c/EOSCostaRica"
+                href="https://www.reddit.com/r/ProtonChain"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <YouTubeIcon />
+                <RedditIcon />
               </a>
             </ListItemIcon>
           </ListItem>
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://twitter.com/EOSCostaRica"
+                href="https://twitter.com/protonxpr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -71,11 +71,11 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://www.linkedin.com/company/eoscostarica"
+                href="https://www.instagram.com/protonxpr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <LinkedInIcon />
+                <InstagramIcon />
               </a>
             </ListItemIcon>
           </ListItem>
@@ -93,7 +93,7 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://t.me/eoscr"
+                href="https://t.me/protonxpr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
