@@ -182,6 +182,9 @@ export default theme => ({
     width: '100%',
     marginTop: theme.spacing(3)
   },
+  singleItem: {
+    justifyContent: 'center'
+  },
   modalFooter: {
     display: 'flex',
     flexDirection: 'column',

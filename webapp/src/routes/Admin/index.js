@@ -383,8 +383,6 @@ const Admin = () => {
     }
   }
 
-  console.log({ user })
-
   const reloadUsers = () => {
     setUserPagination({
       hasMore: false,
@@ -800,7 +798,7 @@ const Admin = () => {
           ] && (
           <>
             <Typography>{t('approveKYC')}</Typography>
-            <Box className={classes.modalBtnWrapper}>
+            <Box className={clsx(classes.modalBtnWrapper, classes.singleItem)}>
               <Button
                 variant="contained"
                 color="primary"

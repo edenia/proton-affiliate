@@ -74,5 +74,13 @@ export default theme => ({
       textAlign: 'center',
       color: '#000'
     }
+  },
+  boxSecondary: {
+    height: '100%'
+  },
+  listActions: {
+    height: '90%',
+    display: 'flex',
+    flexDirection: 'column'
   }
 })
