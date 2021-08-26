@@ -39,7 +39,7 @@ const HistoryModal = ({ open, onClose, children, referral, title }) => {
           </Typography>
         </Box>
         <Box className={classes.bodySecondary}>
-          <Box>
+          <Box className={classes.boxSecondary}>
             <Typography className={classes.timelineTitle}>{title}</Typography>
             <Typography className={classes.timelineTitle}>
               Follow this referral history.
@@ -53,13 +53,13 @@ const HistoryModal = ({ open, onClose, children, referral, title }) => {
               </Typography>
             )}
             {referral?.history?.length > 0 && (
-              <>
+              <Box className={classes.listActions}>
                 <CustomizedTimeline
                   items={referral?.history}
                   itemHasAction={(children || []).some(child => Boolean(child))}
                 />
                 <Box className={classes.modalFooter}>{children}</Box>
-              </>
+              </Box>
             )}
             {!referral?.history?.length && (
               <Box className={classes.emptyState}>
