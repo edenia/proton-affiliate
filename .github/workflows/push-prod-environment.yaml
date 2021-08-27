@@ -44,7 +44,7 @@ jobs:
           REACT_APP_HASURA_URL: https://graphql.earnproton.com/v1/graphql
           REACT_APP_BLOCK_EXPLORER_URL: https://www.protonscan.io/
           REACT_APP_AFFILIATE_ACCOUNT: affiliates
-          REACT_APP_USE_TESTNET: true
+          REACT_APP_USE_TESTNET: false
 
       - name: Build kubernetes files
         id: build_kubernetes_files
