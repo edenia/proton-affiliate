@@ -68,11 +68,6 @@
             ]
         },
         {
-            "name": "clear",
-            "base": "",
-            "fields": []
-        },
-        {
             "name": "clearref",
             "base": "",
             "fields": []
@@ -225,24 +220,6 @@
             "name": "setrate",
             "base": "",
             "fields": []
-        },
-        {
-            "name": "setstatus",
-            "base": "",
-            "fields": [
-                {
-                    "name": "admin",
-                    "type": "name"
-                },
-                {
-                    "name": "invitee",
-                    "type": "name"
-                },
-                {
-                    "name": "status",
-                    "type": "uint8"
-                }
-            ]
         },
         {
             "name": "statuslog",
@@ -398,11 +375,6 @@
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add an Affiliate User\nsummary: The intent of {{adduser}} is to allow `admin` accounts to add a new affiliate user.\nicon: https://earnproton.com/icons/user.png\n---"
         },
         {
-            "name": "clear",
-            "type": "clear",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Clear\nsummary: This action cleans the contract data and is intended for development purposes only.\nicon: https://earnproton.com/icons/general.png\n---"
-        },
-        {
             "name": "clearref",
             "type": "clearref",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Clear Referrals\nsummary: This action cleans referrals with status PAYMENT_REJECTED, EXPIRED, PAID to save RAM.\nicon: https://earnproton.com/icons/general.png\n---"
@@ -436,11 +408,6 @@
             "name": "setrate",
             "type": "setrate",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Set exchange rate\nsummary: Sets the exchange rate used to calculate the amount of XPR to pay for a completed referral.\nicon: https://earnproton.com/icons/general.png\n---"
-        },
-        {
-            "name": "setstatus",
-            "type": "setstatus",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Set referral status\nsummary: This action bypasses the KYC validation and is intended for development purposes only.\nicon: https://earnproton.com/icons/general.png\n---"
         },
         {
             "name": "statuslog",
