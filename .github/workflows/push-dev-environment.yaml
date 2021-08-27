@@ -36,7 +36,7 @@ jobs:
           REACT_APP_TITLE: 'Affiliate Account Referrals Program on Proton Blockchain'
           REACT_APP_CHAIN_LOGO: 'https://test.earnproton.com/proton.png'
           REACT_APP_FOOTER_LINKS: '[]'
-          REACT_APP_UAL_APP_NAME: 'Proton Affiliate'
+          REACT_APP_UAL_APP_NAME: 'Proton Affiliate Program'
           REACT_APP_UAL_API_PROTOCOL: 'https'
           REACT_APP_UAL_API_HOST: ${{ secrets.REACT_APP_UAL_API_HOST }}
           REACT_APP_UAL_API_PORT: '443'
