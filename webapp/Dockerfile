@@ -13,6 +13,7 @@ ARG react_app_ual_chain_id
 ARG react_app_hasura_url
 ARG react_app_block_explorer_url
 ARG react_app_affiliate_account
+ARG react_app_use_testnet
 
 ENV WORK_DIR /usr/src/app
 ENV PATH $WORK_DIR/node_modules/.bin:$PATH
@@ -21,6 +22,7 @@ ENV NODE_PATH ./src
 ENV REACT_APP_VERSION $react_app_version
 ENV REACT_APP_NAME $react_app_name
 ENV REACT_APP_TITLE $react_app_title
+ENV REACT_APP_USE_TESTNET $react_app_use_testnet
 ENV REACT_APP_CHAIN_LOGO $react_app_chain_logo
 ENV REACT_APP_FOOTER_LINKS $react_app_footer_links
 ENV REACT_APP_UAL_APP_NAME $react_app_ual_app_name

@@ -33,10 +33,10 @@ jobs:
           # webapp
           REACT_APP_VERSION: ${{ github.ref }}
           REACT_APP_NAME: 'proton_affiliate'
-          REACT_APP_TITLE: 'Proton Affiliate'
+          REACT_APP_TITLE: 'Affiliate Account Referrals Program on Proton Blockchain'
           REACT_APP_CHAIN_LOGO: 'https://earnproton.com/proton.png'
           REACT_APP_FOOTER_LINKS: '[]'
-          REACT_APP_UAL_APP_NAME: 'Proton Affiliate'
+          REACT_APP_UAL_APP_NAME: 'Proton Affiliate Program'
           REACT_APP_UAL_API_PROTOCOL: 'https'
           REACT_APP_UAL_API_HOST: ${{ secrets.REACT_APP_UAL_API_HOST }}
           REACT_APP_UAL_API_PORT: '443'
@@ -44,6 +44,7 @@ jobs:
           REACT_APP_HASURA_URL: https://graphql.earnproton.com/v1/graphql
           REACT_APP_BLOCK_EXPLORER_URL: https://www.protonscan.io/
           REACT_APP_AFFILIATE_ACCOUNT: affiliates
+          REACT_APP_USE_TESTNET: false
 
       - name: Build kubernetes files
         id: build_kubernetes_files

@@ -74,5 +74,10 @@ export default theme => ({
   },
   noPadding: {
     padding: '0 !important'
+  },
+  arrowBodyColumn: {
+    [theme.breakpoints.up('md')]: {
+      paddingRight: `${theme.spacing(2)}px !important`
+    }
   }
 })

@@ -150,6 +150,13 @@ CONTRACT affiliate : public contract {
      */
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
 
+    /**
+     * Setup parameters
+     * 
+     * This action sets the exchange rate used to calculate the amount of XPR to pay for a completed referral
+     * 
+     * @return no return value.
+     */
     ACTION setrate();
 
     /**

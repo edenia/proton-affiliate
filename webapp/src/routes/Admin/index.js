@@ -383,8 +383,6 @@ const Admin = () => {
     }
   }
 
-  console.log({ user })
-
   const reloadUsers = () => {
     setUserPagination({
       hasMore: false,
@@ -797,21 +795,24 @@ const Admin = () => {
         {currentReferral?.statusId ===
           affiliateUtil.REFERRAL_STATUS[
             affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
-          ] && (
-          <>
-            <Typography>{t('approveKYC')}</Typography>
-            <Box className={classes.modalBtnWrapper}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleOnApproveKyc}
-                className={classes.timelineBtn}
+          ] &&
+          mainConfig.isTestnet && (
+            <>
+              <Typography>{t('approveKYC')}</Typography>
+              <Box
+                className={clsx(classes.modalBtnWrapper, classes.singleItem)}
               >
-                Yes
-              </Button>
-            </Box>
-          </>
-        )}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOnApproveKyc}
+                  className={classes.timelineBtn}
+                >
+                  Yes
+                </Button>
+              </Box>
+            </>
+          )}
       </HistoryModal>
       <Modal open={openInfoModal} setOpen={setOpenInfoModal}>
         <Box className={classes.rejectModal}>

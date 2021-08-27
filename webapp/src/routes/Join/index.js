@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -12,6 +12,8 @@ import Box from '@material-ui/core/Box'
 import DoneIcon from '@material-ui/icons/Done'
 import Chip from '@material-ui/core/Chip'
 import TimerIcon from '@material-ui/icons/Timer'
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
@@ -63,6 +65,7 @@ const Join = () => {
   const debouncedAccount = useDebounce(accountName, 200)
   const countries = useCountries(i18n.languages[1])
   const [isValidReferrer, setIsValidReferrer] = useState(false)
+  const [loadingValidation, setLoadingValidation] = useState(true)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
   const [irreversibilityCounter, setIrreversibilityCounter] = useState(0)
   const [invitee, setInvitee] = useState('')
@@ -178,6 +181,7 @@ const Join = () => {
     const validateReferrer = async () => {
       const isValid = await affiliateUtil.isAccountValidAsReferrer(referrer)
       setIsValidReferrer(isValid)
+      setLoadingValidation(false)
     }
 
     validateReferrer()
@@ -192,6 +196,36 @@ const Join = () => {
     loadParams()
   }, [])
 
+  if (loadingValidation)
+    return (
+      <Box className={classes.joinPage}>
+        <Box className={classes.joinHead}>
+          <LinearProgress className={classes.progress} />
+        </Box>
+      </Box>
+    )
+
+  if (!isValidReferrer)
+    return (
+      <Box className={classes.joinPage}>
+        <Box className={classes.joinHead}>
+          <Typography variant="h1" className={classes.joinTitle}>
+            {t('title')}
+          </Typography>
+          <ReportProblemOutlinedIcon className={classes.invalidIcon} />
+          <Typography variant="h1" className={classes.invalidLink}>
+            {t('invalidLink')}
+          </Typography>
+          <Typography className={classes.invalidInfo}>
+            {t('invalidInfo')}
+          </Typography>
+          <Link to="/" className={classes.invalidBtn}>
+            {t('goToHome')}
+          </Link>
+        </Box>
+      </Box>
+    )
+
   return (
     <Box className={classes.joinPage}>
       <Box className={classes.joinHead}>
@@ -204,12 +238,6 @@ const Join = () => {
             referrer
           })}
         </Typography>
-
-        {!isValidReferrer && (
-          <Typography>
-            {t('invalidReferrer')}: {referrer}
-          </Typography>
-        )}
         <form
           noValidate
           autoComplete="off"
@@ -329,7 +357,6 @@ const Join = () => {
             </Box>
           )}
         </Box>
-
         <Box className={clsx(classes.step, { [classes.showBox]: false })}>
           <Typography className={classes.joinStep}>{t('step4')}</Typography>
           <Box style={{ display: 'flex', flexWrap: 'wrap', width: 700 }}>

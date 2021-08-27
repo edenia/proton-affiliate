@@ -77,7 +77,7 @@ export default theme => ({
       overflowWrap: 'anywhere'
     },
     [theme.breakpoints.up('md')]: {
-      width: 400
+      width: 450
     }
   },
   lastReferral: {

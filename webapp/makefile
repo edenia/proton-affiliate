@@ -22,6 +22,7 @@ build-docker: ./Dockerfile
 		--build-arg react_app_hasura_url="$(REACT_APP_HASURA_URL)" \
 		--build-arg react_app_block_explorer_url="$(REACT_APP_BLOCK_EXPLORER_URL)" \
 		--build-arg react_app_affiliate_account="$(REACT_APP_AFFILIATE_ACCOUNT)" \
+		--build-arg react_app_use_testnet="$(REACT_APP_USE_TESTNET)" \
 		.
 
 pull-image: ##@devops Pull the latest image from registry for caching

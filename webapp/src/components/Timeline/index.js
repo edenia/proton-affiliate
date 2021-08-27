@@ -10,13 +10,6 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector'
 import TimelineDot from '@material-ui/lab/TimelineDot'
 import TimelineContent from '@material-ui/lab/TimelineContent'
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent'
-import HelpIcon from '@material-ui/icons/Help'
-import CheckIcon from '@material-ui/icons/Check'
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import CloseIcon from '@material-ui/icons/Close'
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
-import NotInterestedIcon from '@material-ui/icons/NotInterested'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
@@ -24,43 +17,50 @@ import moment from 'moment'
 import { mainConfig } from '../../config'
 import { getLastCharacters } from '../../utils'
 
+import AddSvg from './Add.js'
+import CloseSvg from './Close.js'
+import CancelSvg from './Cancel.js'
+import ChieldSvg from './Chield.js'
+import DollarSvg from './Dollar.js'
+import QuestionSvg from './Question.js'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
 const TimelineIcon = ({ action, color }) => {
-  let icon = <HelpIcon color={color} />
+  let icon = null
 
   switch (action) {
     case 'addref':
-      icon = <HelpIcon color={color} />
+      icon = <QuestionSvg color={color} />
       break
 
     case 'newaccount':
-      icon = <CheckIcon color={color} />
+      icon = <AddSvg color={color} />
       break
 
     case 'verifyacc':
-      icon = <PersonAddIcon color={color} />
+      icon = <ChieldSvg color={color} />
       break
 
     case 'verifyexp':
-      icon = <CloseIcon color={color} />
+      icon = <CloseSvg color={color} />
       break
 
     case 'verifykyc':
-      icon = <VerifiedUserIcon color={color} />
+      icon = <AddSvg color={color} />
       break
 
     case 'payref':
-      icon = <AttachMoneyIcon color={color} />
+      icon = <DollarSvg color={color} />
       break
 
     case 'rejectref':
-      icon = <NotInterestedIcon color={color} />
+      icon = <CancelSvg color={color} />
       break
 
     default:
+      icon = <QuestionSvg color={color} />
       break
   }
 
@@ -104,8 +104,8 @@ const CustomizedTimeline = ({ items, itemHasAction }) => {
               <TimelineIcon
                 color={
                   itemHasAction && items.length - 1 === index
-                    ? 'secondary'
-                    : 'primary'
+                    ? '#1DAEFF'
+                    : '#582ACB'
                 }
                 action={item.action}
               />
