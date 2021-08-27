@@ -254,5 +254,9 @@ export default theme => ({
     textDecoration: 'none',
     textTransform: 'uppercase',
     marginTop: theme.spacing(10)
+  },
+  progress: {
+    width: '100%',
+    marginTop: theme.spacing(5)
   }
 })

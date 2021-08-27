@@ -19,7 +19,7 @@ export const network = {
 
 export const customStyleOptions = {
   modalBackgroundColor: '#F4F7FA',
-  logoBackgroundColor: '#FFFFFF',
+  logoBackgroundColor: 'transparent',
   isLogoRound: false,
   optionBackgroundColor: '#FFFFFF',
   optionFontColor: '#000000',
