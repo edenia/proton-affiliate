@@ -117,7 +117,10 @@
     "accountHelperText": "Account name available!",
     "accountHelperError": "Account name is not available!",
     "doneIrreversibility": "Irreversible transaction",
-    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)"
+    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)",
+    "invalidLink": "The link you provided is not a valid referral.",
+    "invalidInfo": "Please check the link is correct or contact the affiliate that invited you for a valid referral.",
+    "goToHome": "Go to Home Page"
   },
   "adminRoute": {
     "title": "Administration",
@@ -149,7 +152,7 @@
     "addref": "Referral registered",
     "newaccount": "Account registered",
     "verifyacc": "Account verified",
-    "verifyexp": "Experiration verified",
+    "verifyexp": "Expiration verified",
     "verifykyc": "KYC verified",
     "payref": "Referral payment",
     "rejectref": "Referrer rejected"

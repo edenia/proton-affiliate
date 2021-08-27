@@ -210,5 +210,49 @@ export default theme => ({
     [theme.breakpoints.up('md')]: {
       marginTop: theme.spacing(7)
     }
+  },
+  invalidIcon: {
+    width: 64,
+    height: 64,
+    color: theme.palette.primary.main,
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(7),
+      width: 200,
+      height: 200
+    }
+  },
+  invalidLink: {
+    fontSize: 21,
+    fontWeight: '500',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: '0.15px',
+    textAlign: 'center',
+    color: theme.palette.primary.main
+  },
+  invalidInfo: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.5',
+    letterSpacing: '0.44px',
+    textAlign: 'center',
+    color: '#6B717F',
+    marginTop: theme.spacing(3)
+  },
+  invalidBtn: {
+    fontSize: 14,
+    fontWeight: '500',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.14',
+    letterSpacing: '1px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    textTransform: 'uppercase',
+    marginTop: theme.spacing(10)
   }
 })
