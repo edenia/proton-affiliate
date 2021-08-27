@@ -20,9 +20,8 @@ import { getLastCharacters } from '../../utils'
 import AddSvg from './Add.js'
 import CloseSvg from './Close.js'
 import CancelSvg from './Cancel.js'
-import CheckSvg from './Check.js'
+import ChieldSvg from './Chield.js'
 import DollarSvg from './Dollar.js'
-import PlusSvg from './Plus.js'
 import QuestionSvg from './Question.js'
 import styles from './styles'
 
@@ -37,11 +36,11 @@ const TimelineIcon = ({ action, color }) => {
       break
 
     case 'newaccount':
-      icon = <CheckSvg color={color} />
+      icon = <AddSvg color={color} />
       break
 
     case 'verifyacc':
-      icon = <AddSvg color={color} />
+      icon = <ChieldSvg color={color} />
       break
 
     case 'verifyexp':
@@ -49,7 +48,7 @@ const TimelineIcon = ({ action, color }) => {
       break
 
     case 'verifykyc':
-      icon = <PlusSvg color={color} />
+      icon = <AddSvg color={color} />
       break
 
     case 'payref':

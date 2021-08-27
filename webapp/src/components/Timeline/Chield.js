@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const CancelSvg = ({ color = '#582ACB' }) => {
+const ChieldSvg = ({ color = '#582ACB' }) => {
   return (
     <svg width="24" height="24" fill="none">
       <path
@@ -20,8 +20,8 @@ const CancelSvg = ({ color = '#582ACB' }) => {
   )
 }
 
-CancelSvg.propTypes = {
+ChieldSvg.propTypes = {
   color: PropTypes.string
 }
 
-export default CancelSvg
+export default ChieldSvg

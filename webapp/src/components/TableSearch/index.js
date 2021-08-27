@@ -273,7 +273,7 @@ const TablePages = ({
                       <TableCell
                         padding="none"
                         align="right"
-                        style={{ padding: '0' }}
+                        className={classes.arrowBodyColumn}
                       >
                         <IconButton
                           color="primary"

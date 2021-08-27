@@ -117,7 +117,10 @@
     "accountHelperText": "Account name available!",
     "accountHelperError": "Account name is not available!",
     "doneIrreversibility": "Irreversible transaction",
-    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)"
+    "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)",
+    "invalidLink": "Invalid Link!",
+    "invalidInfo": "It seems like the link you’re using is not providing a valid referral. Ask the person or site that invited you to Proton to provide a valid link.",
+    "goToHome": "Go to Home Page"
   },
   "adminRoute": {
     "title": "Administration",
