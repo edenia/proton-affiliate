@@ -42,8 +42,7 @@ const RicardianContract = ({
 
   const formatRicardianClause = useCallback(
     (text = '') => {
-      const [_version, content1] = text.split('\ntitle: ')
-      const version = _version.replace(/---\n/g, '')
+      const [version, content1] = text.replace(/---/g, '').split('\ntitle: ')
       const [_title, content2] = (content1 || '').split('\nsummary: ')
       const [summary, _icon] = (content2 || '').split('\nicon: ')
 
@@ -186,8 +185,12 @@ const RicardianContract = ({
         </Link>
       </Typography>
 
-      {action.map(item => item)}
-      {clauses.map(clause => clause)}
+      {action.map((item, i) => (
+        <span key={i}>{item}</span>
+      ))}
+      {clauses.map((clause, i) => (
+        <span key={i}>{clause}</span>
+      ))}
     </Box>
   )
 }
