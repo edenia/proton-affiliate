@@ -82,7 +82,7 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://github.com/eoscostarica"
+                href="https://github.com/eoscostarica/proton-affiliate"
                 target="_blank"
                 rel="noopener noreferrer"
               >

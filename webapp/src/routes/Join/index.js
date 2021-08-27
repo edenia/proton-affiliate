@@ -13,6 +13,8 @@ import DoneIcon from '@material-ui/icons/Done'
 import Chip from '@material-ui/core/Chip'
 import TimerIcon from '@material-ui/icons/Timer'
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
+import LinearProgress from '@material-ui/core/LinearProgress'
+
 import Modal from '../../components/Modal'
 import useDebounce from '../../hooks/useDebounce'
 import SearchForm from '../../components/SearchForm'
@@ -63,6 +65,7 @@ const Join = () => {
   const debouncedAccount = useDebounce(accountName, 200)
   const countries = useCountries(i18n.languages[1])
   const [isValidReferrer, setIsValidReferrer] = useState(false)
+  const [loadingValidation, setLoadingValidation] = useState(true)
   const [addReferral, { loading }] = useMutation(ADD_REFERRAL_MUTATION)
   const [irreversibilityCounter, setIrreversibilityCounter] = useState(0)
   const [invitee, setInvitee] = useState('')
@@ -178,6 +181,7 @@ const Join = () => {
     const validateReferrer = async () => {
       const isValid = await affiliateUtil.isAccountValidAsReferrer(referrer)
       setIsValidReferrer(isValid)
+      setLoadingValidation(false)
     }
 
     validateReferrer()
@@ -191,6 +195,15 @@ const Join = () => {
 
     loadParams()
   }, [])
+
+  if (loadingValidation)
+    return (
+      <Box className={classes.joinPage}>
+        <Box className={classes.joinHead}>
+          <LinearProgress className={classes.progress} />
+        </Box>
+      </Box>
+    )
 
   if (!isValidReferrer)
     return (
