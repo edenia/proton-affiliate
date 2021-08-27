@@ -150,8 +150,6 @@ CONTRACT affiliate : public contract {
      */
     ACTION setparams(name payer, double rate, double usd_reward_amount, uint8_t expiration_days);
 
-    ACTION setstatus(name admin, name invitee, uint8_t status);
-
     ACTION setrate();
 
     /**
@@ -180,15 +178,6 @@ CONTRACT affiliate : public contract {
      * @return no return value.
      */
     ACTION statuslog(name invitee, uint8_t status);
-    
-    /**
-     * Clear
-     * 
-     * This action cleans the affiliate data
-     *
-     * @return no return value.
-     */
-    ACTION clear();
 
     bool has_valid_kyc(name account);
 

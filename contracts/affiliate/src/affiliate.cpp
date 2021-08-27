@@ -263,25 +263,6 @@ ACTION affiliate::setrate() {
   _params.set(data, get_self());
 }
 
-ACTION affiliate::setstatus(name admin, name invitee, uint8_t status) {
-  require_auth(admin);
-
-  users_table _users(get_self(), get_self().value);
-  auto admin_itr = _users.find(admin.value);
-  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
-  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
-  check(status >= referral_status::PENDING_USER_REGISTRATION && status <= referral_status::PAID, "status out of range");
-  
-  referrals_table _referrals(get_self(), get_self().value);
-  auto _referral = _referrals.find(invitee.value);
-  check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
-
-  _referrals.modify(_referral, get_self(), [&](auto& ref) {
-    ref.status = status;
-  });
-  SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, status });
-}
-
 ACTION affiliate::clearref() {
   require_auth(get_self());
 
@@ -301,30 +282,6 @@ ACTION affiliate::addreflog(name referrer,name invitee, uint8_t status, time_poi
 
 ACTION affiliate::statuslog(name invitee, uint8_t status) {
   require_auth(get_self());
-}
-
-ACTION affiliate::clear() {
-  require_auth(get_self());
-
-  // delete all records in params table
-  params_table _params(get_self(), get_self().value);
-  _params.remove();
-
-  // delete all records in referrals table
-  referrals_table _referrals(get_self(), get_self().value);
-  auto referal_itr = _referrals.begin();
-
-  while (referal_itr != _referrals.end()) {
-    referal_itr = _referrals.erase(referal_itr);
-  }
-
-  // delete all records in users table
-  users_table _users(get_self(), get_self().value);
-  auto user_itr = _users.begin();
-
-  while (user_itr != _users.end()) {
-    user_itr = _users.erase(user_itr);
-  }
 }
 
 bool affiliate::has_valid_kyc (name account) {
