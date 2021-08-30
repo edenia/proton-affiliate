@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 
 import RicardianContract from '../../components/RicardianContract'
+import { mainConfig } from '../../config'
 
 import styles from './styles'
 
@@ -13,7 +14,10 @@ const Terms = () => {
 
   return (
     <Box className={classes.termsPage}>
-      <RicardianContract contractName={'affiliate'} showClauses />
+      <RicardianContract
+        showClauses={false}
+        contractName={mainConfig.affiliateAccount}
+      />
     </Box>
   )
 }
