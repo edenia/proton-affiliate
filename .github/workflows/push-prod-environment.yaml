@@ -63,7 +63,7 @@ jobs:
           # hapi
           HAPI_SERVER_PORT: 9090
           HAPI_SERVER_ADDRESS: 0.0.0.0
-          HAPI_NETWORK_API: 'http://proton.eosusa.news'
+          HAPI_NETWORK_API: ${{ secrets.HAPI_NETWORK_API }}
           HAPI_NETWORK_CHAIN_ID: '384da888112027f0321850a169f737c33e53b388aad48b5adace4bab97f437e0'
           HAPI_NETWORK_WALLET: ${{ secrets.HAPI_NETWORK_WALLET }}
           HAPI_HASURA_URL: ${{ secrets.HAPI_HASURA_URL }}
@@ -73,7 +73,7 @@ jobs:
           HAPI_AFFILIATE_VERIFY_EXPIRED_INTERVAL: 3600
           HAPI_AFFILIATE_CLEAR_REFERRALS_INTERVAL: 86400
           HAPI_AFFILIATE_SET_RATE_INTERVAL: 86400
-          HAPI_HYPERION_API: 'https://proton.eosusa.news'
+          HAPI_HYPERION_API: ${{ secrets.HAPI_HYPERION_API }}
           HAPI_HYPERION_START_AT: '2021-06-02T00:00:00.000+00:00'
           # hasura
           HASURA_GRAPHQL_ENABLE_CONSOLE: true
