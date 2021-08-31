@@ -62,18 +62,21 @@
     "body": {
       "paragraph1": "The Proton Affiliate platform is a fully An on-chain affiliate marketing platform, rewarding users in XPR for referring and registering new users on Proton."
     },
-    "subtitle1": "Why Join The Affiliate Program?",
+    "subtitle1": "About The Affiliate Program",
     "body1": {
-      "paragraph1": "Proton Affiliate is a community-driven open-source"
+      "paragraph1": "The Proton Affiliate platform is a fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering new users on Proton."
     },
-    "subtitle2": "Who can participate?",
+    "subtitle2": "Why join our program?",
     "body2": {
       "paragraph1": "Sed interdum feugiat aliquet. Aliquam convallis neque lorem, sed ullamcorper turpis sollicitudin nec. Sed sed aliquam diam. Integer eu dolor a sem ullamcorper eleifend. Sed varius mauris quis urna hendrerit, quis dictum velit fringilla. Donec condimentum tellus at dui euismod finibus. Fusce sit amet porttitor lectus. Nam et est quis nisi vulputate porta id ut purus. Nulla molestie vehicula ex, quis egestas elit fermentum sit amet."
     },
-    "subtitle3": "How is the platform funded?",
+    "subtitle3": "Who can participate?",
     "body3": {
-      "paragraph1": "Nulla at aliquet mi, non pretium libero. In malesuada placerat ligula. Donec ac orci commodo, euismod augue id, tempor tellus. Vivamus ullamcorper iaculis diam tempus rhoncus. Mauris in est sit amet leo varius commodo eu vel enim. Proin ornare posuere dolor, at tempor ante consectetur non. Fusce euismod nunc quis sem maximus malesuada convallis ac velit.",
-      "paragraph2": "For more information about Proton Affiliate, visit our GitHub repo or contact us on our Telegram group."
+      "paragraph1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque maximus tempus hendrerit. Donec nulla erat, congue id vestibulum eget, ornare ut est. Phasellus id nibh dolor."
+    },
+    "subtitle4": "How is the platform funded?",
+    "body4": {
+      "paragraph1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque maximus tempus hendrerit. Donec nulla erat, congue id vestibulum eget, ornare ut est. Phasellus id nibh dolor."
     }
   },
   "helpRoute": {

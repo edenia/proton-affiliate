@@ -321,28 +321,7 @@ const Admin = () => {
     setUserRows(pagination.cursor ? [...userRows, ...newRows] : newRows)
   }
 
-  const showMessageApproveOrDelete = trxId => {
-    if (trxId) {
-      showMessage({
-        type: 'success',
-        content: (
-          <a
-            href={`${mainConfig.blockExplorer}/transaction/${trxId}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {`${t('successNewUser')} ${getLastCharacters(trxId)}`}
-          </a>
-        )
-      })
-
-      return
-    }
-
-    showMessage({ type: 'success', content: t('deleteSuccessfully') })
-  }
-
-  const deleteNewUsers = async trxId => {
+  const deleteNewUsers = async (showSnack = true) => {
     try {
       await deleteJoinRequest({
         variables: {
@@ -357,7 +336,9 @@ const Admin = () => {
         }
       })
 
-      showMessageApproveOrDelete(trxId)
+      showSnack &&
+        showMessage({ type: 'success', content: t('deleteSuccessfully') })
+
       setOpenInfoModal(false)
       setSelected({ tableName: null })
       setUserAccounts([])
@@ -376,7 +357,22 @@ const Admin = () => {
       )
 
       setAddUser(false)
-      deleteNewUsers(data.transactionId)
+
+      await deleteNewUsers(false)
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('successNewUser')} ${getLastCharacters(data.transactionId)}`}
+          </a>
+        )
+      })
+
       reloadUsers()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })

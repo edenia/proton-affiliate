@@ -55,12 +55,8 @@ const RicardianContract = ({
               onError={useDefaultLogo}
             />
             <Box className={classes.boxText}>
-              <Typography color="primary" variant="h4">
-                {_title}
-              </Typography>
-              <Typography color="primary" variant="subtitle2">
-                {version}
-              </Typography>
+              <Typography variant="h1">{_title}</Typography>
+              <Typography variant="subtitle2">{version}</Typography>
             </Box>
           </Box>
           <Divider className={classes.divider} />
@@ -155,7 +151,7 @@ const RicardianContract = ({
 
   return (
     <Box className={classes.ricardianContractContainer}>
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h1">{title}</Typography>
       <Typography variant="body1">
         {'Name: '}
         <Link
