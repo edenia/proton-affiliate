@@ -19,11 +19,11 @@ const About = () => {
       <Grid container>
         <Grid item xs={12} sm={7}>
           <Box>
-            <Box className={classes.boxInfo}>
+            {/* <Box className={classes.boxInfo}>
               <Typography className={classes.aboutInfo}>
                 {t('body.paragraph1')}
               </Typography>
-            </Box>
+            </Box> */}
 
             <Box className={classes.boxInfo}>
               <Typography variant="h1" className={classes.aboutTitle}>
@@ -33,6 +33,8 @@ const About = () => {
                 {t('body1.paragraph1')}
               </Typography>
             </Box>
+
+            <Logo className={classes.logo} />
 
             <Box className={classes.boxInfo}>
               <Typography variant="h1" className={classes.aboutTitle}>

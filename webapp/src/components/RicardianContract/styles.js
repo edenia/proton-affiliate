@@ -4,6 +4,11 @@ export default theme => ({
     '& h3': {
       fontSize: 38
     },
+    '& h1': {
+      fontSize: 32,
+      marginBottom: theme.spacing(2),
+      fontWeight: 'bold'
+    },
     [theme.breakpoints.up('sm')]: {
       '& h3': {
         fontSize: 50
@@ -16,7 +21,7 @@ export default theme => ({
   boxTitle: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4),
     marginBottom: theme.spacing(1),
     '& img': {
       width: 50
@@ -27,11 +32,17 @@ export default theme => ({
     flexDirection: 'column',
     marginLeft: theme.spacing(1),
     '& h6': {
-      fontStyle: 'italic',
-      lineHeight: 1
+      fontWeight: '500',
+      fontSize: 16,
+      lineHeight: '24px',
+      letterSpacing: '0.44px',
+      color: '#6B717F'
     },
-    '& h4': {
-      lineHeight: 1
+    '& h1': {
+      fontSize: 21,
+      fontWeight: '600',
+      lineHeight: '27px',
+      letterSpacing: '0.15px'
     }
   },
   defaultIcon: {
