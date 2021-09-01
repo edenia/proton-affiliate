@@ -168,7 +168,7 @@ const Affiliate = () => {
           onClick={handleClick}
           className={classes.affiliateLinkInfo}
         >
-          {`https://test.earnproton.com/join/${
+          {`${window.location.origin}/join/${
             state.user ? state.user.accountName : null
           }`}
         </Button>
