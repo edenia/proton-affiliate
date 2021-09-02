@@ -1,6 +1,6 @@
 export default theme => ({
   searchFormWrapper: {
-    width: '100%',
+    width: 350,
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(4),
