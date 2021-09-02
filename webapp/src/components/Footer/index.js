@@ -14,6 +14,8 @@ import InstagramIcon from '@material-ui/icons/Instagram'
 import RedditIcon from '@material-ui/icons/Reddit'
 import Typography from '@material-ui/core/Typography'
 
+import { mainConfig } from '../../config'
+
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -32,7 +34,7 @@ const Footer = () => {
           <Typography className={classes.supportBy}>{t('info')}</Typography>
         </Box>
         <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
-          {t('madeBy')}
+          {`${t('madeBy')} - ${mainConfig.appVersion}`}
         </Typography>
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
@@ -103,7 +105,7 @@ const Footer = () => {
           </ListItem>
         </List>
         <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
-          {t('madeBy')}
+          {`${t('madeBy')} - ${mainConfig.appVersion}`}
         </Typography>
       </Box>
     </Box>
