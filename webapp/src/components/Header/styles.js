@@ -83,5 +83,16 @@ export default theme => ({
   },
   btnLogin: {
     borderRadius: 0
+  },
+  accountNameInfo: {
+    '& .MuiBox-root': {
+      display: 'flex'
+    },
+    '& svg': {
+      marginRight: theme.spacing(1)
+    },
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
   }
 })

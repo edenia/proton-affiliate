@@ -6,7 +6,6 @@ export default theme => ({
     },
     '& h1': {
       fontSize: 32,
-      marginBottom: theme.spacing(2),
       fontWeight: 'bold'
     },
     [theme.breakpoints.up('sm')]: {
@@ -22,9 +21,8 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(1),
     '& img': {
-      width: 50
+      width: 24
     }
   },
   boxText: {
@@ -46,10 +44,24 @@ export default theme => ({
     }
   },
   defaultIcon: {
-    fontSize: 65,
+    fontSize: 24,
     color: '#484158'
   },
   divider: {
     marginBottom: theme.spacing(2)
+  },
+  boxTitleClauses: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(4),
+    '& img': {
+      width: 24
+    }
+  },
+  dividerClauses: {
+    margin: theme.spacing(1, 0, 2, 0)
+  },
+  listItem: {
+    margin: theme.spacing(1, 0, 1, 1)
   }
 })

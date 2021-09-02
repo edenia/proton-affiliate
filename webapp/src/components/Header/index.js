@@ -30,7 +30,12 @@ import { Sun as SunIcon, Moon as MoonIcon } from 'react-feather'
 import { useSharedState } from '../../context/state.context'
 import { mainConfig } from '../../config'
 import PageTitle from '../PageTitle'
-import { ProtonLogo, ProtonLogoDesktop } from '../SvgIcons'
+import {
+  ProtonLogo,
+  ProtonLogoDesktop,
+  ProtonLogoTestnet,
+  ProtonLogoDesktopTestnet
+} from '../SvgIcons'
 
 import styles from './styles'
 
@@ -210,6 +215,12 @@ const Header = memo(({ onDrawerToggle, routes }) => {
           open={!!menuAnchorEl}
           onClose={handleCloseMenu}
         >
+          <MenuItem className={classes.accountNameInfo}>
+            <Box>
+              <AccountIcon />
+              <Typography>{state.user.accountName}</Typography>
+            </Box>
+          </MenuItem>
           <MenuItem>
             <AuthButton onSignOut={handleSignOut} />
           </MenuItem>
@@ -222,6 +233,12 @@ const Header = memo(({ onDrawerToggle, routes }) => {
         open={!!menuAnchorEl}
         onClose={handleCloseMenu}
       >
+        <MenuItem className={classes.accountNameInfo}>
+          <Box>
+            <AccountIcon />
+            <Typography>{state.user.accountName}</Typography>
+          </Box>
+        </MenuItem>
         <MenuItem>
           <Button
             startIcon={<EditIcon />}
@@ -247,8 +264,16 @@ const Header = memo(({ onDrawerToggle, routes }) => {
             <MenuIcon className={classes.menuIcon} />
           </IconButton>
         </Hidden>
-        <ProtonLogo className={classes.imageSm} />
-        <ProtonLogoDesktop className={classes.imageMd} />
+        {mainConfig.isTestnet ? (
+          <ProtonLogoTestnet className={classes.imageSm} />
+        ) : (
+          <ProtonLogo className={classes.imageSm} />
+        )}
+        {mainConfig.isTestnet ? (
+          <ProtonLogoDesktopTestnet className={classes.imageMd} />
+        ) : (
+          <ProtonLogoDesktop className={classes.imageMd} />
+        )}
         <PageTitle title={t(`${location.pathname}>title`, mainConfig.title)} />
         <Box className={classes.desktopSection}>
           <List component="nav" className={classes.navBar}>

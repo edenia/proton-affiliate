@@ -45,6 +45,21 @@ const Affiliate = () => {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const buttonEl = useRef(null)
 
+  const handleOnRowPerPageChange = async e => {
+    setReferralPagination(prev => ({
+      ...prev,
+      rowsPerPage: e.target.value
+    }))
+
+    await loadReferrals({
+      variables: {
+        where: { referrer: { _eq: state.user.accountName } },
+        offset: referralPagination.page * e.target.value,
+        limit: e.target.value
+      }
+    })
+  }
+
   const handleOnPageChange = (_, page) => {
     setReferralPagination(prev => ({
       ...prev,
@@ -168,7 +183,7 @@ const Affiliate = () => {
           onClick={handleClick}
           className={classes.affiliateLinkInfo}
         >
-          {`https://test.earnproton.com/join/${
+          {`${window.location.origin}/join/${
             state.user ? state.user.accountName : null
           }`}
         </Button>
@@ -212,7 +227,7 @@ const Affiliate = () => {
         rows={referralRows || []}
         pagination={referralPagination}
         handleOnPageChange={handleOnPageChange}
-        handleOnRowsPerPageChange={() => {}}
+        handleOnRowsPerPageChange={handleOnRowPerPageChange}
         usePagination={Boolean(referralRows.length)}
       />
       <HistoryModal

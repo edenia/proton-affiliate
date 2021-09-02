@@ -14,10 +14,7 @@ const Terms = () => {
 
   return (
     <Box className={classes.termsPage}>
-      <RicardianContract
-        showClauses={false}
-        contractName={mainConfig.affiliateAccount}
-      />
+      <RicardianContract contractName={mainConfig.affiliateAccount} />
     </Box>
   )
 }
