@@ -94,9 +94,38 @@ const RicardianContract = ({
         let clauses = []
 
         if (showClauses) {
-          clauses = abi.ricardian_clauses.map(({ body }) =>
-            formatRicardianClause(body)
-          )
+          clauses = abi.ricardian_clauses.map(({ id, body }, index) => {
+            const bodyList = (body || '').split('- ')
+
+            return (
+              <Box key={`${id}-${index}`}>
+                <Box className={classes.boxTitleClauses}>
+                  <img alt="icon" src={defaultIcon} onError={useDefaultLogo} />
+                  <Box className={classes.boxText}>
+                    <Typography variant="h1">{id}</Typography>
+                  </Box>
+                </Box>
+                <Divider className={classes.dividerClauses} />
+                <Typography key={index} variant="body1">
+                  {bodyList[0]}
+                </Typography>
+
+                {bodyList.map((text, index) => {
+                  if (!index) return null
+
+                  return (
+                    <Typography
+                      className={classes.listItem}
+                      key={index}
+                      variant="body1"
+                    >
+                      {`- ${text}`}
+                    </Typography>
+                  )
+                })}
+              </Box>
+            )
+          })
         }
 
         setAction(actions)
@@ -180,12 +209,12 @@ const RicardianContract = ({
           {hash || ''}
         </Link>
       </Typography>
+      {clauses.map((clause, i) => (
+        <span key={i}>{clause}</span>
+      ))}
 
       {action.map((item, i) => (
         <span key={i}>{item}</span>
-      ))}
-      {clauses.map((clause, i) => (
-        <span key={i}>{clause}</span>
       ))}
     </Box>
   )
