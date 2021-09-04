@@ -6,7 +6,8 @@ export default theme => ({
     padding: theme.spacing(2),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 1024
+      width: 1024,
+      padding: theme.spacing(8, 2, 2, 2)
     }
   }
 })

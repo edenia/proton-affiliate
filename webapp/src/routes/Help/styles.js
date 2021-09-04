@@ -6,7 +6,8 @@ export default theme => ({
     padding: theme.spacing(2),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 1024
+      width: 1024,
+      padding: theme.spacing(8, 2, 2, 2)
     }
   },
   helpTitle: {
@@ -29,7 +30,7 @@ export default theme => ({
   },
   helpInfo: {
     fontWeight: '500',
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(2, 0, 5, 0),
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
@@ -59,5 +60,57 @@ export default theme => ({
     '& p': {
       marginTop: 0
     }
+  },
+  helpSubtitle: {
+    fontWeight: 'normal',
+    fontSize: 24,
+    lineHeight: '27px',
+    textAlign: 'left',
+    letterSpacing: '0.15px',
+    color: theme.palette.common.black,
+    [theme.breakpoints.up('md')]: {
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: '1.3',
+      letterSpacing: 'normal',
+      width: '100%'
+    }
+  },
+  helpSubinfo: {
+    fontWeight: 'normal',
+    margin: theme.spacing(2, 0),
+    fontSize: 16,
+    lineHeight: '24px',
+    letterSpacing: '0.44px',
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
+      textAlign: 'left',
+      width: '100%'
+    }
+  },
+  svgIcon: {
+    color: '#e0e0e0',
+    width: 36,
+    height: 36
+  },
+  iconBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(3)
+  },
+  textUpper: {
+    textTransform: 'uppercase',
+    fontWeight: '500'
+  },
+  protonIcon: {
+    marginLeft: -7,
+    marginRight: 6
+  },
+  links: {
+    color: theme.palette.common.black
   }
 })
