@@ -96,5 +96,8 @@ export default theme => ({
       display: 'flex',
       marginBottom: theme.spacing(1)
     }
+  },
+  links: {
+    color: theme.palette.text.disabled
   }
 })

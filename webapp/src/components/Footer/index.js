@@ -12,6 +12,7 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import InstagramIcon from '@material-ui/icons/Instagram'
 import RedditIcon from '@material-ui/icons/Reddit'
+import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 
 import { mainConfig } from '../../config'
@@ -33,9 +34,16 @@ const Footer = () => {
           </Typography>
           <Typography className={classes.supportBy}>{t('info')}</Typography>
         </Box>
-        <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
-          {`${t('madeBy')} - ${mainConfig.appVersion}`}
-        </Typography>
+        <Link
+          href="https://eoscostarica.io"
+          target="_blank"
+          rel="noreferrer"
+          className={classes.links}
+        >
+          <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
+            {`${t('madeBy')} - ${mainConfig.appVersion}`}
+          </Typography>
+        </Link>
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <ListItemIcon>
@@ -104,9 +112,17 @@ const Footer = () => {
             </ListItemIcon>
           </ListItem>
         </List>
-        <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
-          {`${t('madeBy')} - ${mainConfig.appVersion}`}
-        </Typography>
+
+        <Link
+          href="https://eoscostarica.io"
+          target="_blank"
+          rel="noreferrer"
+          className={classes.links}
+        >
+          <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
+            {`${t('madeBy')} - ${mainConfig.appVersion}`}
+          </Typography>
+        </Link>
       </Box>
     </Box>
   )
