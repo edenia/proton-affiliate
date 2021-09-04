@@ -65,6 +65,24 @@ const About = () => {
                 {t('body4.paragraph1')}
               </Typography>
             </Box>
+
+            <Box className={classes.boxInfo}>
+              <Typography variant="h1" className={classes.aboutSubtitle}>
+                {t('subtitle5')}
+              </Typography>
+              <Typography className={classes.aboutInfo}>
+                {t('body5.paragraph1')}
+              </Typography>
+            </Box>
+
+            <Box className={classes.boxInfo}>
+              <Typography variant="h1" className={classes.aboutSubtitle}>
+                {t('subtitle6')}
+              </Typography>
+              <Typography className={classes.aboutInfo}>
+                {t('body6.paragraph1')}
+              </Typography>
+            </Box>
           </Box>
         </Grid>
         <Grid item xs={12} sm={5} className={classes.boxInfo}>

@@ -64,19 +64,27 @@
     },
     "subtitle1": "About The Affiliate Program",
     "body1": {
-      "paragraph1": "The Proton Affiliate platform is a fully on-chain affiliate marketing platform, rewarding users in XPR for referring and registering new users on Proton."
+      "paragraph1": "The Proton Affiliate Program is an on-chain affiliate marketing platform that rewards users for referring new users to the Proton Wallet. Affiliates will be able to share a referral link inviting new users, once the invitee creates an account and completes the KYC (Know Your Client) process, both users will receive payment in XPR, Proton’s native token, as a reward."
     },
-    "subtitle2": "Why join our program?",
+    "subtitle2": "Why join our program ?",
     "body2": {
-      "paragraph1": "Sed interdum feugiat aliquet. Aliquam convallis neque lorem, sed ullamcorper turpis sollicitudin nec. Sed sed aliquam diam. Integer eu dolor a sem ullamcorper eleifend. Sed varius mauris quis urna hendrerit, quis dictum velit fringilla. Donec condimentum tellus at dui euismod finibus. Fusce sit amet porttitor lectus. Nam et est quis nisi vulputate porta id ut purus. Nulla molestie vehicula ex, quis egestas elit fermentum sit amet."
+      "paragraph1": "The Proton Affiliate Program is a straightforward way for you to earn XPR. If you’re a current user of the Proton Wallet, you can easily send an invitation code through the app and have a complete visualization of your referrals. Once a referred person completes the process and becomes a Proton Wallet user, you will receive rewards in XPR."
     },
-    "subtitle3": "Who can participate?",
+    "subtitle3": "Who can participate ?",
     "body3": {
-      "paragraph1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque maximus tempus hendrerit. Donec nulla erat, congue id vestibulum eget, ornare ut est. Phasellus id nibh dolor."
+      "paragraph1": "Anyone with a valid and fully registered Proton Wallet account can send a referral link. If you’re having trouble finding your referral link, please contact us."
     },
-    "subtitle4": "How is the platform funded?",
+    "subtitle4": "How is the platform funded ?",
     "body4": {
-      "paragraph1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque maximus tempus hendrerit. Donec nulla erat, congue id vestibulum eget, ornare ut est. Phasellus id nibh dolor."
+      "paragraph1": "The Proton Wallet is funded by allocating network resources for rent and through inflation rewards to fund the protocol development."
+    },
+    "subtitle5": "What is the Proton Wallet ?",
+    "body5": {
+      "paragraph1": "The Proton Wallet allows people to safely interact with the Proton blockchain. Account creation is fast and free, and allows you to reserve a unique @name which you will use to receive payments, approve transactions, and verify your identity. Proton wallet users can easily use their account to make cryptocurrency swaps, participate in staking and yield farming, mint and trade NFTs, and more."
+    },
+    "subtitle6": "What is Proton ?",
+    "body6": {
+      "paragraph1": "Proton is the payments blockchain - programmable money that works. Proton uses a system of human-readable verified @names to approve transactions, receive funds, and ensure the ecosystem stays people-friendly. Capable of up to 4,000 transactions per second, and with zero gas fees, Proton is a simple and accessible way to make cryptocurrency swaps, micro-transactions, NFT trades, and more. Plus, because the Proton blockchain is energy efficient, it drastically cuts down on the carbon footprint of blockchain transactions, offering an ecologically-friendly way to compute financial transactions."
     }
   },
   "helpRoute": {
