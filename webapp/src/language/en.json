@@ -80,11 +80,17 @@
     }
   },
   "helpRoute": {
-    "title": "Thank you for using the proton affiliate platform",
-    "paragraph": "This project is still work in progress. Please feel free to leave upgrade suggestions, log bugs, or use the code yourself. You can also find us on Telegram or visit our website.",
-    "protonGitHub": "Proton Affiliate GitHub",
-    "telegramChannel": "Telegram Channel",
-    "protonWebsite": "Proton Website"
+    "title": "Need Help?",
+    "paragraph": "Get in touch to ask any questions, suggest new features or report bugs.",
+    "subtitle1": "Have you spotted a bug?",
+    "info1": "Take a minute, go to our project Github repository and leave a bug report.",
+    "text1": "bug and feature requests",
+    "subtitle2": "Do you have a question or maybe some feedback?",
+    "info2": "We value your opinion and want to make sure everything is working properly. Drop by and let us know what’s on your mind.",
+    "text2": "telegram channel",
+    "subtitle3": "Want to learn more about Proton?",
+    "info3": "We value your opinion and want to make sure everything is working properly. Drop by and let us know what’s on your mind.",
+    "text3": "Proton website"
   },
   "termsRoute": {
     "title": "Ricardian Contracts"
