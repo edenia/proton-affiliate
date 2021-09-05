@@ -7,8 +7,11 @@
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
 
-### Production Instance (mainnet): [earnproton.com](https://earnproton.com)
-### Development Instance (testnet): [test.earnproton.com](https://test.earnproton.com)
+### Production Instance: [earnproton.com](https://earnproton.com)
+Proton mainnet instance deploys the `main` branch of this repository.
+
+### Development Instance: [test.earnproton.com](https://test.earnproton.com)
+Proton testnet instance deploys the `dev` branch of this repository.
 
 ## Table of Contents
 
