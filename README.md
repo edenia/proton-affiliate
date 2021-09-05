@@ -7,6 +7,9 @@
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
 
+### Production Instance (mainnet): [earnproton.com](https://earnproton.com)
+### Development Instance (testnet): [test.earnproton.com](https://test.earnproton.com)
+
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
@@ -116,9 +119,12 @@ Within this repository you will find the following directories and files:
 ├── docs .......................... Documentation
 │   └── img ....................... Images and Diagrams
 ├── hapi .......................... Node JS backend & HTTP API 
-│   └── src
-│       └── services
-|           └── demux ............. Demux Implementation
+│   └── src 
+│       └── config ................ Backend Configurations
+│       └── routes ................ HTTP routes  
+│       └── utils ................. Utilities and Libraries
+│       └── services .............. Project Business Logic
+|           └── hyperion .......... Demux Implementation
 ├── hasura ........................ Hasura GraphQL Engine
 ├── kubernetes .................... Kubernetes Manifests
 ├── utils ......................... Makefiles for project build
