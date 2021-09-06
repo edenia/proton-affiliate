@@ -19,7 +19,7 @@ export default theme => ({
   },
   boxTitle: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: theme.spacing(4),
     '& img': {
       width: 24

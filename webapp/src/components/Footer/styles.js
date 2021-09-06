@@ -1,6 +1,6 @@
 export default theme => ({
   footer: {
-    padding: theme.spacing(3, 0, 0, 0),
+    padding: theme.spacing(3, 0, 1, 0),
     height: 177,
     position: 'relative',
     backgroundColor: '#F8F9FB',
@@ -96,5 +96,8 @@ export default theme => ({
       display: 'flex',
       marginBottom: theme.spacing(1)
     }
+  },
+  links: {
+    color: theme.palette.text.disabled
   }
 })

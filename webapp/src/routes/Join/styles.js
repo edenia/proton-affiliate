@@ -6,7 +6,8 @@ export default theme => ({
     alignItems: 'center',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 1024
+      width: 1024,
+      padding: theme.spacing(8, 2, 2, 2)
     }
   },
   joinPage: {
