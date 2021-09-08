@@ -93,9 +93,10 @@ export default theme => ({
     }
   },
   svgIcon: {
-    color: '#e0e0e0',
-    width: 36,
-    height: 36
+    width: 24,
+    height: 24,
+    marginRight: 6,
+    marginLeft: 5
   },
   iconBox: {
     display: 'flex',
@@ -107,6 +108,8 @@ export default theme => ({
     fontWeight: '500'
   },
   protonIcon: {
+    width: 36,
+    height: 36,
     marginLeft: -7,
     marginRight: 6
   },
