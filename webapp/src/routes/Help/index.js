@@ -1,11 +1,11 @@
 import React from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/styles'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import StopIcon from '@material-ui/icons/Stop'
+import TelegramIcon from '@material-ui/icons/Telegram'
+import GitHubIcon from '@material-ui/icons/GitHub'
 import Link from '@material-ui/core/Link'
 
 import ProtonIcon from './ProtonIcon'
@@ -37,7 +37,7 @@ const Help = () => {
                 {t('info1')}
               </Typography>
               <Box className={classes.iconBox}>
-                <StopIcon className={classes.svgIcon} />
+                <GitHubIcon className={classes.svgIcon} />
                 <Link
                   href="https://github.com/eoscostarica/proton-affiliate/issues/new/choose"
                   target="_blank"
@@ -58,7 +58,7 @@ const Help = () => {
                 {t('info2')}
               </Typography>
               <Box className={classes.iconBox}>
-                <StopIcon className={classes.svgIcon} />
+                <TelegramIcon className={classes.svgIcon} />
                 <Link
                   href="https://t.me/protonxpr"
                   target="_blank"
@@ -79,9 +79,7 @@ const Help = () => {
                 {t('info3')}
               </Typography>
               <Box className={classes.iconBox}>
-                <ProtonIcon
-                  className={clsx(classes.svgIcon, classes.protonIcon)}
-                />
+                <ProtonIcon className={classes.protonIcon} />
                 <Link
                   href="https://www.protonchain.com"
                   target="_blank"
