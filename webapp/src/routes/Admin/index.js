@@ -37,6 +37,7 @@ import {
 } from '../../gql'
 
 import AddUserModal from './AddUserModal'
+import RejectPaymentModal from './RejectPaymentModal'
 import styles from './styles'
 
 const headCellNewUsers = [
@@ -273,6 +274,10 @@ const Admin = () => {
     DELETE_JOIN_REQUEST_MUTATION
   )
   const [openAddUser, setAddUser] = useState(false)
+  const [openRejectPayment, setRejectPayment] = useState({
+    isOpen: false,
+    previousModal: null
+  })
   const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
@@ -285,7 +290,7 @@ const Admin = () => {
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [referralPagination, setReferralPagination] = useState({})
-  const [selected, setSelected] = useState({ tableName: null })
+  const [selected, setSelected] = useState({ tableName: 'payment' })
   const [usersAccounts, setUserAccounts] = useState([])
   const [{ user }, { showMessage }] = useSharedState()
 
@@ -491,14 +496,15 @@ const Admin = () => {
     }
   }
 
-  const handleOnRejectPayment = async () => {
+  const handleOnRejectPayment = async (memo = '') => {
     try {
       const data = await affiliateUtil.rejectRef(
         user.session,
         currentReferral
           ? [currentReferral.invitee]
           : selected[selected.tableName],
-        user.accountName
+        user.accountName,
+        memo
       )
 
       showMessage({
@@ -514,6 +520,7 @@ const Admin = () => {
         )
       })
       setIsHistoryModalOpen(false)
+      setRejectPayment({ isOpen: false, previousModal: null })
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -615,6 +622,23 @@ const Admin = () => {
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
+  }
+
+  const handleOnCloseRejectPaymentModal = () => {
+    switch (openRejectPayment.previousModal) {
+      case 'optionFAB':
+        setOpenFAB(true)
+        break
+
+      case 'history':
+        setIsHistoryModalOpen(true)
+        break
+
+      default:
+        break
+    }
+
+    setRejectPayment({ isOpen: false, previousModal: null })
   }
 
   useEffect(() => {
@@ -746,7 +770,10 @@ const Admin = () => {
             }}
             onClickRemoveUsers={handleOnRemoveUsers}
             onClickApprovePayment={handleOnApprovePayment}
-            onClickRejectPayment={handleOnRejectPayment}
+            onClickRejectPayment={() => {
+              setRejectPayment({ isOpen: true, previousModal: 'optionFAB' })
+              setOpenFAB(false)
+            }}
             allowPayment={allowPayment}
             onClickApproveNewUser={approveNewUser}
           />
@@ -757,6 +784,12 @@ const Admin = () => {
         onSubmit={handleOnSubmitAddUser}
         t={t}
         open={openAddUser}
+      />
+      <RejectPaymentModal
+        onClose={handleOnCloseRejectPaymentModal}
+        onSubmit={handleOnRejectPayment}
+        t={t}
+        open={openRejectPayment.isOpen}
       />
       <HistoryModal
         referral={currentReferral}
@@ -772,7 +805,10 @@ const Admin = () => {
             <Box className={classes.modalBtnWrapper}>
               <Button
                 variant="contained"
-                onClick={handleOnRejectPayment}
+                onClick={() => {
+                  setRejectPayment({ isOpen: true, previousModal: 'history' })
+                  setIsHistoryModalOpen(false)
+                }}
                 className={clsx(classes.timelineBtn, classes.reject)}
               >
                 Reject
