@@ -164,7 +164,7 @@ const payRef = async (admin, invitees = [], accountName) => {
   return transaction
 }
 
-const rejectRef = async (admin, invitees, accountName) => {
+const rejectRef = async (admin, invitees, accountName, memo) => {
   const transaction = await admin.transact(
     {
       transaction: {
@@ -178,7 +178,7 @@ const rejectRef = async (admin, invitees, accountName) => {
             }
           ],
           data: {
-            memo: '',
+            memo,
             invitee,
             admin: accountName
           }
