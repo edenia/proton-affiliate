@@ -63,7 +63,14 @@ export default theme => ({
     letterSpacing: 'normal'
   },
   tablePagination: {
-    display: 'flex'
+    display: 'flex',
+    '& > div': {
+      padding: 0
+    },
+    '& .MuiTablePagination-selectRoot': {
+      marginLeft: 4,
+      marginRight: 4
+    }
   },
   loadMore: {
     textTransform: 'uppercase',
