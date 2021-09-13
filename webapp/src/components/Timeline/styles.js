@@ -47,5 +47,11 @@ export default theme => ({
   },
   secondaryColor: {
     borderColor: '#1DAEFF'
+  },
+  memoBox: {
+    border: '3px solid #b00020',
+    padding: 8,
+    borderRadius: 4,
+    color: '#b00020'
   }
 })

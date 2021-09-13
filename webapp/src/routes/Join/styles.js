@@ -63,6 +63,7 @@ export default theme => ({
   },
   textField: {
     width: '100%',
+    textTransform: 'lowercase',
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
       width: 400

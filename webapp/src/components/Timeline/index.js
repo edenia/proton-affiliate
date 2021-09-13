@@ -11,6 +11,7 @@ import TimelineDot from '@material-ui/lab/TimelineDot'
 import TimelineContent from '@material-ui/lab/TimelineContent'
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent'
 import Paper from '@material-ui/core/Paper'
+import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
@@ -75,11 +76,12 @@ TimelineIcon.propTypes = {
 const CustomizedTimeline = ({ items, itemHasAction }) => {
   const classes = useStyles()
   const { t } = useTranslation('timeline')
+  const lastItem = items[items.length - 1]
 
   return (
     <Timeline align="alternate" classes={{ root: classes.main }}>
       {items.map((item, index) => (
-        <TimelineItem key={index}>
+        <TimelineItem key={`${index}-${item.action}`}>
           <TimelineOppositeContent>
             <Typography
               variant="body2"
@@ -131,6 +133,11 @@ const CustomizedTimeline = ({ items, itemHasAction }) => {
           </TimelineContent>
         </TimelineItem>
       ))}
+      {lastItem && lastItem.action === 'rejectref' && lastItem?.playload?.memo && (
+        <Box className={classes.memoBox}>
+          <Typography>{`Memo: ${lastItem.playload.memo} `}</Typography>
+        </Box>
+      )}
     </Timeline>
   )
 }

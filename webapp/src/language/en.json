@@ -137,7 +137,8 @@
     "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)",
     "invalidLink": "The link you provided is not a valid referral.",
     "invalidInfo": "Please check the link is correct or contact the affiliate that invited you for a valid referral.",
-    "goToHome": "Go to Home Page"
+    "goToHome": "Go to Home Page",
+    "invalidAccountFormat": "Invalid Account Format"
   },
   "adminRoute": {
     "title": "Administration",
