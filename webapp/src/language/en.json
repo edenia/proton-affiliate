@@ -137,7 +137,8 @@
     "pendingIrreversibility": "Pending Irreversibility ({{ seconds }}s)",
     "invalidLink": "The link you provided is not a valid referral.",
     "invalidInfo": "Please check the link is correct or contact the affiliate that invited you for a valid referral.",
-    "goToHome": "Go to Home Page"
+    "goToHome": "Go to Home Page",
+    "invalidAccountFormat": "Invalid Account Format"
   },
   "adminRoute": {
     "title": "Administration",
@@ -158,7 +159,9 @@
     "accountHelperText": "Account found!",
     "accountHelperError": "Account name is not registered!",
     "deleteSuccessfully": "Deleted Successfully",
-    "successNewUser": "Account has been added to the User Management table."
+    "successNewUser": "Account has been added to the User Management table.",
+    "rejectPaymentModal": "You are about to REJECT this referral payment. Leave a memo providing a reason.",
+    "rejectMemo": "Rejection memo"
   },
   "footer": {
     "poweredBy": "Powered by",

@@ -59,7 +59,8 @@ export default theme => ({
   boxInfo: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: theme.spacing(1)
   },
   logoMd: {
     display: 'none',
@@ -77,22 +78,40 @@ export default theme => ({
   boxMd: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
-      display: 'initial'
+      display: 'initial',
+      marginBottom: theme.spacing(1)
     }
   },
   aboutSubtitle: {
+    marginBottom: theme.spacing(1),
     fontWeight: 'normal',
     fontSize: 24,
     lineHeight: '27px',
     textAlign: 'center',
     letterSpacing: '0.15px',
     color: theme.palette.common.black,
-    width: 250,
+    width: 300,
     [theme.breakpoints.up('md')]: {
       fontStretch: 'normal',
       fontStyle: 'normal',
       lineHeight: '1.3',
       letterSpacing: 'normal',
+      textAlign: 'left',
+      width: '100%'
+    }
+  },
+  aboutMainInfo: {
+    fontWeight: '500',
+    margin: theme.spacing(2, 0),
+    fontSize: 21,
+    lineHeight: '24px',
+    letterSpacing: '0.44px',
+    color: '#6B717F',
+    [theme.breakpoints.up('md')]: {
+      fontStretch: 'normal',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+      letterSpacing: '0.15px',
       textAlign: 'left',
       width: '100%'
     }

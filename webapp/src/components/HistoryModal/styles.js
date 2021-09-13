@@ -68,7 +68,6 @@ export default theme => ({
     '& p': {
       width: '220px',
       margin: '8px 0 0',
-      fontFamily: 'CircularStd',
       fontWeight: 500,
       textTransform: 'uppercase',
       textAlign: 'center',

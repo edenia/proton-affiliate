@@ -25,7 +25,8 @@ import {
   affiliateUtil,
   getLastCharacters,
   formatWithThousandSeparator,
-  useImperativeQuery
+  useImperativeQuery,
+  isValidAccountName
 } from '../../utils'
 import { mainConfig } from '../../config'
 import { ADD_REFERRAL_MUTATION, GET_REFERRAL_BY_INVITEE } from '../../gql'
@@ -85,14 +86,12 @@ const Join = () => {
       return
     }
 
-    console.log('teto')
-
     setCurrentReferral(data.referrals[0])
     setIsHistoryModalOpen(true)
   }
 
   const handleOnChange = e => {
-    setAccountName(e.target.value)
+    setAccountName((e.target.value || '').toLowerCase())
   }
 
   const startCounter = () => {
@@ -155,6 +154,16 @@ const Join = () => {
 
   useEffect(() => {
     const validateAccount = async () => {
+      if (!isValidAccountName(debouncedAccount)) {
+        setAccountNameError({
+          showHelper: true,
+          isValid: false,
+          message: t('invalidAccountFormat')
+        })
+
+        return
+      }
+
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
         debouncedAccount
       )

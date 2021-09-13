@@ -21,7 +21,7 @@ const About = () => {
         <Typography variant="h1" className={classes.aboutTitle}>
           {t('subtitle1')}
         </Typography>
-        <Typography className={classes.aboutInfo}>
+        <Typography className={classes.aboutMainInfo}>
           {t('body1.paragraph1')}
         </Typography>
       </Box>
