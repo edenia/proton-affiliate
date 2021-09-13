@@ -35,6 +35,7 @@ import styles from './styles'
 import appStore from './appStore.svg'
 import googlePlay from './googlePlay.svg'
 
+const REGEX = /^[a-z1-9]+$/i
 const TIME_BEFORE_IRREVERSIBILITY = 164
 const INIT_VALIDATION_VALUES = {
   showHelper: false,
@@ -85,14 +86,12 @@ const Join = () => {
       return
     }
 
-    console.log('teto')
-
     setCurrentReferral(data.referrals[0])
     setIsHistoryModalOpen(true)
   }
 
   const handleOnChange = e => {
-    setAccountName(e.target.value)
+    setAccountName((e.target.value || '').toLowerCase())
   }
 
   const startCounter = () => {
@@ -155,6 +154,16 @@ const Join = () => {
 
   useEffect(() => {
     const validateAccount = async () => {
+      if (!REGEX.test(debouncedAccount)) {
+        setAccountNameError({
+          showHelper: true,
+          isValid: false,
+          message: t('invalidAccountFormat')
+        })
+
+        return
+      }
+
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
         debouncedAccount
       )
