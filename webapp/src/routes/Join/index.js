@@ -25,7 +25,8 @@ import {
   affiliateUtil,
   getLastCharacters,
   formatWithThousandSeparator,
-  useImperativeQuery
+  useImperativeQuery,
+  isValidAccountName
 } from '../../utils'
 import { mainConfig } from '../../config'
 import { ADD_REFERRAL_MUTATION, GET_REFERRAL_BY_INVITEE } from '../../gql'
@@ -35,7 +36,6 @@ import styles from './styles'
 import appStore from './appStore.svg'
 import googlePlay from './googlePlay.svg'
 
-const REGEX = /^[a-z1-9]+$/i
 const TIME_BEFORE_IRREVERSIBILITY = 164
 const INIT_VALIDATION_VALUES = {
   showHelper: false,
@@ -154,7 +154,7 @@ const Join = () => {
 
   useEffect(() => {
     const validateAccount = async () => {
-      if (!REGEX.test(debouncedAccount)) {
+      if (!isValidAccountName(debouncedAccount)) {
         setAccountNameError({
           showHelper: true,
           isValid: false,
