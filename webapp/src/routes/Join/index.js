@@ -164,6 +164,20 @@ const Join = () => {
         return
       }
 
+      const { data } = await loadReferralByInvitee({
+        invitee: debouncedAccount
+      })
+
+      if ((data.referrals || []).length) {
+        setAccountNameError({
+          showHelper: true,
+          isValid: false,
+          message: t('accountHelperError')
+        })
+
+        return
+      }
+
       const isValid = await affiliateUtil.isAccountValidAsInvitee(
         debouncedAccount
       )
@@ -272,7 +286,7 @@ const Join = () => {
             }}
           />
           {accountNameError.showHelper && (
-            <Typography className={clsx(classes.helperText, classes.marginMd)}>
+            <Typography className={classes.helperText}>
               {accountNameError.message}
             </Typography>
           )}

@@ -75,7 +75,10 @@ export default theme => ({
     letterSpacing: '0.4px',
     width: '100%',
     color: 'rgba(0, 0, 0, 0.6)',
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(18)
+    }
   },
   step: {
     marginTop: theme.spacing(3),
