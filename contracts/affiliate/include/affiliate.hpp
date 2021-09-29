@@ -170,7 +170,7 @@ CONTRACT affiliate : public contract {
      * 
      * @return no return value.
      */
-    ACTION setrate();
+    ACTION setrate(double btc_usdt);
 
     /**
      * Clear referrals
@@ -210,7 +210,7 @@ CONTRACT affiliate : public contract {
 
     bool has_valid_kyc(name account);
 
-    double get_current_exchange_rate();
+    double get_current_exchange_rate (double btc_usdt);
     
     enum user_roles : uint8_t {
       ADMIN = 1,
