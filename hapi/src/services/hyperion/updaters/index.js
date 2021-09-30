@@ -7,7 +7,7 @@ const affiliateVerifyaccUpdater = require('./affiliate-verifyacc.updater')
 const affiliateVerifyexpUpdater = require('./affiliate-verifyexp.updater')
 const affiliateVerifykycUpdater = require('./affiliate-verifykyc.updater')
 const eosioNewAccountUpdaters = require('./eosio-newaccount.updater')
-const eosioprotonUserverifyUpdater = require('./eosioproton-userverify.updater')
+const eosioprotonAddkycUpdater = require('./eosioproton-addkyc.updater')
 
 module.exports = [
   affiliateAddrefUpdater,
@@ -19,5 +19,5 @@ module.exports = [
   affiliateVerifyexpUpdater,
   affiliateVerifykycUpdater,
   eosioNewAccountUpdaters,
-  eosioprotonUserverifyUpdater
+  eosioprotonAddkycUpdater
 ]
