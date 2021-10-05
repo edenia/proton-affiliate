@@ -2,7 +2,7 @@ const affiliateService = require('../../affiliate.service')
 const referralsService = require('../../referrals.service')
 
 module.exports = {
-  type: 'eosio.proton:userverify',
+  type: 'eosio.proton:addkyc',
   apply: async action => {
     try {
       const referral = await referralsService.findByInvitee(action.data.acc)
