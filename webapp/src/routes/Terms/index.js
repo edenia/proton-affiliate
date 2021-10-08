@@ -1,9 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
+import { RicardianContract } from '@eoscostarica/eoscr-components'
 
-import RicardianContract from '../../components/RicardianContract'
-import { mainConfig } from '../../config'
+import { mainConfig, sdkConfig } from '../../config'
 
 import styles from './styles'
 
@@ -14,7 +14,10 @@ const Terms = () => {
 
   return (
     <Box className={classes.termsPage}>
-      <RicardianContract contractName={mainConfig.affiliateAccount} />
+      <RicardianContract
+        contractName={mainConfig.affiliateAccount}
+        httpEndpoint={sdkConfig.endpoint}
+      />
     </Box>
   )
 }

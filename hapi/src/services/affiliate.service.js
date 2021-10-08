@@ -1,6 +1,8 @@
 const { affiliateConfig } = require('../config')
 const { eosUtil } = require('../utils')
 
+const exchangeService = require('./exchange.service')
+
 const verifyAccount = async invitee => {
   const transaction = await eosUtil.transact(
     [
@@ -68,6 +70,7 @@ const verifyExpired = async () => {
 }
 
 const setRate = async () => {
+  const rate = await exchangeService.getRate('bitcoin', 'usd')
   const transaction = await eosUtil.transact(
     [
       {
@@ -79,7 +82,9 @@ const setRate = async () => {
         ],
         account: affiliateConfig.account,
         name: 'setrate',
-        data: {}
+        data: {
+          btc_usdt: rate
+        }
       }
     ],
     affiliateConfig.account,

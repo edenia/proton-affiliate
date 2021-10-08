@@ -8,7 +8,7 @@ import React, {
 import { ConnectWallet } from '@proton/web-sdk'
 import PropTypes from 'prop-types'
 
-import { sdkConfig } from '../config'
+import { sdkConfig, mainConfig } from '../config'
 import { affiliateUtil } from '../utils'
 
 const SharedStateContext = createContext()
@@ -26,7 +26,8 @@ const loginWallet = async (restoreSession = false) => {
         restoreSession
       },
       transportOptions: {
-        requestStatus: true
+        requestStatus: true,
+        requestAccount: mainConfig.affiliateAccount
       },
       selectorOptions: {
         appName: sdkConfig.appName,

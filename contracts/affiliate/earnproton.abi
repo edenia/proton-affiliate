@@ -219,7 +219,12 @@
         {
             "name": "setrate",
             "base": "",
-            "fields": []
+            "fields": [
+                {
+                    "name": "btc_usdt",
+                    "type": "float64"
+                }
+            ]
         },
         {
             "name": "statuslog",

@@ -34,16 +34,33 @@ const Footer = () => {
           </Typography>
           <Typography className={classes.supportBy}>{t('info')}</Typography>
         </Box>
-        <Link
-          href="https://eoscostarica.io"
-          target="_blank"
-          rel="noreferrer"
-          className={classes.links}
-        >
-          <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
-            {`${t('madeBy')} - ${mainConfig.appVersion}`}
+        <Box className={classes.boxLinksFooter}>
+          <Link
+            href="https://eoscostarica.io"
+            target="_blank"
+            rel="noreferrer"
+            className={classes.links}
+          >
+            <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
+              {t('madeBy')}
+            </Typography>
+          </Link>
+          <Typography
+            className={clsx(classes.madeBy, classes.madeByMd, classes.divisor)}
+          >
+            {'-'}
           </Typography>
-        </Link>
+          <Link
+            href="https://github.com/eoscostarica/proton-affiliate/releases"
+            target="_blank"
+            rel="noreferrer"
+            className={classes.links}
+          >
+            <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
+              {mainConfig.appVersion}
+            </Typography>
+          </Link>
+        </Box>
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <ListItemIcon>
@@ -112,17 +129,33 @@ const Footer = () => {
             </ListItemIcon>
           </ListItem>
         </List>
-
-        <Link
-          href="https://eoscostarica.io"
-          target="_blank"
-          rel="noreferrer"
-          className={classes.links}
-        >
-          <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
-            {`${t('madeBy')} - ${mainConfig.appVersion}`}
+        <Box className={classes.boxLinksFooter}>
+          <Link
+            href="https://eoscostarica.io"
+            target="_blank"
+            rel="noreferrer"
+            className={classes.links}
+          >
+            <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
+              {t('madeBy')}
+            </Typography>
+          </Link>
+          <Typography
+            className={clsx(classes.madeBy, classes.madeBySm, classes.divisor)}
+          >
+            {'-'}
           </Typography>
-        </Link>
+          <Link
+            href="https://github.com/eoscostarica/proton-affiliate/releases"
+            target="_blank"
+            rel="noreferrer"
+            className={classes.links}
+          >
+            <Typography className={clsx(classes.madeBy, classes.madeBySm)}>
+              {mainConfig.appVersion}
+            </Typography>
+          </Link>
+        </Box>
       </Box>
     </Box>
   )

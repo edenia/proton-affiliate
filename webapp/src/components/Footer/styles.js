@@ -99,5 +99,12 @@ export default theme => ({
   },
   links: {
     color: theme.palette.text.disabled
+  },
+  boxLinksFooter: {
+    display: 'flex'
+  },
+  divisor: {
+    marginLeft: 2,
+    marginRight: 2
   }
 })

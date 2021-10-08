@@ -250,10 +250,10 @@ ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, u
   _params.set(data, get_self());
 }
 
-ACTION affiliate::setrate() {
+ACTION affiliate::setrate(double btc_usdt) {
   require_auth(get_self());
 
-  double rate = get_current_exchange_rate();
+  double rate = get_current_exchange_rate(btc_usdt);
   check(rate > 0, "Invalid rate");
 
   params_table _params(get_self(), get_self().value);
@@ -292,10 +292,10 @@ bool affiliate::has_valid_kyc (name account) {
     return false;
   }
 
-  return _userinfo->verified;
+  return _userinfo->kyc.size() > 0;
 }
 
-double affiliate::get_current_exchange_rate () {
+double affiliate::get_current_exchange_rate (double btc_usdt) {
   feeds_table _feedstable(name("oracles"), name("oracles").value);
   data_table _data_table(name("oracles"), name("oracles").value);
 
@@ -311,18 +311,6 @@ double affiliate::get_current_exchange_rate () {
     return 0;
   }
 
-  auto btc_usdt = _feedstable.find(1);
-  
-  if (btc_usdt == _feedstable.end() || btc_usdt->name != "BTC/USDT") {
-    return 0;
-  }
-
-  auto btc_usdt_fee = _data_table.find(btc_usdt->index);
-
-  if (btc_usdt_fee == _data_table.end()) {
-    return 0;
-  }
-  
-  return xpr_btc_fee->aggregate.d_double.value() * btc_usdt_fee->aggregate.d_double.value();
+  return xpr_btc_fee->aggregate.d_double.value() * btc_usdt;
 }
 
