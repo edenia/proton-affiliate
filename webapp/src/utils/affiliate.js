@@ -74,7 +74,10 @@ const addUser = async (admin, users, role = 2, accountName) => {
     }
   )
 
-  return transaction
+  return {
+    transactionId: transaction.processed.id,
+    blockNum: transaction.processed.block_num
+  }
 }
 
 const removeUsers = async (admin, users = [], accountName) => {
