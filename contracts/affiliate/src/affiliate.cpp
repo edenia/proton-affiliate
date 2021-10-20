@@ -298,14 +298,17 @@ bool affiliate::has_valid_kyc (name account) {
 double affiliate::get_current_exchange_rate (double btc_usdt) {
   feeds_table _feedstable(name("oracles"), name("oracles").value);
   data_table _data_table(name("oracles"), name("oracles").value);
-
-  auto 	xpr_btc = _feedstable.find(0);
+  uint64_t xpr_btc_index;
   
-  if (xpr_btc == _feedstable.end() || xpr_btc->name != "XPR/BTC") {
-    return 0;
+  for (auto it = _feedstable.begin(); it != _feedstable.end(); it++)
+  {
+    if (it->name == "XPR/BTC") {
+      xpr_btc_index = it->index;
+      break;
+    }
   }
 
-  auto xpr_btc_fee = _data_table.find(xpr_btc->index);
+  auto xpr_btc_fee = _data_table.find(xpr_btc_index);
 
   if (xpr_btc_fee == _data_table.end()) {
     return 0;
