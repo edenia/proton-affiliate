@@ -2,8 +2,12 @@ import React, { Suspense, useMemo } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import {
+  ThemeProvider,
+  StylesProvider,
+  createGenerateClassName
+} from '@material-ui/core/styles'
 
 import routes from './routes'
 import Loader from './components/Loader'
@@ -11,6 +15,10 @@ import DashboardLayout from './layouts/Dashboard'
 import { useSharedState } from './context/state.context'
 import getTheme from './theme'
 import './i18n'
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'proton'
+})
 
 const App = () => {
   const [state] = useSharedState()
@@ -35,16 +43,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DashboardLayout routes={userRoutes.sidebar}>
-            <Suspense fallback={<Loader />}>
-              <Switch>{userRoutes.browser.map(renderRoute)}</Switch>
-            </Suspense>
-          </DashboardLayout>
-        </MuiPickersUtilsProvider>
-      </ThemeProvider>
+      <StylesProvider generateClassName={generateClassName}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DashboardLayout routes={userRoutes.sidebar}>
+              <Suspense fallback={<Loader />}>
+                <Switch>{userRoutes.browser.map(renderRoute)}</Switch>
+              </Suspense>
+            </DashboardLayout>
+          </MuiPickersUtilsProvider>
+        </ThemeProvider>
+      </StylesProvider>
     </BrowserRouter>
   )
 }
