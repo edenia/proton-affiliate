@@ -28,7 +28,7 @@ const About = () => {
       <Grid container>
         <Grid item xs={12} sm={7}>
           <Box>
-            <Box className={clsx(classes.boxInfo, classes.boxSm)}>
+            <Box className={clsx(classes.boxInfoTitle, classes.boxSm)}>
               <Typography variant="h1" className={classes.aboutTitle}>
                 {t('subtitle1')}
               </Typography>

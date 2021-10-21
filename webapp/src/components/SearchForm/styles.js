@@ -3,7 +3,7 @@ export default theme => ({
     width: 350,
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(4),
+    padding: theme.spacing(6),
     borderRadius: 30,
     backgroundColor: '#010c2c',
     marginTop: theme.spacing(3),
