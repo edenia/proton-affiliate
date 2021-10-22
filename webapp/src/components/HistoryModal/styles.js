@@ -28,7 +28,7 @@ export default theme => ({
     alignItems: 'center',
     backgroundColor: theme.palette.error.contrastText,
     [theme.breakpoints.up('md')]: {
-      width: 514,
+      width: 'auto',
       height: '80%'
     }
   },

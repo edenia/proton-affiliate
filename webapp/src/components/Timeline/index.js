@@ -92,7 +92,11 @@ const CustomizedTimeline = ({ items, itemHasAction }) => {
             </Typography>
           </TimelineOppositeContent>
 
-          <TimelineSeparator>
+          <TimelineSeparator
+            classes={{
+              root: classes.timeLineSeparator
+            }}
+          >
             <TimelineDot
               color="primary"
               variant="outlined"

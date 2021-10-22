@@ -22,7 +22,7 @@ export default theme => ({
       fontWeight: 'bold',
       fontStretch: 'normal',
       fontStyle: 'normal',
-      lineHeight: '1.3',
+      lineHeight: '1.37',
       letterSpacing: 'normal',
       textAlign: 'left',
       width: '100%'
@@ -71,7 +71,7 @@ export default theme => ({
     [theme.breakpoints.up('md')]: {
       fontStretch: 'normal',
       fontStyle: 'normal',
-      lineHeight: '1.3',
+      lineHeight: '1.17',
       letterSpacing: 'normal',
       width: '100%'
     }
@@ -82,7 +82,7 @@ export default theme => ({
     fontSize: 16,
     lineHeight: '24px',
     letterSpacing: '0.44px',
-    color: '#6B717F',
+    color: '#242424',
     [theme.breakpoints.up('md')]: {
       fontStretch: 'normal',
       fontStyle: 'normal',
@@ -101,7 +101,7 @@ export default theme => ({
   iconBox: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: theme.spacing(3)
+    margin: theme.spacing(3, 0, 3, 0)
   },
   textUpper: {
     textTransform: 'uppercase',

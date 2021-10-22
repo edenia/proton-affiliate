@@ -58,6 +58,7 @@ export default theme => ({
       justifyContent: 'center'
     },
     '& .MuiListItemText-primary': {
+      fontFamily: 'Montserrat',
       fontStyle: 'normal',
       fontWeight: 'normal',
       fontSize: 14,
@@ -81,8 +82,17 @@ export default theme => ({
       backgroundColor: 'transparent'
     }
   },
+  btnHeader: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2)
+    }
+  },
   btnLogin: {
-    borderRadius: 0
+    borderRadius: 0,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(2)
+    }
   },
   accountNameInfo: {
     '& .MuiBox-root': {
