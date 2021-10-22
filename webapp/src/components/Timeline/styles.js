@@ -45,6 +45,9 @@ export default theme => ({
     paddingTop: 0,
     marginTop: -10
   },
+  timeLineSeparator: {
+    height: '100px'
+  },
   secondaryColor: {
     borderColor: '#1DAEFF'
   },

@@ -59,8 +59,17 @@ export default theme => ({
   boxInfo: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     marginBottom: theme.spacing(1)
+  },
+  boxInfoTitle: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'left'
+    }
   },
   logoMd: {
     display: 'none',
@@ -87,7 +96,7 @@ export default theme => ({
     fontWeight: 'normal',
     fontSize: 24,
     lineHeight: '27px',
-    textAlign: 'center',
+    textAlign: 'left',
     letterSpacing: '0.15px',
     color: theme.palette.common.black,
     width: 300,

@@ -144,6 +144,7 @@ AuthButton.propTypes = {
 }
 
 const ListItemLink = ({ name, path, badge, ...props }) => {
+  const classes = useStyles()
   const { t } = useTranslation('routes')
   const primaryText = path.includes('http')
     ? t(name, name)
@@ -158,6 +159,7 @@ const ListItemLink = ({ name, path, badge, ...props }) => {
       activeClassName="active"
       href={path}
       {...props}
+      className={classes.btnHeader}
     >
       <ListItemText primary={primaryText} />
     </MuiListItem>
