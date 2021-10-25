@@ -15,6 +15,7 @@ export default theme => ({
   searchTitle: {
     color: theme.palette.common.white,
     marginBottom: theme.spacing(2),
+    fontWeight: 500,
     [theme.breakpoints.up('md')]: {
       textAlign: 'center'
     }
@@ -61,7 +62,7 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('md')]: {
-      margin: 0,
+      marginTop: theme.spacing(3),
       width: '100%',
       flexDirection: 'row',
       justifyContent: 'center'
