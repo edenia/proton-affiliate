@@ -8,6 +8,14 @@ export const ADD_REFERRAL_MUTATION = gql`
   }
 `
 
+export const SEND_CONFIRMATION_MUTATION = gql`
+  mutation ($accounts: [String]!) {
+    send_confirmation(accounts: $accounts) {
+      success
+    }
+  }
+`
+
 export const GET_HISTORY_BY_INVITEES = gql`
   query ($invitees: [String!]) {
     history: referral_history(
