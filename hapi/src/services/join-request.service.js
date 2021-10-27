@@ -15,7 +15,7 @@ const findByAccount = async account => {
   `
   const data = await hasuraUtil.instance.request(query, { account })
 
-  return !!data.join_request.length ? data.join_request[0] : null
+  return data.join_request.length ? data.join_request[0] : null
 }
 
 module.exports = {
