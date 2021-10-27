@@ -86,14 +86,6 @@ summary: This action sets the parameters table values.
 icon: https://earnproton.com/icons/general.png
 ---
 
-<h1 class="contract">setstatus</h1>
----
-spec_version: 0.1.0
-title: Set referral status
-summary: This action bypasses the KYC validation and is intended for development purposes only.
-icon: https://earnproton.com/icons/general.png
----
-
 <h1 class="contract">setrate</h1>
 ---
 spec_version: 0.1.0
@@ -123,13 +115,5 @@ icon: https://earnproton.com/icons/general.png
 spec_version: 0.1.0
 title: Status Logging
 summary: This action logs status changes.
-icon: https://earnproton.com/icons/general.png
----
-
-<h1 class="contract">clear</h1>
----
-spec_version: 0.1.0
-title: Clear
-summary: This action cleans the contract data and is intended for development purposes only.
 icon: https://earnproton.com/icons/general.png
 ---
