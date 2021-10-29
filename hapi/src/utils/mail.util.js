@@ -22,7 +22,9 @@ const sendConfirmation = async ({ account, to, subject }) => {
       subject,
       html: generateConfirmationMail({ account })
     })
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 module.exports = {

@@ -18,7 +18,7 @@ module.exports = {
         await sendConfirmation({
           account: account,
           to: email,
-          subject: 'Welcome to the proton affiliate platform! '
+          subject: 'You are ready to share your Proton referral link!'
         })
       }
 
