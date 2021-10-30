@@ -33,7 +33,8 @@ import {
   GET_HISTORY_BY_INVITEES,
   GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
-  DELETE_JOIN_REQUEST_MUTATION
+  DELETE_JOIN_REQUEST_MUTATION,
+  SEND_CONFIRMATION_MUTATION
 } from '../../gql'
 
 import AddUserModal from './AddUserModal'
@@ -273,6 +274,7 @@ const Admin = () => {
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
+  const [sendConfirmation] = useMutation(SEND_CONFIRMATION_MUTATION)
   const [openAddUser, setAddUser] = useState(false)
   const [openRejectPayment, setRejectPayment] = useState({
     isOpen: false,
@@ -360,6 +362,12 @@ const Admin = () => {
         affiliateUtil.ROLES_IDS.REFERRER,
         user.accountName
       )
+
+      await sendConfirmation({
+        variables: {
+          accounts: usersAccounts
+        }
+      })
 
       setAddUser(false)
 
