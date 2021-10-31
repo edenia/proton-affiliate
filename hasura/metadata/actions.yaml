@@ -6,9 +6,14 @@ actions:
     forward_client_headers: true
   permissions:
   - role: guest
+- name: send_confirmation
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/send-confirmation'
 custom_types:
   enums: []
   input_objects: []
   objects:
   - name: AddReferralOutput
+  - name: SendConfirmationOutput
   scalars: []

@@ -4,5 +4,6 @@ module.exports = {
   hasuraConfig: require('./hasura.config'),
   hyperionConfig: require('./hyperion.config'),
   networkConfig: require('./network.config'),
-  serverConfig: require('./server.config')
+  serverConfig: require('./server.config'),
+  mailConfig: require('./mail.config')
 }
