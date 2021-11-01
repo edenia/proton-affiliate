@@ -76,11 +76,11 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://www.reddit.com/r/ProtonChain"
+                href="https://www.instagram.com/protonxpr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <RedditIcon />
+                <InstagramIcon />
               </a>
             </ListItemIcon>
           </ListItem>
@@ -98,11 +98,11 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://www.instagram.com/protonxpr"
+                href="https://www.reddit.com/r/ProtonChain"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <InstagramIcon />
+                <RedditIcon />
               </a>
             </ListItemIcon>
           </ListItem>
