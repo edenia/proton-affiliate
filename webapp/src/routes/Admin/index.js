@@ -62,6 +62,13 @@ const headCellNewUsers = [
     useMainColor: true,
     rowLink: false,
     label: 'email'
+  },
+  {
+    id: 'eligibility',
+    align: 'right',
+    useMainColor: true,
+    rowLink: false,
+    label: 'eligibility'
   }
 ]
 const headCellUserApprovals = [
@@ -649,21 +656,29 @@ const Admin = () => {
     setRejectPayment({ isOpen: false, previousModal: null })
   }
 
-  useEffect(() => {
-    if (loading || !joinRequest) return
-
-    const data = (joinRequest || []).map(item => ({
-      ...item,
-      account: item.account,
-      applied: dateFormat(item.created_at),
-      email: item.email
-    }))
+  const getJoinRequests = async () => {
+    const data = (joinRequest || []).map(async item => {
+      const hasKYC = await affiliateUtil.checkKYC(item.account)
+      return {
+        ...item,
+        account: item.account,
+        applied: dateFormat(item.created_at),
+        email: item.email,
+        eligibility: hasKYC ? 'Eligible' : 'Missing KYC'
+      }
+    })
+    const dataResolvedPromises = await Promise.all(data)
 
     setNewUsersPagination({
       ...newUsersPagination,
       count: infoJoin.aggregate.count
     })
-    setNewUserRows(data)
+    setNewUserRows(dataResolvedPromises)
+  }
+
+  useEffect(() => {
+    if (loading || !joinRequest) return
+    getJoinRequests()
   }, [loading, joinRequest, infoJoin])
 
   useEffect(() => {

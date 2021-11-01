@@ -216,6 +216,19 @@ const getUsers = async lowerBound => {
   }
 }
 
+const checkKYC = async acc => {
+  const { rows } = await eosApi.getTableRows({
+    code: mainConfig.eosioProtonAccount,
+    scope: mainConfig.eosioProtonAccount,
+    table: 'usersinfo',
+    json: true,
+    lower_bound: acc,
+    upper_bound: acc
+  })
+
+  return !!rows?.length
+}
+
 const getParams = async () => {
   const { rows } = await eosApi.getTableRows({
     code: mainConfig.affiliateAccount,
@@ -312,6 +325,7 @@ export const affiliateUtil = {
   approveKyc,
   getUsers,
   getUser,
+  checkKYC,
   isAccountValidAsReferrer,
   isAccountValidAsInvitee,
   getReferrals,
