@@ -76,9 +76,17 @@ export default theme => ({
     color: theme.palette.common.black,
     [theme.breakpoints.up('md')]: {
       minWidth: 'auto',
-      margin: theme.spacing(4, 5, 4, 0),
+      marginRight: theme.spacing(5),
       padding: theme.spacing(1, 2)
     }
+  },
+  iconButtonText: {
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: 14,
+    lineHeight: '16px',
+    letterSpacing: '1px'
   },
   menuIcon: {
     color: theme.palette.common.black

@@ -314,7 +314,9 @@ const Header = memo(({ onDrawerToggle, routes }) => {
               className={classes.iconButton}
               startIcon={<AccountIcon />}
             >
-              <Typography>{state.user.accountName}</Typography>
+              <Typography className={classes.iconButtonText}>
+                {state.user.accountName}
+              </Typography>
             </Button>
           ) : (
             <Button
