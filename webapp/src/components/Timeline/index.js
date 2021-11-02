@@ -86,7 +86,10 @@ const CustomizedTimeline = ({ items, itemHasAction }) => {
             <Typography
               variant="body2"
               color="textSecondary"
-              className={classes.date}
+              className={clsx(
+                classes.date,
+                !(index % 2) && classes.dateJustify
+              )}
             >
               {moment(item.block_time).format('MM/DD/YYYY hh:mmA')}
             </Typography>

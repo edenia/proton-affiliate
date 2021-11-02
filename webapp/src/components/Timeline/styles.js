@@ -41,6 +41,9 @@ export default theme => ({
     color: theme.palette.common.black,
     marginTop: 5
   },
+  dateJustify: {
+    justifyContent: 'end'
+  },
   paperWrapper: {
     paddingTop: 0,
     marginTop: -10

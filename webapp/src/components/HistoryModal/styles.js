@@ -5,7 +5,7 @@ export default theme => ({
     backgroundColor: 'rgba(245, 247, 250, 0.74)',
     boxShadow: 'none',
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     padding: theme.spacing(0, 1)
@@ -18,7 +18,8 @@ export default theme => ({
     lineHeight: 'normal',
     letterSpacing: '0.15px',
     textAlign: 'center',
-    color: theme.palette.common.black
+    color: theme.palette.common.black,
+    marginLeft: '8px'
   },
   timeline: {
     width: '100%',
@@ -45,14 +46,15 @@ export default theme => ({
     alignItems: 'center'
   },
   bodySecondary: {
-    overflow: 'scroll',
+    overflow: 'auto',
     padding: theme.spacing(2, 1),
     height: 'calc(100% - 80px)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
-      width: 430
+      width: 514,
+      padding: theme.spacing(6, 10)
     }
   },
   emptyState: {
@@ -73,6 +75,9 @@ export default theme => ({
       textAlign: 'center',
       color: '#000'
     }
+  },
+  timelineTitle: {
+    padding: theme.spacing(0, 2)
   },
   boxSecondary: {
     height: '100%'
