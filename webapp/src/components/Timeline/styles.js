@@ -49,7 +49,7 @@ export default theme => ({
     marginTop: -10
   },
   timeLineSeparator: {
-    height: '100px'
+    height: '80px'
   },
   secondaryColor: {
     borderColor: '#1DAEFF'

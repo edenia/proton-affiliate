@@ -18,6 +18,7 @@ import moment from 'moment'
 import { mainConfig } from '../../config'
 import { getLastCharacters } from '../../utils'
 
+import PlusSvg from './Plus.js'
 import AddSvg from './Add.js'
 import CloseSvg from './Close.js'
 import CancelSvg from './Cancel.js'
@@ -33,7 +34,7 @@ const TimelineIcon = ({ action, color }) => {
 
   switch (action) {
     case 'addref':
-      icon = <QuestionSvg color={color} />
+      icon = <PlusSvg color={color} />
       break
 
     case 'newaccount':
@@ -82,7 +83,11 @@ const CustomizedTimeline = ({ items, itemHasAction }) => {
     <Timeline align="alternate" classes={{ root: classes.main }}>
       {items.map((item, index) => (
         <TimelineItem key={`${index}-${item.action}`}>
-          <TimelineOppositeContent>
+          <TimelineOppositeContent
+            classes={{
+              root: classes.timelineOppositeContent
+            }}
+          >
             <Typography
               variant="body2"
               color="textSecondary"

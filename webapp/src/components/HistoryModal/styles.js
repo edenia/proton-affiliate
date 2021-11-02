@@ -54,7 +54,7 @@ export default theme => ({
     justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
       width: 514,
-      padding: theme.spacing(6, 10)
+      padding: theme.spacing(6, 9)
     }
   },
   emptyState: {
