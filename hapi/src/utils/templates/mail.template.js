@@ -10,7 +10,7 @@ const generateConfirmationMail = ({ account }) => {
             <tr>
                 <table style="max-width: 640px; margin-left: auto; margin-right: auto;">
                     <tr>
-                        <img style="margin: 40px 0px 24px 16px; width: 178px; height: 53px; object-fit: scale-down;" src="https://test.earnproton.com/icons/proton.png"/>
+                        <img style="margin: 40px 0px 24px 16px; width: 178px; height: 53px; object-fit: scale-down;" src="https://earnproton.com/icons/proton.png"/>
                     </tr>
                     <tr>
                         <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 21px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: 0.15px; text-align: left; color: #000;">
@@ -67,22 +67,22 @@ const generateConfirmationMail = ({ account }) => {
                         <tr>
                             <div style="margin-bottom: 16px; text-align: center;">
                                 <a href="https://www.facebook.com/protonxpr" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/facebook.png">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/facebook.png">
                                 </a>
                                 <a href="https://www.instagram.com/protonxpr" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/instagram.png">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/instagram.png">
                                 </a>
                                 <a href="https://twitter.com/protonxpr" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/twitter.png">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/twitter.png">
                                 </a>
                                 <a href="https://www.reddit.com/r/ProtonChain" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/reddit.png">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/reddit.png">
                                 </a>
                                 <a href="https://github.com/eoscostarica/proton-affiliate" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/github.png">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/github.png">
                                 </a>
                                 <a href="https://t.me/protonxpr" style="text-decoration: none;">
-                                    <img style="width: 32px; height: 32px;" src="https://test.earnproton.com/icons/telegram.png">
+                                    <img style="width: 32px; height: 32px;" src="https://earnproton.com/icons/telegram.png">
                                 </a>
                             </div>
                         </tr>
