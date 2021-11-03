@@ -6,41 +6,42 @@ const generateConfirmationMail = ({ account }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <table style="padding: 0px 16px 0px; margin-left: auto; margin-right: auto;">
+        <table style="margin-left: auto; margin-right: auto;">
             <tr>
                 <table style="max-width: 640px; margin-left: auto; margin-right: auto;">
                     <tr>
-                        <img style="margin: 0px 44px 24px 44px; width: 177.7px; height: 53px; object-fit: scale-down" src="https://earnproton.com/proton.png"/>
+                        <img style="margin: 40px 0px 24px 16px; width: 178px; height: 53px; object-fit: scale-down;" src="https://test.earnproton.com/icons/proton.png"/>
                     </tr>
                     <tr>
-                        <p align="left" style="margin: 24px 96px; font-family: Arial; font-size: 21px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: 0.15px; text-align: left; color: #000;">
-                            Welcome to the Proton On-Chain Referral Program!
+                        <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 21px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: 0.15px; text-align: left; color: #000;">
+                            ${account} - Welcome to the Proton On-Chain Referral Program!
                         </p>
                     </tr>
                     <tr>
-                        <p align="left" style="margin: 24px 96px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
+                        <p align="left" style="margin: 0px 16px 8px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                             Your Proton referral link is now active. You may share the following link with your friends to earn rewards when they complete new account registration and KYC on the Proton network:
                         </p>
                     </tr>
                     <tr>
-                        <p align="center" style="margin: 24px 0 25px;">
-                            <a href= https://earnproton.com/join/${account}" style="font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1; letter-spacing: 0.4px; text-align: center; color: #582acb;">
+                        <p align="center" style="margin: 0px 16px 16px;">
+                            <a href="https://earnproton.com/join/${account}" style="font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1; letter-spacing: 0.4px; text-align: center; color: #582acb;">
                                 https://earnproton.com/join/${account}
                             </a>
                         </p>
                     </tr>
                     <tr>
-                        <p align="left" style="margin: 24px 96px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000; overflow-wrap: break-word;">
+                        <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000; overflow-wrap: break-word;">
                             To view your referrals and payments, login using your proton wallet at https://earnproton.com.
                         </p>
                     </tr>
                     <tr>
-                        <p align="left" style="margin: 24px 96px 0px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
+                        <p align="left" style="margin: 0px 16px 0px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                             Best Regards,
                         </p>
                     </tr>
                     <tr>
-                        <p align="left" style="margin: 8px 96px 24px; font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
+                        <br>
+                        <p align="left" style="margin: 0px 16px 35px; font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                             The Proton Affiliate Team
                             <br>
                             (Edenia, SoftAtom)
@@ -49,16 +50,44 @@ const generateConfirmationMail = ({ account }) => {
                 </table>
             </tr>
             <tr>
-                <table style="height: 157px; margin: 40px 0 0; padding: 22px 96px 15px; background-color: rgba(0, 0, 0, 0.87); margin-left: auto; margin-right: auto;">
-                    <p align="left" style="flex-grow: 0;  margin: 0 0 20px; font-family: Arial; font-size: 14px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.14; letter-spacing: 0.44px; text-align: center; color: #fff;">
-                        <a href="https://forms.gle/GWHig5ciAvg5fdEH7" style="color: #fff;">
-                            Apply Here for Funding
-                        </a>
-                    </p>
-                    <p align="left" style="margin: 20px 218px 15px; font-family: Arial; font-size: 12px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.33; letter-spacing: 1.5px; text-align: center; color: #fff;">
-                        THIS PROJECT WAS FUNDED THROUGH THE PROTON GOVERNANCE COMMITTEE WORKER PROPOSAL SYSTEM
-                    </p>
-                </table>
+                <div style="background-color: #000; margin-left: auto; margin-right: auto; padding-top: 20px;">
+                    <table style=" margin-left: auto; margin-right: auto;">
+                        <tr>
+                            <p align="left" style="width: 348px; margin: 0px auto 8px auto; font-family: Arial; font-size: 12px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.33; letter-spacing: 1.5px; text-align: center; color: #fff;">
+                                THIS PROJECT WAS FUNDED THROUGH THE PROTON GOVERNANCE COMMITTEE WORKER PROPOSAL SYSTEM
+                            </p>
+                        </tr>
+                        <tr>
+                            <p align="left" style="flex-grow: 0; margin: 0px 16px 14px; font-family: Arial; font-size: 14px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.14; letter-spacing: 0.44px; text-align: center; color: #fff;">
+                                <a href="https://forms.gle/GWHig5ciAvg5fdEH7" style="color: #fff;">
+                                    Apply Here for Funding
+                                </a>
+                            </p>
+                        </tr>
+                        <tr>
+                            <div style="margin-bottom: 16px; text-align: center;">
+                                <a href="https://www.facebook.com/protonxpr" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/facebook.png">
+                                </a>
+                                <a href="https://www.instagram.com/protonxpr" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/instagram.png">
+                                </a>
+                                <a href="https://twitter.com/protonxpr" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/twitter.png">
+                                </a>
+                                <a href="https://www.reddit.com/r/ProtonChain" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/reddit.png">
+                                </a>
+                                <a href="https://github.com/eoscostarica/proton-affiliate" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://test.earnproton.com/icons/github.png">
+                                </a>
+                                <a href="https://t.me/protonxpr" style="text-decoration: none;">
+                                    <img style="width: 32px; height: 32px;" src="https://test.earnproton.com/icons/telegram.png">
+                                </a>
+                            </div>
+                        </tr>
+                    </table>
+                </div>
             </tr>
         </table>
     </body>
