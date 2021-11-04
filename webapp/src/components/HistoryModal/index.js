@@ -4,16 +4,16 @@ import { makeStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
+import CancelIcon from '@material-ui/icons/Cancel'
 import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
 
 import CustomizedTimeline from '../Timeline'
 import Modal from '../Modal'
-import styles from './styles'
-
 import { GET_LAST_SYNCED } from '../../gql'
+
+import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
@@ -31,12 +31,12 @@ const HistoryModal = ({ open, onClose, children, referral, title }) => {
     <Modal open={open} setOpen={onClose}>
       <Box className={classes.timeline}>
         <Box className={classes.secondayBar} position="sticky">
-          <IconButton aria-label="Back" onClick={onClose}>
-            <KeyboardBackspaceIcon />
-          </IconButton>
           <Typography className={classes.secondayTitle}>
             {referral?.invitee} by {referral?.referrer}
           </Typography>
+          <IconButton aria-label="Back" onClick={onClose}>
+            <CancelIcon />
+          </IconButton>
         </Box>
         <Box className={classes.bodySecondary}>
           <Box className={classes.boxSecondary}>
