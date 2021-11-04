@@ -47,7 +47,7 @@
     "account": "Account Name",
     "address": "Email Address",
     "accountHelperText": "Account found!",
-    "accountHelperError": "Account name is not registered!",
+    "accountHelperError": "Account is already an affiliate!",
     "switchLabel": "Receive news and updates.",
     "save": "Apply",
     "cancel": "Cancel",

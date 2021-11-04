@@ -13,13 +13,12 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { affiliateUtil, useImperativeQuery } from '../../utils'
+import { useImperativeQuery } from '../../utils'
 import {
   GET_REWARDS_HISTORY,
   GET_REFERRAL_BY_INVITEE,
   ADD_JOIN_REQUEST_MUTATION
 } from '../../gql'
-import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
 import HistoryModal from '../../components/HistoryModal'
@@ -53,7 +52,7 @@ const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
   const location = useLocation()
-  const [, { showMessage }] = useSharedState()
+  const [state, { showMessage }] = useSharedState()
   const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
   const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
@@ -61,19 +60,12 @@ const Home = () => {
   )
   const [open, setOpen] = useState(false)
   const [checked, setCheked] = useState(false)
-  const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
-  const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
-  const debouncedAccount = useDebounce(account, 200)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
-
-  const handleOnChangeAccount = e => {
-    setAccount(e.target.value)
-  }
 
   const handleOnChangeMail = e => {
     setEmail(e.target.value)
@@ -108,7 +100,7 @@ const Home = () => {
       await addJoinRequest({
         variables: {
           user: {
-            account,
+            account: state.user.accountName,
             email,
             receive_news: checked
           }
@@ -121,7 +113,6 @@ const Home = () => {
         content: t('success')
       })
       setCheked(false)
-      setAccount('')
       setEmail('')
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
@@ -130,10 +121,8 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setIsValidEmail(INIT_VALIDATION_VALUES)
-    setIsValidAccount(INIT_VALIDATION_VALUES)
     setCheked(false)
     setOpen(false)
-    setAccount('')
     setEmail('')
   }
 
@@ -157,30 +146,6 @@ const Home = () => {
     setCurrentReferral(data.referrals[0])
     setIsHistoryModalOpen(true)
   }
-
-  useEffect(() => {
-    const validateAccount = async () => {
-      const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedAccount
-      )
-
-      setIsValidAccount({
-        showHelper: true,
-        isValid: !isValid,
-        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
-      })
-    }
-
-    if (debouncedAccount) {
-      validateAccount()
-    } else {
-      setIsValidAccount({
-        showHelper: false,
-        message: '',
-        isValid: false
-      })
-    }
-  }, [debouncedAccount])
 
   useEffect(() => {
     if (loading || !data) return
@@ -268,26 +233,6 @@ const Home = () => {
           <form noValidate autoComplete="off">
             <TextField
               className={classes.textField}
-              onChange={handleOnChangeAccount}
-              value={account}
-              id="filled-account"
-              label={t('account')}
-              variant="filled"
-              InputProps={{
-                endAdornment: isValidAccount.isValid ? (
-                  <DoneIcon color="primary" />
-                ) : (
-                  <></>
-                )
-              }}
-            />
-            {isValidAccount.showHelper && (
-              <Typography className={classes.helperText}>
-                {isValidAccount.message}
-              </Typography>
-            )}
-            <TextField
-              className={classes.textField}
               onChange={handleOnChangeMail}
               value={email}
               id="filled-email"
@@ -324,7 +269,7 @@ const Home = () => {
             <Button
               color="primary"
               onClick={handleAddJoinRequest}
-              disabled={!isValidAccount.isValid || !isValidEmail.isValid}
+              disabled={!isValidEmail.isValid}
             >
               {loadingJoin ? (
                 <CircularProgress color="primary" size={24} />
