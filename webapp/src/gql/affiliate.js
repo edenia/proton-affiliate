@@ -133,6 +133,7 @@ export const GET_JOIN_REQUEST = gql`
     ) {
       account
       email
+      state
       id
       receive_news
       created_at
@@ -143,6 +144,17 @@ export const GET_JOIN_REQUEST = gql`
 export const DELETE_JOIN_REQUEST_MUTATION = gql`
   mutation deleteJoin($ids: [uuid!]) {
     delete_join_request(where: { id: { _in: $ids } }) {
+      affected_rows
+    }
+  }
+`
+
+export const UPDATE_JOIN_REQUEST_MUTATION = gql`
+  mutation ($account: [String!], $state: String!) {
+    update_join_request(
+      where: { account: { _in: $account } }
+      _set: { state: $state }
+    ) {
       affected_rows
     }
   }

@@ -60,7 +60,7 @@ export default theme => ({
     '& .MuiListItemText-primary': {
       fontFamily: 'Montserrat',
       fontStyle: 'normal',
-      fontWeight: 'normal',
+      fontWeight: 600,
       fontSize: 14,
       lineHeight: '16px',
       display: 'flex',
@@ -72,7 +72,21 @@ export default theme => ({
     }
   },
   iconButton: {
-    color: theme.palette.common.black
+    borderRadius: 0,
+    color: theme.palette.common.black,
+    [theme.breakpoints.up('md')]: {
+      minWidth: 'auto',
+      marginRight: theme.spacing(5),
+      padding: theme.spacing(1, 2)
+    }
+  },
+  iconButtonText: {
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: 14,
+    lineHeight: '16px',
+    letterSpacing: '1px'
   },
   menuIcon: {
     color: theme.palette.common.black
@@ -84,15 +98,11 @@ export default theme => ({
   },
   btnHeader: {
     [theme.breakpoints.up('md')]: {
-      marginLeft: theme.spacing(2),
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacing(4)
     }
   },
   btnLogin: {
-    borderRadius: 0,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: theme.spacing(2)
-    }
+    borderRadius: 0
   },
   accountNameInfo: {
     '& .MuiBox-root': {

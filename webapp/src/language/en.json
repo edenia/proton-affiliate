@@ -47,7 +47,7 @@
     "account": "Account Name",
     "address": "Email Address",
     "accountHelperText": "Account found!",
-    "accountHelperError": "Account is already an affiliate!",
+    "accountHelperError": "Account is already an affiliate or is on the waiting list!",
     "switchLabel": "Receive news and updates.",
     "save": "Apply",
     "cancel": "Cancel",

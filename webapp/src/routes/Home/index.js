@@ -13,11 +13,13 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { useImperativeQuery } from '../../utils'
+import { joinRequestConfig } from '../../config'
+import { affiliateUtil, useImperativeQuery } from '../../utils'
 import {
   GET_REWARDS_HISTORY,
   GET_REFERRAL_BY_INVITEE,
-  ADD_JOIN_REQUEST_MUTATION
+  ADD_JOIN_REQUEST_MUTATION,
+  GET_JOIN_REQUEST
 } from '../../gql'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
@@ -52,16 +54,19 @@ const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
   const location = useLocation()
-  const [state, { showMessage }] = useSharedState()
+  const [state, { login, showMessage }] = useSharedState()
   const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
   const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
     ADD_JOIN_REQUEST_MUTATION
   )
+  const getJoinRequestUsers = useImperativeQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
   const [checked, setCheked] = useState(false)
+  const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
+  const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
@@ -147,6 +152,15 @@ const Home = () => {
     setIsHistoryModalOpen(true)
   }
 
+  const handleOpenApplyModal = () => {
+    if (!account) {
+      login()
+      return
+    }
+
+    setOpen(true)
+  }
+
   useEffect(() => {
     if (loading || !data) return
 
@@ -176,6 +190,43 @@ const Home = () => {
     getLastReferral()
   }, [])
 
+  useEffect(() => {
+    setAccount(state.user ? state.user.accountName : '')
+  }, [state.user])
+
+  useEffect(() => {
+    const validateAccount = async () => {
+      const {
+        data: { joinRequest }
+      } = await getJoinRequestUsers({
+        limit: 1,
+        where: {
+          account: { _eq: account },
+          state: { _eq: joinRequestConfig.state.pending }
+        }
+      })
+      const isAnInvitee = await affiliateUtil.isAccountValidAsInvitee(account)
+
+      const isValid = !!joinRequest.length || isAnInvitee
+
+      setIsValidAccount({
+        showHelper: true,
+        isValid: !isValid,
+        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
+      })
+    }
+
+    if (account) {
+      validateAccount()
+    } else {
+      setIsValidAccount({
+        showHelper: false,
+        message: '',
+        isValid: false
+      })
+    }
+  }, [account])
+
   return (
     <Box className={classes.homePage}>
       <Box className={classes.infoBox}>
@@ -198,7 +249,7 @@ const Home = () => {
             className={classes.joinBtn}
             variant="contained"
             color="primary"
-            onClick={() => setOpen(true)}
+            onClick={handleOpenApplyModal}
           >
             {t('buttonLabel')}
           </Button>
@@ -231,6 +282,26 @@ const Home = () => {
         <Box className={classes.joinModel}>
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>
           <form noValidate autoComplete="off">
+            <TextField
+              disabled
+              className={classes.textField}
+              value={account}
+              id="filled-account"
+              label={t('account')}
+              variant="filled"
+              InputProps={{
+                endAdornment: isValidAccount.isValid ? (
+                  <DoneIcon color="primary" />
+                ) : (
+                  <></>
+                )
+              }}
+            />
+            {isValidAccount.showHelper && (
+              <Typography className={classes.helperText}>
+                {isValidAccount.message}
+              </Typography>
+            )}
             <TextField
               className={classes.textField}
               onChange={handleOnChangeMail}
