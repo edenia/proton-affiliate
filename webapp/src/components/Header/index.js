@@ -19,6 +19,7 @@ import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import List from '@material-ui/core/List'
+import Link from '@material-ui/core/Link'
 import MuiListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import LanguageIcon from '@material-ui/icons/Language'
@@ -234,6 +235,14 @@ const Header = memo(({ onDrawerToggle, routes }) => {
         anchorEl={menuAnchorEl}
         open={!!menuAnchorEl}
         onClose={handleCloseMenu}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
       >
         <MenuItem className={classes.accountNameInfo}>
           <Box>
@@ -266,16 +275,25 @@ const Header = memo(({ onDrawerToggle, routes }) => {
             <MenuIcon className={classes.menuIcon} />
           </IconButton>
         </Hidden>
-        {mainConfig.isTestnet ? (
-          <ProtonLogoTestnet className={classes.imageSm} />
-        ) : (
-          <ProtonLogo className={classes.imageSm} />
-        )}
-        {mainConfig.isTestnet ? (
-          <ProtonLogoDesktopTestnet className={classes.imageMd} />
-        ) : (
-          <ProtonLogoDesktop className={classes.imageMd} />
-        )}
+        <Link
+          button
+          component={NavLink}
+          exact
+          to="/"
+          activeClassName="active"
+          href="/"
+        >
+          {mainConfig.isTestnet ? (
+            <ProtonLogoTestnet className={classes.imageSm} />
+          ) : (
+            <ProtonLogo className={classes.imageSm} />
+          )}
+          {mainConfig.isTestnet ? (
+            <ProtonLogoDesktopTestnet className={classes.imageMd} />
+          ) : (
+            <ProtonLogoDesktop className={classes.imageMd} />
+          )}
+        </Link>
         <PageTitle title={t(`${location.pathname}>title`, mainConfig.title)} />
         <Box className={classes.desktopSection}>
           <List component="nav" className={classes.navBar}>
@@ -296,7 +314,9 @@ const Header = memo(({ onDrawerToggle, routes }) => {
               className={classes.iconButton}
               startIcon={<AccountIcon />}
             >
-              <Typography>{state.user.accountName}</Typography>
+              <Typography className={classes.iconButtonText}>
+                {state.user.accountName}
+              </Typography>
             </Button>
           ) : (
             <Button
