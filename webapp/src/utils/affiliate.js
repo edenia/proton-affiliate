@@ -200,6 +200,19 @@ const rejectRef = async (admin, invitees, accountName, memo) => {
   return transaction
 }
 
+const checkKyc = async acc => {
+  const { rows } = await eosApi.getTableRows({
+    code: mainConfig.eosioProtonAccount,
+    scope: mainConfig.eosioProtonAccount,
+    table: 'usersinfo',
+    json: true,
+    lower_bound: acc,
+    upper_bound: acc
+  })
+
+  return !!rows?.length
+}
+
 const getUsers = async lowerBound => {
   const {
     rows,
@@ -315,6 +328,7 @@ export const affiliateUtil = {
   addUser,
   removeUsers,
   approveKyc,
+  checkKyc,
   getUsers,
   getUser,
   isAccountValidAsReferrer,

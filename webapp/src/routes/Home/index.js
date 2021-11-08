@@ -195,6 +195,7 @@ const Home = () => {
 
   useEffect(() => {
     const validateAccount = async () => {
+      const isAnInvitee = await affiliateUtil.isAccountValidAsInvitee(account)
       const {
         data: { joinRequest }
       } = await getJoinRequestUsers({
@@ -204,14 +205,17 @@ const Home = () => {
           state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       })
-      const isAnInvitee = await affiliateUtil.isAccountValidAsInvitee(account)
+      const hasKyc = await affiliateUtil.checkKyc(account)
 
-      const isValid = !!joinRequest.length || isAnInvitee
+      const isValid = !isAnInvitee && !joinRequest.length && hasKyc
+      const errorMessageTag =
+        (isAnInvitee ? 'accountHelperError' : '') ||
+        (joinRequest.length ? 'accountHelperError2' : 'accountHelperError3')
 
       setIsValidAccount({
         showHelper: true,
-        isValid: !isValid,
-        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
+        isValid,
+        message: t(errorMessageTag)
       })
     }
 
