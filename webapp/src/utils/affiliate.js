@@ -26,6 +26,10 @@ const REFERRAL_STATUS_IDS = {
   PAID: 6
 }
 const GUEST_ROLE = 'NON-AFFILIATED'
+const JOIN_REQUEST_STATUS = {
+  pending: 'pending',
+  approved: 'approved'
+}
 
 const getUserRole = async accountName => {
   if (!accountName) {
@@ -304,6 +308,7 @@ export const affiliateUtil = {
   ROLES,
   ROLES_IDS,
   GUEST_ROLE,
+  JOIN_REQUEST_STATUS,
   getUserRole,
   rejectRef,
   payRef,

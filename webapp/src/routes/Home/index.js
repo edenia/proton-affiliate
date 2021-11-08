@@ -13,7 +13,6 @@ import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { joinRequestConfig } from '../../config'
 import { affiliateUtil, useImperativeQuery } from '../../utils'
 import {
   GET_REWARDS_HISTORY,
@@ -62,7 +61,7 @@ const Home = () => {
   )
   const getJoinRequestUsers = useImperativeQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
-  const [checked, setCheked] = useState(false)
+  const [checked, setChecked] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
@@ -105,7 +104,7 @@ const Home = () => {
       await addJoinRequest({
         variables: {
           user: {
-            account: state.user.accountName,
+            account: account,
             email,
             receive_news: checked
           }
@@ -117,7 +116,7 @@ const Home = () => {
         type: 'success',
         content: t('success')
       })
-      setCheked(false)
+      setChecked(false)
       setEmail('')
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
@@ -126,7 +125,7 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setIsValidEmail(INIT_VALIDATION_VALUES)
-    setCheked(false)
+    setChecked(false)
     setOpen(false)
     setEmail('')
   }
@@ -202,7 +201,7 @@ const Home = () => {
         limit: 1,
         where: {
           account: { _eq: account },
-          state: { _eq: joinRequestConfig.state.pending }
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       })
       const isAnInvitee = await affiliateUtil.isAccountValidAsInvitee(account)
@@ -328,7 +327,7 @@ const Home = () => {
             control={
               <Switch
                 checked={checked}
-                onChange={() => setCheked(!checked)}
+                onChange={() => setChecked(!checked)}
                 name="receive"
                 color="primary"
               />

@@ -142,8 +142,8 @@ export const GET_JOIN_REQUEST = gql`
 `
 
 export const DELETE_JOIN_REQUEST_MUTATION = gql`
-  mutation deleteJoin($ids: [uuid!]) {
-    delete_join_request(where: { id: { _in: $ids } }) {
+  mutation deleteJoin($where: join_request_bool_exp!) {
+    delete_join_request(where: $where) {
       affected_rows
     }
   }

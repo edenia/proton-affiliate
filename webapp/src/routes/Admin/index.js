@@ -15,7 +15,7 @@ import Box from '@material-ui/core/Box'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 
-import { mainConfig, joinRequestConfig } from '../../config'
+import { mainConfig } from '../../config'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
@@ -334,7 +334,7 @@ const Admin = () => {
     try {
       await deleteJoinRequest({
         variables: {
-          ids: selected.new
+          where: { id: { _in: selected.new } }
         }
       })
 
@@ -343,7 +343,7 @@ const Admin = () => {
           offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
           limit: newUsersPagination.rowsPerPage,
           where: {
-            state: { _eq: joinRequestConfig.state.pending }
+            state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
           }
         }
       })
@@ -377,7 +377,7 @@ const Admin = () => {
       await updateJoinRequest({
         variables: {
           account: usersAccounts,
-          state: joinRequestConfig.state.approved
+          state: affiliateUtil.JOIN_REQUEST_STATUS.approved
         }
       })
 
@@ -432,7 +432,7 @@ const Admin = () => {
         offset: page * newUsersPagination.rowsPerPage,
         limit: newUsersPagination.rowsPerPage,
         where: {
-          state: { _eq: joinRequestConfig.state.pending }
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       }
     })
@@ -449,7 +449,7 @@ const Admin = () => {
         offset: newUsersPagination.page * e.target.value,
         limit: e.target.value,
         where: {
-          state: { _eq: joinRequestConfig.state.pending }
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       }
     })
@@ -628,6 +628,12 @@ const Admin = () => {
         user.accountName
       )
 
+      await deleteJoinRequest({
+        variables: {
+          where: { account: { _in: selected[selected.tableName] } }
+        }
+      })
+
       showMessage({
         type: 'success',
         content: (
@@ -709,7 +715,7 @@ const Admin = () => {
         offset: 0,
         limit: 5,
         where: {
-          state: { _eq: joinRequestConfig.state.pending }
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       }
     })
