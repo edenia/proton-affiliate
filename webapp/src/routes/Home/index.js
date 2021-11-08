@@ -104,7 +104,7 @@ const Home = () => {
       await addJoinRequest({
         variables: {
           user: {
-            account: account,
+            account,
             email,
             receive_news: checked
           }
