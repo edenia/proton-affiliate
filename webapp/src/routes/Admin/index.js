@@ -34,7 +34,8 @@ import {
   GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
   DELETE_JOIN_REQUEST_MUTATION,
-  SEND_CONFIRMATION_MUTATION
+  SEND_CONFIRMATION_MUTATION,
+  UPDATE_JOIN_REQUEST_MUTATION
 } from '../../gql'
 
 import AddUserModal from './AddUserModal'
@@ -59,7 +60,7 @@ const headCellNewUsers = [
   {
     id: 'email',
     align: 'right',
-    useMainColor: true,
+    useMainColor: false,
     rowLink: false,
     label: 'email'
   }
@@ -275,6 +276,7 @@ const Admin = () => {
     DELETE_JOIN_REQUEST_MUTATION
   )
   const [sendConfirmation] = useMutation(SEND_CONFIRMATION_MUTATION)
+  const [updateJoinRequest] = useMutation(UPDATE_JOIN_REQUEST_MUTATION)
   const [openAddUser, setAddUser] = useState(false)
   const [openRejectPayment, setRejectPayment] = useState({
     isOpen: false,
@@ -332,14 +334,17 @@ const Admin = () => {
     try {
       await deleteJoinRequest({
         variables: {
-          ids: selected.new
+          where: { id: { _in: selected.new } }
         }
       })
 
       await loadNewUsers({
         variables: {
           offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
-          limit: newUsersPagination.rowsPerPage
+          limit: newUsersPagination.rowsPerPage,
+          where: {
+            state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+          }
         }
       })
 
@@ -363,15 +368,20 @@ const Admin = () => {
         user.accountName
       )
 
-      await sendConfirmation({
+      sendConfirmation({
         variables: {
           accounts: usersAccounts
         }
       })
 
-      setAddUser(false)
+      await updateJoinRequest({
+        variables: {
+          account: usersAccounts,
+          state: affiliateUtil.JOIN_REQUEST_STATUS.approved
+        }
+      })
 
-      await deleteNewUsers(false)
+      setAddUser(false)
 
       showMessage({
         type: 'success',
@@ -420,7 +430,10 @@ const Admin = () => {
     await loadNewUsers({
       variables: {
         offset: page * newUsersPagination.rowsPerPage,
-        limit: newUsersPagination.rowsPerPage
+        limit: newUsersPagination.rowsPerPage,
+        where: {
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        }
       }
     })
   }
@@ -434,7 +447,10 @@ const Admin = () => {
     await loadNewUsers({
       variables: {
         offset: newUsersPagination.page * e.target.value,
-        limit: e.target.value
+        limit: e.target.value,
+        where: {
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        }
       }
     })
   }
@@ -612,6 +628,12 @@ const Admin = () => {
         user.accountName
       )
 
+      await deleteJoinRequest({
+        variables: {
+          where: { account: { _in: selected[selected.tableName] } }
+        }
+      })
+
       showMessage({
         type: 'success',
         content: (
@@ -691,7 +713,10 @@ const Admin = () => {
     loadNewUsers({
       variables: {
         offset: 0,
-        limit: 5
+        limit: 5,
+        where: {
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        }
       }
     })
   }, [])

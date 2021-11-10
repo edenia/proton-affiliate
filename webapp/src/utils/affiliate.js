@@ -26,6 +26,10 @@ const REFERRAL_STATUS_IDS = {
   PAID: 6
 }
 const GUEST_ROLE = 'NON-AFFILIATED'
+const JOIN_REQUEST_STATUS = {
+  pending: 'pending',
+  approved: 'approved'
+}
 
 const getUserRole = async accountName => {
   if (!accountName) {
@@ -196,6 +200,19 @@ const rejectRef = async (admin, invitees, accountName, memo) => {
   return transaction
 }
 
+const checkKyc = async acc => {
+  const { rows } = await eosApi.getTableRows({
+    code: mainConfig.eosioProtonAccount,
+    scope: mainConfig.eosioProtonAccount,
+    table: 'usersinfo',
+    json: true,
+    lower_bound: acc,
+    upper_bound: acc
+  })
+
+  return !!rows?.length
+}
+
 const getUsers = async lowerBound => {
   const {
     rows,
@@ -304,12 +321,14 @@ export const affiliateUtil = {
   ROLES,
   ROLES_IDS,
   GUEST_ROLE,
+  JOIN_REQUEST_STATUS,
   getUserRole,
   rejectRef,
   payRef,
   addUser,
   removeUsers,
   approveKyc,
+  checkKyc,
   getUsers,
   getUser,
   isAccountValidAsReferrer,
