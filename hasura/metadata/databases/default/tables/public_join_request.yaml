@@ -14,11 +14,12 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
     - account
-    - email
-    - receive_news
     - created_at
+    - email
+    - id
+    - receive_news
+    - state
     - updated_at
     filter: {}
   role: guest
@@ -29,6 +30,7 @@ update_permissions:
     - account
     - email
     - receive_news
+    - state
     filter: {}
   role: guest
 delete_permissions:
