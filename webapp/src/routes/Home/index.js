@@ -17,9 +17,9 @@ import { affiliateUtil, useImperativeQuery } from '../../utils'
 import {
   GET_REWARDS_HISTORY,
   GET_REFERRAL_BY_INVITEE,
-  ADD_JOIN_REQUEST_MUTATION
+  ADD_JOIN_REQUEST_MUTATION,
+  GET_JOIN_REQUEST
 } from '../../gql'
-import useDebounce from '../../hooks/useDebounce'
 import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
 import HistoryModal from '../../components/HistoryModal'
@@ -53,27 +53,23 @@ const Home = () => {
   const classes = useStyles()
   const { t } = useTranslation('homeRoute')
   const location = useLocation()
-  const [, { showMessage }] = useSharedState()
+  const [state, { login, showMessage }] = useSharedState()
   const [getLastReferral, { loading, data }] = useLazyQuery(GET_REWARDS_HISTORY)
   const loadReferralByInvitee = useImperativeQuery(GET_REFERRAL_BY_INVITEE)
   const [addJoinRequest, { loading: loadingJoin }] = useMutation(
     ADD_JOIN_REQUEST_MUTATION
   )
+  const getJoinRequestUsers = useImperativeQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
-  const [checked, setCheked] = useState(false)
+  const [checked, setChecked] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
   const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
-  const debouncedAccount = useDebounce(account, 200)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
-
-  const handleOnChangeAccount = e => {
-    setAccount(e.target.value)
-  }
 
   const handleOnChangeMail = e => {
     setEmail(e.target.value)
@@ -120,8 +116,7 @@ const Home = () => {
         type: 'success',
         content: t('success')
       })
-      setCheked(false)
-      setAccount('')
+      setChecked(false)
       setEmail('')
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
@@ -130,10 +125,8 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setIsValidEmail(INIT_VALIDATION_VALUES)
-    setIsValidAccount(INIT_VALIDATION_VALUES)
-    setCheked(false)
+    setChecked(false)
     setOpen(false)
-    setAccount('')
     setEmail('')
   }
 
@@ -158,29 +151,14 @@ const Home = () => {
     setIsHistoryModalOpen(true)
   }
 
-  useEffect(() => {
-    const validateAccount = async () => {
-      const isValid = await affiliateUtil.isAccountValidAsInvitee(
-        debouncedAccount
-      )
-
-      setIsValidAccount({
-        showHelper: true,
-        isValid: !isValid,
-        message: t(!isValid ? 'accountHelperText' : 'accountHelperError')
-      })
+  const handleOpenApplyModal = () => {
+    if (!account) {
+      login()
+      return
     }
 
-    if (debouncedAccount) {
-      validateAccount()
-    } else {
-      setIsValidAccount({
-        showHelper: false,
-        message: '',
-        isValid: false
-      })
-    }
-  }, [debouncedAccount])
+    setOpen(true)
+  }
 
   useEffect(() => {
     if (loading || !data) return
@@ -211,6 +189,47 @@ const Home = () => {
     getLastReferral()
   }, [])
 
+  useEffect(() => {
+    setAccount(state.user ? state.user.accountName : '')
+  }, [state.user])
+
+  useEffect(() => {
+    const validateAccount = async () => {
+      const isAnInvitee = await affiliateUtil.isAccountValidAsInvitee(account)
+      const {
+        data: { joinRequest }
+      } = await getJoinRequestUsers({
+        limit: 1,
+        where: {
+          account: { _eq: account },
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        }
+      })
+      const hasKyc = await affiliateUtil.checkKyc(account)
+
+      const isValid = !isAnInvitee && !joinRequest.length && hasKyc
+      const errorMessageTag =
+        (isAnInvitee ? 'accountHelperError' : '') ||
+        (joinRequest.length ? 'accountHelperError2' : 'accountHelperError3')
+
+      setIsValidAccount({
+        showHelper: true,
+        isValid,
+        message: t(errorMessageTag)
+      })
+    }
+
+    if (account) {
+      validateAccount()
+    } else {
+      setIsValidAccount({
+        showHelper: false,
+        message: '',
+        isValid: false
+      })
+    }
+  }, [account])
+
   return (
     <Box className={classes.homePage}>
       <Box className={classes.infoBox}>
@@ -233,7 +252,7 @@ const Home = () => {
             className={classes.joinBtn}
             variant="contained"
             color="primary"
-            onClick={() => setOpen(true)}
+            onClick={handleOpenApplyModal}
           >
             {t('buttonLabel')}
           </Button>
@@ -267,8 +286,8 @@ const Home = () => {
           <Typography className={classes.joinText}>{t('modalInfo')}</Typography>
           <form noValidate autoComplete="off">
             <TextField
+              disabled
               className={classes.textField}
-              onChange={handleOnChangeAccount}
               value={account}
               id="filled-account"
               label={t('account')}
@@ -312,7 +331,7 @@ const Home = () => {
             control={
               <Switch
                 checked={checked}
-                onChange={() => setCheked(!checked)}
+                onChange={() => setChecked(!checked)}
                 name="receive"
                 color="primary"
               />
@@ -324,7 +343,7 @@ const Home = () => {
             <Button
               color="primary"
               onClick={handleAddJoinRequest}
-              disabled={!isValidAccount.isValid || !isValidEmail.isValid}
+              disabled={!isValidEmail.isValid}
             >
               {loadingJoin ? (
                 <CircularProgress color="primary" size={24} />
