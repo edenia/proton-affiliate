@@ -217,6 +217,14 @@ const Header = memo(({ onDrawerToggle, routes }) => {
           anchorEl={menuAnchorEl}
           open={!!menuAnchorEl}
           onClose={handleCloseMenu}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
         >
           <MenuItem className={classes.accountNameInfo}>
             <Box>
