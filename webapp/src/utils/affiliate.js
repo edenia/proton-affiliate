@@ -210,7 +210,7 @@ const checkKyc = async acc => {
     upper_bound: acc
   })
 
-  return !!rows[0]?.kyc?.length > 0
+  return !!rows[0]?.kyc?.length
 }
 
 const getUsers = async lowerBound => {
