@@ -210,7 +210,8 @@ const Home = () => {
       const isValid = !isAnInvitee && !joinRequest.length && hasKyc
       const errorMessageTag =
         (isAnInvitee ? 'accountHelperError' : '') ||
-        (joinRequest.length ? 'accountHelperError2' : 'accountHelperError3')
+        (joinRequest.length ? 'accountHelperError2' : '') ||
+        (!hasKyc ? 'accountHelperError3' : 'accountHelperText')
 
       setIsValidAccount({
         showHelper: true,
