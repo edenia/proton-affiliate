@@ -17,10 +17,46 @@ import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import Toolbar from '@material-ui/core/Toolbar'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { mainConfig } from '../../config'
 
 import styles from './styles'
+
+const useStyles = makeStyles(styles)
+
+const EnhancedTableToolbar = ({ onFilter, filterValues }) => {
+  return (
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 }
+      }}
+    >
+      <Tooltip title="Filter list">
+        <IconButton
+          onClick={() =>
+            onFilter(Math.floor(Math.random() * filterValues.length))
+          }
+        >
+          <FilterListIcon />
+        </IconButton>
+      </Tooltip>
+    </Toolbar>
+  )
+}
+
+EnhancedTableToolbar.propTypes = {
+  onFilter: PropTypes.func,
+  filterValues: PropTypes.array.isRequired
+}
+
+EnhancedTableToolbar.defaultProps = {
+  onFilter: () => {},
+  filterValues: []
+}
 
 const EnhancedTableHead = ({
   onSelectAllClick,
@@ -74,15 +110,15 @@ EnhancedTableHead.propTypes = {
   classes: PropTypes.object
 }
 
-const useStyles = makeStyles(styles)
-
 const TablePages = ({
   usePagination,
   showColumnCheck,
   rows,
+  filterValues,
   headCells,
   useLoadMore,
   loadMoreDisable,
+  handleOnFilter,
   handleOnLoadMore,
   onReload,
   pagination,
@@ -160,6 +196,13 @@ const TablePages = ({
   return (
     <Box className={classes.root}>
       <Box className={classes.boxTable}>
+        {!!filterValues.length && (
+          <EnhancedTableToolbar
+            onFilter={handleOnFilter}
+            filterValues={filterValues}
+            numSelected={10}
+          />
+        )}
         <TableContainer>
           <Table
             className={classes.table}
@@ -298,7 +341,6 @@ const TablePages = ({
             </TableBody>
           </Table>
         </TableContainer>
-
         <Box
           style={{
             marginTop: 16,
@@ -328,7 +370,6 @@ const TablePages = ({
             </Button>
           )}
         </Box>
-
         {usePagination && (
           <TablePagination
             classes={{ root: classes.tablePagination }}
@@ -353,7 +394,9 @@ TablePages.propTypes = {
   headCells: PropTypes.array,
   useLoadMore: PropTypes.bool,
   loadMoreDisable: PropTypes.bool,
+  filterValues: PropTypes.array,
   handleOnLoadMore: PropTypes.func,
+  handleOnFilter: PropTypes.func,
   onReload: PropTypes.func,
   pagination: PropTypes.object,
   handleOnPageChange: PropTypes.func,
@@ -374,11 +417,13 @@ TablePages.defaultProps = {
   headCells: [],
   useLoadMore: false,
   loadMoreDisable: false,
+  filterValues: [],
   handleOnLoadMore: () => {},
   handleOnPageChange: () => {},
   handleOnRowsPerPageChange: () => {},
   onClickButton: () => {},
   onSelectItem: () => {},
+  handleOnFilter: () => {},
   pagination: {
     count: 0,
     rowsPerPage: 5,
