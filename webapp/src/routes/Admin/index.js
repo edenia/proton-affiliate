@@ -772,7 +772,11 @@ const Admin = () => {
       </Accordion>
       <Accordion
         title="User Management"
-        filterValues={['All roles', 'Admin only', 'Referrers only']}
+        filterValues={[
+          t('menuAllRoles'),
+          t('menuAdminRole'),
+          t('menuReferrerRole')
+        ]}
         filterRowsBy={filterRowsBy}
         handleOnFilter={filterValue => setFilterRowsBy(filterValue)}
       >
