@@ -726,7 +726,6 @@ const Admin = () => {
   }, [])
 
   useEffect(() => {
-    console.log(filterRowsBy)
     reloadUsers()
   }, [filterRowsBy])
 
@@ -771,7 +770,12 @@ const Admin = () => {
           usePagination
         />
       </Accordion>
-      <Accordion title="User Management">
+      <Accordion
+        title="User Management"
+        filterValues={['All roles', 'Admin only', 'Referrers only']}
+        filterRowsBy={filterRowsBy}
+        handleOnFilter={filterValue => setFilterRowsBy(filterValue)}
+      >
         <TableSearch
           tableName="management"
           onSelectItem={handleOnSelectItem}
@@ -784,8 +788,6 @@ const Admin = () => {
           loadMoreDisable={userPagination.hasMore}
           onReload={reloadUsers}
           idName="username"
-          filterValues={['ALL', 'ADMIN', 'REFERRER']}
-          handleOnFilter={filterValue => setFilterRowsBy(filterValue)}
         />
       </Accordion>
       <FloatingMenu open={openFAB} setOpen={setOpenFAB} label="ACTIONS">
