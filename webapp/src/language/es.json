@@ -45,7 +45,7 @@
   },
   "adminRoute": {
     "menuAllRoles": "Todos los roles",
-    "menuAdminRole": "Solo administradores",
+    "menuAdminRole": "Solo admin",
     "menuReferrerRole": "Solo referidos"
   }
 }
