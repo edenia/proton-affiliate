@@ -22,6 +22,8 @@ import { mainConfig } from '../../config'
 
 import styles from './styles'
 
+const useStyles = makeStyles(styles)
+
 const EnhancedTableHead = ({
   onSelectAllClick,
   numSelected,
@@ -73,8 +75,6 @@ EnhancedTableHead.propTypes = {
   disabled: PropTypes.bool,
   classes: PropTypes.object
 }
-
-const useStyles = makeStyles(styles)
 
 const TablePages = ({
   usePagination,
@@ -298,7 +298,6 @@ const TablePages = ({
             </TableBody>
           </Table>
         </TableContainer>
-
         <Box
           style={{
             marginTop: 16,
@@ -328,7 +327,6 @@ const TablePages = ({
             </Button>
           )}
         </Box>
-
         {usePagination && (
           <TablePagination
             classes={{ root: classes.tablePagination }}

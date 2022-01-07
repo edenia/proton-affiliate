@@ -163,7 +163,10 @@
     "deleteSuccessfully": "Deleted Successfully",
     "successNewUser": "Account has been added to the User Management table.",
     "rejectPaymentModal": "You are about to REJECT this referral payment. Leave a memo providing a reason.",
-    "rejectMemo": "Rejection memo"
+    "rejectMemo": "Rejection memo",
+    "menuAllRoles": "All roles",
+    "menuAdminRole": "Admin only",
+    "menuReferrerRole": "Referrers only"
   },
   "footer": {
     "poweredBy": "Powered by",

@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect
 } from 'react'
-import { ConnectWallet } from '@proton/web-sdk'
+import ProtonWebSDK from '@proton/web-sdk'
 import PropTypes from 'prop-types'
 
 import { sdkConfig, mainConfig } from '../config'
@@ -20,7 +20,7 @@ const initialValue = {
 
 const loginWallet = async (restoreSession = false) => {
   try {
-    const { link, session } = await ConnectWallet({
+    const { link, session } = await ProtonWebSDK({
       linkOptions: {
         endpoints: sdkConfig.endpoint,
         restoreSession
@@ -137,6 +137,9 @@ export const useSharedState = () => {
   const login = async () => {
     try {
       const { link, session } = await loginWallet(false)
+
+      if (!link || !session) return
+
       const role = await affiliateUtil.getUserRole(session?.auth?.actor)
 
       dispatch({
