@@ -322,7 +322,7 @@ const Join = () => {
               className={classes.appleBtn}
               onClick={() =>
                 window.open(
-                  'https://apps.apple.com/us/app/proton-wallet/id1516536231',
+                  'https://apps.apple.com/us/app/webauth-com/id1594500069',
                   '_blank'
                 )
               }
@@ -334,7 +334,7 @@ const Join = () => {
               className={classes.googleBtn}
               onClick={() =>
                 window.open(
-                  'https://play.google.com/store/apps/details?id=com.metallicus.protonwallet&hl=en&gl=US',
+                  'https://play.google.com/store/apps/details?id=com.metallicus.webauth',
                   '_blank'
                 )
               }

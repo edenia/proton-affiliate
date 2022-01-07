@@ -34,7 +34,7 @@
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.11.3",
     "@material-ui/system": "^4.11.3",
-    "@proton/web-sdk": "^2.7.23",
+    "@proton/web-sdk": "^3.3.3",
     "clsx": "^1.1.1",
     "core-js": "^3.9.1",
     "date-fns": "^2.19.0",

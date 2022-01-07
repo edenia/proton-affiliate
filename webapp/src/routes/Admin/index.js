@@ -288,6 +288,7 @@ const Admin = () => {
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
   )
+  const [filterRowsBy, setFilterRowsBy] = useState()
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
@@ -301,9 +302,12 @@ const Admin = () => {
   const handleOnLoadMoreUsers = async usePagination => {
     const pagination = usePagination ? userPagination : {}
     const users = await affiliateUtil.getUsers(pagination.cursor)
-    const referrers = (users.rows || []).map(item => item.user)
+    const usersByRole = users.rows.filter(
+      ({ role }) => !filterRowsBy || role === affiliateUtil.ROLES[filterRowsBy]
+    )
+    const referrers = (usersByRole || []).map(item => item.user)
     const { data } = await loadHistoryByReferrers({ referrers })
-    const newRows = (users.rows || []).map(row => {
+    const newRows = (usersByRole || []).map(row => {
       const history = data.history.filter(
         item => item.referral.referrer === row.user
       )
@@ -721,6 +725,10 @@ const Admin = () => {
     })
   }, [])
 
+  useEffect(() => {
+    reloadUsers()
+  }, [filterRowsBy])
+
   return (
     <Box className={classes.adminPage}>
       <Box className={classes.adminHead}>
@@ -762,7 +770,16 @@ const Admin = () => {
           usePagination
         />
       </Accordion>
-      <Accordion title="User Management">
+      <Accordion
+        title="User Management"
+        filterValues={[
+          t('menuAllRoles'),
+          t('menuAdminRole'),
+          t('menuReferrerRole')
+        ]}
+        filterRowsBy={filterRowsBy}
+        handleOnFilter={filterValue => setFilterRowsBy(filterValue)}
+      >
         <TableSearch
           tableName="management"
           onSelectItem={handleOnSelectItem}

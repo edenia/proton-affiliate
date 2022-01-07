@@ -29,5 +29,21 @@ export default theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  checkIcon: {
+    color: theme.palette.primary.main,
+    margin: theme.spacing(0, 2)
+  },
+  menuLabel: {
+    alignSelf: 'flex-start',
+    flexGrow: 0,
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 2.29,
+    letterSpacing: 0.04,
+    textAlign: 'left'
   }
 })

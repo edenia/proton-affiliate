@@ -42,5 +42,10 @@
     "protonGitHub": "GitHub EOS Costa Rica",
     "telegramChannel": "Grupo de Telegram",
     "protonWebsite": "Página web EOS Costa Rica"
+  },
+  "adminRoute": {
+    "menuAllRoles": "Todos los roles",
+    "menuAdminRole": "Solo admin",
+    "menuReferrerRole": "Solo referidos"
   }
 }
