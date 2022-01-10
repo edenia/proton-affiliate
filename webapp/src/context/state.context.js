@@ -26,8 +26,8 @@ const loginWallet = async (restoreSession = false) => {
         restoreSession
       },
       transportOptions: {
-        requestStatus: true,
-        requestAccount: mainConfig.affiliateAccount
+        requestAccount: mainConfig.affiliateAccount,
+        requestStatus: true
       },
       selectorOptions: {
         appName: sdkConfig.appName,
