@@ -301,13 +301,13 @@ const Admin = () => {
 
   const handleOnLoadMoreUsers = async usePagination => {
     const pagination = usePagination ? userPagination : {}
-    const users = await affiliateUtil.getUsers(pagination.cursor)
-    const usersByRole = users.rows.filter(
-      ({ role }) => !filterRowsBy || role === affiliateUtil.ROLES[filterRowsBy]
+    const users = await affiliateUtil.getUsersByRole(
+      pagination.cursor,
+      filterRowsBy
     )
-    const referrers = (usersByRole || []).map(item => item.user)
+    const referrers = (users.rows || []).map(item => item.user)
     const { data } = await loadHistoryByReferrers({ referrers })
-    const newRows = (usersByRole || []).map(row => {
+    const newRows = (users.rows || []).map(row => {
       const history = data.history.filter(
         item => item.referral.referrer === row.user
       )
