@@ -213,7 +213,34 @@ const checkKyc = async acc => {
   return !!rows[0]?.kyc?.length
 }
 
-const getUsers = async lowerBound => {
+const getUsersByRole = async (lowerBound, filterRowsBy) => {
+  const users = await getUsers(lowerBound)
+  const filteredUsers = users.rows.filter(
+    ({ role }) => !filterRowsBy || role === ROLES[filterRowsBy]
+  )
+
+  if (!(filteredUsers.length < 10 && users.hasMore)) {
+    return {
+      rows: filteredUsers,
+      cursor: users.cursor,
+      hasMore: users.hasMore
+    }
+  }
+
+  const {
+    rows: tempRows,
+    cursor: tempCursor,
+    hasMore: tempHasMore
+  } = await getUsersByRole(users.cursor, filterRowsBy)
+
+  return {
+    rows: tempRows ? [...filteredUsers, ...tempRows] : filteredUsers,
+    cursor: tempCursor,
+    hasMore: tempHasMore
+  }
+}
+
+const getUsers = async (lowerBound, filterRowsBy) => {
   const {
     rows,
     more: hasMore,
@@ -329,6 +356,7 @@ export const affiliateUtil = {
   removeUsers,
   approveKyc,
   checkKyc,
+  getUsersByRole,
   getUsers,
   getUser,
   isAccountValidAsReferrer,

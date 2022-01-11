@@ -37,9 +37,8 @@ const AccordionComponent = ({
     event.stopPropagation()
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = newFilterBy => {
+  const handleClose = () => {
     setAnchorEl(null)
-    handleOnFilter(newFilterBy)
   }
 
   return (
@@ -81,14 +80,17 @@ const AccordionComponent = ({
           vertical: 'top',
           horizontal: 'right'
         }}
-        onClose={() => handleClose(0)}
+        onClose={handleClose}
       >
         {(filterValues || []).map((item, index) => {
           return (
             <MenuItem
               key={index}
               className={classes.menu}
-              onClick={() => handleClose(index)}
+              onClick={() => {
+                handleClose()
+                handleOnFilter(index)
+              }}
             >
               <Typography className={classes.menuLabel}>{item}</Typography>
 
