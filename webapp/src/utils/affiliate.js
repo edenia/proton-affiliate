@@ -218,9 +218,8 @@ const getUsersByRole = async (lowerBound, filterRowsBy) => {
   const filteredUsers = users.rows.filter(
     ({ role }) => !filterRowsBy || role === ROLES[filterRowsBy]
   )
-  const needRecursion = filteredUsers.length < 10 && users.hasMore
 
-  if (!needRecursion) {
+  if (!(filteredUsers.length < 10 && users.hasMore)) {
     return {
       rows: filteredUsers,
       cursor: users.cursor,
