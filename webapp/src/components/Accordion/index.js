@@ -80,7 +80,7 @@ const AccordionComponent = ({
           vertical: 'top',
           horizontal: 'right'
         }}
-        onClose={() => handleClose()}
+        onClose={handleClose}
       >
         {(filterValues || []).map((item, index) => {
           return (
