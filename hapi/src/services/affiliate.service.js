@@ -47,6 +47,32 @@ const verifyKYC = async invitee => {
   return transaction
 }
 
+const checkKyc = async acc => {
+  const { rows } = await eosUtil.getTableRows({
+    code: affiliateConfig.account,
+    scope: affiliateConfig.account,
+    table: 'usersinfo',
+    lower_bound: acc,
+    upper_bound: acc
+  })
+
+  return !!rows[0]?.kyc?.length
+}
+
+const isAccountValidAsInvitee = async account => {
+  if (!account) {
+    return false
+  }
+
+  try {
+    const data = await eosUtil.getAccount(account)
+
+    return !data
+  } catch (error) {}
+
+  return true
+}
+
 const verifyExpired = async () => {
   const transaction = await eosUtil.transact(
     [
@@ -163,6 +189,8 @@ const setRateWorker = () => {
 }
 
 module.exports = {
+  checkKyc,
+  isAccountValidAsInvitee,
   verifyAccount,
   verifyKYC,
   verifyExpired,

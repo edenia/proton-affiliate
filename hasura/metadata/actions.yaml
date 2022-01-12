@@ -1,4 +1,8 @@
 actions:
+- name: add_join_request
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/add-join-request'
 - name: add_referral
   definition:
     kind: synchronous
@@ -14,8 +18,10 @@ actions:
   - role: guest
 custom_types:
   enums: []
-  input_objects: []
+  input_objects:
+  - name: User
   objects:
   - name: AddReferralOutput
   - name: SendConfirmationOutput
+  - name: AddJoinRequestOutput
   scalars: []

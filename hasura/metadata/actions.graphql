@@ -1,4 +1,12 @@
 type Mutation {
+  add_join_request(
+    account: String!
+    email: String!
+    receive_news: Boolean!
+  ): AddJoinRequestOutput
+}
+
+type Mutation {
   add_referral(
     referrer: String!
     invitee: String!
@@ -11,11 +19,21 @@ type Mutation {
   ): SendConfirmationOutput
 }
 
+input User {
+  account: String!
+  email: String!
+  receive_news: Boolean!
+}
+
 type AddReferralOutput {
   trxid: String!
 }
 
 type SendConfirmationOutput {
   success: Boolean!
+}
+
+type AddJoinRequestOutput {
+  id: String!
 }
 

@@ -103,11 +103,9 @@ const Home = () => {
     try {
       await addJoinRequest({
         variables: {
-          user: {
-            account,
-            email,
-            receive_news: checked
-          }
+          account,
+          email,
+          receive_news: checked
         }
       })
 
@@ -206,7 +204,6 @@ const Home = () => {
         }
       })
       const hasKyc = await affiliateUtil.checkKyc(account)
-
       const isValid = !isAnInvitee && !joinRequest.length && hasKyc
       const errorMessageTag =
         (isAnInvitee ? 'accountHelperError' : '') ||
