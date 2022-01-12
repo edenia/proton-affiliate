@@ -7,7 +7,6 @@ module.exports = {
   method: 'POST',
   path: '/add-join-request',
   handler: async ({ payload: { input } }) => {
-    console.log('COMPLETE-ROUTE')
     try {
       const isAnInvitee = await affiliateService.isAccountValidAsInvitee(
         input.account
