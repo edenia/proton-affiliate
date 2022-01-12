@@ -14,7 +14,7 @@ module.exports = {
       const joinRequest = await joinRequestService.findByAccount(input.account)
       const hasKYC = await affiliateService.checkKyc(input.account)
 
-      if (isAnInvitee || joinRequest.length || !hasKYC)
+      if (isAnInvitee || joinRequest?.length || !hasKYC)
         throw Boom.badRequest('Account does not meet requirements')
 
       const transaction = await joinRequestService.addJoinRequest(input)

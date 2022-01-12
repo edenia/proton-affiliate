@@ -341,7 +341,7 @@ const Home = () => {
             <Button
               color="primary"
               onClick={handleAddJoinRequest}
-              disabled={!isValidEmail.isValid}
+              disabled={!isValidAccount.isValid || !isValidEmail.isValid}
             >
               {loadingJoin ? (
                 <CircularProgress color="primary" size={24} />

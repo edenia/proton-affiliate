@@ -49,8 +49,8 @@ const verifyKYC = async invitee => {
 
 const checkKyc = async acc => {
   const { rows } = await eosUtil.getTableRows({
-    code: affiliateConfig.account,
-    scope: affiliateConfig.account,
+    code: 'eosio.proton',
+    scope: 'eosio.proton',
     table: 'usersinfo',
     lower_bound: acc,
     upper_bound: acc
