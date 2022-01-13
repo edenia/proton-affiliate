@@ -43,7 +43,7 @@ const App = () => {
   const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 
   useEffect(() => {
-    ReactGA.initialize('KEY')
+    ReactGA.initialize('G-XC2N8PX4V6')
     ReactGA.pageview(window.location.pathname + window.location.search)
   }, [])
 
