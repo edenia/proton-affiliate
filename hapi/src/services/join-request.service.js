@@ -1,5 +1,18 @@
 const { hasuraUtil } = require('../utils')
 
+const addJoinRequest = async payload => {
+  const mutation = `
+    mutation ($payload: join_request_insert_input!) {
+      insert_join_request_one(object: $payload) {
+        id
+      }
+    }
+  `
+  const data = await hasuraUtil.instance.request(mutation, { payload })
+
+  return data.insert_join_request_one
+}
+
 const findByAccount = async account => {
   const query = `
     query ($account: String!) {
@@ -19,5 +32,6 @@ const findByAccount = async account => {
 }
 
 module.exports = {
+  addJoinRequest,
   findByAccount
 }

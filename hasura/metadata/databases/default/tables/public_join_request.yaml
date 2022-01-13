@@ -1,15 +1,6 @@
 table:
   name: join_request
   schema: public
-insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - account
-    - email
-    - receive_news
-  role: guest
 select_permissions:
 - permission:
     allow_aggregations: true

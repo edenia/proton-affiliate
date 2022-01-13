@@ -107,8 +107,16 @@ export const GET_MY_REFERRALS = gql`
 `
 
 export const ADD_JOIN_REQUEST_MUTATION = gql`
-  mutation addJoinRequest($user: join_request_insert_input!) {
-    userJoin: insert_join_request_one(object: $user) {
+  mutation addJoinRequest(
+    $account: String!
+    $email: String!
+    $receive_news: Boolean!
+  ) {
+    userJoin: add_join_request(
+      account: $account
+      email: $email
+      receive_news: $receive_news
+    ) {
       id
     }
   }
