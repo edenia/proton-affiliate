@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -15,6 +15,7 @@ import DashboardLayout from './layouts/Dashboard'
 import { useSharedState } from './context/state.context'
 import getTheme from './theme'
 import './i18n'
+import ReactGA from 'react-ga'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'proton'
@@ -40,6 +41,11 @@ const App = () => {
   )
 
   const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
+
+  useEffect(() => {
+    ReactGA.initialize('G-XC2N8PX4V6')
+    ReactGA.pageview(window.location.pathname + window.location.search)
+  }, [])
 
   return (
     <BrowserRouter>
