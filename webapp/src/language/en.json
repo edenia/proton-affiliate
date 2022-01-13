@@ -166,7 +166,9 @@
     "rejectMemo": "Rejection memo",
     "menuAllRoles": "All roles",
     "menuAdminRole": "Admin only",
-    "menuReferrerRole": "Referrers only"
+    "menuReferrerRole": "Referrers only",
+    "verified": "Verified",
+    "pending": "Pending"
   },
   "footer": {
     "poweredBy": "Powered by",

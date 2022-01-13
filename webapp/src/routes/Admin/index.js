@@ -51,6 +51,13 @@ const headCellNewUsers = [
     label: 'account'
   },
   {
+    id: 'kyc',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'kyc'
+  },
+  {
     id: 'applied',
     align: 'center',
     useMainColor: false,
@@ -678,18 +685,28 @@ const Admin = () => {
   useEffect(() => {
     if (loading || !joinRequest) return
 
-    const data = (joinRequest || []).map(item => ({
-      ...item,
-      account: item.account,
-      applied: dateFormat(item.created_at),
-      email: item.email
-    }))
+    const setUserData = async () => {
+      const data = await Promise.all(
+        (joinRequest || []).map(async item => {
+          const hasKYC = await affiliateUtil.checkKyc(item.account)
+          return {
+            ...item,
+            account: item.account,
+            kyc: hasKYC ? t('verified') : t('pending'),
+            applied: dateFormat(item.created_at),
+            email: item.email
+          }
+        })
+      )
 
-    setNewUsersPagination({
-      ...newUsersPagination,
-      count: infoJoin.aggregate.count
-    })
-    setNewUserRows(data)
+      setNewUsersPagination({
+        ...newUsersPagination,
+        count: infoJoin.aggregate.count
+      })
+      setNewUserRows(data)
+    }
+
+    setUserData()
   }, [loading, joinRequest, infoJoin])
 
   useEffect(() => {
@@ -818,14 +835,23 @@ const Admin = () => {
               setOpenInfoModal(true)
               setOpenFAB(false)
             }}
-            onClickRemoveUsers={handleOnRemoveUsers}
-            onClickApprovePayment={handleOnApprovePayment}
+            onClickRemoveUsers={() => {
+              handleOnRemoveUsers()
+              setOpenFAB(false)
+            }}
+            onClickApprovePayment={() => {
+              handleOnApprovePayment()
+              setOpenFAB(false)
+            }}
             onClickRejectPayment={() => {
               setRejectPayment({ isOpen: true, previousModal: 'optionFAB' })
               setOpenFAB(false)
             }}
             allowPayment={allowPayment}
-            onClickApproveNewUser={approveNewUser}
+            onClickApproveNewUser={() => {
+              approveNewUser()
+              setOpenFAB(false)
+            }}
           />
         </Box>
       </FloatingMenu>

@@ -46,6 +46,8 @@
   "adminRoute": {
     "menuAllRoles": "Todos los roles",
     "menuAdminRole": "Solo admin",
-    "menuReferrerRole": "Solo referidos"
+    "menuReferrerRole": "Solo referidos",
+    "verified": "Verificado",
+    "pending": "Pendiente"
   }
 }
