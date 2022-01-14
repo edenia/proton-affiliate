@@ -2,8 +2,11 @@ const Joi = require('joi')
 const Boom = require('@hapi/boom')
 
 const {
-  mailUtil: { sendConfirmation }
+  mailUtil: { send }
 } = require('../utils')
+const {
+  mailTemplate: { generateConfirmation }
+} = require('../utils/templates')
 const {
   joinRequestService: { findByAccount }
 } = require('../services')
@@ -15,10 +18,11 @@ module.exports = {
     try {
       for (const account of input.accounts) {
         const { email } = await findByAccount(account)
-        await sendConfirmation({
+        await send({
           account: account,
           to: email,
-          subject: 'You are ready to share your Proton referral link!'
+          subject: 'You are ready to share your Proton referral link!',
+          template: generateConfirmation
         })
       }
 

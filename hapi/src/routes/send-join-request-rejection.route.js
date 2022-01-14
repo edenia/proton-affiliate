@@ -19,10 +19,9 @@ module.exports = {
     try {
       for (const account of input.accounts) {
         const hasKYC = await checkKyc(account)
-
-        if (hasKYC) continue
-
         const { email } = await findByAccount(account)
+
+        if (hasKYC || !email) continue
 
         await send({
           account: account,
