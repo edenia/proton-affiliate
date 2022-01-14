@@ -1,3 +1,6 @@
+table:
+  name: referral
+  schema: public
 array_relationships:
 - name: history
   using:
@@ -21,6 +24,3 @@ select_permissions:
     - updated_at
     filter: {}
   role: guest
-table:
-  name: referral
-  schema: public
