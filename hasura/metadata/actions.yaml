@@ -1,26 +1,28 @@
 actions:
-  - name: add_join_request
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/add-join-request'
-  - name: add_referral
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/add-referral'
-      forward_client_headers: true
-    permissions:
-      - role: guest
-  - name: send_confirmation
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/send-confirmation'
-    permissions:
-      - role: guest
+- name: add_join_request
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/add-join-request'
+  permissions:
+  - role: guest
+- name: add_referral
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/add-referral'
+    forward_client_headers: true
+  permissions:
+  - role: guest
+- name: send_confirmation
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/send-confirmation'
+  permissions:
+  - role: guest
 custom_types:
   enums: []
   input_objects: []
   objects:
-    - name: AddReferralOutput
-    - name: SendConfirmationOutput
-    - name: AddJoinRequestOutput
+  - name: AddReferralOutput
+  - name: SendConfirmationOutput
+  - name: AddJoinRequestOutput
   scalars: []
