@@ -7,16 +7,11 @@ type Mutation {
 }
 
 type Mutation {
-  add_referral(
-    referrer: String!
-    invitee: String!
-  ): AddReferralOutput
+  add_referral(referrer: String!, invitee: String!): AddReferralOutput
 }
 
 type Mutation {
-  send_confirmation(
-    accounts: [String]!
-  ): SendConfirmationOutput
+  send_confirmation(accounts: [String]!): SendConfirmationOutput
 }
 
 type Mutation {
@@ -40,4 +35,3 @@ type AddJoinRequestOutput {
 type SendJoinRequestRejectionOutput {
   success: Boolean!
 }
-
