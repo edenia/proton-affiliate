@@ -89,14 +89,14 @@ const generateRejectionByKYC = ({ account }) => {
                           <img style="object-fit: scale-down;" src="https://earnproton.com/icons/proton.png"/>
                       </a>
                       <p align="left" style="margin: 24px 16px 24px; font-family: Arial; font-size: 21px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: 0.15px; text-align: left; color: #000;">
-                          ${account} - Some News Regarding Your Proton On-Chain Referral Program Request
+                          ${account} - Regarding Your Proton On-Chain Referral Program Request
                       </p>
                       <p align="left" style="margin: 0px 16px 8px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         Your Proton referral link has not been approved. To begin using the Proton Referral Program and start earning rewards, you must first complete the KYC (Know Your Client) authentication process in the Proton wallet.
                       </p>
                       <br>
                       <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000; overflow-wrap: break-word;">
-                        To request joining the Referral Program, go to the Proton wallet app and submit your KYC application. If you're still having the same problem, please get in touch with us through Telegram: https://t.me/eoscr.
+                        To request joining the Referral Program, go to the Proton wallet app and submit your KYC application. To find out what countries can complete a KYC, go to the Proton wallet app or ask in the Proton Telegram chat: https://t.me/protonxpr. If you're still having problems after confirming this information, please get in touch with us through Telegram: https://t.me/eoscr.
                       </p>
                       <p align="left" style="margin: 0px 16px 0px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                           Best Regards,

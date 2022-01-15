@@ -347,7 +347,6 @@ const Admin = () => {
 
   const deleteNewUsers = async (showSnack = true) => {
     try {
-      // DON'T PLACE THIS CALL AFTER DELETE ACTION TO ENSURE THE USERS'S MAIL STILL EXIST
       await sendJoinRequestRejection({
         variables: {
           accounts: usersAccounts
