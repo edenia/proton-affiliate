@@ -8,6 +8,7 @@ import {
   StylesProvider,
   createGenerateClassName
 } from '@material-ui/core/styles'
+import ReactGA from 'react-ga'
 
 import routes from './routes'
 import Loader from './components/Loader'
@@ -15,7 +16,6 @@ import DashboardLayout from './layouts/Dashboard'
 import { useSharedState } from './context/state.context'
 import getTheme from './theme'
 import './i18n'
-import ReactGA from 'react-ga'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'proton'
@@ -44,7 +44,6 @@ const App = () => {
 
   useEffect(() => {
     ReactGA.initialize('G-XC2N8PX4V6')
-    ReactGA.pageview(window.location.pathname + window.location.search)
   }, [])
 
   return (
