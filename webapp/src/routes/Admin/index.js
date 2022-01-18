@@ -21,6 +21,7 @@ import Modal from '../../components/Modal'
 import Accordion from '../../components/Accordion'
 import FloatingMenu from '../../components/FloatingButton'
 import HistoryModal from '../../components/HistoryModal'
+import Loader from '../../components/Loader'
 import {
   affiliateUtil,
   getUALError,
@@ -939,6 +940,12 @@ const Admin = () => {
               )}
             </Button>
           </Box>
+        </Box>
+      </Modal>
+
+      <Modal open={openInfoModal || true} setOpen={setOpenInfoModal}>
+        <Box className={classes.rejectModal}>
+          <Loader />
         </Box>
       </Modal>
     </Box>
