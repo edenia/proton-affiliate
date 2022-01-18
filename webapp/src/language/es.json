@@ -3,7 +3,14 @@
     "login": "Ingresar",
     "signOut": "Salir",
     "lightMode": "Modo Claro",
-    "darkMode": "Modo Oscuro"
+    "darkMode": "Modo Oscuro",
+    "PENDING_USER_REGISTRATION": "Pendiente",
+    "PENDING_KYC_VERIFICATION": "KYC pendiente",
+    "PENDING_PAYMENT": "Pago pendiente",
+    "PAYMENT_REJECTED": "Rechazado",
+    "EXPIRED": "Expirado",
+    "PAID": "Pagado",
+    "allStatus": "Todos los estados"
   },
   "routes": {
     "/>title": "Programa de afiliados de Proton",
