@@ -295,6 +295,7 @@ const Admin = () => {
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
   )
+  const [refPayFilterRowsBy, setRefPayFilterRowsBy] = useState()
   const [filterRowsBy, setFilterRowsBy] = useState()
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
@@ -468,7 +469,10 @@ const Admin = () => {
 
   const handleOnLoadMoreReferrals = async usePagination => {
     const pagination = usePagination ? referralPagination : {}
-    const referrals = await affiliateUtil.getReferrals(pagination.cursor)
+    const referrals = await affiliateUtil.getReferralsByStatus(
+      pagination.cursor,
+      refPayFilterRowsBy
+    )
     const invitees = (referrals.rows || []).map(item => item.invitee)
     const { data } = await loadHistoryByInvites({ invitees })
     const newRows = (referrals.rows || []).map(row => {
@@ -746,6 +750,10 @@ const Admin = () => {
     reloadUsers()
   }, [filterRowsBy])
 
+  useEffect(() => {
+    reloadReferrals()
+  }, [refPayFilterRowsBy])
+
   return (
     <Box className={classes.adminPage}>
       <Box className={classes.adminHead}>
@@ -754,7 +762,20 @@ const Admin = () => {
         </Typography>
         <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
-      <Accordion title="Referral Payments">
+      <Accordion
+        title="Referral Payments"
+        filterValues={[
+          t('allStatus'),
+          t('PENDING_USER_REGISTRATION'),
+          t('PENDING_KYC_VERIFICATION'),
+          t('PENDING_PAYMENT'),
+          t('PAYMENT_REJECTED'),
+          t('EXPIRED'),
+          t('PAID')
+        ]}
+        filterRowsBy={refPayFilterRowsBy}
+        handleOnFilter={filterValue => setRefPayFilterRowsBy(filterValue)}
+      >
         <TableSearch
           tableName="payment"
           onSelectItem={handleOnSelectItem}
