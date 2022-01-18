@@ -43,7 +43,7 @@ const App = () => {
   const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 
   useEffect(() => {
-    ReactGA.initialize('G-XC2N8PX4V6')
+    ReactGA.initialize('G-9KZ7NXB4L9')
   }, [])
 
   return (
