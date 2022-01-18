@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -8,7 +8,6 @@ import {
   StylesProvider,
   createGenerateClassName
 } from '@material-ui/core/styles'
-import ReactGA from 'react-ga'
 
 import routes from './routes'
 import Loader from './components/Loader'
@@ -41,10 +40,6 @@ const App = () => {
   )
 
   const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
-
-  useEffect(() => {
-    ReactGA.initialize('G-XC2N8PX4V6')
-  }, [])
 
   return (
     <BrowserRouter>
