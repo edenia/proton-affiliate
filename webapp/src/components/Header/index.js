@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -27,7 +27,6 @@ import AccountIcon from '@material-ui/icons/AccountCircle'
 import EditIcon from '@material-ui/icons/Edit'
 import CloseIcon from '@material-ui/icons/Close'
 import { Sun as SunIcon, Moon as MoonIcon } from 'react-feather'
-import ReactGA from 'react-ga'
 
 import { useSharedState } from '../../context/state.context'
 import { mainConfig } from '../../config'
@@ -275,12 +274,6 @@ const Header = memo(({ onDrawerToggle, routes }) => {
       </Menu>
     )
   }
-
-  useEffect(() => {
-    if (!history) return
-
-    ReactGA.pageview(history.location.pathname)
-  }, [history.location])
 
   return (
     <AppBar className={classes.appBar} position="sticky">
