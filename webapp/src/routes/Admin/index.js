@@ -35,6 +35,7 @@ import {
   GET_JOIN_REQUEST,
   DELETE_JOIN_REQUEST_MUTATION,
   SEND_CONFIRMATION_MUTATION,
+  SEND_JOIN_REQUEST_REJECTION_MUTATION,
   UPDATE_JOIN_REQUEST_MUTATION
 } from '../../gql'
 
@@ -283,6 +284,9 @@ const Admin = () => {
     DELETE_JOIN_REQUEST_MUTATION
   )
   const [sendConfirmation] = useMutation(SEND_CONFIRMATION_MUTATION)
+  const [sendJoinRequestRejection] = useMutation(
+    SEND_JOIN_REQUEST_REJECTION_MUTATION
+  )
   const [updateJoinRequest] = useMutation(UPDATE_JOIN_REQUEST_MUTATION)
   const [openAddUser, setAddUser] = useState(false)
   const [openRejectPayment, setRejectPayment] = useState({
@@ -344,6 +348,12 @@ const Admin = () => {
 
   const deleteNewUsers = async (showSnack = true) => {
     try {
+      await sendJoinRequestRejection({
+        variables: {
+          accounts: usersAccounts
+        }
+      })
+
       await deleteJoinRequest({
         variables: {
           where: { id: { _in: selected.new } }

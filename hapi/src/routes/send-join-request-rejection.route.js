@@ -5,24 +5,29 @@ const {
   mailUtil: { send }
 } = require('../utils')
 const {
-  mailTemplate: { generateConfirmation }
+  mailTemplate: { generateRejectionByKYC }
 } = require('../utils/templates')
 const {
-  joinRequestService: { findByAccount }
+  joinRequestService: { findByAccount },
+  affiliateService: { checkKyc }
 } = require('../services')
 
 module.exports = {
   method: 'POST',
-  path: '/send-confirmation',
+  path: '/send-join-request-rejection',
   handler: async ({ payload: { input } }) => {
     try {
       for (const account of input.accounts) {
+        const hasKYC = await checkKyc(account)
         const { email } = await findByAccount(account)
+
+        if (hasKYC || !email) continue
+
         await send({
           account: account,
           to: email,
-          subject: 'You are ready to share your Proton referral link!',
-          template: generateConfirmation
+          subject: 'Your Proton referral link is not yet active!',
+          template: generateRejectionByKYC
         })
       }
 
