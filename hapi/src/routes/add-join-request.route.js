@@ -23,7 +23,8 @@ module.exports = {
         mailUtil.send({
           account: input.account,
           to: input.email,
-          subject: 'Your Proton referral link is not yet active!',
+          subject:
+            'Further action is required to activate your Proton Affiliate account.',
           template: mailTemplate.generateRejectionByKYC
         })
       }
