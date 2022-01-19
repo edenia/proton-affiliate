@@ -296,6 +296,7 @@ const Admin = () => {
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
   )
+  const [fetchingData, setFetchingData] = useState(false)
   const [filterRowsBy, setFilterRowsBy] = useState()
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
@@ -340,6 +341,7 @@ const Admin = () => {
       cursor: users.cursor
     })
     setUserRows(pagination.cursor ? [...userRows, ...newRows] : newRows)
+    setFetchingData(false)
   }
 
   const deleteNewUsers = async (showSnack = true) => {
@@ -414,7 +416,8 @@ const Admin = () => {
     }
   }
 
-  const reloadUsers = () => {
+  const reloadUsers = async () => {
+    setFetchingData(true)
     setUserPagination({
       hasMore: false,
       cursor: ''
@@ -488,9 +491,11 @@ const Admin = () => {
       cursor: referrals.cursor
     })
     setReferralRows(pagination.cursor ? [...referralRows, ...newRows] : newRows)
+    setFetchingData(false)
   }
 
   const reloadReferrals = () => {
+    setFetchingData(true)
     setReferralPagination({
       hasMore: false,
       cursor: ''
@@ -943,10 +948,8 @@ const Admin = () => {
         </Box>
       </Modal>
 
-      <Modal open={openInfoModal || true} setOpen={setOpenInfoModal}>
-        <Box className={classes.rejectModal}>
-          <Loader />
-        </Box>
+      <Modal open={fetchingData} setOpen={setOpenInfoModal}>
+        <Loader />
       </Modal>
     </Box>
   )
