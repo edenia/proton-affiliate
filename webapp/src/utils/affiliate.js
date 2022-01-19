@@ -290,7 +290,7 @@ const getReferralsByStatus = async (lowerBound, filterRowsBy) => {
     rows: tempRows,
     cursor: tempCursor,
     hasMore: tempHasMore
-  } = await getReferrals(users.cursor, filterRowsBy)
+  } = await getReferralsByStatus(users.cursor, filterRowsBy)
 
   return {
     rows: tempRows ? [...filteredUsers, ...tempRows] : filteredUsers,
