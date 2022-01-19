@@ -88,7 +88,7 @@ jobs:
           HASURA_GRAPHQL_ACTION_BASE_URL: ${{ secrets.HASURA_GRAPHQL_ACTION_BASE_URL }}
 
       - name: Deploy kubernetes files
-        uses: steebchen/kubectl@v2.0.0
+        uses: steebchen/kubectl@v1.1.0
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
           NAMESPACE: proton-affiliate
