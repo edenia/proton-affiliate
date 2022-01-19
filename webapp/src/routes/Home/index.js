@@ -116,6 +116,11 @@ const Home = () => {
       })
       setChecked(false)
       setEmail('')
+      setIsValidAccount({
+        showHelper: true,
+        isValid: false,
+        message: t('accountHelperError2')
+      })
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
     }
@@ -203,12 +208,10 @@ const Home = () => {
           state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       })
-      const hasKyc = await affiliateUtil.checkKyc(account)
-      const isValid = !isAnInvitee && !joinRequest.length && hasKyc
+      const isValid = !isAnInvitee && !joinRequest.length
       const errorMessageTag =
         (isAnInvitee ? 'accountHelperError' : '') ||
-        (joinRequest.length ? 'accountHelperError2' : '') ||
-        (!hasKyc ? 'accountHelperError3' : 'accountHelperText')
+        (joinRequest.length ? 'accountHelperError2' : 'accountHelperText')
 
       setIsValidAccount({
         showHelper: true,

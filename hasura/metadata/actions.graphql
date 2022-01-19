@@ -31,3 +31,7 @@ type AddJoinRequestOutput {
   id: String!
 }
 
+type SendJoinRequestRejectionOutput {
+  success: Boolean!
+}
+

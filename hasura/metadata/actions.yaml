@@ -25,4 +25,5 @@ custom_types:
   - name: AddReferralOutput
   - name: SendConfirmationOutput
   - name: AddJoinRequestOutput
+  - name: SendJoinRequestRejectionOutput
   scalars: []
