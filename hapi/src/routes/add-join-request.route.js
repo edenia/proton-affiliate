@@ -24,7 +24,7 @@ module.exports = {
           account: input.account,
           to: input.email,
           subject:
-            'Further action is required to activate your Proton Affiliate account.',
+            'Further action is required to activate your Proton Affiliate account',
           template: mailTemplate.generateRejectionByKYC
         })
       }
