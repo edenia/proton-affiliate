@@ -353,13 +353,11 @@ const Admin = () => {
         }
       })
 
-      await loadNewUsers({
-        variables: {
-          offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
-          limit: newUsersPagination.rowsPerPage,
-          where: {
-            state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
-          }
+      await loadJoinRequestUsers({
+        offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
+        limit: newUsersPagination.rowsPerPage,
+        where: {
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       })
 
@@ -369,6 +367,7 @@ const Admin = () => {
       setOpenInfoModal(false)
       setSelected({ tableName: null })
       setUserAccounts([])
+      reloadJoinRequestUsers()
     } catch (error) {
       showMessage({ type: 'error', content: error })
     }
@@ -412,6 +411,7 @@ const Admin = () => {
       })
 
       reloadUsers()
+      reloadJoinRequestUsers()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
     }
@@ -424,6 +424,12 @@ const Admin = () => {
       cursor: ''
     })
     setTimeout(handleOnLoadMoreUsers, 1500)
+  }
+
+  const reloadJoinRequestUsers = async () => {
+    setFetchingData(true)
+    setNewUsersPagination(initNewUsersPagination)
+    setTimeout(loadJoinRequestUsers, 1500)
   }
 
   const handleOnSelectItem = (tableName, items, accounts) => {
@@ -443,13 +449,11 @@ const Admin = () => {
       page
     }))
 
-    await loadNewUsers({
-      variables: {
-        offset: page * newUsersPagination.rowsPerPage,
-        limit: newUsersPagination.rowsPerPage,
-        where: {
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
-        }
+    await loadJoinRequestUsers({
+      offset: page * newUsersPagination.rowsPerPage,
+      limit: newUsersPagination.rowsPerPage,
+      where: {
+        state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
       }
     })
   }
@@ -460,13 +464,11 @@ const Admin = () => {
       rowsPerPage: e.target.value
     }))
 
-    await loadNewUsers({
-      variables: {
-        offset: newUsersPagination.page * e.target.value,
-        limit: e.target.value,
-        where: {
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
-        }
+    await loadJoinRequestUsers({
+      offset: newUsersPagination.page * e.target.value,
+      limit: e.target.value,
+      where: {
+        state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
       }
     })
   }
@@ -692,6 +694,23 @@ const Admin = () => {
     setRejectPayment({ isOpen: false, previousModal: null })
   }
 
+  const loadJoinRequestUsers = async ({
+    offset = 0,
+    limit = 5,
+    where = {
+      state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+    }
+  } = {}) => {
+    await loadNewUsers({
+      variables: {
+        offset,
+        limit,
+        where
+      }
+    })
+    setFetchingData(false)
+  }
+
   useEffect(() => {
     if (loading || !joinRequest) return
 
@@ -741,15 +760,7 @@ const Admin = () => {
   useEffect(() => {
     handleOnLoadMoreUsers()
     handleOnLoadMoreReferrals()
-    loadNewUsers({
-      variables: {
-        offset: 0,
-        limit: 5,
-        where: {
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
-        }
-      }
-    })
+    loadJoinRequestUsers()
   }, [])
 
   useEffect(() => {
@@ -858,6 +869,10 @@ const Admin = () => {
           </Box>
           <OptionFAB
             type={selected.tableName}
+            onClickApproveNewUser={() => {
+              approveNewUser()
+              setOpenFAB(false)
+            }}
             onClickReject={() => {
               setOpenInfoModal(true)
               setOpenFAB(false)
@@ -875,10 +890,6 @@ const Admin = () => {
               setOpenFAB(false)
             }}
             allowPayment={allowPayment}
-            onClickApproveNewUser={() => {
-              approveNewUser()
-              setOpenFAB(false)
-            }}
           />
         </Box>
       </FloatingMenu>
