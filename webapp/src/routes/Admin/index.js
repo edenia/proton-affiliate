@@ -981,7 +981,9 @@ const Admin = () => {
       </Modal>
 
       <Modal open={fetchingData} setOpen={setOpenInfoModal}>
-        <Loader />
+        <Box className={classes.loaderModal}>
+          <Loader />
+        </Box>
       </Modal>
     </Box>
   )
