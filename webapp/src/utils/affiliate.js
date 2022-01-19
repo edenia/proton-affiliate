@@ -30,6 +30,7 @@ const JOIN_REQUEST_STATUS = {
   pending: 'pending',
   approved: 'approved'
 }
+const MIN_PAGE_SIZE = 10
 
 const getUserRole = async accountName => {
   if (!accountName) {
@@ -219,7 +220,7 @@ const getUsersByRole = async (lowerBound, filterRowsBy) => {
     ({ role }) => !filterRowsBy || role === ROLES[filterRowsBy]
   )
 
-  if (!(filteredUsers.length < 10 && users.hasMore)) {
+  if (!(filteredUsers.length < MIN_PAGE_SIZE && users.hasMore)) {
     return {
       rows: filteredUsers,
       cursor: users.cursor,
@@ -269,6 +270,33 @@ const getParams = async () => {
   })
 
   return rows.length > 0 ? rows[0] : {}
+}
+
+const getReferralsByStatus = async (lowerBound, filterRowsBy) => {
+  const users = await getReferrals(lowerBound)
+  const filteredUsers = users.rows.filter(
+    ({ status }) => !filterRowsBy || status === REFERRAL_STATUS[filterRowsBy]
+  )
+
+  if (!(filteredUsers.length < MIN_PAGE_SIZE && users.hasMore)) {
+    return {
+      rows: filteredUsers,
+      cursor: users.cursor,
+      hasMore: users.hasMore
+    }
+  }
+
+  const {
+    rows: tempRows,
+    cursor: tempCursor,
+    hasMore: tempHasMore
+  } = await getReferrals(users.cursor, filterRowsBy)
+
+  return {
+    rows: tempRows ? [...filteredUsers, ...tempRows] : filteredUsers,
+    cursor: tempCursor,
+    hasMore: tempHasMore
+  }
 }
 
 const getReferrals = async lowerBound => {
@@ -361,6 +389,7 @@ export const affiliateUtil = {
   getUser,
   isAccountValidAsReferrer,
   isAccountValidAsInvitee,
+  getReferralsByStatus,
   getReferrals,
   getParams
 }
