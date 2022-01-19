@@ -11,7 +11,8 @@
     "PENDING_PAYMENT": "Pending payment",
     "PAYMENT_REJECTED": "Rejected",
     "EXPIRED": "Expired",
-    "PAID": "Paid"
+    "PAID": "Paid",
+    "allStatus": "All status"
   },
   "routes": {
     "/>title": "Affiliate Account Referrals Program on Proton Blockchain",
@@ -167,8 +168,7 @@
     "menuAllRoles": "All roles",
     "menuAdminRole": "Admin only",
     "menuReferrerRole": "Referrers only",
-    "verified": "Verified",
-    "pending": "Pending"
+    "verified": "Verified"
   },
   "footer": {
     "poweredBy": "Powered by",

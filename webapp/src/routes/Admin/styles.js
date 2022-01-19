@@ -212,6 +212,13 @@ export default theme => ({
       width: 514
     }
   },
+  loaderModal: {
+    borderRadius: 100,
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing(2, 2),
+    width: 80,
+    height: 80
+  },
   btnRejectModal: {
     display: 'flex',
     justifyContent: 'space-between',

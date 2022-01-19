@@ -2,6 +2,8 @@ const Joi = require('joi')
 const Boom = require('@hapi/boom')
 
 const { joinRequestService, affiliateService } = require('../services')
+const { mailUtil } = require('../utils')
+const { mailTemplate } = require('../utils/templates')
 
 module.exports = {
   method: 'POST',
@@ -14,8 +16,18 @@ module.exports = {
       const joinRequest = await joinRequestService.findByAccount(input.account)
       const hasKYC = await affiliateService.checkKyc(input.account)
 
-      if (isAnInvitee || joinRequest?.length || !hasKYC)
+      if (isAnInvitee || joinRequest?.length)
         throw Boom.badRequest('Account does not meet requirements')
+
+      if (!hasKYC) {
+        mailUtil.send({
+          account: input.account,
+          to: input.email,
+          subject:
+            'Further action is required to activate your Proton Affiliate account',
+          template: mailTemplate.generateRejectionByKYC
+        })
+      }
 
       const transaction = await joinRequestService.addJoinRequest(input)
 

@@ -2,11 +2,8 @@ const nodemailer = require('nodemailer')
 const {
   mailConfig: { host, port, user, pass }
 } = require('../config')
-const {
-  mailTemplate: { generateConfirmationMail }
-} = require('./templates')
 
-const sendConfirmation = async ({ account, to, subject }) => {
+const send = async ({ account, to, subject, template }) => {
   try {
     const transporter = nodemailer.createTransport({
       host,
@@ -20,7 +17,7 @@ const sendConfirmation = async ({ account, to, subject }) => {
       from: `Proton Affiliate <${user}>`,
       to,
       subject,
-      html: generateConfirmationMail({ account })
+      html: template({ account })
     })
   } catch (error) {
     console.log(error)
@@ -28,5 +25,5 @@ const sendConfirmation = async ({ account, to, subject }) => {
 }
 
 module.exports = {
-  sendConfirmation
+  send
 }
