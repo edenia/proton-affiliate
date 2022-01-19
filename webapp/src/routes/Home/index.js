@@ -116,6 +116,11 @@ const Home = () => {
       })
       setChecked(false)
       setEmail('')
+      setIsValidAccount({
+        showHelper: true,
+        isValid: false,
+        message: t('accountHelperError2')
+      })
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
     }
@@ -203,7 +208,6 @@ const Home = () => {
           state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
         }
       })
-
       const isValid = !isAnInvitee && !joinRequest.length
       const errorMessageTag =
         (isAnInvitee ? 'accountHelperError' : '') ||
