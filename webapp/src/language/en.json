@@ -6,6 +6,7 @@
     "darkMode": "Dark Mode",
     "empty": "No data",
     "loadMore": "Load More",
+    "VERIFIED_KYC_VERIFICATION": "Verified KYC",
     "PENDING_USER_REGISTRATION": "Pending",
     "PENDING_KYC_VERIFICATION": "Pending KYC",
     "PENDING_PAYMENT": "Pending payment",
@@ -167,8 +168,7 @@
     "rejectMemo": "Rejection memo",
     "menuAllRoles": "All roles",
     "menuAdminRole": "Admin only",
-    "menuReferrerRole": "Referrers only",
-    "verified": "Verified"
+    "menuReferrerRole": "Referrers only"
   },
   "footer": {
     "poweredBy": "Powered by",

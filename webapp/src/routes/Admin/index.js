@@ -52,11 +52,11 @@ const headCellNewUsers = [
     label: 'account'
   },
   {
-    id: 'kyc',
+    id: 'status',
     align: 'center',
     useMainColor: false,
     rowLink: false,
-    label: 'kyc'
+    label: 'status'
   },
   {
     id: 'applied',
@@ -297,6 +297,7 @@ const Admin = () => {
     initNewUsersPagination
   )
   const [fetchingData, setFetchingData] = useState(false)
+  const [filterNewUsersBy, setFilterNewUsersBy] = useState()
   const [refPayFilterRowsBy, setRefPayFilterRowsBy] = useState()
   const [filterRowsBy, setFilterRowsBy] = useState()
   const [userRows, setUserRows] = useState([])
@@ -715,18 +716,35 @@ const Admin = () => {
     if (loading || !joinRequest) return
 
     const setUserData = async () => {
-      const data = await Promise.all(
-        (joinRequest || []).map(async item => {
-          const hasKYC = await affiliateUtil.checkKyc(item.account)
-          return {
-            ...item,
-            account: item.account,
-            kyc: hasKYC ? t('verified') : t('pending'),
-            applied: dateFormat(item.created_at),
-            email: item.email
-          }
-        })
-      )
+      const data = (
+        await Promise.all(
+          (joinRequest || []).map(async item => {
+            const hasKYC = await affiliateUtil.checkKyc(item.account)
+            return {
+              ...item,
+              account: item.account,
+              status: hasKYC
+                ? t('VERIFIED_KYC_VERIFICATION')
+                : t('PENDING_KYC_VERIFICATION'),
+              kyc: hasKYC,
+              applied: dateFormat(item.created_at),
+              email: item.email
+            }
+          })
+        )
+      ).reduce((previous, current) => {
+        if (
+          !filterNewUsersBy ||
+          (current.kyc &&
+            filterNewUsersBy === affiliateUtil.KYC_STATUS_IDS.KYC) ||
+          (!current.kyc &&
+            filterNewUsersBy === affiliateUtil.KYC_STATUS_IDS.NON_KYC)
+        ) {
+          return [...previous, current]
+        }
+
+        return previous
+      }, [])
 
       setNewUsersPagination({
         ...newUsersPagination,
@@ -736,7 +754,7 @@ const Admin = () => {
     }
 
     setUserData()
-  }, [loading, joinRequest, infoJoin])
+  }, [loading, joinRequest, infoJoin, filterNewUsersBy])
 
   useEffect(() => {
     if (selected.tableName !== 'payment') {
@@ -810,7 +828,16 @@ const Admin = () => {
           disableByStatus="PENDING_PAYMENT"
         />
       </Accordion>
-      <Accordion title="New Affiliates">
+      <Accordion
+        title="New Affiliates"
+        filterValues={[
+          t('allStatus'),
+          t('VERIFIED_KYC_VERIFICATION'),
+          t('PENDING_KYC_VERIFICATION')
+        ]}
+        filterRowsBy={filterNewUsersBy}
+        handleOnFilter={filterValue => setFilterNewUsersBy(filterValue)}
+      >
         <TableSearch
           tableName="new"
           onSelectItem={handleOnSelectItem}
