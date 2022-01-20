@@ -157,6 +157,14 @@ export const DELETE_JOIN_REQUEST_MUTATION = gql`
   }
 `
 
+export const REJECT_JOIN_REQUEST_MUTATION = gql`
+  mutation ($accounts: [String!]) {
+    reject_join_request(accounts: $accounts) {
+      success
+    }
+  }
+`
+
 export const UPDATE_JOIN_REQUEST_MUTATION = gql`
   mutation ($account: [String!], $state: String!) {
     update_join_request(

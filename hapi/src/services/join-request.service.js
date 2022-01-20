@@ -13,6 +13,19 @@ const addJoinRequest = async payload => {
   return data.insert_join_request_one
 }
 
+const removeJoinRequest = async accounts => {
+  const mutation = `
+    mutation ($accounts: [String!]) {
+      delete_join_request(where: { account: { _in: $accounts } }) {
+        affected_rows
+      }
+    }
+  `
+  const data = await hasuraUtil.instance.request(mutation, { accounts })
+
+  return data.delete_join_request
+}
+
 const findByAccount = async account => {
   const query = `
     query ($account: String!) {
@@ -33,5 +46,6 @@ const findByAccount = async account => {
 
 module.exports = {
   addJoinRequest,
+  removeJoinRequest,
   findByAccount
 }

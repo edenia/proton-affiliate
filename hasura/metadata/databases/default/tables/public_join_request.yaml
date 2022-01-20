@@ -1,6 +1,7 @@
-table:
-  name: join_request
-  schema: public
+delete_permissions:
+- permission:
+    filter: {}
+  role: guest
 select_permissions:
 - permission:
     allow_aggregations: true
@@ -14,6 +15,9 @@ select_permissions:
     - updated_at
     filter: {}
   role: guest
+table:
+  name: join_request
+  schema: public
 update_permissions:
 - permission:
     check: null
@@ -22,9 +26,5 @@ update_permissions:
     - email
     - receive_news
     - state
-    filter: {}
-  role: guest
-delete_permissions:
-- permission:
     filter: {}
   role: guest
