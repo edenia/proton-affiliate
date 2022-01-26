@@ -528,11 +528,11 @@ const Admin = () => {
         type: 'success',
         content: (
           <a
-            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            href={`${mainConfig.blockExplorer}/transaction/${data.payload.tx}`}
             target="_blank"
             rel="noreferrer"
           >
-            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+            {`${t('success')} ${getLastCharacters(data.payload.tx)}`}
           </a>
         )
       })
