@@ -1,7 +1,9 @@
 const moment = require('moment')
 
 const { affiliateConfig } = require('../config')
-const { hasuraUtil, eosUtil } = require('../utils')
+const { mailTemplate } = require('../utils/templates')
+const { hasuraUtil, eosUtil, mailUtil } = require('../utils')
+const affiliateService = require('./affiliate.service')
 
 const addJoinRequest = async payload => {
   const mutation = `
@@ -16,7 +18,18 @@ const addJoinRequest = async payload => {
   return data.insert_join_request_one
 }
 
-const removeJoinRequest = async () => {}
+const removeJoinRequest = async accounts => {
+  const mutation = `
+    mutation ($accounts: [String!]) {
+      delete_join_request(where: { account: { _in: $accounts } }) {
+        affected_rows
+      }
+    }
+  `
+  const data = await hasuraUtil.instance.request(mutation, { accounts })
+
+  return data.delete_join_request
+}
 
 const findByAccount = async account => {
   const query = `
@@ -55,44 +68,56 @@ const findByState = async () => {
   return join_request.length ? join_request : null
 }
 
-// State: pending
-
 const updateRequester = async () => {
   const { rows } = await eosUtil.getTableRows({
     code: affiliateConfig.account,
     scope: affiliateConfig.account,
     table: 'params'
   })
-
   const removeAfterDays = rows[0].expiration_days
+  const requesters = await findByState()
 
-  const users = await findByState()
+  for (const requester of requesters) {
+    console.log('Requestor', requester)
+    const daysAfterJoin = moment().diff(moment(requester.created_at), 'days')
+    const hasKYC = await affiliateService.checkKyc(requester.account)
 
-  for (const user of users) {
-    const daysAfterJoin = moment().diff(moment(user.created_at), 'days')
+    console.log(`DAYS-AFTER-JOIN ${daysAfterJoin}`)
+    console.log(`REMOVE-AFTER-DAYS ${removeAfterDays}`)
 
-    if (!daysAfterJoin) return
+    if (!daysAfterJoin || hasKYC) continue
 
-    if (daysAfterJoin === Math.round(removeAfterDays * 0.3)) {
-      // Send warning mail
+    console.log('---AFTER SAFE GUARD---')
+
+    if (daysAfterJoin === Math.round(removeAfterDays * 0.2)) {
+      mailUtil.send({
+        account: requester.account,
+        to: requester.email,
+        subject:
+          'Further action is required to activate your Proton Affiliate account',
+        template: mailTemplate.generateWarningByKYC
+      })
+    } else if (daysAfterJoin >= removeAfterDays) {
+      console.log('CAME HERE')
+      mailUtil.send({
+        account: requester.account,
+        to: requester.email,
+        subject:
+          'Further action is required to activate your Proton Affiliate account',
+        template: mailTemplate.generateRejectionByKYC
+      })
+
+      removeJoinRequest([requester.account])
     }
-
-    if (daysAfterJoin >= removeAfterDays) {
-      // Send account deletion mail
-      // Remove account from join_request table
-    }
-
-    // console.log(`USER REGISTER SINCED ${registeredSince}`)
   }
 }
 
-const removeWorker = async () => {
-  updateRequester()
-  // return {
-  //   name: 'REMOVER ACTIONS',
-  //   interval: affiliateConfig.updateRequesterInterval,
-  //   action: updateRequester
-  // }
+const removeWorker = () => {
+  return {
+    name: 'UPDATE REQUESTER',
+    interval: affiliateConfig.updateRequesterInterval,
+    action: updateRequester
+  }
 }
 
 module.exports = {
