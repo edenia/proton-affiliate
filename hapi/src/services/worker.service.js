@@ -1,6 +1,7 @@
 const { hasuraUtil } = require('../utils')
 
 const affiliateService = require('./affiliate.service')
+const joinRequestService = require('./join-request.service')
 const hyperionService = require('./hyperion')
 
 const sleep = seconds => {
@@ -32,6 +33,7 @@ const init = async () => {
   run(affiliateService.verifyExpiredWorker())
   run(affiliateService.clearReferralsWorker())
   run(affiliateService.setRateWorker())
+  // run(joinRequestService.removerWorker())
   run(hyperionService.syncWorker())
 }
 
