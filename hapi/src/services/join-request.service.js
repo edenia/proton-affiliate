@@ -49,10 +49,10 @@ const findByAccount = async account => {
   return data.join_request.length ? data.join_request[0] : null
 }
 
-const findByState = async () => {
+const findByState = async state => {
   const query = `
-    query {
-      join_request(where: {state: {_eq: "pending"}}) {
+    query ($state: String!) {
+      join_request(where: {state: {_eq: $state}}) {
         id
         account
         email
@@ -63,7 +63,7 @@ const findByState = async () => {
       }
     }
   `
-  const { join_request } = await hasuraUtil.instance.request(query)
+  const { join_request } = await hasuraUtil.instance.request(query, { state })
 
   return join_request.length ? join_request : null
 }
@@ -75,21 +75,18 @@ const updateRequester = async () => {
     table: 'params'
   })
   const removeAfterDays = rows[0].expiration_days
-  const requesters = await findByState()
+  const requesters = await findByState('pending')
 
   for (const requester of requesters) {
-    console.log('Requestor', requester)
     const daysAfterJoin = moment().diff(moment(requester.created_at), 'days')
     const hasKYC = await affiliateService.checkKyc(requester.account)
 
-    console.log(`DAYS-AFTER-JOIN ${daysAfterJoin}`)
-    console.log(`REMOVE-AFTER-DAYS ${removeAfterDays}`)
-
     if (!daysAfterJoin || hasKYC) continue
 
-    console.log('---AFTER SAFE GUARD---')
-
-    if (daysAfterJoin === Math.round(removeAfterDays * 0.2)) {
+    if (
+      daysAfterJoin === Math.round(removeAfterDays * 0.2) &&
+      requester.receive_news
+    ) {
       mailUtil.send({
         account: requester.account,
         to: requester.email,
@@ -98,7 +95,6 @@ const updateRequester = async () => {
         template: mailTemplate.generateWarningByKYC
       })
     } else if (daysAfterJoin >= removeAfterDays) {
-      console.log('CAME HERE')
       mailUtil.send({
         account: requester.account,
         to: requester.email,
