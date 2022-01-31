@@ -64,18 +64,26 @@ const updateRequester = async () => {
     table: 'params'
   })
 
-  console.log('PARAMS', rows[0].expiration_days)
+  const removeAfterDays = rows[0].expiration_days
 
   const users = await findByState()
-  console.log('USERS', users)
 
-  const seconds = moment(affiliateConfig.updateRequesterInterval, 'seconds')
-  console.log('INTERVAL', affiliateConfig.updateRequesterInterval)
-  console.log('SECONDS', seconds)
+  for (const user of users) {
+    const daysAfterJoin = moment().diff(moment(user.created_at), 'days')
 
-  // for(const user of users) {
-  //   const registeredSince = moment().diff
-  // }
+    if (!daysAfterJoin) return
+
+    if (daysAfterJoin === Math.round(removeAfterDays * 0.3)) {
+      // Send warning mail
+    }
+
+    if (daysAfterJoin >= removeAfterDays) {
+      // Send account deletion mail
+      // Remove account from join_request table
+    }
+
+    // console.log(`USER REGISTER SINCED ${registeredSince}`)
+  }
 }
 
 const removeWorker = async () => {
