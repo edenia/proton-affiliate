@@ -12,5 +12,8 @@ module.exports = {
   ),
   updateKycInterval: parseInt(
     process.env.HAPI_AFFILIATE_UPDATE_KYC_INTERVAL || 18000
+  ),
+  updateRequesterInterval: parseInt(
+    process.env.HAPI_AFFILIATE_UPDATE_REQUESTER_INTERVAL || 86400
   )
 }

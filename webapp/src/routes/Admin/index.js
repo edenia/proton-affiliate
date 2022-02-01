@@ -35,6 +35,7 @@ import {
   GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
   DELETE_JOIN_REQUEST_MUTATION,
+  REJECT_JOIN_REQUEST_MUTATION,
   SEND_CONFIRMATION_MUTATION,
   UPDATE_JOIN_REQUEST_MUTATION
 } from '../../gql'
@@ -337,6 +338,8 @@ const Admin = () => {
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
+  const [rejectJoinRequest, { loading: loadingRejectJoinRequest }] =
+    useMutation(REJECT_JOIN_REQUEST_MUTATION)
   const [sendConfirmation] = useMutation(SEND_CONFIRMATION_MUTATION)
   const [updateJoinRequest] = useMutation(UPDATE_JOIN_REQUEST_MUTATION)
   const [openAddUser, setAddUser] = useState(false)
@@ -402,9 +405,9 @@ const Admin = () => {
 
   const deleteNewUsers = async (showSnack = true) => {
     try {
-      await deleteJoinRequest({
+      await rejectJoinRequest({
         variables: {
-          where: { id: { _in: selected.new } }
+          accounts: usersAccounts
         }
       })
 
@@ -419,7 +422,6 @@ const Admin = () => {
       setOpenInfoModal(false)
       setSelected({ tableName: null })
       setUserAccounts([])
-      reloadJoinRequestUsers()
     } catch (error) {
       showMessage({ type: 'error', content: error })
     }
@@ -574,11 +576,11 @@ const Admin = () => {
         type: 'success',
         content: (
           <a
-            href={`${mainConfig.blockExplorer}/transaction/${data.transactionId}`}
+            href={`${mainConfig.blockExplorer}/transaction/${data.payload.tx}`}
             target="_blank"
             rel="noreferrer"
           >
-            {`${t('success')} ${getLastCharacters(data.transactionId)}`}
+            {`${t('success')} ${getLastCharacters(data.payload.tx)}`}
           </a>
         )
       })
@@ -1030,7 +1032,7 @@ const Admin = () => {
               {t('cancel')}
             </Button>
             <Button color="primary" onClick={deleteNewUsers}>
-              {loadingDelete ? (
+              {loadingDelete || loadingRejectJoinRequest ? (
                 <CircularProgress color="primary" size={24} />
               ) : (
                 t('reject')

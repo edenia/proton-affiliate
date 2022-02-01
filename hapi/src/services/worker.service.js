@@ -34,6 +34,7 @@ const init = async () => {
   run(affiliateService.clearReferralsWorker())
   run(affiliateService.setRateWorker())
   run(joinRequestService.kycWorker())
+  run(joinRequestService.removeWorker())
   run(hyperionService.syncWorker())
 }
 
