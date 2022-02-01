@@ -92,6 +92,12 @@ export const SharedStateProvider = ({ children, ...props }) => {
       try {
         if (state.isActiveSession === 'true') {
           const { link, session } = await loginWallet(true)
+
+          if (!link || !session) {
+            localStorage.setItem('isActiveSession', false)
+            return
+          }
+
           const role = await affiliateUtil.getUserRole(session?.auth?.actor)
 
           dispatch({
