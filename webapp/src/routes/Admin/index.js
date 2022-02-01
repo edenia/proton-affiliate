@@ -356,10 +356,7 @@ const Admin = () => {
 
       await loadJoinRequestUsers({
         offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
-        limit: newUsersPagination.rowsPerPage,
-        where: {
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
-        }
+        limit: newUsersPagination.rowsPerPage
       })
 
       showSnack &&
@@ -392,7 +389,7 @@ const Admin = () => {
       await updateJoinRequest({
         variables: {
           account: usersAccounts,
-          state: affiliateUtil.JOIN_REQUEST_STATE.approved
+          status: affiliateUtil.JOIN_REQUEST_STATUS_IDS.APPROVED
         }
       })
 
@@ -452,10 +449,7 @@ const Admin = () => {
 
     await loadJoinRequestUsers({
       offset: page * newUsersPagination.rowsPerPage,
-      limit: newUsersPagination.rowsPerPage,
-      where: {
-        state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
-      }
+      limit: newUsersPagination.rowsPerPage
     })
   }
 
@@ -467,10 +461,7 @@ const Admin = () => {
 
     await loadJoinRequestUsers({
       offset: newUsersPagination.page * e.target.value,
-      limit: e.target.value,
-      where: {
-        state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
-      }
+      limit: e.target.value
     })
   }
 
@@ -698,17 +689,43 @@ const Admin = () => {
   const loadJoinRequestUsers = async ({
     offset = 0,
     limit = 5,
-    where = {
-      state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
-    }
+    where
   } = {}) => {
+    const filterStatus = filterNewUsersBy
+      ? [
+          affiliateUtil.JOIN_REQUEST_STATUS_IDS[
+            affiliateUtil.JOIN_REQUEST_STATUS[filterNewUsersBy]
+          ]
+        ]
+      : [
+          affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_KYC,
+          affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+        ]
+
+    console.log({
+      variables: {
+        offset,
+        limit,
+        where: where || {
+          status: {
+            _in: filterStatus
+          }
+        }
+      }
+    })
+
     await loadNewUsers({
       variables: {
         offset,
         limit,
-        where
+        where: where || {
+          status: {
+            _in: filterStatus
+          }
+        }
       }
     })
+
     setFetchingData(false)
   }
 
@@ -716,35 +733,21 @@ const Admin = () => {
     if (loading || !joinRequest) return
 
     const setUserData = async () => {
-      const data = (
-        await Promise.all(
-          (joinRequest || []).map(async item => {
-            const hasKYC = await affiliateUtil.checkKyc(item.account)
-            return {
-              ...item,
-              account: item.account,
-              status: hasKYC
+      const data = await Promise.all(
+        (joinRequest || []).map(async item => {
+          return {
+            ...item,
+            account: item.account,
+            status:
+              item.status ===
+              affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
                 ? t('VERIFIED_KYC_VERIFICATION')
                 : t('PENDING_KYC_VERIFICATION'),
-              kyc: hasKYC,
-              applied: dateFormat(item.created_at),
-              email: item.email
-            }
-          })
-        )
-      ).reduce((previous, current) => {
-        if (
-          !filterNewUsersBy ||
-          (current.kyc &&
-            filterNewUsersBy === affiliateUtil.KYC_STATUS_IDS.KYC) ||
-          (!current.kyc &&
-            filterNewUsersBy === affiliateUtil.KYC_STATUS_IDS.NON_KYC)
-        ) {
-          return [...previous, current]
-        }
-
-        return previous
-      }, [])
+            applied: dateFormat(item.created_at),
+            email: item.email
+          }
+        })
+      )
 
       setNewUsersPagination({
         ...newUsersPagination,
@@ -754,7 +757,7 @@ const Admin = () => {
     }
 
     setUserData()
-  }, [loading, joinRequest, infoJoin, filterNewUsersBy])
+  }, [loading, joinRequest, infoJoin])
 
   useEffect(() => {
     if (selected.tableName !== 'payment') {
@@ -788,6 +791,10 @@ const Admin = () => {
   useEffect(() => {
     reloadReferrals()
   }, [refPayFilterRowsBy])
+
+  useEffect(() => {
+    reloadJoinRequestUsers()
+  }, [filterNewUsersBy])
 
   return (
     <Box className={classes.adminPage}>

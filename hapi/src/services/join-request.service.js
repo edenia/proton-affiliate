@@ -75,6 +75,8 @@ const update = async (account, payload) => {
   await hasuraUtil.instance.request(mutation, { account, payload })
 }
 
+// This function is intended to make a soft database update to replace state value for status
+// WARNING: Removed after a production version of this function
 const updateStatus = async () => {
   const requesters = await findByStatus(JOIN_REQUEST_STATUS_IDS.PENDING_KYC)
 
