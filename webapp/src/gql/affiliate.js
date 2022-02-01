@@ -159,10 +159,10 @@ export const DELETE_JOIN_REQUEST_MUTATION = gql`
 `
 
 export const UPDATE_JOIN_REQUEST_MUTATION = gql`
-  mutation ($account: [String!], $state: String!) {
+  mutation ($account: [String!], $status: Int!) {
     update_join_request(
       where: { account: { _in: $account } }
-      _set: { state: $state }
+      _set: { status: $status }
     ) {
       affected_rows
     }

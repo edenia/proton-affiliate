@@ -95,8 +95,7 @@ const AccordionComponent = ({
               }}
             >
               <Typography className={classes.menuLabel}>{t(label)}</Typography>
-
-              {value === filterRowsBy && (
+              {(value || 0) === filterRowsBy && (
                 <ListItemIcon>
                   <CheckIcon className={classes.checkIcon} fontSize="small" />
                 </ListItemIcon>
@@ -114,13 +113,13 @@ AccordionComponent.propTypes = {
   children: PropTypes.node,
   handleOnFilter: PropTypes.func,
   filterValues: PropTypes.array.isRequired,
-  filterRowsBy: PropTypes.object.isRequired
+  filterRowsBy: PropTypes.number.isRequired
 }
 
 AccordionComponent.defaultProps = {
   handleOnFilter: () => {},
   filterValues: [],
-  filterRowsBy: {}
+  filterRowsBy: 0
 }
 
 export default AccordionComponent

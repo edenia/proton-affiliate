@@ -756,18 +756,6 @@ const Admin = () => {
           affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
         ]
 
-    console.log({
-      variables: {
-        offset,
-        limit,
-        where: where || {
-          status: {
-            _in: filterStatus
-          }
-        }
-      }
-    })
-
     await loadNewUsers({
       variables: {
         offset,
