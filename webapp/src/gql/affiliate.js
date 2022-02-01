@@ -141,7 +141,6 @@ export const GET_JOIN_REQUEST = gql`
     ) {
       account
       email
-      state
       status
       id
       receive_news
