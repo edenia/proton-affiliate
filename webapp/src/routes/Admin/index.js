@@ -127,6 +127,60 @@ const headCellReferralPayment = [
   }
 ]
 
+const referralPaymentFilterValues = [
+  {
+    label: 'allStatus'
+  },
+  {
+    label: 'PENDING_USER_REGISTRATION',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.PENDING_USER_REGISTRATION
+  },
+  {
+    label: 'PENDING_KYC_VERIFICATION',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.PENDING_KYC_VERIFICATION
+  },
+  {
+    label: 'PENDING_PAYMENT',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+  },
+  {
+    label: 'PAYMENT_REJECTED',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.PAYMENT_REJECTED
+  },
+  {
+    label: 'EXPIRED',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.EXPIRED
+  },
+  {
+    label: 'PAID',
+    value: affiliateUtil.REFERRAL_STATUS_IDS.PAID
+  }
+]
+
+const joinRequestFilterValues = [
+  { label: 'allStatus' },
+  {
+    label: 'VERIFIED_KYC_VERIFICATION',
+    value: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+  },
+  {
+    label: 'PENDING_KYC_VERIFICATION',
+    value: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_KYC
+  }
+]
+
+const userManagementFilterValues = [
+  { label: 'menuAllRoles' },
+  {
+    label: 'menuAdminRole',
+    value: affiliateUtil.ROLES_IDS.ADMIN
+  },
+  {
+    label: 'menuReferrerRole',
+    value: affiliateUtil.ROLES_IDS.REFERRER
+  }
+]
+
 const initNewUsersPagination = {
   count: 0,
   rowsPerPage: 5,
@@ -806,15 +860,7 @@ const Admin = () => {
       </Box>
       <Accordion
         title="Referral Payments"
-        filterValues={[
-          t('allStatus'),
-          t('PENDING_USER_REGISTRATION'),
-          t('PENDING_KYC_VERIFICATION'),
-          t('PENDING_PAYMENT'),
-          t('PAYMENT_REJECTED'),
-          t('EXPIRED'),
-          t('PAID')
-        ]}
+        filterValues={referralPaymentFilterValues}
         filterRowsBy={refPayFilterRowsBy}
         handleOnFilter={filterValue => setRefPayFilterRowsBy(filterValue)}
       >
@@ -837,11 +883,7 @@ const Admin = () => {
       </Accordion>
       <Accordion
         title="New Affiliates"
-        filterValues={[
-          t('allStatus'),
-          t('VERIFIED_KYC_VERIFICATION'),
-          t('PENDING_KYC_VERIFICATION')
-        ]}
+        filterValues={joinRequestFilterValues}
         filterRowsBy={filterNewUsersBy}
         handleOnFilter={filterValue => setFilterNewUsersBy(filterValue)}
       >
@@ -861,11 +903,7 @@ const Admin = () => {
       </Accordion>
       <Accordion
         title="User Management"
-        filterValues={[
-          t('menuAllRoles'),
-          t('menuAdminRole'),
-          t('menuReferrerRole')
-        ]}
+        filterValues={userManagementFilterValues}
         filterRowsBy={filterRowsBy}
         handleOnFilter={filterValue => setFilterRowsBy(filterValue)}
       >
