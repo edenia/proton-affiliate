@@ -11,14 +11,6 @@ const JOIN_REQUEST_STATUS_IDS = {
   PENDING_APPROVEMENT: 2,
   APPROVED: 3
 }
-const KYC_STATUS = {
-  1: 'KYC',
-  2: 'NON_KYC'
-}
-const KYC_STATUS_IDS = {
-  KYC: 1,
-  NON_KYC: 2
-}
 const ROLES = {
   1: 'ADMIN',
   2: 'REFERRER'
@@ -385,8 +377,6 @@ const isAccountValidAsInvitee = async account => {
 }
 
 export const affiliateUtil = {
-  KYC_STATUS,
-  KYC_STATUS_IDS,
   REFERRAL_STATUS,
   REFERRAL_STATUS_IDS,
   ROLES,

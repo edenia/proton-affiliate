@@ -2,11 +2,6 @@ const { affiliateConfig } = require('../config')
 const { hasuraUtil, eosUtil } = require('../utils')
 const { checkKyc } = require('./affiliate.service')
 
-const JOIN_REQUEST_STATUS = {
-  1: 'PENDING_KYC',
-  2: 'PENDING_APPROVEMENT',
-  3: 'APPROVED'
-}
 const JOIN_REQUEST_STATUS_IDS = {
   PENDING_KYC: 1,
   PENDING_APPROVEMENT: 2,
