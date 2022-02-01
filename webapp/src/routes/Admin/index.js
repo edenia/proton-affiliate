@@ -358,7 +358,7 @@ const Admin = () => {
         offset: newUsersPagination.page * newUsersPagination.rowsPerPage,
         limit: newUsersPagination.rowsPerPage,
         where: {
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+          state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
         }
       })
 
@@ -392,7 +392,7 @@ const Admin = () => {
       await updateJoinRequest({
         variables: {
           account: usersAccounts,
-          state: affiliateUtil.JOIN_REQUEST_STATUS.approved
+          state: affiliateUtil.JOIN_REQUEST_STATE.approved
         }
       })
 
@@ -454,7 +454,7 @@ const Admin = () => {
       offset: page * newUsersPagination.rowsPerPage,
       limit: newUsersPagination.rowsPerPage,
       where: {
-        state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
       }
     })
   }
@@ -469,7 +469,7 @@ const Admin = () => {
       offset: newUsersPagination.page * e.target.value,
       limit: e.target.value,
       where: {
-        state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+        state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
       }
     })
   }
@@ -699,7 +699,7 @@ const Admin = () => {
     offset = 0,
     limit = 5,
     where = {
-      state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+      state: { _eq: affiliateUtil.JOIN_REQUEST_STATE.pending }
     }
   } = {}) => {
     await loadNewUsers({

@@ -1,6 +1,16 @@
 import { eosApi } from './eosapi'
 import { mainConfig } from '../config'
 
+const JOIN_REQUEST_STATUS = {
+  1: 'PENDING_KYC',
+  2: 'PENDING_APPROVEMENT',
+  3: 'APPROVED'
+}
+const JOIN_REQUEST_STATUS_IDS = {
+  PENDING_KYC: 1,
+  PENDING_APPROVEMENT: 2,
+  APPROVED: 3
+}
 const KYC_STATUS = {
   1: 'KYC',
   2: 'NON_KYC'
@@ -34,7 +44,7 @@ const REFERRAL_STATUS_IDS = {
   PAID: 6
 }
 const GUEST_ROLE = 'NON-AFFILIATED'
-const JOIN_REQUEST_STATUS = {
+const JOIN_REQUEST_STATE = {
   pending: 'pending',
   approved: 'approved'
 }
@@ -387,6 +397,8 @@ export const affiliateUtil = {
   ROLES_IDS,
   GUEST_ROLE,
   JOIN_REQUEST_STATUS,
+  JOIN_REQUEST_STATUS_IDS,
+  JOIN_REQUEST_STATE,
   getUserRole,
   rejectRef,
   payRef,
