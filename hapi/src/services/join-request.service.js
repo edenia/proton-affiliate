@@ -90,7 +90,6 @@ const update = async (account, payload) => {
 // WARNING: Removed after a production version of this function
 const updateStatus = async () => {
   const requesters = await findByStatus(JOIN_REQUEST_STATUS_IDS.PENDING_KYC)
-
   const { rows } = await eosUtil.getTableRows({
     code: affiliateConfig.account,
     scope: affiliateConfig.account,
