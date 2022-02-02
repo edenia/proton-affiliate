@@ -46,9 +46,9 @@
   "helpRoute": {
     "title": "Gracias por usar nuestro producto!",
     "paragraph": "Este proyecto aún está en proceso. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
-    "protonGitHub": "GitHub EOS Costa Rica",
+    "protonGitHub": "GitHub Edenia",
     "telegramChannel": "Grupo de Telegram",
-    "protonWebsite": "Página web EOS Costa Rica"
+    "protonWebsite": "Página web Edenia"
   },
   "adminRoute": {
     "menuAllRoles": "Todos los roles",

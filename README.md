@@ -3,33 +3,44 @@
 </p>
 
 # Proton Affiliate Platform
+
 **An on-chain affiliate marketing platform, rewarding users in XPR for referring and registering on Proton.**
 
 ![](https://img.shields.io/github/license/eoscostarica/proton-affiliate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/proton-affiliate?style=social)
 
 ### Production Instance: [earnproton.com](https://earnproton.com)
+
 Proton mainnet instance deploys the `main` branch of this repository.
 
 ### Development Instance: [test.earnproton.com](https://test.earnproton.com)
+
 Proton testnet instance deploys the `dev` branch of this repository.
 
 ## Table of Contents
 
-- [Tech Stack](#tech-stack)
-- [Smart Contract](#smart-contract)
-- [Demux Pattern](#demux-pattern)
+- [Proton Affiliate Platform](#proton-affiliate-platform)
+    - [Production Instance: earnproton.com](#production-instance-earnprotoncom)
+    - [Development Instance: test.earnproton.com](#development-instance-testearnprotoncom)
+  - [Table of Contents](#table-of-contents)
+  - [Tech Stack](#tech-stack)
+  - [Smart Contract](#smart-contract)
+    - [Smart Contract Docs](#smart-contract-docs)
+  - [Demux Pattern](#demux-pattern)
+    - [Services Using Demux](#services-using-demux)
+    - [Demux Data Flow](#demux-data-flow)
 - [Installation](#installation)
+  - [Before you Start](#before-you-start)
+  - [First Time](#first-time)
+  - [Quick Start](#quick-start)
 - [File Structure](#file-structure)
 - [Technical Documentation](#technical-documentation)
-  - [Infrastructure Diagram](#infrastructure-diagram)
-  - [Web Application](#web-application)
-  - [Hapi REST Server](#hapi-rest-server)
-  - [Hasura GraphQL Engine](#hasura-graphql-engine)
-  - [EOSIO Blockchain Integration](#eosio-blockchain-integration)
+    - [EOSIO Blockchain Integration](#eosio-blockchain-integration)
+    - [Web Application](#web-application)
+    - [Hasura GraphQL Engine](#hasura-graphql-engine)
+    - [Hapi REST Server](#hapi-rest-server)
 - [License](#license)
 - [Contributing](#contributing)
-  - [Contributors](#contributors)
-  - [About EOS Costa Rica](#about-eos-costa-rica)
+  - [About Edenia](#about-edenia)
 
 ## Tech Stack
 
@@ -121,10 +132,10 @@ Within this repository you will find the following directories and files:
 │   └── affiliate ................. Affiliate Platform Contract
 ├── docs .......................... Documentation
 │   └── img ....................... Images and Diagrams
-├── hapi .......................... Node JS backend & HTTP API 
-│   └── src 
+├── hapi .......................... Node JS backend & HTTP API
+│   └── src
 │       └── config ................ Backend Configurations
-│       └── routes ................ HTTP routes  
+│       └── routes ................ HTTP routes
 │       └── utils ................. Utilities and Libraries
 │       └── services .............. Project Business Logic
 |           └── hyperion .......... Demux Implementation
@@ -160,23 +171,23 @@ We need to handle REST custom requests coming from the Hasura GraphQL server. Fo
 
 # License
 
-MIT © [EOS Costa Rica](https://eoscostarica.io).
+MIT © [Edenia](https://edenia.com/).
 
 # Contributing
 
-Please read EOS Costa Rica's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
+Please read Edenia's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
 
-Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/proton-affiliate/issues)
+Please report bugs big and small by [opening an issue](https://github.com/edenia/proton-affiliate/issues)
 
-## About EOS Costa Rica
+## About Edenia
 
 <p align="center">
-	<a href="https://eoscostarica.io">
-		<img src="https://github.com/eoscostarica/eos-rate/raw/master/docs/eoscostarica-logo-black.png" width="300">
+	<a href=["https://eoscostarica.io](https://github.com/edenia)">
+		<img src="https://github.com/edenia/eos-rate/raw/master/docs/eoscostarica-logo-black.png" width="300">
 	</a>
 </p>
 <br/>
 
-EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
+Edenia is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
 
-[eoscostarica.io](https://eoscostarica.io)
+[edenia.com](https://edenia.com/)
