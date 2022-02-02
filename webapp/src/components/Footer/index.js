@@ -36,7 +36,7 @@ const Footer = () => {
         </Box>
         <Box className={classes.boxLinksFooter}>
           <Link
-            href="https://eoscostarica.io"
+            href="https://edenia.com"
             target="_blank"
             rel="noreferrer"
             className={classes.links}
@@ -51,7 +51,7 @@ const Footer = () => {
             {'-'}
           </Typography>
           <Link
-            href="https://github.com/eoscostarica/proton-affiliate/releases"
+            href="https://github.com/edenia/proton-affiliate/releases"
             target="_blank"
             rel="noreferrer"
             className={classes.links}
@@ -109,7 +109,7 @@ const Footer = () => {
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <a
-                href="https://github.com/eoscostarica/proton-affiliate"
+                href="https://github.com/edenia/proton-affiliate"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -131,7 +131,7 @@ const Footer = () => {
         </List>
         <Box className={classes.boxLinksFooter}>
           <Link
-            href="https://eoscostarica.io"
+            href="https://edenia.com"
             target="_blank"
             rel="noreferrer"
             className={classes.links}
@@ -146,7 +146,7 @@ const Footer = () => {
             {'-'}
           </Typography>
           <Link
-            href="https://github.com/eoscostarica/proton-affiliate/releases"
+            href="https://github.com/edenia/proton-affiliate/releases"
             target="_blank"
             rel="noreferrer"
             className={classes.links}
