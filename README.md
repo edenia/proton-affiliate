@@ -40,7 +40,7 @@ Proton testnet instance deploys the `dev` branch of this repository.
     - [Hapi REST Server](#hapi-rest-server)
 - [License](#license)
 - [Contributing](#contributing)
-  - [About Edenia](#about-edenia)
+  - [About Sistemas Edenia Internacional S.A.](#about-sistemas-edenia-internacional-sa)
 
 ## Tech Stack
 
@@ -171,15 +171,15 @@ We need to handle REST custom requests coming from the Hasura GraphQL server. Fo
 
 # License
 
-MIT © [Edenia](https://edenia.com/).
+MIT © [Sistemas Edenia Internacional S.A.](https://edenia.com/).
 
 # Contributing
 
 Please read Edenia's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
 
-Please report bugs big and small by [opening an issue](https://github.com/edenia/proton-affiliate/issues)
+Please report bugs big and small by [opening an issue](https://github.com/edenia/proton-affiliate/issues/new/choose)
 
-## About Edenia
+## About Sistemas Edenia Internacional S.A.
 
 <p align="center">
 	<a href="https://github.com/edenia">
@@ -188,6 +188,6 @@ Please report bugs big and small by [opening an issue](https://github.com/edenia
 </p>
 <br/>
 
-Edenia is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
+Sistemas Edenia Internacional S.A. is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
 
 [edenia.com](https://edenia.com/)

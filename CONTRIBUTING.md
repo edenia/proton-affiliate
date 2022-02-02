@@ -2,7 +2,7 @@
 
 👍🎉 First off, thanks for taking the time to contribute! 🎉👍
 
-The following is a set of guidelines for contributing to Edenia's Open Source Projects and its packages, which are hosted in the [`edenia`](https://github.com/edenia) Organization on GitHub.
+The following is a set of guidelines for contributing to Edenia's Open Source Projects and its packages, which are hosted in the [`eoscostarica`](https://github.com/edenia) Organization on GitHub.
 
 ### [View Open Source Contributing Guidelines](https://guide.eoscostarica.io/docs/open-source-guidelines)
 
