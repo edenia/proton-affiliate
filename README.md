@@ -182,7 +182,7 @@ Please report bugs big and small by [opening an issue](https://github.com/edenia
 ## About Edenia
 
 <p align="center">
-	<a href=["https://eoscostarica.io](https://github.com/edenia)">
+	<a href="https://github.com/edenia">
 		<img src="https://github.com/edenia/eos-rate/raw/master/docs/eoscostarica-logo-black.png" width="300">
 	</a>
 </p>
