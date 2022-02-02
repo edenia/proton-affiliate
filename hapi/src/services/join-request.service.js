@@ -7,7 +7,7 @@ const affiliateService = require('./affiliate.service')
 
 const JOIN_REQUEST_STATUS_IDS = {
   PENDING_KYC: 1,
-  PENDING_APPROVEMENT: 2,
+  PENDING_APPROVAL: 2,
   APPROVED: 3
 }
 
@@ -118,7 +118,7 @@ const updateKYC = async () => {
     if (!hasKYC) continue
 
     await update(requester.account, {
-      status: JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+      status: JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
     })
   }
 }

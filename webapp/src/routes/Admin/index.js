@@ -162,7 +162,7 @@ const joinRequestFilterValues = [
   { label: 'allStatus' },
   {
     label: 'VERIFIED_KYC_VERIFICATION',
-    value: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+    value: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
   },
   {
     label: 'PENDING_KYC_VERIFICATION',
@@ -755,7 +755,7 @@ const Admin = () => {
         ]
       : [
           affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_KYC,
-          affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+          affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
         ]
 
     await loadNewUsers({
@@ -784,7 +784,7 @@ const Admin = () => {
             account: item.account,
             status:
               item.status ===
-              affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVEMENT
+              affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
                 ? t('VERIFIED_KYC_VERIFICATION')
                 : t('PENDING_KYC_VERIFICATION'),
             applied: dateFormat(item.created_at),

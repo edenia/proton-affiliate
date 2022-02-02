@@ -3,12 +3,12 @@ import { mainConfig } from '../config'
 
 const JOIN_REQUEST_STATUS = {
   1: 'PENDING_KYC',
-  2: 'PENDING_APPROVEMENT',
+  2: 'PENDING_APPROVAL',
   3: 'APPROVED'
 }
 const JOIN_REQUEST_STATUS_IDS = {
   PENDING_KYC: 1,
-  PENDING_APPROVEMENT: 2,
+  PENDING_APPROVAL: 2,
   APPROVED: 3
 }
 const ROLES = {
