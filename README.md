@@ -171,7 +171,7 @@ We need to handle REST custom requests coming from the Hasura GraphQL server. Fo
 
 # License
 
-MIT © [Sistemas Edenia Internacional S.A.](https://edenia.com/).
+MIT © [Sistemas Edenia Internacional S.A.](https://edenia.com).
 
 # Contributing
 
@@ -182,7 +182,7 @@ Please report bugs big and small by [opening an issue](https://github.com/edenia
 ## About Sistemas Edenia Internacional S.A.
 
 <p align="center">
-	<a href="https://github.com/edenia">
+	<a href="https://edenia.com">
 		<img src="https://github.com/edenia/eos-rate/raw/master/docs/eoscostarica-logo-black.png" width="300">
 	</a>
 </p>
