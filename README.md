@@ -40,7 +40,7 @@ Proton testnet instance deploys the `dev` branch of this repository.
     - [Hapi REST Server](#hapi-rest-server)
 - [License](#license)
 - [Contributing](#contributing)
-  - [About Sistemas Edenia Internacional S.A.](#about-sistemas-edenia-internacional-sa)
+  - [About Edenia](#about-edenia)
 
 ## Tech Stack
 
@@ -179,11 +179,11 @@ Please read Edenia's [Open Source Contributing Guidelines](https://developers.eo
 
 Please report bugs big and small by [opening an issue](https://github.com/edenia/proton-affiliate/issues/new/choose)
 
-## About Sistemas Edenia Internacional S.A.
+## About Edenia
 
 <p align="center">
 	<a href="https://edenia.com">
-		<img src="https://github.com/edenia/eos-rate/raw/master/docs/eoscostarica-logo-black.png" width="300">
+		<img src="https://earnproton.com/edenia.png" width="300">
 	</a>
 </p>
 <br/>
