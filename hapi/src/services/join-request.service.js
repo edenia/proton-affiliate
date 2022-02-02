@@ -74,25 +74,6 @@ const findByStatus = async status => {
   return join_request.length ? join_request : null
 }
 
-const findByState = async state => {
-  const query = `
-    query ($state: String!) {
-      join_request(where: {state: {_eq: $state}}) {
-        id
-        account
-        email
-        state
-        receive_news
-        created_at
-        updated_at
-      }
-    }
-  `
-  const { join_request } = await hasuraUtil.instance.request(query, { state })
-
-  return join_request.length ? join_request : null
-}
-
 const update = async (account, payload) => {
   const mutation = `
     mutation ($account: String!, $payload: join_request_set_input) {
@@ -150,7 +131,7 @@ const updateRequester = async () => {
     table: 'params'
   })
   const removeAfterDays = rows[0].expiration_days
-  const requesters = await findByState('pending')
+  const requesters = await findByStatus(JOIN_REQUEST_STATUS_IDS.PENDING_KYC)
 
   for (const requester of requesters) {
     const daysAfterJoin = moment().diff(moment(requester.created_at), 'days')
