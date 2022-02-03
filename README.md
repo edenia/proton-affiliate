@@ -55,7 +55,7 @@ This application features the following tech stack :
 - **Kubernetes** : Docker Container Orchestration.
 
 <p align="center">
-   <img src="./docs/img/services.png">
+   <img src="./docs/img/tech-stack.png">
 </p>
 
 ## Smart Contract
