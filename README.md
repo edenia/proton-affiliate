@@ -188,6 +188,6 @@ Please report bugs big and small by [opening an issue](https://github.com/edenia
 </p>
 <br/>
 
-Edenia offers a suite of services to make the internet safer, more efficient, and transparent. Our team has been operating since 1987, leveraging the newest and most promising technologies over the past years. We identify as technology agnostic builders with experience developing infrastructure and running nodes in different blockchain mainnets and testnets. Our goal is to push the boundaries of the network and leverage web3 for a greater good.
+Edenia runs independent blockchain infrastructure and develops web3 solutions. Our team of technology-agnostic builders has been operating since 1987, leveraging the newest technologies to make the internet safer, more efficient, and more transparent.
 
 [edenia.com](https://edenia.com/)
