@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import DoneIcon from '@material-ui/icons/Done'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import AccessTimeIcon from '@material-ui/icons/AccessTime'
 
 import { affiliateUtil, useImperativeQuery } from '../../utils'
 import {
@@ -65,6 +66,9 @@ const Home = () => {
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
+  const [accountStatus, setAccountStatus] = useState(
+    affiliateUtil.JOIN_REQUEST_STATUS_IDS.NONE
+  )
   const [isValidAccount, setIsValidAccount] = useState(INIT_VALIDATION_VALUES)
   const [isValidEmail, setIsValidEmail] = useState(INIT_VALIDATION_VALUES)
   const [referralRows, setReferralRows] = useState([])
@@ -218,6 +222,10 @@ const Home = () => {
         isValid,
         message: t(errorMessageTag)
       })
+
+      joinRequest.length
+        ? setAccountStatus(joinRequest[0].status)
+        : setAccountStatus(affiliateUtil.JOIN_REQUEST_STATUS_IDS.NONE)
     }
 
     if (account) {
@@ -249,14 +257,29 @@ const Home = () => {
             style={{ height: 193, width: 352 }}
           />
           <Typography className={classes.info}>{t('infoPage')}</Typography>
-          <Button
-            className={classes.joinBtn}
-            variant="contained"
-            color="primary"
-            onClick={handleOpenApplyModal}
-          >
-            {t('buttonLabel')}
-          </Button>
+          {accountStatus === affiliateUtil.JOIN_REQUEST_STATUS_IDS.NONE ? (
+            <Button
+              className={classes.joinBtn}
+              variant="contained"
+              color="primary"
+              onClick={handleOpenApplyModal}
+            >
+              {t('buttonLabel')}
+            </Button>
+          ) : (
+            <Button
+              className={classes.joinBtn}
+              variant="contained"
+              color="primary"
+              disabled
+              startIcon={<AccessTimeIcon />}
+            >
+              {accountStatus ===
+              affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
+                ? t('buttonLabelWaiting')
+                : t('PENDING_KYC_VERIFICATION')}
+            </Button>
+          )}
         </Box>
         <img
           src={HomeSvg}
