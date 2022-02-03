@@ -4,6 +4,7 @@
     "signOut": "Salir",
     "lightMode": "Modo Claro",
     "darkMode": "Modo Oscuro",
+    "VERIFIED_KYC_VERIFICATION": "KYC verificado",
     "PENDING_USER_REGISTRATION": "Pendiente",
     "PENDING_KYC_VERIFICATION": "KYC pendiente",
     "PENDING_PAYMENT": "Pago pendiente",

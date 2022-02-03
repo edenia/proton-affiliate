@@ -205,7 +205,7 @@ const Home = () => {
         limit: 1,
         where: {
           account: { _eq: account },
-          state: { _eq: affiliateUtil.JOIN_REQUEST_STATUS.pending }
+          status: { _eq: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_KYC }
         }
       })
       const isValid = !isAnInvitee && !joinRequest.length
