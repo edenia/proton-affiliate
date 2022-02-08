@@ -129,6 +129,7 @@ const AuthButton = memo(({ onSignOut }) => {
 
   return (
     <Button
+      disableRipple
       startIcon={<CloseIcon />}
       onClick={onSignOut}
       className={classes.noHover}
@@ -260,6 +261,7 @@ const Header = memo(({ onDrawerToggle, routes }) => {
         </MenuItem>
         <MenuItem>
           <Button
+            disableRipple
             startIcon={<EditIcon />}
             onClick={() => handleSwitchRoute('/admin')}
             className={classes.noHover}
