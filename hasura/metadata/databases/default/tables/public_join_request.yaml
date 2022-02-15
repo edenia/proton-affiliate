@@ -23,6 +23,7 @@ update_permissions:
     - email
     - receive_news
     - state
+    - status
     filter: {}
   role: guest
 delete_permissions:
