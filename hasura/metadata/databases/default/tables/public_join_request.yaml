@@ -30,3 +30,7 @@ delete_permissions:
 - permission:
     filter: {}
   role: guest
+delete_permissions:
+- permission:
+    filter: {}
+  role: guest
