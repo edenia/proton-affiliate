@@ -170,7 +170,7 @@ const Affiliate = () => {
         <Typography className={classes.affiliateInfo}>
           {t('pageInfo', {
             reward: formatWithThousandSeparator(params.usd_reward_amount, 2),
-            hours: params.expiration_days * 24
+            hours: params.expiration_days
           })}
         </Typography>
         <Typography className={classes.affiliateShare}>{t('copy')}</Typography>

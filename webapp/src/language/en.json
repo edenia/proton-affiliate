@@ -112,7 +112,7 @@
     "title1": "Welcome to",
     "title2": "Proton’s Affiliate Program",
     "titleDesktop": "Welcome to Proton’s Affiliate Program",
-    "pageInfo": "Receive XPR token rewards equal to ${{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ hours }} hours.",
+    "pageInfo": "Receive XPR token rewards equal to ${{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ hours }} days.",
     "copy": "Copy and share this URL to invite new users:",
     "copyDesktop": "Your affiliate link:",
     "copiedMessage": "Affiliate URL has been copied to your clipboard.",
@@ -174,7 +174,7 @@
   "footer": {
     "poweredBy": "Powered by",
     "info": "the Proton Worker Proposal System",
-    "madeBy": "Made by EOS Costa Rica © 2021"
+    "madeBy": "Made by Edenia © 2022"
   },
   "timeline": {
     "addref": "Referral registered",
