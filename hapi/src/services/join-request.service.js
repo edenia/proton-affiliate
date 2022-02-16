@@ -87,7 +87,7 @@ const update = async (account, payload) => {
 }
 
 // This function is intended to make a soft database update to replace state value for status
-// WARNING: Removed after a production version of this function
+// WARNING: Remove after this version is deployed in production
 const updateStatus = async () => {
   const requesters = await findByStatus(JOIN_REQUEST_STATUS_IDS.PENDING_KYC)
   const { rows } = await eosUtil.getTableRows({
@@ -134,6 +134,7 @@ const updateRequester = async () => {
 
   for (const requester of requesters) {
     const daysAfterJoin = moment().diff(moment(requester.created_at), 'days')
+    // Take kyc from db after this version is deployed to production
     const hasKYC = await affiliateService.checkKyc(requester.account)
 
     if (!daysAfterJoin || hasKYC) continue

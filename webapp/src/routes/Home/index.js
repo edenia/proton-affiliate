@@ -125,6 +125,7 @@ const Home = () => {
         isValid: false,
         message: t('accountHelperError2')
       })
+      setAccountStatus(affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL)
     } catch (error) {
       showMessage({ type: 'error', content: error.message })
     }
@@ -231,6 +232,7 @@ const Home = () => {
     if (account) {
       validateAccount()
     } else {
+      setAccountStatus(affiliateUtil.JOIN_REQUEST_STATUS_IDS.NONE)
       setIsValidAccount({
         showHelper: false,
         message: '',
