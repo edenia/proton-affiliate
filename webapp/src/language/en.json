@@ -59,7 +59,7 @@
     "success": "request sent successfully",
     "emailHelperText": "Valid e-mail!",
     "emailHelperError": "Invalid e-mail format!",
-    "referralNotFound": "No referral found  for {{ invitee }} or awaiting admin approval , please contact an Admin",
+    "referralNotFound": "No referral found  for {{ invitee }} or awaiting admin approval, please contact an Admin",
     "searchTitle": "Check Your Invitation Status",
     "protonAccount": "Proton Account"
   },
