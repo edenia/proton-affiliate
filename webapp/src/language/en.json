@@ -6,6 +6,7 @@
     "darkMode": "Dark Mode",
     "empty": "No data",
     "loadMore": "Load More",
+    "VERIFIED_KYC_VERIFICATION": "Verified KYC",
     "PENDING_USER_REGISTRATION": "Pending",
     "PENDING_KYC_VERIFICATION": "Pending KYC",
     "PENDING_PAYMENT": "Pending payment",
@@ -39,6 +40,7 @@
     "title2": "Referral Program",
     "infoPage": "Join as an affiliate and earn rewards for every friend you invite that registers and completes KYC on Proton.",
     "buttonLabel": "Apply Now",
+    "buttonLabelWaiting": "Awaiting approval",
     "tableTitle": "Latest Referral Payments",
     "username": "account",
     "status": "status",
@@ -57,7 +59,7 @@
     "success": "request sent successfully",
     "emailHelperText": "Valid e-mail!",
     "emailHelperError": "Invalid e-mail format!",
-    "referralNotFound": "No referral found  for {{ invitee }} or awaiting admin approval , please contact an Admin",
+    "referralNotFound": "No referral found  for {{ invitee }} or awaiting admin approval, please contact an Admin",
     "searchTitle": "Check Your Invitation Status",
     "protonAccount": "Proton Account"
   },
@@ -110,7 +112,7 @@
     "title1": "Welcome to",
     "title2": "Proton’s Affiliate Program",
     "titleDesktop": "Welcome to Proton’s Affiliate Program",
-    "pageInfo": "Receive XPR token rewards equal to ${{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ hours }} hours.",
+    "pageInfo": "Receive XPR token rewards equal to ${{ reward }} for every person you invite that registers to Proton as a user and completes the KYC within {{ hours }} days.",
     "copy": "Copy and share this URL to invite new users:",
     "copyDesktop": "Your affiliate link:",
     "copiedMessage": "Affiliate URL has been copied to your clipboard.",
@@ -167,13 +169,12 @@
     "rejectMemo": "Rejection memo",
     "menuAllRoles": "All roles",
     "menuAdminRole": "Admin only",
-    "menuReferrerRole": "Referrers only",
-    "verified": "Verified"
+    "menuReferrerRole": "Referrers only"
   },
   "footer": {
     "poweredBy": "Powered by",
     "info": "the Proton Worker Proposal System",
-    "madeBy": "Made by EOS Costa Rica © 2021"
+    "madeBy": "Made by Edenia © 2022"
   },
   "timeline": {
     "addref": "Referral registered",

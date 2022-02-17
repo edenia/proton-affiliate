@@ -2,29 +2,31 @@ table:
   name: join_request
   schema: public
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - account
-    - created_at
-    - email
-    - id
-    - receive_news
-    - state
-    - updated_at
-    filter: {}
-  role: guest
+  - permission:
+      allow_aggregations: true
+      columns:
+        - account
+        - created_at
+        - email
+        - id
+        - receive_news
+        - state
+        - status
+        - updated_at
+      filter: {}
+    role: guest
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - account
-    - email
-    - receive_news
-    - state
-    filter: {}
-  role: guest
+  - permission:
+      check: null
+      columns:
+        - account
+        - email
+        - receive_news
+        - state
+        - status
+      filter: {}
+    role: guest
 delete_permissions:
-- permission:
-    filter: {}
-  role: guest
+  - permission:
+      filter: {}
+    role: guest

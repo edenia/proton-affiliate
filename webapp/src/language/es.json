@@ -4,6 +4,7 @@
     "signOut": "Salir",
     "lightMode": "Modo Claro",
     "darkMode": "Modo Oscuro",
+    "VERIFIED_KYC_VERIFICATION": "KYC verificado",
     "PENDING_USER_REGISTRATION": "Pendiente",
     "PENDING_KYC_VERIFICATION": "KYC pendiente",
     "PENDING_PAYMENT": "Pago pendiente",
@@ -32,7 +33,8 @@
     "telegram": "Grupo en Telegram"
   },
   "homeRoute": {
-    "welcomeMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac viverra nunc, vitae rhoncus metus. Donec placerat ipsum nec ligula lacinia ornare. Cras et felis sit amet libero fermentum faucibus ut id justo. Maecenas vel nibh sed nibh faucibus rutrum. Pellentesque vel nibh molestie, eleifend magna in, eleifend nibh. Praesent elementum libero non ligula viverra feugiat. Morbi blandit massa nec posuere pellentesque. Quisque ac imperdiet tellus. Donec sed lorem sit amet nisl posuere dignissim at a sapien. In tristique et sapien et hendrerit. Nam aliquet quis turpis eu porttitor. Aenean odio augue, lacinia id ipsum at, dignissim sagittis libero. Pellentesque ex justo, tempus et rhoncus vitae, mattis vel justo. Suspendisse pellentesque nisi porttitor est posuere consectetur. Proin ornare orci eleifend, vestibulum massa et, bibendum nulla. Integer rutrum id quam et rhoncus. Nullam pretium pharetra magna in mattis. Nulla et sapien sit amet nibh dictum consectetur a quis dui. Morbi ac vestibulum eros. Ut commodo, dolor in sollicitudin euismod, libero lacus bibendum justo, non lobortis magna tellus vehicula turpis. Maecenas dignissim eget tellus eu molestie. Morbi pellentesque viverra ornare. Vivamus id feugiat nisi. Proin lobortis rhoncus finibus. Proin eu tellus dolor. Suspendisse ac tincidunt neque. In tincidunt ullamcorper lorem. Nulla facilisi."
+    "welcomeMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac viverra nunc, vitae rhoncus metus. Donec placerat ipsum nec ligula lacinia ornare. Cras et felis sit amet libero fermentum faucibus ut id justo. Maecenas vel nibh sed nibh faucibus rutrum. Pellentesque vel nibh molestie, eleifend magna in, eleifend nibh. Praesent elementum libero non ligula viverra feugiat. Morbi blandit massa nec posuere pellentesque. Quisque ac imperdiet tellus. Donec sed lorem sit amet nisl posuere dignissim at a sapien. In tristique et sapien et hendrerit. Nam aliquet quis turpis eu porttitor. Aenean odio augue, lacinia id ipsum at, dignissim sagittis libero. Pellentesque ex justo, tempus et rhoncus vitae, mattis vel justo. Suspendisse pellentesque nisi porttitor est posuere consectetur. Proin ornare orci eleifend, vestibulum massa et, bibendum nulla. Integer rutrum id quam et rhoncus. Nullam pretium pharetra magna in mattis. Nulla et sapien sit amet nibh dictum consectetur a quis dui. Morbi ac vestibulum eros. Ut commodo, dolor in sollicitudin euismod, libero lacus bibendum justo, non lobortis magna tellus vehicula turpis. Maecenas dignissim eget tellus eu molestie. Morbi pellentesque viverra ornare. Vivamus id feugiat nisi. Proin lobortis rhoncus finibus. Proin eu tellus dolor. Suspendisse ac tincidunt neque. In tincidunt ullamcorper lorem. Nulla facilisi.",
+    "buttonLabelWaiting": "Esperando aprobación"
   },
   "aboutRoute": {
     "title": "Este proyecto",
@@ -46,9 +48,9 @@
   "helpRoute": {
     "title": "Gracias por usar nuestro producto!",
     "paragraph": "Este proyecto aún está en proceso. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
-    "protonGitHub": "GitHub EOS Costa Rica",
+    "protonGitHub": "GitHub Edenia",
     "telegramChannel": "Grupo de Telegram",
-    "protonWebsite": "Página web EOS Costa Rica"
+    "protonWebsite": "Página web Edenia"
   },
   "adminRoute": {
     "menuAllRoles": "Todos los roles",

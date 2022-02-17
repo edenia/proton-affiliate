@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
@@ -26,6 +27,7 @@ const AccordionComponent = ({
   filterRowsBy
 }) => {
   const classes = useStyles()
+  const { t } = useTranslation('adminRoute')
   const [expanded, setExpanded] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -82,19 +84,18 @@ const AccordionComponent = ({
         }}
         onClose={handleClose}
       >
-        {(filterValues || []).map((item, index) => {
+        {(filterValues || []).map(({ label, value }) => {
           return (
             <MenuItem
-              key={index}
+              key={value}
               className={classes.menu}
               onClick={() => {
                 handleClose()
-                handleOnFilter(index)
+                handleOnFilter(value)
               }}
             >
-              <Typography className={classes.menuLabel}>{item}</Typography>
-
-              {index === filterRowsBy && (
+              <Typography className={classes.menuLabel}>{t(label)}</Typography>
+              {(value || 0) === filterRowsBy && (
                 <ListItemIcon>
                   <CheckIcon className={classes.checkIcon} fontSize="small" />
                 </ListItemIcon>

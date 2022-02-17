@@ -14,6 +14,12 @@ type Mutation {
 }
 
 type Mutation {
+  reject_join_request(
+    accounts: [String!]
+  ): RejectJoinRequestOutput
+}
+
+type Mutation {
   send_confirmation(
     accounts: [String]!
   ): SendConfirmationOutput
@@ -32,6 +38,10 @@ type AddJoinRequestOutput {
 }
 
 type SendJoinRequestRejectionOutput {
+  success: Boolean!
+}
+
+type RejectJoinRequestOutput {
   success: Boolean!
 }
 
