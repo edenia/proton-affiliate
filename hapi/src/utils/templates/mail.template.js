@@ -98,11 +98,11 @@ const generateWarningByKYC = ({ account }) => {
                         Regarding Your Proton On-Chain Referral Program Request for ${account}
                     </p>
                     <p align="left" style="margin: 0px 16px 8px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
-                        We were unable to activate your Proton referral link as your account must first complete the KYC (Know Your Customer)  process in the Proton wallet. Once you account has KYC you may apply again and begin using the Proton Referral Program to start earning rewards.
+                        We were unable to activate your Proton referral link. First, you must complete the KYC (Know Your Customer) process for your account in the Proton wallet. Once completed, you may apply again and begin using the Proton Referral Program to earn rewards.
                     </p>
                     <br>
                     <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000; overflow-wrap: break-word;">
-                        Please, go to the Proton wallet app and submit your KYC application. The KYC process is currently limited to a few countries and plans are underway to increase the list of countries with KYC enabled  To find out what countries can complete KYC please go to the Proton wallet . If you're still having problems after confirming this information, please get in touch with us through Telegram: https://t.me/protonxpr.
+                        Visit the Proton wallet app to submit your KYC application. The KYC process is limited to a few countries, and plans are underway to expand this list. Go to the Proton wallet to find out if your country is included. If you're still having problems after confirming this information, please contact us through Telegram: https://t.me/protonxpr.
                     </p>
                     <p align="left" style="margin: 0px 16px 0px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         Best Regards,
@@ -139,11 +139,11 @@ const generateRejectionByKYC = ({ account }) => {
                         ${account} - Regarding Your Proton On-Chain Referral Program Request
                     </p>
                     <p align="left" style="margin: 0px 16px 8px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
-                    Your Proton referral link is not ready yet. To begin using the Proton Referral Program and start earning rewards, you must first complete the KYC (Know Your Client) authentication process in the Proton wallet.
+                        Your Proton referral link isn't ready yet. You must first complete the KYC (Know Your Client) authentication process in the Proton wallet to begin using the Proton Referral Program and earn rewards.
                     </p>
                     <br>
                     <p align="left" style="margin: 0px 16px 24px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000; overflow-wrap: break-word;">
-                    Please, go to the Proton wallet app and submit your KYC application. Once completed, you can start using your referral link. To find out what countries can complete a KYC, go to the Proton wallet app or ask in the Proton Telegram chat: https://t.me/protonxpr. If you're still having problems after confirming this information, please get in touch with us through Telegram: https://t.me/eoscr.
+                        Visit the Proton wallet app to submit your KYC application. Once completed, you can start using your referral link. The KYC process is currently limited to a few countries. Go to the Proton wallet to find out if your country is included, or ask in the Proton Telegram chat: https://t.me/protonxpr. If you're still having issues, please contact us through Telegram: https://t.me/eoscr.
                     </p>
                     <p align="left" style="margin: 0px 16px 0px; font-family: Arial; font-size: 16px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         Best Regards,
