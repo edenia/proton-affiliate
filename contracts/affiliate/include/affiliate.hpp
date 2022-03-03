@@ -5,7 +5,7 @@
 * @section DESCRIPTION
 *  Header file for the declaration of all functions related with the affiliate contract
 *
-*    GitHub:         https://github.com/eoscostarica/proton-affiliate
+*    GitHub:         https://github.com/edenia/proton-affiliate
 *
 */
 #include <eosio/eosio.hpp>

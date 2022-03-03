@@ -2,7 +2,7 @@
   "name": "proton-affiliate",
   "version": "1.0.0",
   "description": "Proton Affiliate",
-  "repository": "http://github.com/eoscostarica/proton-affiliate.git",
+  "repository": "http://github.com/edenia/proton-affiliate.git",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
