@@ -1,5 +1,5 @@
 /**
- * @file Unit test for proton affiliate program {@link https://github.com/eoscostarica/proton-affiliate}.
+ * @file Unit test for proton affiliate program {@link https://github.com/edenia/proton-affiliate}.
  * @author EOSCostaRica <https://info@eoscostarica.io>
  * @version 1.1.0
  */

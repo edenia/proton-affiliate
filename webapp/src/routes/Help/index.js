@@ -39,7 +39,7 @@ const Help = () => {
               <Box className={classes.iconBox}>
                 <GitHubIcon className={classes.svgIcon} />
                 <Link
-                  href="https://github.com/eoscostarica/proton-affiliate/issues/new/choose"
+                  href="https://github.com/edenia/proton-affiliate/issues/new/choose"
                   target="_blank"
                   rel="noreferrer"
                   className={classes.links}

@@ -27,7 +27,7 @@ const FOOTER = `
             <a href="https://www.reddit.com/r/ProtonChain" style="text-decoration: none;">
                 <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/reddit.png">
             </a>
-            <a href="https://github.com/eoscostarica/proton-affiliate" style="text-decoration: none;">
+            <a href="https://github.com/edenia/proton-affiliate" style="text-decoration: none;">
                 <img style="width: 32px; height: 32px; margin-right: 16px;" src="https://earnproton.com/icons/github.png">
             </a>
             <a href="https://t.me/protonxpr" style="text-decoration: none;">

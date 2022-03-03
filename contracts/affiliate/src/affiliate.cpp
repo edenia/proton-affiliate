@@ -5,7 +5,7 @@
 * @section DESCRIPTION
 *  Source file for the actions related with the affiliate contract
 *
-*    GitHub:         https://github.com/eoscostarica/proton-affiliate
+*    GitHub:         https://github.com/edenia/proton-affiliate
 *
 */
 
