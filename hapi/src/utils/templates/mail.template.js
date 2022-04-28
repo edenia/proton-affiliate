@@ -70,7 +70,7 @@ const generateConfirmation = ({ account }) => {
                     <p align="left" style="margin: 0px 16px 35px; font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         The Proton Affiliate Team
                         <br>
-                        (Edenia, SoftAtom)
+                        (Edenia, protonkyc.com)
                     </p>
                 </div>
             </tr>
@@ -111,7 +111,7 @@ const generateWarningByKYC = ({ account }) => {
                     <p align="left" style="margin: 0px 16px 35px; font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         The Proton Affiliate Team
                         <br>
-                        (Edenia, SoftAtom)
+                        (Edenia, protonkyc.com)
                     </p>
                 </div>
             </tr>
@@ -152,7 +152,7 @@ const generateRejectionByKYC = ({ account }) => {
                     <p align="left" style="margin: 0px 16px 35px; font-family: Arial; font-size: 16px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.5; letter-spacing: 0.44px; text-align: left; color: #000;">
                         The Proton Affiliate Team
                         <br>
-                        (Edenia, SoftAtom)
+                        (Edenia, protonkyc.com)
                     </p>
                 </div>
             </tr>
