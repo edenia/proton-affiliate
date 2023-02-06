@@ -66,7 +66,7 @@ icon: https://earnproton.com/icons/approve.png
 ---
 spec_version: 0.1.0
 title: Pay referral
-summary: This action pays the reward amount for a valid referral (status PENDING_PAYMENT and not expired).
+summary: This action pays the reward amount for a valid referral (status PENDING_PAYMENT).
 icon: https://earnproton.com/icons/approve.png
 ---
 
