@@ -96,7 +96,7 @@ const verifyExpired = async () => {
 }
 
 const setRate = async () => {
-  const rate = await exchangeService.getRate('bitcoin', 'usd')
+  const rate = await exchangeService.getRate('proton', 'usd')
   const transaction = await eosUtil.transact(
     [
       {
@@ -109,7 +109,7 @@ const setRate = async () => {
         account: affiliateConfig.account,
         name: 'setrate',
         data: {
-          btc_usdt: rate
+          xpr_usdt: rate
         }
       }
     ],
