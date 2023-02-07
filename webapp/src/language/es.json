@@ -23,8 +23,8 @@
     "/help>title": "Ayuda | Programa de afiliados de Proton",
     "/help>sidebar": "Ayuda",
     "/help>heading": "Ayuda",
-    "/terms>title": "Terms and Rules | EOSIO Proton Affiliate",
-    "/terms>sidebar": "Terms",
+    "/terms>title": "Términos y normas | Programa de afiliados de Proton",
+    "/terms>sidebar": "Términos",
     "/tems>heading": "Ricardian Contracts",
     "docs": "Documentación",
     "community": "Comunidad",
@@ -33,24 +33,74 @@
     "telegram": "Grupo en Telegram"
   },
   "homeRoute": {
-    "welcomeMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac viverra nunc, vitae rhoncus metus. Donec placerat ipsum nec ligula lacinia ornare. Cras et felis sit amet libero fermentum faucibus ut id justo. Maecenas vel nibh sed nibh faucibus rutrum. Pellentesque vel nibh molestie, eleifend magna in, eleifend nibh. Praesent elementum libero non ligula viverra feugiat. Morbi blandit massa nec posuere pellentesque. Quisque ac imperdiet tellus. Donec sed lorem sit amet nisl posuere dignissim at a sapien. In tristique et sapien et hendrerit. Nam aliquet quis turpis eu porttitor. Aenean odio augue, lacinia id ipsum at, dignissim sagittis libero. Pellentesque ex justo, tempus et rhoncus vitae, mattis vel justo. Suspendisse pellentesque nisi porttitor est posuere consectetur. Proin ornare orci eleifend, vestibulum massa et, bibendum nulla. Integer rutrum id quam et rhoncus. Nullam pretium pharetra magna in mattis. Nulla et sapien sit amet nibh dictum consectetur a quis dui. Morbi ac vestibulum eros. Ut commodo, dolor in sollicitudin euismod, libero lacus bibendum justo, non lobortis magna tellus vehicula turpis. Maecenas dignissim eget tellus eu molestie. Morbi pellentesque viverra ornare. Vivamus id feugiat nisi. Proin lobortis rhoncus finibus. Proin eu tellus dolor. Suspendisse ac tincidunt neque. In tincidunt ullamcorper lorem. Nulla facilisi.",
-    "buttonLabelWaiting": "Esperando aprobación"
+    "title": "On-Chain",
+    "title2": "Programa de afiliados",
+    "infoPage": "Únase como afiliado y gane recompensas por cada amigo que invite y que se registre y complete la verificación KYC en Proton.",
+    "buttonLabel": "Inscríbase ahora",
+    "buttonLabelWaiting": "Esperando aprobación",
+    "tableTitle": "Latest Referral Payments",
+    "username": "cuenta",
+    "status": "estado",
+    "reward": "recompensas (xpr)",
+    "modalInfo": "Ingrese se cuenta de Proton y correo electrónico para aplicar como afiliado.",
+    "account": "Nombre de la cuenta",
+    "address": "Dirección Email",
+    "accountHelperText": "¡Cuenta encontrada!",
+    "accountHelperError": "¡La cuenta ya está afiliada!",
+    "accountHelperError2": "¡La cuenta está en la lista de espera!",
+    "accountHelperError3": "¡La cuenta no tiene KYC!",
+    "switchLabel": "Reciba actualizaciones y noticias.",
+    "save": "Aplicar",
+    "cancel": "Cancelar",
+    "success": "solicitud enviada con éxito",
+    "emailHelperText": "¡Correo electrónico válido!",
+    "emailHelperError": "¡Formato de correo electrónico inválido!",
+    "referralNotFound": "No se ha encontrado ninguna referencia para {{ invitee }} o está pendiente de aprobación por parte del administrador, póngase en contacto con un administrador",
+    "searchTitle": "Verifique el Estado de su Invitación",
+    "protonAccount": "Cuenta Proton"
   },
   "aboutRoute": {
     "title": "Este proyecto",
-    "subtitle1": "Ques es?",
-    "paragraph1": "<!-- >",
-    "subtitle2": "Por que es importante?",
-    "paragraph2": "<!-- >",
-    "subtitle3": "De donde vienen los datos?",
-    "paragraph3": "<!-- >"
+    "subtitle1": "¿Qué es?",
+    "body1": {
+      "paragraph1": "El Programa de Afiliados de Proton es una plataforma de marketing de afiliados en la blockchain que recompensa a los usuarios por referir nuevos usuarios a Proton Wallet. Los afiliados podrán compartir un enlace de referencia invitando a nuevos usuarios, una vez que el invitado cree una cuenta y complete el proceso KYC (Know Your Client), ambos usuarios recibirán como recompensa un pago en XPR, el token nativo de Proton."
+    },
+    "subtitle2": "¿Por qué unirse a nuestro programa?",
+    "body2": {
+      "paragraph1": "El Programa de Afiliados de Proton es una forma sencilla de ganar XPR. Si eres afiliado de Proton puedes enviar fácilmente un enlace de invitación a través de la aplicación web y tener una visualización completa de tus referidos. Una vez que una persona referida complete el proceso y se convierta en usuario de Proton, recibirás automáticamente recompensas en XPR."
+    },
+    "subtitle3": "¿Quién puede participar?",
+    "body3": {
+      "paragraph1": "Cualquier persona con una cuenta válida y totalmente registrada con la Wallet de Proton puede obtener un enlace de referencia. Solicite afiliarse en earnproton.com."
+    },
+    "subtitle4": "¿Cómo se financia la plataforma?",
+    "body4": {
+      "paragraph1": "El Programa de afiliados de Proton se financia asignando recursos de la red y mediante recompensas por inflación para financiar el desarrollo del protocolo."
+    },
+    "subtitle5": "¿Qué es el Proton Wallet?",
+    "body5": {
+      "paragraph1": "La Wallet de Proton permite a las personas interactuar de manera segura con la blockchain de Proton. Crear una cuenta es rápido y gratis, le permite reservar un nombre @name único el cuál es usado para recibir los pagos, aprobar transacciones, y verificar su identidad. Los usuarios de la Wallet de Proton pueden facilmente usar sus cuentas para realizar intercambios de criptomonedas, participar en staking y yield farming, mint y comprar NFTs, y mucho más."
+    },
+    "subtitle6": "¿Qué es Proton?",
+    "body6": {
+      "paragraph1": "Proton es la cadena de bloques de pagos - dinero programable que funciona. Proton utiliza un sistema de @names verificados legibles por humanos para aprobar transacciones, recibir fondos y garantizar que el ecosistema siga siendo amigable con las personas. Capaz de realizar hasta 4.000 transacciones por segundo, y sin comisiones de gas, Proton es una forma sencilla y accesible de realizar intercambios de criptomonedas, microtransacciones, compra de NFT y mucho más. Además, como la blockchain de Proton es eficiente energéticamente, reduce drásticamente la huella de carbono de las transacciones de blockchain, ofreciendo una forma ecológica de computar las transacciones financieras."
+    }
   },
   "helpRoute": {
-    "title": "Gracias por usar nuestro producto!",
+    "title": "¡Gracias por usar nuestro producto!",
     "paragraph": "Este proyecto aún está en proceso. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
     "protonGitHub": "GitHub Edenia",
     "telegramChannel": "Grupo de Telegram",
-    "protonWebsite": "Página web Edenia"
+    "protonWebsite": "Página web Edenia",
+    "subtitle1": "¿Ha detectado algún fallo?",
+    "info1": "Tómese un minuto, y diríjase a nuestro repositorio en Github y reporte el bug.",
+    "text1": "Reportar un problema / Solicitar una característica ",
+    "subtitle2": "¿Tiene alguna pregunta o retroalimentación?",
+    "info2": "Valoramos su opinión y queremos asegurarnos de que todo funciona correctamente. Visítenos y cuéntenos qué piensa.",
+    "text2": "canal de telegram",
+    "subtitle3": "¿Desea aprender más acerca de Proton?",
+    "info3": "Visite la página web de Proton para conocer más sobre esta blockchain.",
+    "text3": "Página web de Proton"
   },
   "adminRoute": {
     "menuAllRoles": "Todos los roles",
@@ -58,5 +108,14 @@
     "menuReferrerRole": "Solo referidos",
     "verified": "Verificado",
     "pending": "Pendiente"
+  },
+  "footer": {
+    "poweredBy": "Impulsado por",
+    "info": "Proton Worker Proposal System",
+    "madeBy": "Bien Público Comunitario por Edenia © 2022"
+  },
+  "searchForm": {
+    "searchTitle": "Verifique el Estado de su Invitación",
+    "protonAccount": "Cuenta Proton"
   }
 }
