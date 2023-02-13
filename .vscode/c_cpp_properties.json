@@ -43,7 +43,8 @@
                     "${workspaceFolder}/**"
                 ],
                 "limitSymbolsToIncludedHeaders": true
-            }
+            },
+            "compilerPath": "/usr/bin/clang-cpp-9"
         }
     ],
     "version": 4
