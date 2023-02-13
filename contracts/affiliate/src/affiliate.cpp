@@ -169,7 +169,6 @@ ACTION affiliate::payref(name admin, name invitee) {
   auto _referral = _referrals.find(invitee.value);
   check(_referral != _referrals.end(), "referral with invitee " + invitee.to_string() + " does not exist");
   check(_referral->status == referral_status::PENDING_PAYMENT, "invalid status for invitee " + invitee.to_string() + " referral");
-  check(_referral->expires_on > current_time_point(), "referral already expired for invitee " + invitee.to_string());
 
   params_table _params(get_self(), get_self().value);
   auto params_data = _params.get_or_create(get_self());
@@ -250,16 +249,15 @@ ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, u
   _params.set(data, get_self());
 }
 
-ACTION affiliate::setrate(double btc_usdt) {
+ACTION affiliate::setrate(double xpr_usdt) {
   require_auth(get_self());
 
-  double rate = get_current_exchange_rate(btc_usdt);
-  check(rate > 0, "Invalid rate");
+  check(xpr_usdt > 0, "Invalid rate");
 
   params_table _params(get_self(), get_self().value);
   auto data = _params.get_or_create(get_self());
-  data.rate = rate;
-  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
+  data.rate = xpr_usdt;
+  data.asset_reward_amount = asset((data.usd_reward_amount / xpr_usdt) * 10000, symbol("XPR", 4));
   _params.set(data, get_self());
 }
 
@@ -337,26 +335,3 @@ bool affiliate::has_valid_kyc (name account) {
 
   return _userinfo->kyc.size() > 0;
 }
-
-double affiliate::get_current_exchange_rate (double btc_usdt) {
-  feeds_table _feedstable(name("oracles"), name("oracles").value);
-  data_table _data_table(name("oracles"), name("oracles").value);
-  uint64_t xpr_btc_index;
-  
-  for (auto it = _feedstable.begin(); it != _feedstable.end(); it++)
-  {
-    if (it->name == "XPR/BTC") {
-      xpr_btc_index = it->index;
-      break;
-    }
-  }
-
-  auto xpr_btc_fee = _data_table.find(xpr_btc_index);
-
-  if (xpr_btc_fee == _data_table.end()) {
-    return 0;
-  }
-
-  return xpr_btc_fee->aggregate.d_double.value() * btc_usdt;
-}
-
