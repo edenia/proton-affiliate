@@ -13,7 +13,9 @@
     "PAYMENT_REJECTED": "Rejected",
     "EXPIRED": "Expired",
     "PAID": "Paid",
-    "allStatus": "All status"
+    "allStatus": "All status",
+    "totalRewards": "Total Rewards",
+    "lastTX": "Last TX"
   },
   "routes": {
     "/>title": "Affiliate Account Referrals Program on Proton Blockchain",
@@ -167,7 +169,10 @@
     "rejectMemo": "Rejection memo",
     "menuAllRoles": "All roles",
     "menuAdminRole": "Admin only",
-    "menuReferrerRole": "Referrers only"
+    "menuReferrerRole": "Referrers only",
+    "userManagement": "User Management",
+    "newAffiliates": "New Affiliates",
+    "referralPayments": "Referral Payments"
   },
   "footer": {
     "poweredBy": "Powered by",
