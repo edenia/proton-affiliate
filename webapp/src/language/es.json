@@ -11,7 +11,14 @@
     "PAYMENT_REJECTED": "Rechazado",
     "EXPIRED": "Expirado",
     "PAID": "Pagado",
-    "allStatus": "Todos los estados"
+    "allStatus": "Todos los estados",
+    "empty": "Sin datos",
+    "loadMore": "Cargar más",
+    "account": "cuenta",
+    "status": "estado",
+    "reward (XPR)": "recompensa (XPR)",
+    "history": "historial",
+    "joined": "fecha de ingreso"
   },
   "routes": {
     "/>title": "Programa de afiliados de Proton",
@@ -38,10 +45,8 @@
     "infoPage": "Únase como afiliado y gane recompensas por cada amigo que invite y que se registre y complete la verificación KYC en Proton.",
     "buttonLabel": "Inscríbase ahora",
     "buttonLabelWaiting": "Esperando aprobación",
-    "tableTitle": "Latest Referral Payments",
+    "tableTitle": "Últimos Pagos por Referencia",
     "username": "cuenta",
-    "status": "estado",
-    "reward": "recompensas (xpr)",
     "modalInfo": "Ingrese se cuenta de Proton y correo electrónico para aplicar como afiliado.",
     "account": "Nombre de la cuenta",
     "address": "Dirección Email",
@@ -67,7 +72,7 @@
     },
     "subtitle2": "¿Por qué unirse a nuestro programa?",
     "body2": {
-      "paragraph1": "El Programa de Afiliados de Proton es una forma sencilla de ganar XPR. Si eres afiliado de Proton puedes enviar fácilmente un enlace de invitación a través de la aplicación web y tener una visualización completa de tus referidos. Una vez que una persona referida complete el proceso y se convierta en usuario de Proton, recibirás automáticamente recompensas en XPR."
+      "paragraph1": "El Programa de Afiliados de Proton es una forma sencilla de ganar XPR. Si eres afiliado de Proton puedes enviar fácilmente un enlace de invitación a través de la aplicación web y tener una visualización completa de sus referidos. Una vez que una persona referida complete el proceso y se convierta en usuario de Proton, recibirás automáticamente recompensas en XPR."
     },
     "subtitle3": "¿Quién puede participar?",
     "body3": {
@@ -79,7 +84,7 @@
     },
     "subtitle5": "¿Qué es el Proton Wallet?",
     "body5": {
-      "paragraph1": "La Wallet de Proton permite a las personas interactuar de manera segura con la blockchain de Proton. Crear una cuenta es rápido y gratis, le permite reservar un nombre @name único el cuál es usado para recibir los pagos, aprobar transacciones, y verificar su identidad. Los usuarios de la Wallet de Proton pueden facilmente usar sus cuentas para realizar intercambios de criptomonedas, participar en staking y yield farming, mint y comprar NFTs, y mucho más."
+      "paragraph1": "La Wallet de Proton permite a las personas interactuar de manera segura con la blockchain de Proton. Crear una cuenta es rápido y gratis, le permite reservar un nombre @name único el cuál es usado para recibir los pagos, aprobar transacciones, y verificar su identidad. Los usuarios de la Wallet de Proton pueden facilmente usar sus cuentas para realizar intercambios de criptomonedas, participar en staking y yield farming, mint y intercambiar NFTs, y mucho más."
     },
     "subtitle6": "¿Qué es Proton?",
     "body6": {
@@ -116,6 +121,18 @@
   },
   "searchForm": {
     "searchTitle": "Verifique el Estado de su Invitación",
-    "protonAccount": "Cuenta Proton"
+    "protonAccount": "Cuenta Proton",
+    "check": "verificar"
+  },
+  "affiliateRoute": {
+    "title1": "Bienvenido a",
+    "title2": "Programa de afiliados de Proton",
+    "titleDesktop": "Bienvenido al Programa de Afiliados de Proton",
+    "pageInfo": "Recibe recompensas en tokens XPR equivalentes a ${{ reward  }} por cada persona que invites y que se registre en Proton como usuario y complete el KYC en un plazo de {{ hours }} días",
+    "copy": "Copie y comparte esta URL para invitar a nuevos usuarios:",
+    "copyDesktop": "Su enlace de afiliado:",
+    "copiedMessage": "La URL de afiliado se ha copiado en tu portapapeles",
+    "butonLabel": "Compartir en redes sociales",
+    "tableTitle": "Sus referidos"
   }
 }

@@ -43,8 +43,6 @@
     "buttonLabelWaiting": "Awaiting approval",
     "tableTitle": "Latest Referral Payments",
     "username": "account",
-    "status": "status",
-    "reward": "reward (xpr)",
     "tx": "tx id",
     "modalInfo": "Enter your Proton account and e-mail to apply as an affiliate.",
     "account": "Account Name",
@@ -94,7 +92,7 @@
   },
   "helpRoute": {
     "title": "Need Help?",
-    "paragraph": "Get in touch to ask any questions, suggest new features or report bugs.",
+    "paragraph": "This project is still in progress. Get in touch to ask any questions, suggest new features or report bugs. You can also find us on Telegram or visit our website.",
     "subtitle1": "Have you spotted a bug?",
     "info1": "Take a minute, go to our project Github repository and leave a bug report.",
     "text1": "bug and feature requests",
