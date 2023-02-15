@@ -42,7 +42,7 @@
   "homeRoute": {
     "title": "On-Chain",
     "title2": "Programa de afiliados",
-    "infoPage": "Únase como afiliado y gane recompensas por cada amigo que invite y que se registre y complete la verificación KYC en Proton.",
+    "infoPage": "Únase como afiliado y gane recompensas por cada amigo que invite, que se registre y complete la verificación KYC en Proton.",
     "buttonLabel": "Inscríbase ahora",
     "buttonLabelWaiting": "Esperando aprobación",
     "tableTitle": "Últimos Pagos por Referencia",
@@ -93,7 +93,7 @@
   },
   "helpRoute": {
     "title": "¡Gracias por usar nuestro producto!",
-    "paragraph": "Este proyecto aún está en proceso. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
+    "paragraph": "Este proyecto aún está en desarrollo. No dude en dejar sugerencias de actualización, registrar errores o usar el código usted mismo. También puede encontrarnos en Telegram o visitar nuestro sitio web.",
     "protonGitHub": "GitHub Edenia",
     "telegramChannel": "Grupo de Telegram",
     "protonWebsite": "Página web Edenia",
@@ -119,6 +119,15 @@
     "info": "Proton Worker Proposal System",
     "madeBy": "Bien Público Comunitario por Edenia © 2022"
   },
+  "timeline": {
+    "addref": "Referencia registrada",
+    "newaccount": "Cuenta registrada",
+    "verifyacc": "Cuenta verificada",
+    "verifyexp": "Expiración verificada",
+    "verifykyc": "KYC verificado",
+    "payref": "Pago por referencia",
+    "rejectref": "Referencia rechazada"
+  },
   "searchForm": {
     "searchTitle": "Verifique el Estado de su Invitación",
     "protonAccount": "Cuenta Proton",
@@ -128,11 +137,35 @@
     "title1": "Bienvenido a",
     "title2": "Programa de afiliados de Proton",
     "titleDesktop": "Bienvenido al Programa de Afiliados de Proton",
-    "pageInfo": "Recibe recompensas en tokens XPR equivalentes a ${{ reward  }} por cada persona que invites y que se registre en Proton como usuario y complete el KYC en un plazo de {{ hours }} días",
+    "pageInfo": "Recibe recompensas en tokens XPR equivalentes a ${{ reward  }} por cada persona que invites, que se registre en Proton como usuario y complete el KYC en un plazo de {{ hours }} días",
     "copy": "Copie y comparte esta URL para invitar a nuevos usuarios:",
     "copyDesktop": "Su enlace de afiliado:",
     "copiedMessage": "La URL de afiliado se ha copiado en tu portapapeles",
     "butonLabel": "Compartir en redes sociales",
     "tableTitle": "Sus referidos"
+  },
+  "joinRoute": {
+    "helperTextUsername": "¡Nombre de usuario disponible!",
+    "helperTextUsernameError": "*Nombre de cuenta no estándar",
+    "title": "¡Se le ha Invitado a Unirse a Proton!",
+    "infoPage": "Ha recibido una invitación de {{ referrer }} para unirse a la Blockchain de Proton. Registrese ahora y gane ${{ reward }} en criptomonedas de Proton.",
+    "invalidReferrer": "Referente Inválido",
+    "step1": "Paso 1: Seleccione su nuevo nombre de usaurio de Proton.",
+    "account": "Nombre de usuario",
+    "step2": "Paso 2: Descargue la app, registrese y realice el KYC.",
+    "step2Info": "Regístrese con el mismo nombre de usuario.",
+    "login": "Ingresar",
+    "step4": "Paso 3: Espere la aprobación.",
+    "step4Info": "Un administrador revisará su referencia y aprobará su recompensa.",
+    "modalTitle": "Felicidades!",
+    "buttonLabel": "UNIRSE E INVITAR",
+    "accountHelperText": "¡Nombre de cuenta disponible!",
+    "accountHelperError": "¡Nombre de cuenta no disponible!",
+    "doneIrreversibility": "Transacción irreversible",
+    "pendingIrreversibility": "Irreversibilidad pendiente ({{ seconds }}s)",
+    "invalidLink": "El enlace que ha proporcionado no es una referencia válida.",
+    "invalidInfo": "Compruebe que el enlace es correcto o póngase en contacto con el afiliado que le invitó para obtener una referencia válida.",
+    "goToHome": "Ir a la Página de Inicio",
+    "invalidAccountFormat": "Formato de Cuenta Inválido"
   }
 }

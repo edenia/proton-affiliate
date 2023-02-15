@@ -75,7 +75,7 @@ EnhancedTableHead.propTypes = {
   showColumnButton: PropTypes.bool,
   disabled: PropTypes.bool,
   classes: PropTypes.object,
-  t: PropTypes.object
+  t: PropTypes.func
 }
 
 const TablePages = ({
