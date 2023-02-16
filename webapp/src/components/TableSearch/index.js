@@ -32,7 +32,8 @@ const EnhancedTableHead = ({
   headCells,
   showColumnButton,
   disabled,
-  classes
+  classes,
+  t
 }) => (
   <TableHead>
     <TableRow>
@@ -57,10 +58,10 @@ const EnhancedTableHead = ({
               : headCell.align
           }
         >
-          {headCell.label}
+          {t(`${headCell.label}`)}
         </TableCell>
       ))}
-      {showColumnButton && <TableCell align="right">History</TableCell>}
+      {showColumnButton && <TableCell align="right">{t('history')}</TableCell>}
     </TableRow>
   </TableHead>
 )
@@ -73,7 +74,8 @@ EnhancedTableHead.propTypes = {
   headCells: PropTypes.array,
   showColumnButton: PropTypes.bool,
   disabled: PropTypes.bool,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  t: PropTypes.func
 }
 
 const TablePages = ({
@@ -168,6 +170,7 @@ const TablePages = ({
             aria-label="enhanced table"
           >
             <EnhancedTableHead
+              t={t}
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}

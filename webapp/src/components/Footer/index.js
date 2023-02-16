@@ -25,6 +25,9 @@ const Footer = () => {
   const classes = useStyles()
   const { t } = useTranslation('footer')
 
+  const now = new Date()
+  const currentYear = now.getFullYear()
+
   return (
     <Box className={classes.footer}>
       <Box className={classes.footerWrapper}>
@@ -42,7 +45,7 @@ const Footer = () => {
             className={classes.links}
           >
             <Typography className={clsx(classes.madeBy, classes.madeByMd)}>
-              {t('madeBy')}
+              {`${t('madeBy')} © ${currentYear}`}
             </Typography>
           </Link>
           <Typography
