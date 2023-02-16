@@ -97,7 +97,7 @@ const headCellUserApprovals = [
     label: 'totalRewards'
   },
   {
-    id: 'txid',
+    id: 'tx',
     align: 'right',
     useMainColor: true,
     rowLink: false,
@@ -391,7 +391,8 @@ const Admin = () => {
           ),
           2
         ),
-        txid: getLastCharacters(trxid) || '-'
+        link: trxid,
+        tx: getLastCharacters(trxid)
       }
     })
 

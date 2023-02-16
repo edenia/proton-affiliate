@@ -174,7 +174,11 @@ const TablePages = ({
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
-              rowCount={rows.length}
+              rowCount={
+                disableByStatus
+                  ? rows.filter(row => row.statusId === disableByStatus).length
+                  : rows.length
+              }
               showColumnCheck={showColumnCheck}
               headCells={headCells}
               showColumnButton={showColumnButton}
@@ -239,7 +243,7 @@ const TablePages = ({
                         )
                       }
 
-                      if (col.id === 'tx') {
+                      if (!!row[col.id] && col.id === 'tx') {
                         return (
                           <TableCell
                             key={`${labelId}-${index}`}
@@ -267,7 +271,7 @@ const TablePages = ({
                             [classes.mainColorRow]: col.useMainColor
                           })}
                         >
-                          {row[col.id]}
+                          {row[col.id] || '-'}
                         </TableCell>
                       )
                     })}
