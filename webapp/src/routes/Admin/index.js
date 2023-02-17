@@ -34,6 +34,7 @@ import {
   GET_HISTORY_BY_INVITEES,
   GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
+  GET_REJECTED_PAYMENTS,
   DELETE_JOIN_REQUEST_MUTATION,
   REJECT_JOIN_REQUEST_MUTATION,
   SEND_CONFIRMATION_MUTATION,
@@ -125,6 +126,17 @@ const headCellReferralPayment = [
     useMainColor: false,
     rowLink: false,
     label: 'affiliate'
+  }
+]
+
+const headCellRejectedPayment = [
+  ...headCellReferralPayment,
+  {
+    id: 'memo',
+    align: 'center',
+    useMainColor: false,
+    rowLink: false,
+    label: 'memo'
   }
 ]
 
@@ -333,8 +345,15 @@ const Admin = () => {
   const loadHistoryByReferrers = useImperativeQuery(GET_HISTORY_BY_REFERRERS)
   const [
     loadNewUsers,
-    { loading = true, data: { joinRequest, infoJoin } = {} }
+    { loading: loadingJoinRequest = true, data: { joinRequest, infoJoin } = {} }
   ] = useLazyQuery(GET_JOIN_REQUEST, { fetchPolicy: 'network-only' })
+  const [
+    loadRejectedPayments,
+    {
+      loading: loadingRejected = true,
+      data: { referrals: rejectedPayments } = {}
+    }
+  ] = useLazyQuery(GET_REJECTED_PAYMENTS, { fetchPolicy: 'network-only' })
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
@@ -360,6 +379,7 @@ const Admin = () => {
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
+  const [rejectedPaymentsRows, setRejectedPaymentsRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [referralPagination, setReferralPagination] = useState({})
@@ -775,7 +795,32 @@ const Admin = () => {
   }
 
   useEffect(() => {
-    if (loading || !joinRequest) return
+    const loadRejected = async () => {
+      await loadRejectedPayments({})
+    }
+
+    loadRejected()
+  }, [loadRejectedPayments])
+
+  useEffect(() => {
+    if (!rejectedPayments) return
+
+    const referrals = rejectedPayments.map(item => {
+      const history = item?.history
+      const lastTX = history[history.length - 1]
+
+      return {
+        ...item,
+        memo: lastTX?.payload?.memo,
+        status: t(affiliateUtil.REFERRAL_STATUS[item.status])
+      }
+    })
+
+    setRejectedPaymentsRows(referrals)
+  }, [loadingRejected, rejectedPayments])
+
+  useEffect(() => {
+    if (loadingJoinRequest || !joinRequest) return
 
     const setUserData = async () => {
       const data = await Promise.all(
@@ -802,7 +847,7 @@ const Admin = () => {
     }
 
     setUserData()
-  }, [loading, joinRequest, infoJoin])
+  }, [loadingJoinRequest, joinRequest, infoJoin])
 
   useEffect(() => {
     if (selected.tableName !== 'payment') {
@@ -890,6 +935,20 @@ const Admin = () => {
           handleOnPageChange={handleOnPageChange}
           handleOnRowsPerPageChange={handleOnRowPerPageChange}
           usePagination
+        />
+      </Accordion>
+      <Accordion title={t('rejectedPayments')}>
+        <TableSearch
+          tableName="rejected"
+          onSelectItem={handleOnSelectItem}
+          selected={selected.rejected || []}
+          useLoadMore
+          rows={rejectedPaymentsRows}
+          showColumnCheck
+          headCells={headCellRejectedPayment}
+          onClickButton={handleOnClickReferral}
+          showColumnButton
+          idName="invitee"
         />
       </Accordion>
       <Accordion
