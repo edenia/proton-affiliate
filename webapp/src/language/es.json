@@ -144,8 +144,7 @@
     "rejectMemo": "Memo de rechazo",
     "userManagement": "Administración de Usuarios",
     "newAffiliates": "Nuevos Afiliados",
-    "referralPayments": "Pagos por Referencia",
-    "rejectedPayments": "Pagos rechazados"
+    "referralPayments": "Pagos por Referencia"
   },
   "footer": {
     "poweredBy": "Impulsado por",

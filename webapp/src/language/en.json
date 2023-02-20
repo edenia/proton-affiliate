@@ -172,8 +172,7 @@
     "menuReferrerRole": "Referrers only",
     "userManagement": "User Management",
     "newAffiliates": "New Affiliates",
-    "referralPayments": "Referral Payments",
-    "rejectedPayments": "Rejected Payments"
+    "referralPayments": "Referral Payments"
   },
   "footer": {
     "poweredBy": "Powered by",

@@ -129,17 +129,6 @@ const headCellReferralPayment = [
   }
 ]
 
-const headCellRejectedPayment = [
-  ...headCellReferralPayment,
-  {
-    id: 'memo',
-    align: 'center',
-    useMainColor: false,
-    rowLink: false,
-    label: 'memo'
-  }
-]
-
 const referralPaymentFilterValues = [
   {
     label: 'allStatus'
@@ -379,7 +368,6 @@ const Admin = () => {
   const [userRows, setUserRows] = useState([])
   const [userPagination, setUserPagination] = useState({})
   const [referralRows, setReferralRows] = useState([])
-  const [rejectedPaymentsRows, setRejectedPaymentsRows] = useState([])
   const [currentReferral, setCurrentReferral] = useState()
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [referralPagination, setReferralPagination] = useState({})
@@ -550,7 +538,7 @@ const Admin = () => {
     )
     const invitees = (referrals.rows || []).map(item => item.invitee)
     const { data } = await loadHistoryByInvites({ invitees })
-    const newRows = (referrals.rows || []).map(row => {
+    let newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
 
       return {
@@ -560,6 +548,16 @@ const Admin = () => {
         statusId: row.status
       }
     })
+
+    if (!loadingRejected) {
+      const rejected = (rejectedPayments || []).map(row => ({
+        ...row,
+        statusId: affiliateUtil.REFERRAL_STATUS[row.status],
+        status: t(affiliateUtil.REFERRAL_STATUS[row.status])
+      }))
+
+      newRows = newRows.concat(rejected || [])
+    }
 
     setReferralPagination({
       hasMore: referrals.hasMore,
@@ -795,29 +793,14 @@ const Admin = () => {
   }
 
   useEffect(() => {
+    if (!fetchingData) return
+
     const loadRejected = async () => {
       await loadRejectedPayments({})
     }
 
     loadRejected()
-  }, [loadRejectedPayments])
-
-  useEffect(() => {
-    if (!rejectedPayments) return
-
-    const referrals = rejectedPayments.map(item => {
-      const history = item?.history
-      const lastTX = history[history.length - 1]
-
-      return {
-        ...item,
-        memo: lastTX?.payload?.memo,
-        status: t(affiliateUtil.REFERRAL_STATUS[item.status])
-      }
-    })
-
-    setRejectedPaymentsRows(referrals)
-  }, [loadingRejected, rejectedPayments])
+  }, [loadRejectedPayments, fetchingData])
 
   useEffect(() => {
     if (loadingJoinRequest || !joinRequest) return
@@ -880,7 +863,7 @@ const Admin = () => {
 
   useEffect(() => {
     reloadReferrals()
-  }, [refPayFilterRowsBy])
+  }, [refPayFilterRowsBy, rejectedPayments])
 
   useEffect(() => {
     reloadJoinRequestUsers()
@@ -914,7 +897,7 @@ const Admin = () => {
           onClickButton={handleOnClickReferral}
           showColumnButton
           idName="invitee"
-          disableByStatus="PENDING_PAYMENT"
+          disableByStatus={['PENDING_PAYMENT', 'PAYMENT_REJECTED']}
         />
       </Accordion>
       <Accordion
@@ -935,20 +918,6 @@ const Admin = () => {
           handleOnPageChange={handleOnPageChange}
           handleOnRowsPerPageChange={handleOnRowPerPageChange}
           usePagination
-        />
-      </Accordion>
-      <Accordion title={t('rejectedPayments')}>
-        <TableSearch
-          tableName="rejected"
-          onSelectItem={handleOnSelectItem}
-          selected={selected.rejected || []}
-          useLoadMore
-          rows={rejectedPaymentsRows}
-          showColumnCheck
-          headCells={headCellRejectedPayment}
-          onClickButton={handleOnClickReferral}
-          showColumnButton
-          idName="invitee"
         />
       </Accordion>
       <Accordion

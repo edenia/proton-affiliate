@@ -110,7 +110,7 @@ const TablePages = ({
 
     const ids = disableByStatus
       ? rows
-          .filter(item => item.statusId === disableByStatus)
+          .filter(item => disableByStatus.includes(item.statusId))
           .map(n => n[idName])
       : rows.map(n => n[idName])
 
@@ -176,7 +176,8 @@ const TablePages = ({
               onSelectAllClick={handleSelectAllClick}
               rowCount={
                 disableByStatus
-                  ? rows.filter(row => row.statusId === disableByStatus).length
+                  ? rows.filter(row => disableByStatus.includes(row.statusId))
+                      .length
                   : rows.length
               }
               showColumnCheck={showColumnCheck}
@@ -184,7 +185,9 @@ const TablePages = ({
               showColumnButton={showColumnButton}
               disabled={
                 disableByStatus
-                  ? !(rows || []).some(row => row.statusId === disableByStatus)
+                  ? !(rows || []).some(row =>
+                      disableByStatus.includes(row.statusId)
+                    )
                   : false
               }
             />
@@ -205,7 +208,7 @@ const TablePages = ({
                         <Checkbox
                           disabled={
                             disableByStatus
-                              ? disableByStatus !== row.statusId
+                              ? !disableByStatus.includes(row.statusId)
                               : false
                           }
                           color="primary"
@@ -369,7 +372,7 @@ TablePages.propTypes = {
   tableName: PropTypes.string,
   selected: PropTypes.array,
   showColumnButton: PropTypes.bool,
-  disableByStatus: PropTypes.string
+  disableByStatus: PropTypes.array
 }
 
 TablePages.defaultProps = {
@@ -393,7 +396,7 @@ TablePages.defaultProps = {
   tableName: '',
   selected: [],
   showColumnButton: false,
-  disableByStatus: ''
+  disableByStatus: []
 }
 
 export default TablePages
