@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
+import RestoreIcon from '@material-ui/icons/Restore'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
 import Fab from '@material-ui/core/Fab'
@@ -208,7 +209,8 @@ const OptionFAB = ({
   onClickApprovePayment,
   onClickRejectPayment,
   onClickApproveNewUser,
-  allowPayment
+  allowPayment,
+  allowReApprove
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
@@ -299,6 +301,20 @@ const OptionFAB = ({
               <CloseIcon />
             </Fab>
           </Box>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('reApprovePayment')}
+            </Typography>
+            <Fab
+              disabled={!allowReApprove}
+              size="small"
+              color="primary"
+              aria-label="reapprove"
+              onClick={onClickRejectPayment}
+            >
+              <RestoreIcon />
+            </Fab>
+          </Box>
         </>
       )
       break
@@ -317,7 +333,8 @@ OptionFAB.propTypes = {
   onClickApprovePayment: PropTypes.func,
   onClickRejectPayment: PropTypes.func,
   onClickApproveNewUser: PropTypes.func,
-  allowPayment: PropTypes.bool
+  allowPayment: PropTypes.bool,
+  allowReApprove: PropTypes.bool
 }
 
 OptionFAB.defaultProps = {
@@ -357,6 +374,7 @@ const Admin = () => {
   })
   const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
+  const [allowReApprove, setAllowReApprove] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
@@ -792,6 +810,12 @@ const Admin = () => {
     setFetchingData(false)
   }
 
+  const isAllowed = (selectedItems, status) => {
+    return !referralRows
+      .filter(row => selectedItems.includes(row.invitee))
+      .find(row => row.statusId !== affiliateUtil.REFERRAL_STATUS[status])
+  }
+
   useEffect(() => {
     if (!fetchingData) return
 
@@ -838,18 +862,18 @@ const Admin = () => {
     }
 
     const selectedItems = selected[selected.tableName] || []
-    const notAllowed = referralRows
-      .filter(row => selectedItems.includes(row.invitee))
-      .find(
-        row =>
-          row.statusId !==
-          affiliateUtil.REFERRAL_STATUS[
-            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
-          ]
-      )
+    const allowedPayment = isAllowed(
+      selectedItems,
+      affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+    )
+    const allowedReApprove = isAllowed(
+      selectedItems,
+      affiliateUtil.REFERRAL_STATUS_IDS.PAYMENT_REJECTED
+    )
 
-    setAllowPayment(!notAllowed)
-  }, [selected, referralRows, setAllowPayment])
+    setAllowPayment(allowedPayment)
+    setAllowReApprove(allowedReApprove)
+  }, [selected, referralRows, setAllowPayment, setAllowReApprove])
 
   useEffect(() => {
     handleOnLoadMoreUsers()
@@ -981,6 +1005,7 @@ const Admin = () => {
               setOpenFAB(false)
             }}
             allowPayment={allowPayment}
+            allowReApprove={allowReApprove}
           />
         </Box>
       </FloatingMenu>
