@@ -568,12 +568,17 @@ const Admin = () => {
       }
     })
 
-    if (!loadingRejected) {
-      const rejected = (rejectedPayments || []).map(row => ({
-        ...row,
-        statusId: affiliateUtil.REFERRAL_STATUS[row.status],
-        status: t(affiliateUtil.REFERRAL_STATUS[row.status])
-      }))
+    const filterRejected =
+      refPayFilterRowsBy === affiliateUtil.REFERRAL_STATUS_IDS.PAYMENT_REJECTED
+
+    if (!loadingRejected && (!refPayFilterRowsBy || filterRejected)) {
+      const rejected = (rejectedPayments || [])
+        .map(row => ({
+          ...row,
+          statusId: affiliateUtil.REFERRAL_STATUS[row.status],
+          status: t(affiliateUtil.REFERRAL_STATUS[row.status])
+        }))
+        .filter(row => !newRows.some(newRow => newRow.invitee === row.invitee))
 
       newRows = newRows.concat(rejected || [])
     }
