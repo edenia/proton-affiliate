@@ -133,3 +133,11 @@ title: Clear
 summary: This action cleans the contract data and is intended for development purposes only.
 icon: https://earnproton.com/icons/general.png
 ---
+
+<h1 class="contract">payrejected</h1>
+---
+spec_version: 0.1.0
+title: Pay Rejected
+summary: This action pays the reward amount for a valid referral that was rejected.
+icon: https://earnproton.com/icons/approve.png
+---

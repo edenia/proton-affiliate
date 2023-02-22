@@ -325,6 +325,50 @@ ACTION affiliate::clear() {
   }
 }
 
+ACTION affiliate::payrejected(name admin, name referrer, name invitee) {
+  require_auth(admin);
+
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+    
+  auto referrer_itr = _users.find(referrer.value);
+  check(referrer_itr != _users.end(), referrer.to_string() + " account is not an affiliate");
+
+  check(is_account(invitee), invitee.to_string() + " invitee is not a registered account");
+  auto invitee_itr = _users.find(invitee.value);
+  check(invitee_itr == _users.end(), invitee.to_string() + " account is already an affiliate");
+
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  
+  if (_referral != _referrals.end()) {
+    check(_referral->status == referral_status::PAYMENT_REJECTED, "invalid status for invitee " + invitee.to_string() + " referral");
+    check(_referral->referrer.to_string() == referrer.to_string(), referrer.to_string() + " does not refer the invitee");
+    
+    _referrals.modify(_referral, get_self(), [&](auto& ref) {
+      ref.status = referral_status::PENDING_PAYMENT;
+    });
+
+    SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PENDING_PAYMENT });
+  } else {
+    check(has_valid_kyc(invitee), "KYC for " + invitee.to_string() + " is not verified");
+
+    time_point_sec expiration = current_time_point();
+    _referrals.emplace(get_self(), [&](auto& ref) {
+      ref.invitee = invitee;
+      ref.referrer = referrer;
+      ref.status = referral_status::PENDING_PAYMENT;
+      ref.expires_on = expiration;
+    });
+
+    SEND_INLINE_ACTION(*this, addreflog, { {get_self(), name("active")} }, { referrer, invitee, referral_status::PENDING_PAYMENT, expiration });
+  }
+
+  SEND_INLINE_ACTION(*this, payref, { {get_self(), name("active")} }, { admin, invitee });
+}
+
 bool affiliate::has_valid_kyc (name account) {
   usersinfo_table _usersinfo(name("eosio.proton"), name("eosio.proton").value);
   auto _userinfo = _usersinfo.find(account.value);
