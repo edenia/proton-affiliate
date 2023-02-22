@@ -208,6 +208,7 @@ const OptionFAB = ({
   onClickRemoveUsers,
   onClickApprovePayment,
   onClickRejectPayment,
+  onClickReApprovePayment,
   onClickApproveNewUser,
   allowPayment,
   allowReApprove
@@ -310,7 +311,7 @@ const OptionFAB = ({
               size="small"
               color="primary"
               aria-label="reapprove"
-              onClick={onClickRejectPayment}
+              onClick={onClickReApprovePayment}
             >
               <RestoreIcon />
             </Fab>
@@ -659,6 +660,45 @@ const Admin = () => {
     }
   }
 
+  const handleOnReApprovePayment = async () => {
+    try {
+      const { invitees, referrers } = referralRows.reduce(
+        (state, row) => {
+          if (selected[selected.tableName].includes(row.invitee)) {
+            state.invitees.push(row.invitee)
+            state.referrers.push(row.referrer)
+          }
+          return state
+        },
+        { invitees: [], referrers: [] }
+      )
+
+      const data = await affiliateUtil.payRejected(
+        user.session,
+        invitees,
+        referrers,
+        user.accountName
+      )
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.payload.tx}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.payload.tx)}`}
+          </a>
+        )
+      })
+      setIsHistoryModalOpen(false)
+      reloadReferrals()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
   const handleOnApproveKyc = async () => {
     try {
       const data = await affiliateUtil.approveKyc(
@@ -811,9 +851,12 @@ const Admin = () => {
   }
 
   const isAllowed = (selectedItems, status) => {
-    return !referralRows
-      .filter(row => selectedItems.includes(row.invitee))
-      .find(row => row.statusId !== affiliateUtil.REFERRAL_STATUS[status])
+    return (
+      !!selectedItems.length &&
+      !referralRows
+        .filter(row => selectedItems.includes(row.invitee))
+        .find(row => row.statusId !== affiliateUtil.REFERRAL_STATUS[status])
+    )
   }
 
   useEffect(() => {
@@ -1002,6 +1045,10 @@ const Admin = () => {
             }}
             onClickRejectPayment={() => {
               setRejectPayment({ isOpen: true, previousModal: 'optionFAB' })
+              setOpenFAB(false)
+            }}
+            onClickReApprovePayment={() => {
+              handleOnReApprovePayment()
               setOpenFAB(false)
             }}
             allowPayment={allowPayment}
