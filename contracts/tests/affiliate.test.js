@@ -30,6 +30,7 @@ let adminAccount
 let referrerAccount
 let invitee
 let inviteeAccount
+let invitee2Account
 
 describe('affiliate contract', function () {
   this.timeout(15000)
@@ -228,7 +229,7 @@ describe('affiliate contract', function () {
       referrerAccount.name,
       invitee2
     ])
-    const invitee2Account = await eoslime.Account.createFromName(
+    invitee2Account = await eoslime.Account.createFromName(
       invitee2,
       eosioAccount
     )
@@ -252,6 +253,21 @@ describe('affiliate contract', function () {
       .find()
 
     assert.strictEqual(rows[0].status, STATUS.PAYMENT_REJECTED)
+    console.log(`done rejectref txid ${response.transaction_id}`)
+  })
+
+  it('Should payrejected', async () => {
+    await affiliateContract.actions.clearref.broadcast([])
+    const response = await affiliateContract.actions.payrejected.broadcast(
+      [adminAccount.name, referrerAccount.name, invitee2Account.name],
+      [adminAccount]
+    )
+
+    const rows = await affiliateContract.tables.referrals
+      .equal(invitee2Account.name)
+      .find()
+
+    assert.strictEqual(rows[0].status, STATUS.PAID)
     console.log(`done rejectref txid ${response.transaction_id}`)
   })
 })

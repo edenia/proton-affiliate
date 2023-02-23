@@ -366,7 +366,7 @@ ACTION affiliate::payrejected(name admin, name referrer, name invitee) {
     SEND_INLINE_ACTION(*this, addreflog, { {get_self(), name("active")} }, { referrer, invitee, referral_status::PENDING_PAYMENT, expiration });
   }
 
-  SEND_INLINE_ACTION(*this, payref, { {get_self(), name("active")} }, { admin, invitee });
+  SEND_INLINE_ACTION(*this, payref, { {admin, name("active")} }, { admin, invitee });
 }
 
 bool affiliate::has_valid_kyc (name account) {
