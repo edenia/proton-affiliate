@@ -119,6 +119,7 @@ describe('affiliate contract', function () {
     )
     await eosioproton()
     await affiliate()
+    await affiliateContract.makeInline()
   })
 
   it('Should run setparams', async () => {
