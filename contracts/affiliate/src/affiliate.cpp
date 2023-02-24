@@ -243,8 +243,8 @@ ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, u
   auto data = _params.get_or_create(get_self());
   data.payer = payer;
   data.rate = rate;
-  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.usd_reward_amount = usd_reward_amount;
+  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.expiration_days = expiration_days;
   _params.set(data, get_self());
 }
