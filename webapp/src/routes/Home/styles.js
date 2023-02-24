@@ -173,5 +173,10 @@ export default theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'initial'
     }
+  },
+  terms: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(2)
   }
 })

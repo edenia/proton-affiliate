@@ -199,5 +199,9 @@
     "invalidInfo": "Compruebe que el enlace es correcto o póngase en contacto con el afiliado que le invitó para obtener una referencia válida.",
     "goToHome": "Ir a la Página de Inicio",
     "invalidAccountFormat": "Formato de Cuenta Inválido"
+  },
+  "termsComponent": {
+    "agreement": "Yo acepto y estoy de acuerdo con los",
+    "terms": "Términos y Condiciones"
   }
 }
