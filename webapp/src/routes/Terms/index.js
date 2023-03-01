@@ -17,6 +17,7 @@ const Terms = () => {
       <RicardianContract
         contractName={mainConfig.affiliateAccount}
         httpEndpoint={sdkConfig.endpoint}
+        url={mainConfig.blockExplorer}
       />
     </Box>
   )

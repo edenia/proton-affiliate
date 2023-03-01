@@ -87,7 +87,7 @@ const AccordionComponent = ({
         {(filterValues || []).map(({ label, value }) => {
           return (
             <MenuItem
-              key={value}
+              key={`${label}-${value}`}
               className={classes.menu}
               onClick={() => {
                 handleClose()

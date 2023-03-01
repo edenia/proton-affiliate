@@ -150,7 +150,7 @@ Within this repository you will find the following directories and files:
 
 ### EOSIO Blockchain Integration
 
-This project is being developed on the [Proton Testnet](https://proton-testnet.eosio.online/) using the [`affiliate`](https://proton-test.bloks.io/account/affiliate) smart contract account. The backend service is currently using [EOS Costa Rica's testnet API Node](https://proton-testnet.eosio.cr/v1/chain/get_info)
+This project is being developed on the [Proton Testnet](https://proton-testnet.antelope.tools/) using the [`affiliate`](https://testnet.protonscan.io/account/affiliate) smart contract account. The backend service is currently using [EOS Costa Rica's testnet API Node](https://proton-testnet.edenia.cloud/v1/chain/get_info)
 
 We use the [EOS JS](https://github.com/EOSIO/eosjs) javascript API for integration with EOSIO-based blockchain networks using EOSIO RPC API.
 

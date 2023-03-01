@@ -114,7 +114,7 @@ CONTRACT affiliate : public contract {
      * Pay referral. 
      * 
      * This action pay the reward amount for a valid referral 
-     * (status PENDING_PAYMENT and not expired)
+     * (status PENDING_PAYMENT)
      *
      * @param admin - The name of the admin approving the referral
      * @param invitee - The name of the invitee in the referral
@@ -157,7 +157,7 @@ CONTRACT affiliate : public contract {
      * 
      * @return no return value.
      */
-    ACTION setrate(double btc_usdt);
+    ACTION setrate(double xpr_usdt);
 
     /**
      * Clear referrals
@@ -187,8 +187,6 @@ CONTRACT affiliate : public contract {
     ACTION statuslog(name invitee, uint8_t status);
 
     bool has_valid_kyc(name account);
-
-    double get_current_exchange_rate (double btc_usdt);
     
     enum user_roles : uint8_t {
       ADMIN = 1,

@@ -90,6 +90,11 @@ export default theme => ({
       '& p': {
         width: 435
       }
+    },
+    '& .MuiBox-root': {
+      [theme.breakpoints.up('md')]: {
+        marginLeft: theme.spacing(16)
+      }
     }
   },
   appleBtn: {

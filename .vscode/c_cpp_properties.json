@@ -1,25 +1,51 @@
 {
-  "configurations": [
-    {
-      "name": "Mac",
-      "includePath": [
-        "${workspaceFolder}/contracts/**",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/**",
-        "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/**",
-        "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/eosiolib/contracts/**",
-        "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/eosiolib/core/**"
-      ],
-      "defines": ["uint128_t=__uint128_t", "int128_t=__int128_t"],
-      "macFrameworkPath": [],
-      "compilerPath": "/usr/bin/clang++",
-      "cStandard": "c17",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "macos-clang-x64",
-      "compilerArgs": [],
-      "browse": {
-        "limitSymbolsToIncludedHeaders": true
-      }
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/contracts/**",
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/**",
+                "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/**",
+                "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/eosiolib/contracts/**",
+                "/usr/local/opt/eosio.cdt/opt/eosio.cdt/include/eosiolib/core/**"
+            ],
+            "defines": [
+                "uint128_t=__uint128_t",
+                "int128_t=__int128_t"
+            ],
+            "macFrameworkPath": [],
+            "compilerPath": "/usr/bin/clang++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-x64",
+            "compilerArgs": [],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            }
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/contracts/**",
+                "/usr/opt/eosio.cdt/1.8.1/include/**",
+                "/usr/opt/eosio.cdt/1.8.1/include/eosiolib/contracts/**",
+                "/usr/opt/eosio.cdt/1.8.1/include/eosiolib/core/**",
+                "/usr/opt/eosio.cdt/1.8.1/include/eosiolib/contracts/eosio/**"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang-cpp-9"
+        }
+    ],
+    "version": 4
 }

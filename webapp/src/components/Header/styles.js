@@ -69,6 +69,9 @@ export default theme => ({
       letterSpacing: '1px',
       textTransform: 'uppercase',
       color: '#121212'
+    },
+    [theme.breakpoints.up('md')]: {
+      marginRight: theme.spacing(2)
     }
   },
   iconButton: {

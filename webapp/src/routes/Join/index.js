@@ -35,6 +35,7 @@ import { useSharedState } from '../../context/state.context'
 import styles from './styles'
 import appStore from './appStore.svg'
 import googlePlay from './googlePlay.svg'
+import TermsAgreement from '../../components/TermsAgreement'
 
 const TIME_BEFORE_IRREVERSIBILITY = 164
 const INIT_VALIDATION_VALUES = {
@@ -51,6 +52,7 @@ const Join = () => {
   const [params, setParams] = useState({})
   const { referrer } = useParams()
   const [open, setOpen] = useState(false)
+  const [termsAgreed, setTermsAgreed] = useState(false)
   const [accountName, setAccountName] = useState('')
   const [statesByCountry, setStatesBycountrues] = useState([])
   const [accountNameError, setAccountNameError] = useState(
@@ -290,11 +292,15 @@ const Join = () => {
               {accountNameError.message}
             </Typography>
           )}
+          <TermsAgreement
+            termsAgreed={termsAgreed}
+            setTermsAgreed={setTermsAgreed}
+          />
           {!open && (
             <Button
               variant="contained"
               color="primary"
-              disabled={!accountNameError.isValid}
+              disabled={!accountNameError.isValid || !termsAgreed}
               className={clsx(classes.sendBtn, classes.marginMd)}
               onClick={handleOnSubmit}
             >

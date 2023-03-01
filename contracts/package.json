@@ -12,7 +12,7 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "eos-ecc": "0.0.1-rc",
+        "eos-ecc": "^2.0.1",
         "eosjs": "^22.0.0",
         "eoslime": "^2.0.0"
     }

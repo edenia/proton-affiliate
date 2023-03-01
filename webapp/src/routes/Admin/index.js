@@ -94,14 +94,14 @@ const headCellUserApprovals = [
     align: 'center',
     useMainColor: false,
     rowLink: false,
-    label: 'Total Rewards'
+    label: 'totalRewards'
   },
   {
-    id: 'txid',
+    id: 'tx',
     align: 'right',
     useMainColor: true,
     rowLink: false,
-    label: 'Last TX'
+    label: 'lastTX'
   }
 ]
 const headCellReferralPayment = [
@@ -391,7 +391,8 @@ const Admin = () => {
           ),
           2
         ),
-        txid: getLastCharacters(trxid) || '-'
+        link: trxid,
+        tx: getLastCharacters(trxid)
       }
     })
 
@@ -849,7 +850,7 @@ const Admin = () => {
         <Typography className={classes.adminInfo}>{t('pageInfo')}</Typography>
       </Box>
       <Accordion
-        title="Referral Payments"
+        title={t('referralPayments')}
         filterValues={referralPaymentFilterValues}
         filterRowsBy={refPayFilterRowsBy}
         handleOnFilter={filterValue => setRefPayFilterRowsBy(filterValue)}
@@ -872,7 +873,7 @@ const Admin = () => {
         />
       </Accordion>
       <Accordion
-        title="New Affiliates"
+        title={t('newAffiliates')}
         filterValues={joinRequestFilterValues}
         filterRowsBy={filterNewUsersBy}
         handleOnFilter={filterValue => setFilterNewUsersBy(filterValue)}
@@ -892,7 +893,7 @@ const Admin = () => {
         />
       </Accordion>
       <Accordion
-        title="User Management"
+        title={t('userManagement')}
         filterValues={userManagementFilterValues}
         filterRowsBy={filterRowsBy}
         handleOnFilter={filterValue => setFilterRowsBy(filterValue)}

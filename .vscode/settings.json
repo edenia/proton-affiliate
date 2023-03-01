@@ -13,8 +13,14 @@
     "**/.pnp.*": true
   },
   "prettier.prettierPath": "./webapp/.yarn/sdks/prettier/index.js",
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
   "cSpell.enabled": true,
-  "cSpell.enableFiletypes": [
-    "markdown"
-  ]
+  "cSpell.enableFiletypes": ["markdown"],
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools",
+  }
 }
