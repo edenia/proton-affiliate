@@ -192,5 +192,9 @@
   "searchForm": {
     "searchTitle": "Check Your Invitation Status",
     "protonAccount": "Proton Account"
+  },
+  "termsComponent": {
+    "agreement": "I accept and agree to the",
+    "terms": "Terms and Conditions"
   }
 }

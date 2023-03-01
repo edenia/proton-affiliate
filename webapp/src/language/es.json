@@ -55,7 +55,7 @@
     "buttonLabelWaiting": "Esperando aprobación",
     "tableTitle": "Últimos Pagos por Referencia",
     "username": "cuenta",
-    "modalInfo": "Ingrese se cuenta de Proton y correo electrónico para aplicar como afiliado.",
+    "modalInfo": "Ingrese su cuenta de Proton y correo electrónico para aplicar como afiliado.",
     "account": "Nombre de la cuenta",
     "address": "Dirección Email",
     "accountHelperText": "¡Cuenta encontrada!",
@@ -92,7 +92,7 @@
     },
     "subtitle5": "¿Qué es el Proton Wallet?",
     "body5": {
-      "paragraph1": "La Wallet de Proton permite a las personas interactuar de manera segura con la blockchain de Proton. Crear una cuenta es rápido y gratis, le permite reservar un nombre @name único el cuál es usado para recibir los pagos, aprobar transacciones, y verificar su identidad. Los usuarios de la Wallet de Proton pueden facilmente usar sus cuentas para realizar intercambios de criptomonedas, participar en staking y yield farming, mint e intercambiar NFTs, y mucho más."
+      "paragraph1": "La Wallet de Proton permite a las personas interactuar de manera segura con la blockchain de Proton. Crear una cuenta es rápido y gratis, le permite reservar un nombre @name único el cuál es usado para recibir los pagos, aprobar transacciones, y verificar su identidad. Los usuarios de la Wallet de Proton pueden fácilmente usar sus cuentas para realizar intercambios de criptomonedas, participar en staking y yield farming, mint e intercambiar NFTs, y mucho más."
     },
     "subtitle6": "¿Qué es Proton?",
     "body6": {
@@ -181,11 +181,11 @@
     "helperTextUsername": "¡Nombre de usuario disponible!",
     "helperTextUsernameError": "*Nombre de cuenta no estándar",
     "title": "¡Se le ha Invitado a Unirse a Proton!",
-    "infoPage": "Ha recibido una invitación de {{ referrer }} para unirse a la Blockchain de Proton. Registrese ahora y gane ${{ reward }} en criptomonedas de Proton.",
+    "infoPage": "Ha recibido una invitación de {{ referrer }} para unirse a la Blockchain de Proton. Regístrese ahora y gane ${{ reward }} en criptomonedas de Proton.",
     "invalidReferrer": "Referente Inválido",
-    "step1": "Paso 1: Seleccione su nuevo nombre de usaurio de Proton.",
+    "step1": "Paso 1: Seleccione su nuevo nombre de usuario de Proton.",
     "account": "Nombre de usuario",
-    "step2": "Paso 2: Descargue la app, registrese y realice el KYC.",
+    "step2": "Paso 2: Descargue la app, regístrese y realice el KYC.",
     "step2Info": "Regístrese con el mismo nombre de usuario.",
     "login": "Ingresar",
     "step4": "Paso 3: Espere la aprobación.",
@@ -200,5 +200,9 @@
     "invalidInfo": "Compruebe que el enlace es correcto o póngase en contacto con el afiliado que le invitó para obtener una referencia válida.",
     "goToHome": "Ir a la Página de Inicio",
     "invalidAccountFormat": "Formato de Cuenta Inválido"
+  },
+  "termsComponent": {
+    "agreement": "Yo acepto y estoy de acuerdo con los",
+    "terms": "Términos y Condiciones"
   }
 }

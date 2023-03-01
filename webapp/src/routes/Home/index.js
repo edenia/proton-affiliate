@@ -25,6 +25,7 @@ import TableSearch from '../../components/TableSearch'
 import Modal from '../../components/Modal'
 import HistoryModal from '../../components/HistoryModal'
 import SearchForm from '../../components/SearchForm'
+import TermsAgreement from '../../components/TermsAgreement'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
@@ -63,6 +64,7 @@ const Home = () => {
   const getJoinRequestUsers = useImperativeQuery(GET_JOIN_REQUEST)
   const [open, setOpen] = useState(false)
   const [checked, setChecked] = useState(false)
+  const [termsAgreed, setTermsAgreed] = useState(false)
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
   const [invitee, setInvitee] = useState('')
@@ -210,7 +212,9 @@ const Home = () => {
         limit: 1,
         where: {
           account: { _eq: account },
-          status: { _eq: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_KYC }
+          status: {
+            _lte: affiliateUtil.JOIN_REQUEST_STATUS_IDS.PENDING_APPROVAL
+          }
         }
       })
       const isValid = !isAnInvitee && !joinRequest.length
@@ -351,6 +355,10 @@ const Home = () => {
                 {isValidEmail.message}
               </Typography>
             )}
+            <TermsAgreement
+              termsAgreed={termsAgreed}
+              setTermsAgreed={setTermsAgreed}
+            />
           </form>
           <FormControlLabel
             className={classes.checkBoxReceive}
@@ -369,7 +377,9 @@ const Home = () => {
             <Button
               color="primary"
               onClick={handleAddJoinRequest}
-              disabled={!isValidAccount.isValid || !isValidEmail.isValid}
+              disabled={
+                !isValidAccount.isValid || !isValidEmail.isValid || !termsAgreed
+              }
             >
               {loadingJoin ? (
                 <CircularProgress color="primary" size={24} />
