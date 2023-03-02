@@ -478,6 +478,7 @@ const Admin = () => {
       })
 
       setAddUser(false)
+      setSelected({ tableName: null })
 
       showMessage({
         type: 'success',
@@ -615,6 +616,8 @@ const Admin = () => {
         user.accountName
       )
 
+      setSelected({ tableName: null })
+
       showMessage({
         type: 'success',
         content: (
@@ -644,6 +647,8 @@ const Admin = () => {
         user.accountName,
         memo
       )
+
+      setSelected({ tableName: null })
 
       showMessage({
         type: 'success',
@@ -684,6 +689,8 @@ const Admin = () => {
         referrers,
         user.accountName
       )
+
+      setSelected({ tableName: null })
 
       showMessage({
         type: 'success',
