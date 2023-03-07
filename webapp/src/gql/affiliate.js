@@ -201,3 +201,22 @@ export const GET_LAST_SYNCED = gql`
     }
   }
 `
+
+export const GET_REJECTED_PAYMENTS = gql`
+  query {
+    referrals: referral(where: { status: { _eq: 4 } }) {
+      id
+      invitee
+      referrer
+      status
+      expires_on
+      history(order_by: { block_time: asc }) {
+        trxid
+        block_num
+        block_time
+        action
+        payload
+      }
+    }
+  }
+`

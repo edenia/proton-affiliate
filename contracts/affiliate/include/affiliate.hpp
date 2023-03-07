@@ -208,6 +208,19 @@ CONTRACT affiliate : public contract {
      */
     ACTION clear();
 
+     /**
+     * Pay rejected
+     * 
+     * This action approves payment of a rejected referral
+     * 
+     * @param admin - The name of the admin account approving the status
+     * @param referrer - The name of the referrer
+     * @param invitee - the account name of the invitee
+     * 
+     * @return no return value.
+     */
+    ACTION payrejected(name admin, name referrer, name invitee);
+
     bool has_valid_kyc(name account);
     
     enum user_roles : uint8_t {

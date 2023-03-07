@@ -128,6 +128,7 @@
     "rejectUser": "Rechazar Afiliado",
     "approvePayment": "Aprobar este pago por referencia",
     "rejectPayment": "Rechazar este pago por referencia",
+    "reApprovePayment": "Aprobar este pago por referencia rechazado",
     "approveKYC": "¿Aprobar el KYC de esta cuenta?",
     "removeAffiliate": "Eliminar Afiliado",
     "timelimeTitle": "Sigue el historial de este referido.",
