@@ -108,9 +108,9 @@ const TablePages = ({
       return
     }
 
-    const ids = disableByStatus
+    const ids = disableByStatus.length
       ? rows
-          .filter(item => item.statusId === disableByStatus)
+          .filter(item => disableByStatus.includes(item.statusId))
           .map(n => n[idName])
       : rows.map(n => n[idName])
 
@@ -183,8 +183,10 @@ const TablePages = ({
               headCells={headCells}
               showColumnButton={showColumnButton}
               disabled={
-                disableByStatus
-                  ? !(rows || []).some(row => row.statusId === disableByStatus)
+                disableByStatus.length
+                  ? !(rows || []).some(row =>
+                      disableByStatus.includes(row.statusId)
+                    )
                   : false
               }
             />
@@ -204,8 +206,8 @@ const TablePages = ({
                       <TableCell padding="none" style={{ padding: '0' }}>
                         <Checkbox
                           disabled={
-                            disableByStatus
-                              ? disableByStatus !== row.statusId
+                            disableByStatus.length
+                              ? !disableByStatus.includes(row.statusId)
                               : false
                           }
                           color="primary"
@@ -369,7 +371,7 @@ TablePages.propTypes = {
   tableName: PropTypes.string,
   selected: PropTypes.array,
   showColumnButton: PropTypes.bool,
-  disableByStatus: PropTypes.string
+  disableByStatus: PropTypes.array
 }
 
 TablePages.defaultProps = {
@@ -393,7 +395,7 @@ TablePages.defaultProps = {
   tableName: '',
   selected: [],
   showColumnButton: false,
-  disableByStatus: ''
+  disableByStatus: []
 }
 
 export default TablePages

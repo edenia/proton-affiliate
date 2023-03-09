@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
+import RestoreIcon from '@material-ui/icons/Restore'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
 import Fab from '@material-ui/core/Fab'
@@ -34,6 +35,7 @@ import {
   GET_HISTORY_BY_INVITEES,
   GET_HISTORY_BY_REFERRERS,
   GET_JOIN_REQUEST,
+  GET_REJECTED_PAYMENTS,
   DELETE_JOIN_REQUEST_MUTATION,
   REJECT_JOIN_REQUEST_MUTATION,
   SEND_CONFIRMATION_MUTATION,
@@ -206,8 +208,10 @@ const OptionFAB = ({
   onClickRemoveUsers,
   onClickApprovePayment,
   onClickRejectPayment,
+  onClickReApprovePayment,
   onClickApproveNewUser,
-  allowPayment
+  allowPayment,
+  allowReApprove
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('adminRoute')
@@ -298,6 +302,20 @@ const OptionFAB = ({
               <CloseIcon />
             </Fab>
           </Box>
+          <Box className={classes.wrapperAction}>
+            <Typography className={classes.actionLabel}>
+              {t('reApprovePayment')}
+            </Typography>
+            <Fab
+              disabled={!allowReApprove}
+              size="small"
+              color="primary"
+              aria-label="reapprove"
+              onClick={onClickReApprovePayment}
+            >
+              <RestoreIcon />
+            </Fab>
+          </Box>
         </>
       )
       break
@@ -316,7 +334,8 @@ OptionFAB.propTypes = {
   onClickApprovePayment: PropTypes.func,
   onClickRejectPayment: PropTypes.func,
   onClickApproveNewUser: PropTypes.func,
-  allowPayment: PropTypes.bool
+  allowPayment: PropTypes.bool,
+  allowReApprove: PropTypes.bool
 }
 
 OptionFAB.defaultProps = {
@@ -333,8 +352,15 @@ const Admin = () => {
   const loadHistoryByReferrers = useImperativeQuery(GET_HISTORY_BY_REFERRERS)
   const [
     loadNewUsers,
-    { loading = true, data: { joinRequest, infoJoin } = {} }
+    { loading: loadingJoinRequest = true, data: { joinRequest, infoJoin } = {} }
   ] = useLazyQuery(GET_JOIN_REQUEST, { fetchPolicy: 'network-only' })
+  const [
+    loadRejectedPayments,
+    {
+      loading: loadingRejected = true,
+      data: { referrals: rejectedPayments } = {}
+    }
+  ] = useLazyQuery(GET_REJECTED_PAYMENTS, { fetchPolicy: 'network-only' })
   const [deleteJoinRequest, { loading: loadingDelete }] = useMutation(
     DELETE_JOIN_REQUEST_MUTATION
   )
@@ -349,6 +375,7 @@ const Admin = () => {
   })
   const [openInfoModal, setOpenInfoModal] = useState(false)
   const [allowPayment, setAllowPayment] = useState(false)
+  const [allowReApprove, setAllowReApprove] = useState(false)
   const [newUsersRows, setNewUserRows] = useState([])
   const [newUsersPagination, setNewUsersPagination] = useState(
     initNewUsersPagination
@@ -451,6 +478,7 @@ const Admin = () => {
       })
 
       setAddUser(false)
+      setSelected({ tableName: null })
 
       showMessage({
         type: 'success',
@@ -530,7 +558,7 @@ const Admin = () => {
     )
     const invitees = (referrals.rows || []).map(item => item.invitee)
     const { data } = await loadHistoryByInvites({ invitees })
-    const newRows = (referrals.rows || []).map(row => {
+    let newRows = (referrals.rows || []).map(row => {
       const history = data.history.filter(item => item.invitee === row.invitee)
 
       return {
@@ -540,6 +568,21 @@ const Admin = () => {
         statusId: row.status
       }
     })
+
+    const filterRejected =
+      refPayFilterRowsBy === affiliateUtil.REFERRAL_STATUS_IDS.PAYMENT_REJECTED
+
+    if (!loadingRejected && (!refPayFilterRowsBy || filterRejected)) {
+      const rejected = (rejectedPayments || [])
+        .map(row => ({
+          ...row,
+          statusId: affiliateUtil.REFERRAL_STATUS[row.status],
+          status: t(affiliateUtil.REFERRAL_STATUS[row.status])
+        }))
+        .filter(row => !newRows.some(newRow => newRow.invitee === row.invitee))
+
+      newRows = newRows.concat(rejected || [])
+    }
 
     setReferralPagination({
       hasMore: referrals.hasMore,
@@ -573,6 +616,8 @@ const Admin = () => {
         user.accountName
       )
 
+      setSelected({ tableName: null })
+
       showMessage({
         type: 'success',
         content: (
@@ -603,6 +648,8 @@ const Admin = () => {
         memo
       )
 
+      setSelected({ tableName: null })
+
       showMessage({
         type: 'success',
         content: (
@@ -617,6 +664,47 @@ const Admin = () => {
       })
       setIsHistoryModalOpen(false)
       setRejectPayment({ isOpen: false, previousModal: null })
+      reloadReferrals()
+    } catch (error) {
+      showMessage({ type: 'error', content: getUALError(error) })
+    }
+  }
+
+  const handleOnReApprovePayment = async () => {
+    try {
+      const { invitees, referrers } = referralRows.reduce(
+        (state, row) => {
+          if (selected[selected.tableName].includes(row.invitee)) {
+            state.invitees.push(row.invitee)
+            state.referrers.push(row.referrer)
+          }
+          return state
+        },
+        { invitees: [], referrers: [] }
+      )
+
+      const data = await affiliateUtil.payRejected(
+        user.session,
+        invitees,
+        referrers,
+        user.accountName
+      )
+
+      setSelected({ tableName: null })
+
+      showMessage({
+        type: 'success',
+        content: (
+          <a
+            href={`${mainConfig.blockExplorer}/transaction/${data.payload.tx}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${t('success')} ${getLastCharacters(data.payload.tx)}`}
+          </a>
+        )
+      })
+      setIsHistoryModalOpen(false)
       reloadReferrals()
     } catch (error) {
       showMessage({ type: 'error', content: getUALError(error) })
@@ -774,8 +862,27 @@ const Admin = () => {
     setFetchingData(false)
   }
 
+  const isAllowed = (selectedItems, status) => {
+    return (
+      !!selectedItems.length &&
+      !referralRows
+        .filter(row => selectedItems.includes(row.invitee))
+        .find(row => row.statusId !== affiliateUtil.REFERRAL_STATUS[status])
+    )
+  }
+
   useEffect(() => {
-    if (loading || !joinRequest) return
+    if (!fetchingData) return
+
+    const loadRejected = async () => {
+      await loadRejectedPayments({})
+    }
+
+    loadRejected()
+  }, [loadRejectedPayments, fetchingData])
+
+  useEffect(() => {
+    if (loadingJoinRequest || !joinRequest) return
 
     const setUserData = async () => {
       const data = await Promise.all(
@@ -802,7 +909,7 @@ const Admin = () => {
     }
 
     setUserData()
-  }, [loading, joinRequest, infoJoin])
+  }, [loadingJoinRequest, joinRequest, infoJoin])
 
   useEffect(() => {
     if (selected.tableName !== 'payment') {
@@ -810,18 +917,18 @@ const Admin = () => {
     }
 
     const selectedItems = selected[selected.tableName] || []
-    const notAllowed = referralRows
-      .filter(row => selectedItems.includes(row.invitee))
-      .find(
-        row =>
-          row.statusId !==
-          affiliateUtil.REFERRAL_STATUS[
-            affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
-          ]
-      )
+    const allowedPayment = isAllowed(
+      selectedItems,
+      affiliateUtil.REFERRAL_STATUS_IDS.PENDING_PAYMENT
+    )
+    const allowedReApprove = isAllowed(
+      selectedItems,
+      affiliateUtil.REFERRAL_STATUS_IDS.PAYMENT_REJECTED
+    )
 
-    setAllowPayment(!notAllowed)
-  }, [selected, referralRows, setAllowPayment])
+    setAllowPayment(allowedPayment)
+    setAllowReApprove(allowedReApprove)
+  }, [selected, referralRows, setAllowPayment, setAllowReApprove])
 
   useEffect(() => {
     handleOnLoadMoreUsers()
@@ -835,7 +942,7 @@ const Admin = () => {
 
   useEffect(() => {
     reloadReferrals()
-  }, [refPayFilterRowsBy])
+  }, [refPayFilterRowsBy, rejectedPayments])
 
   useEffect(() => {
     reloadJoinRequestUsers()
@@ -869,7 +976,7 @@ const Admin = () => {
           onClickButton={handleOnClickReferral}
           showColumnButton
           idName="invitee"
-          disableByStatus="PENDING_PAYMENT"
+          disableByStatus={['PENDING_PAYMENT', 'PAYMENT_REJECTED']}
         />
       </Accordion>
       <Accordion
@@ -952,7 +1059,12 @@ const Admin = () => {
               setRejectPayment({ isOpen: true, previousModal: 'optionFAB' })
               setOpenFAB(false)
             }}
+            onClickReApprovePayment={() => {
+              handleOnReApprovePayment()
+              setOpenFAB(false)
+            }}
             allowPayment={allowPayment}
+            allowReApprove={allowReApprove}
           />
         </Box>
       </FloatingMenu>
