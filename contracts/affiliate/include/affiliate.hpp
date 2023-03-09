@@ -153,19 +153,6 @@ CONTRACT affiliate : public contract {
     /**
      * Setup parameters
      * 
-     * This action set the status values
-     *
-     * @param admin - The name of the admin account approving the status
-     * @param invitee - The name of the invitee in the status
-     * @param status - The type of the status
-     * 
-     * @return no return value.
-     */
-    ACTION setstatus(name admin, name invitee, uint8_t status);
-
-    /**
-     * Setup parameters
-     * 
      * This action sets the exchange rate used to calculate the amount of XPR to pay for a completed referral
      * 
      * @return no return value.
@@ -199,15 +186,6 @@ CONTRACT affiliate : public contract {
      */
     ACTION statuslog(name invitee, uint8_t status);
     
-    /**
-     * Clear
-     * 
-     * This action cleans the affiliate data
-     *
-     * @return no return value.
-     */
-    ACTION clear();
-
      /**
      * Pay rejected
      * 

@@ -1,4 +1,5 @@
 <h1 class="contract">addadmin</h1>
+
 ---
 spec_version: 0.1.0
 title: Add an Administrator User
@@ -7,6 +8,7 @@ icon: https://earnproton.com/icons/admin-user.png
 ---
 
 <h1 class="contract">rmadmin</h1>
+
 ---
 spec_version: 0.1.0
 title: Remove an Administrator User
@@ -15,6 +17,7 @@ icon: https://earnproton.com/icons/admin-user.png
 ---
 
 <h1 class="contract">adduser</h1>
+
 ---
 spec_version: 0.1.0
 title: Add an Affiliate User
@@ -23,6 +26,7 @@ icon: https://earnproton.com/icons/user.png
 ---
 
 <h1 class="contract">rmuser</h1>
+
 ---
 spec_version: 0.1.0
 title: Remove an Affiliate User
@@ -31,6 +35,7 @@ icon: https://earnproton.com/icons/user.png
 ---
 
 <h1 class="contract">addref</h1>
+
 ---
 spec_version: 0.1.0
 title: Add a referral
@@ -39,6 +44,7 @@ icon: https://earnproton.com/icons/approve.png
 ---
 
 <h1 class="contract">verifyacc</h1>
+
 ---
 spec_version: 0.1.0
 title: Verify Account
@@ -47,6 +53,7 @@ icon: https://earnproton.com/icons/user.png
 ---
 
 <h1 class="contract">verifykyc</h1>
+
 ---
 spec_version: 0.1.0
 title: Verify KYC
@@ -55,6 +62,7 @@ icon: https://earnproton.com/icons/approve.png
 ---
 
 <h1 class="contract">verifyexp</h1>
+
 ---
 spec_version: 0.1.0
 title: Verify expiration
@@ -63,6 +71,7 @@ icon: https://earnproton.com/icons/approve.png
 ---
 
 <h1 class="contract">payref</h1>
+
 ---
 spec_version: 0.1.0
 title: Pay referral
@@ -71,14 +80,16 @@ icon: https://earnproton.com/icons/approve.png
 ---
 
 <h1 class="contract">rejectref</h1>
+
 ---
 spec_version: 0.1.0
-title: Reject a referral 
+title: Reject a referral
 summary: This action rejects a referral payment.
 icon: https://earnproton.com/icons/reject.png
 ---
 
 <h1 class="contract">setparams</h1>
+
 ---
 spec_version: 0.1.0
 title: System parameters
@@ -86,15 +97,8 @@ summary: This action sets the parameters table values.
 icon: https://earnproton.com/icons/general.png
 ---
 
-<h1 class="contract">setstatus</h1>
----
-spec_version: 0.1.0
-title: Set referral status
-summary: This action bypasses the KYC validation and is intended for development purposes only.
-icon: https://earnproton.com/icons/general.png
----
-
 <h1 class="contract">setrate</h1>
+
 ---
 spec_version: 0.1.0
 title: Set exchange rate
@@ -103,6 +107,7 @@ icon: https://earnproton.com/icons/general.png
 ---
 
 <h1 class="contract">clearref</h1>
+
 ---
 spec_version: 0.1.0
 title: Clear Referrals
@@ -111,6 +116,7 @@ icon: https://earnproton.com/icons/general.png
 ---
 
 <h1 class="contract">addreflog</h1>
+
 ---
 spec_version: 0.1.0
 title: Referrals Logging
@@ -119,18 +125,11 @@ icon: https://earnproton.com/icons/general.png
 ---
 
 <h1 class="contract">statuslog</h1>
+
 ---
 spec_version: 0.1.0
 title: Status Logging
 summary: This action logs status changes.
-icon: https://earnproton.com/icons/general.png
----
-
-<h1 class="contract">clear</h1>
----
-spec_version: 0.1.0
-title: Clear
-summary: This action cleans the contract data and is intended for development purposes only.
 icon: https://earnproton.com/icons/general.png
 ---
 

@@ -1,0 +1,510 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "addadmin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "addref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "addreflog",
+            "base": "",
+            "fields": [
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                },
+                {
+                    "name": "expires_on",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "adduser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "role",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "clearref",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "kyc_prov",
+            "base": "",
+            "fields": [
+                {
+                    "name": "kyc_provider",
+                    "type": "name"
+                },
+                {
+                    "name": "kyc_level",
+                    "type": "string"
+                },
+                {
+                    "name": "kyc_date",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "params",
+            "base": "",
+            "fields": [
+                {
+                    "name": "payer",
+                    "type": "name"
+                },
+                {
+                    "name": "rate",
+                    "type": "float64"
+                },
+                {
+                    "name": "usd_reward_amount",
+                    "type": "float64"
+                },
+                {
+                    "name": "asset_reward_amount",
+                    "type": "asset"
+                },
+                {
+                    "name": "expiration_days",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "payref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "referrals",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                },
+                {
+                    "name": "expires_on",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "rejectref",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "payrejected",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "rmadmin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "rmuser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "setparams",
+            "base": "",
+            "fields": [
+                {
+                    "name": "payer",
+                    "type": "name"
+                },
+                {
+                    "name": "rate",
+                    "type": "float64"
+                },
+                {
+                    "name": "usd_reward_amount",
+                    "type": "float64"
+                },
+                {
+                    "name": "expiration_days",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "setrate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "btc_usdt",
+                    "type": "float64"
+                }
+            ]
+        },
+        {
+            "name": "statuslog",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "tuple_name_name",
+            "base": "",
+            "fields": [
+                {
+                    "name": "field_0",
+                    "type": "name"
+                },
+                {
+                    "name": "field_1",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "tuple_name_string",
+            "base": "",
+            "fields": [
+                {
+                    "name": "field_0",
+                    "type": "name"
+                },
+                {
+                    "name": "field_1",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "userinfo",
+            "base": "",
+            "fields": [
+                {
+                    "name": "acc",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "avatar",
+                    "type": "string"
+                },
+                {
+                    "name": "verified",
+                    "type": "bool"
+                },
+                {
+                    "name": "date",
+                    "type": "uint64"
+                },
+                {
+                    "name": "verifiedon",
+                    "type": "uint64"
+                },
+                {
+                    "name": "verifier",
+                    "type": "name"
+                },
+                {
+                    "name": "raccs",
+                    "type": "name[]"
+                },
+                {
+                    "name": "aacts",
+                    "type": "tuple_name_name[]"
+                },
+                {
+                    "name": "ac",
+                    "type": "tuple_name_string[]"
+                },
+                {
+                    "name": "kyc",
+                    "type": "kyc_prov[]"
+                }
+            ]
+        },
+        {
+            "name": "users",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "role",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "verifyacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "verifyexp",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "verifykyc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "addadmin",
+            "type": "addadmin",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add an Administrator User\nsummary: The intent of {{addadmin}} is to allow `admin` accounts to add a new admin user.\nicon: https://earnproton.com/icons/admin-user.png\n---"
+        },
+        {
+            "name": "addref",
+            "type": "addref",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add a referral\nsummary: This action creates a new referral with an {{invitee}}.\nicon: https://earnproton.com/icons/approve.png\n---"
+        },
+        {
+            "name": "addreflog",
+            "type": "addreflog",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Referrals Logging\nsummary: This action logs the add referral activity.\nicon: https://earnproton.com/icons/general.png\n---"
+        },
+        {
+            "name": "adduser",
+            "type": "adduser",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add an Affiliate User\nsummary: The intent of {{adduser}} is to allow `admin` accounts to add a new affiliate user.\nicon: https://earnproton.com/icons/user.png\n---"
+        },
+        {
+            "name": "clearref",
+            "type": "clearref",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Clear Referrals\nsummary: This action cleans referrals with status PAYMENT_REJECTED, EXPIRED, PAID to save RAM.\nicon: https://earnproton.com/icons/general.png\n---"
+        },
+        {
+            "name": "payref",
+            "type": "payref",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Pay referral\nsummary: This action pays the reward amount for a valid referral (status PENDING_PAYMENT and not expired).\nicon: https://earnproton.com/icons/approve.png\n---"
+        },
+        {
+            "name": "rejectref",
+            "type": "rejectref",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Reject a referral\nsummary: This action rejects a referral payment.\nicon: https://earnproton.com/icons/reject.png\n---"
+        },
+        {
+            "name": "payrejected",
+            "type": "payrejected",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Pay Rejected\nsummary: This action pays the reward amount for a valid referral that was rejected.\nicon: https://earnproton.com/icons/approve.png\n---"
+        },
+        {
+            "name": "rmadmin",
+            "type": "rmadmin",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove an Administrator User\nsummary: The intent of {{rmadmin}} is to allow `admin` accounts to remove another admin user.\nicon: https://earnproton.com/icons/admin-user.png\n---"
+        },
+        {
+            "name": "rmuser",
+            "type": "rmuser",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove an Affiliate User\nsummary: The intent of {{rmuser}} is to allow `admin` accounts to remove an affiliate user.\nicon: https://earnproton.com/icons/user.png\n---"
+        },
+        {
+            "name": "setparams",
+            "type": "setparams",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: System parameters\nsummary: This action sets the parameters table values.\nicon: https://earnproton.com/icons/general.png\n---"
+        },
+        {
+            "name": "setrate",
+            "type": "setrate",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Set exchange rate\nsummary: Sets the exchange rate used to calculate the amount of XPR to pay for a completed referral.\nicon: https://earnproton.com/icons/general.png\n---"
+        },
+        {
+            "name": "statuslog",
+            "type": "statuslog",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Status Logging\nsummary: This action logs status changes.\nicon: https://earnproton.com/icons/general.png\n---"
+        },
+        {
+            "name": "verifyacc",
+            "type": "verifyacc",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Verify Account\nsummary: This action verifies an {{invitee}} account has registered on the network.\nicon: https://earnproton.com/icons/user.png\n---"
+        },
+        {
+            "name": "verifyexp",
+            "type": "verifyexp",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Verify expiration\nsummary: This action checks the referrals expiration date, and marks as EXPIRED the due referrals.\nicon: https://earnproton.com/icons/approve.png\n---"
+        },
+        {
+            "name": "verifykyc",
+            "type": "verifykyc",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Verify KYC\nsummary: This action verifies an {{invitee}} account has completed the KYC process.\nicon: https://earnproton.com/icons/approve.png\n---"
+        }
+    ],
+    "tables": [
+        {
+            "name": "params",
+            "type": "params",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "referrals",
+            "type": "referrals",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "users",
+            "type": "users",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "usersinfo",
+            "type": "userinfo",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [
+        {
+            "id": "Data Processing and terms and conditions",
+            "body": "“You” in the statement regarding personal data is the person that creates an account on the decentralized application (“dapp”) or wishes to do so. The “website” is the website where you may create your account on the dapp."
+        },
+        {
+            "id": "General",
+            "body": "The dapp functions “as is”. The dapp does not generate rights or obligations itself. The use of the dapp, including your creating an account, is conditional to your compliance with this Ricardian Contract. Under this contract you accept certain obligations, as detailed herein. Such obligations can be upheld by Proton Chain, LLC. Proton Chain, LLC will be entitled to demand fulfilment of your obligations. \nAll Proton affiliates, insofar as they suffer damages and losses as a result of your non-compliance, are entitled to claim such damages and losses with you. Proton affiliates being, without limitation, Proton Chain, LLC, the Proton block producers (whether active or not), the website owner, the account holder of the dapp as well as investors in Proton and Proton token holders."
+        },
+        {
+            "id": "Your personal data",
+            "body": "The dapp will collect, store and otherwise process your personal data. The dapp stores some of your personal data on the (immutable) and public blockchain (notably your account name and your transactions) and some on connected database(s).\nTHIS INFORMATION ON THE BLOCKCHAIN CANNOT BE AMENDED OR DELETED. IF YOU DO NOT WISH TO HAVE YOUR PERSONAL DATA PUBLICLY AVAILABLE FOR A VERY LONG TIME, DO NOT USE THE DAPP.\nThe purpose of such collecting, storing and processing, is to run and maintain the dapp and to execute this Ricardian contract with you. The purpose of the dapp is to run the Proton affiliate program on the blockchain.\nThe dapp only processes the data you knowingly provide - such as your email address, name, and Proton account name. Further the dapp processes the data you provide while using the app, including data regarding your transactions.\nShould you revoke your consent or if the contract terminates for whatever reason, your data will remain stored. Such continuing storage will in such an event be based on the legitimate interests of all other users of the dapp and of the Proton blockchain. Deleting or amending your personal data, if even technically and legally possible, might irreparably jeopardize the Proton blockchain."
+        },
+        {
+            "id": "Terms and conditions",
+            "body": "You will fully abide by the following terms and conditions regarding the dapp, the website and the program:\nYou accept that the program has limited resources. If they are depleted, the dapp (and the affiliate program) will end.\nYou accept that the use of your account is subject to consent by the competent body as detailed from time to time in the Proton governance. You accept that the decision to consent to such use or to revoke such consent, is being made in such body’s sole discretion and that lack of consent does not entitle you to any claim whatsoever. Further, you accept that the competent body shall never have to provide any reason(s) for their decision.\nYOU ACCEPT THAT NO PERSON CAN BE LIABLE IN ANY WAY TOWARDS YOU IN RESPECT OF THE DAPP OR THE WEBSITE. Particularly none of the developers, block producers, the dapp account holder, website owner, Proton Chain, LLC or any of the other parties connected to the Proton blockchain and/or the app.\nYOU ACCEPT THAT THE DAPP AND THE WEBSITE ARE PROVIDED “AS IS” WITHOUT ANY IMPLICIT OR EXPLICIT WARRANTY OR GUARANTEE OR ANY OTHER OBLIGATION OF ANY PERSON IN RESPECT OF THE DAPP AND THE WEBSITE, WHETHER, WITHOUT LIMITATION, IN RESPECT OF ITS FUNCTIONING, AVAILABILITY, CONTENTS, FITNESS FOR PURPOSE OR ANY OTHER ASPECT OF THE DAPP AND ITS USE. YOU ACCEPT THAT THESE LIMITATIONS ARE YOUR SOLE SOURCE FOR ANY STIPULATIONS OR OBLIGATIONS REGARDING ANY LIABILITY AND/OR WARRANTEE OR GUARANTEE.\nYou acknowledge that the software of the dapp or the website may contain errors. You accept that you can nor may rely on continuous availability or on an error free availability, also in any other event than lack of funding of the program.\nYou accept that the use of the dapp and the website, including your registering as an affiliate through the dapp, can never constitute an agency, partnership or other legal relationship between you and any other person.\nYou shall pay all your taxes in connection with the use of the dapp. Any rewards transferred to you under the dapp will be deemed to be inclusive of value added tax and all other similar taxes (such as sales tax, withholding tax etc.) and levies. You will abide by all administrative obligations regarding any payment made hereunder.\nYou will always provide correct, complete and non-misleading information regarding the Proton blockchain and the affiliate program.\nYou will ensure that the persons that you have introduced and that you are rewarded for through the dapp, do so mainly out of interest for the Proton solutions and their own rewards offered through the dapp (if any) and that you will not introduce any reward sharing system or try to influence any person in any other way to open accounts in relation to Proton.\nYou agree to indemnify and hold harmless all other persons involved with the Proton blockchain against all claims, in the event you do not abide by these terms and conditions.\nYou will not acquire any copyrights or other rights of intellectual property in relation to the dapp, the website or the Proton blockchain.\nYou are entitled to use the “Proton” (trade)mark only insofar such use is necessary to execute the affiliate program. You are not entitled to use the “Proton” mark as an element of your own trademark and/or tradename. If and when the program ends or the dapp has been deactivated, your rights to use the Proton mark, terminate as well.\nYou will choose secure passwords for your account and keep them secure.\nYou will use your account and the dapp only for your own business purposes. Notwithstanding the foregoing, you accept that all use of your account on the dapp whether or not through the use of your passwords or by you, will be for your account. You will delete your account or, if still possible, change its passwords, if you have reason to believe you have been hacked.\nYou shall not use the dapp for anything other than running the affiliate program. You shall refrain from any and all action that might interfere with a correct operation of the dapp or the website.\nYou accept that there will be no support obligations for any person involved in the Proton blockchain nor the affiliate program.\nYou may terminate your account, without prejudice to any obligations already accrued hereunder, including without limitation, your obligation(s) to compensate for damages. A termination of your account does not constitute a termination of this agreement.\nIf a clause of this contract shall be void or can be annulled, you will continue to fully comply with all of the other clauses.\nYou accept that in the event of a dispute the persons that have a claim against you, including the right to demand fulfilment of your obligations, are entitled to commence proceedings before the competent court or, in such person’s sole discretion, to refer such dispute to and let such dispute be finally determined by arbitration in accordance with the WIPO Expedited Arbitration Rules. The place of arbitration shall be Geneva, Switzerland. The language to be used in the arbitral proceedings shall be English."
+        }
+    ],
+    "variants": []
+}
