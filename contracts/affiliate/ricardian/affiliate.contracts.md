@@ -132,3 +132,13 @@ title: Status Logging
 summary: This action logs status changes.
 icon: https://earnproton.com/icons/general.png
 ---
+
+---
+
+<h1 class="contract">payrejected</h1>
+---
+spec_version: 0.1.0
+title: Pay Rejected
+summary: This action pays the reward amount for a valid referral that was rejected.
+icon: https://earnproton.com/icons/approve.png
+---

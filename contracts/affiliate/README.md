@@ -58,6 +58,7 @@ Data persisted in the smart contract multi index tables
 | Backend Service | `setrate` | Update the exchange rate used to paid the reward amount | None |  Calculate the `asset_reward_amount` to pay using the new rate |
 | Backend Service | `clearref` | Clear expired, paid and rejected referrals to save RAM | Referral exists with status “PAYMENT_REJECTED”, "EXPIRED" or “PAID” |  Calculate the `asset_reward_amount` to pay using the new rate |
 | Smart Contract | `clear` | Clear Tables | For development purposes only | All records were deleted from all tables |
+| Admin | `payrejected` | Approve a rejected referral and pay it | Referral exists with status “PAYMENT_REJECTED” | Pay the rewards to a rejected referral and set the referral status to "PAID" |
 
 #### Params
 

@@ -243,8 +243,8 @@ ACTION affiliate::setparams(name payer, double rate, double usd_reward_amount, u
   auto data = _params.get_or_create(get_self());
   data.payer = payer;
   data.rate = rate;
-  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.usd_reward_amount = usd_reward_amount;
+  data.asset_reward_amount = asset((data.usd_reward_amount / rate) * 10000, symbol("XPR", 4));
   data.expiration_days = expiration_days;
   _params.set(data, get_self());
 }
@@ -280,6 +280,50 @@ ACTION affiliate::addreflog(name referrer,name invitee, uint8_t status, time_poi
 
 ACTION affiliate::statuslog(name invitee, uint8_t status) {
   require_auth(get_self());
+}
+ACTION affiliate::payrejected(name admin, name referrer, name invitee) {
+  require_auth(admin);
+
+  check(is_account(invitee), invitee.to_string() + " invitee is not a registered account");
+
+  users_table _users(get_self(), get_self().value);
+  auto admin_itr = _users.find(admin.value);
+  check(admin_itr != _users.end(), admin.to_string() + " account is not an affiliate");
+  check(admin_itr->role == user_roles::ADMIN, admin.to_string() + " account is not an admin");
+    
+  auto referrer_itr = _users.find(referrer.value);
+  check(referrer_itr != _users.end(), referrer.to_string() + " account is not an affiliate");
+
+  auto invitee_itr = _users.find(invitee.value);
+  check(invitee_itr == _users.end(), invitee.to_string() + " account is already an affiliate");
+
+  referrals_table _referrals(get_self(), get_self().value);
+  auto _referral = _referrals.find(invitee.value);
+  
+  if (_referral != _referrals.end()) {
+    check(_referral->status == referral_status::PAYMENT_REJECTED, "invalid status for invitee " + invitee.to_string() + " referral");
+    check(_referral->referrer == referrer, referrer.to_string() + " does not refer the invitee");
+    
+    _referrals.modify(_referral, get_self(), [&](auto& ref) {
+      ref.status = referral_status::PENDING_PAYMENT;
+    });
+
+    SEND_INLINE_ACTION(*this, statuslog, { {get_self(), name("active")} }, { invitee, referral_status::PENDING_PAYMENT });
+  } else {
+    check(has_valid_kyc(invitee), "KYC for " + invitee.to_string() + " is not verified");
+
+    time_point_sec expiration = current_time_point();
+    _referrals.emplace(get_self(), [&](auto& ref) {
+      ref.invitee = invitee;
+      ref.referrer = referrer;
+      ref.status = referral_status::PENDING_PAYMENT;
+      ref.expires_on = expiration;
+    });
+
+    SEND_INLINE_ACTION(*this, addreflog, { {get_self(), name("active")} }, { referrer, invitee, referral_status::PENDING_PAYMENT, expiration });
+  }
+
+  SEND_INLINE_ACTION(*this, payref, { {admin, name("active")} }, { admin, invitee });
 }
 
 bool affiliate::has_valid_kyc (name account) {
