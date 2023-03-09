@@ -131,6 +131,24 @@
             ]
         },
         {
+            "name": "payrejected",
+            "base": "",
+            "fields": [
+                {
+                    "name": "admin",
+                    "type": "name"
+                },
+                {
+                    "name": "referrer",
+                    "type": "name"
+                },
+                {
+                    "name": "invitee",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "referrals",
             "base": "",
             "fields": [
@@ -388,6 +406,11 @@
             "name": "payref",
             "type": "payref",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Pay referral\nsummary: This action pays the reward amount for a valid referral (status PENDING_PAYMENT and not expired).\nicon: https://earnproton.com/icons/approve.png\n---"
+        },
+        {
+            "name": "payrejected",
+            "type": "payrejected",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Pay Rejected\nsummary: This action pays the reward amount for a valid referral that was rejected.\nicon: https://earnproton.com/icons/approve.png\n---"
         },
         {
             "name": "rejectref",
