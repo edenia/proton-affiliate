@@ -1,3 +1,4 @@
+// App.js
 import React, { Suspense, useMemo } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import DateFnsUtils from '@date-io/date-fns'
