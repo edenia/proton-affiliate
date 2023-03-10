@@ -153,6 +153,7 @@
     "rejectUser": "Reject Affiliate",
     "approvePayment": "Approve this referral payment",
     "rejectPayment": "Reject this referral payment",
+    "reApprovePayment": "Approve this rejected referral payment",
     "approveKYC": "Approve this account's KYC ?",
     "removeAffiliate": "Remove Affiliate",
     "timelimeTitle": "Follow this referral's history.",

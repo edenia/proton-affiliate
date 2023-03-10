@@ -209,6 +209,41 @@ const rejectRef = async (admin, invitees, accountName, memo) => {
   return transaction
 }
 
+const payRejected = async (admin, invitees, referrers, accountName) => {
+  const actions = []
+
+  for (const index in invitees) {
+    actions.push({
+      account: mainConfig.affiliateAccount,
+      name: 'payrejected',
+      authorization: [
+        {
+          actor: accountName,
+          permission: 'active'
+        }
+      ],
+      data: {
+        invitee: invitees[index],
+        referrer: referrers[index],
+        admin: accountName
+      }
+    })
+  }
+
+  const transaction = await admin.transact(
+    {
+      transaction: {
+        actions
+      }
+    },
+    {
+      broadcast: true
+    }
+  )
+
+  return transaction
+}
+
 const checkKyc = async acc => {
   const { rows } = await eosApi.getTableRows({
     code: mainConfig.eosioProtonAccount,
@@ -388,6 +423,7 @@ export const affiliateUtil = {
   JOIN_REQUEST_STATUS_IDS,
   getUserRole,
   rejectRef,
+  payRejected,
   payRef,
   addUser,
   removeUsers,
